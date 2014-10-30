@@ -64,7 +64,9 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("CollectPickups", IE_Pressed, this, &AMOOnshineWorksCharacter::CollectBatteries);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-
+    InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
+    InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
+    
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
 
@@ -109,6 +111,18 @@ void AMOOnshineWorksCharacter::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+void AMOOnshineWorksCharacter::StartSprint()
+{
+    CharacterMovement->MaxWalkSpeed = 2000.0f;
+    CameraBoom->TargetArmLength = 175.0f;
+}
+
+void AMOOnshineWorksCharacter::EndSprint()
+{
+    CharacterMovement->MaxWalkSpeed = 1000.0f;
+    CameraBoom->TargetArmLength = 150.0f;
 }
 
 void AMOOnshineWorksCharacter::MoveForward(float Value)

@@ -51,6 +51,12 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = Power)
 	void PowerUp(float BatteryPower);
 
+    /** Called for end sprint input */
+    void StartSprint();
+    
+    /** Called for start sprint input */
+    void EndSprint();
+    
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
 
