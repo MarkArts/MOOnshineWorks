@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MOOnshineWorks", "Intermediate\ProjectFiles\MOOnshineWorks.vcxproj", "{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		DebugGame Editor|Windows = DebugGame Editor|Windows
+		DebugGame|Windows = DebugGame|Windows
+		Development Editor|Windows = Development Editor|Windows
+		Development|Windows = Development|Windows
+		Shipping|Windows = Shipping|Windows
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.DebugGame Editor|Windows.ActiveCfg = DebugGame_Editor|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.DebugGame Editor|Windows.Build.0 = DebugGame_Editor|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.DebugGame|Windows.ActiveCfg = DebugGame_RocketGame|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.DebugGame|Windows.Build.0 = DebugGame_RocketGame|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Development Editor|Windows.ActiveCfg = Development_Editor|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Development Editor|Windows.Build.0 = Development_Editor|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Development|Windows.ActiveCfg = Development_RocketGame|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Development|Windows.Build.0 = Development_RocketGame|x64
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Shipping|Windows.ActiveCfg = Shipping_RocketGame|Win32
+		{50DF96E8-5AB8-42E5-A8AF-01B1E23A76FB}.Shipping|Windows.Build.0 = Shipping_RocketGame|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+	EndGlobalSection
+EndGlobal
