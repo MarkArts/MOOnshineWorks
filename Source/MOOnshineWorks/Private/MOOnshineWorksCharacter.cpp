@@ -14,7 +14,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	PowerLevel = 2000.f;
 	// Set the dependence of speed on the power level.
 	SpeedFactor = 0.15f;
-	BaseSpeed = 10.0f;
+	BaseSpeed = 20.0f;
+    IsSprinting = false;
 
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
@@ -61,11 +62,12 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 {
 	// Set up gameplay key bindings
 	check(InputComponent);
+    InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
+    InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	InputComponent->BindAction("CollectPickups", IE_Pressed, this, &AMOOnshineWorksCharacter::CollectBatteries);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-    InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
-    InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
+    
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -115,14 +117,24 @@ void AMOOnshineWorksCharacter::LookUpAtRate(float Rate)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-    CharacterMovement->MaxWalkSpeed = 2000.0f;
-    CameraBoom->TargetArmLength = 175.0f;
+    //CharacterMovement->MaxWalkSpeed = 2000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)*2;
+   // CameraBoom->TargetArmLength = 175.0f;
+   // CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 0.0f);
+   
+    IsSprinting = true;
+    CharacterMovement->MaxWalkSpeed *=2 ;
 }
 
 void AMOOnshineWorksCharacter::EndSprint()
 {
-    CharacterMovement->MaxWalkSpeed = 1000.0f;
-    CameraBoom->TargetArmLength = 150.0f;
+    //CharacterMovement->MaxWalkSpeed = 1000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)/2;
+    //  CameraBoom->TargetArmLength = 150.0f;
+    //  CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 50.0f);
+    
+    IsSprinting = false;
+    CharacterMovement->MaxWalkSpeed /=2 ;
 }
 
 void AMOOnshineWorksCharacter::MoveForward(float Value)
@@ -190,5 +202,8 @@ void AMOOnshineWorksCharacter::CollectBatteries()
 void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
+    if(IsSprinting == false)
+    {
+        CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
+    }
 }

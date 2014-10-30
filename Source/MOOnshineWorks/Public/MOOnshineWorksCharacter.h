@@ -31,7 +31,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Baseline speed of the character. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Power)
 	float BaseSpeed;
-
+    
+    /** Status of Character sprint*/
+    bool IsSprinting;
+    
 	virtual void Tick(float DeltaSeconds) override;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
@@ -51,10 +54,10 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent, Category = Power)
 	void PowerUp(float BatteryPower);
 
-    /** Called for end sprint input */
+    /** Called for start sprint input */
     void StartSprint();
     
-    /** Called for start sprint input */
+    /** Called for end sprint input */
     void EndSprint();
     
 	/** Called for forwards/backward input */
