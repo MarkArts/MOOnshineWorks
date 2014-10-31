@@ -16,24 +16,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	TSubobjectPtr<class UCameraComponent> FollowCamera;
 
-	/** Collection volume. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Power)
-	TSubobjectPtr<class USphereComponent> CollectionSphere;
-
-	/** Power level of our character. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Power)
-	float PowerLevel;
-
-	/** Power multiplier for the speed of the character. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Power)
-	float SpeedFactor;
-
-	/** Baseline speed of the character. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = Power)
-	float BaseSpeed;
-
-	virtual void Tick(float DeltaSeconds) override;
-
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseTurnRate;
@@ -42,14 +24,35 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 
-protected:
-	/** Called when we press a key, to collect any batteries inside the SphereComponent. */
-	UFUNCTION(BlueprintCallable, Category = Power)
-	void CollectBatteries();
 
-	/** Called by CollectBatteries() to use the Blueprinted PowerUp functionality. */
-	UFUNCTION(BlueprintImplementableEvent, Category = Power)
-	void PowerUp(float BatteryPower);
+	
+	/* Characters current mana */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	float CurrentMana;
+
+	/* Characters basespeed */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	float BaseSpeed;
+
+	/* Characters increase */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	float SpeedFactor;
+
+	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
+	TSubobjectPtr<class USphereComponent> CollectionSphere;
+
+	//virtual void Tick(float DeltaSeconds) OVERRIDE;
+
+protected:
+
+	//Called by CollectItems() to use the Blueprinted functionality
+	UFUNCTION(BlueprintImplementableEvent, Category = Items)
+	void ManaUp(float Mana);
+
+	//Called when we press a key, to collect any item inside the SphereComponent
+	UFUNCTION(BlueprintCallable, Category = Items)
+	void CollectItems();
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);

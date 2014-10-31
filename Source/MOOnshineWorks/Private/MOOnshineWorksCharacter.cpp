@@ -2,7 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
-#include "BatteryPickup.h"
+#include "ChestPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
@@ -10,16 +10,22 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	// Set a base power level for the character.
-	PowerLevel = 2000.f;
-	// Set the dependence of speed on the power level.
-	SpeedFactor = 0.15f;
+	//set CurrentMana at 0
+	CurrentMana = 0.f;
+	//set SpeedFactor
+	SpeedFactor = 0.75f;
+	//set BaseSpeed
 	BaseSpeed = 10.0f;
 
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
+
+
+
+
+
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
@@ -62,8 +68,9 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	// Set up gameplay key bindings
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("CollectPickups", IE_Pressed, this, &AMOOnshineWorksCharacter::CollectBatteries);
 	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+
 
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -140,9 +147,10 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 	}
 }
 
-void AMOOnshineWorksCharacter::CollectBatteries()
+void AMOOnshineWorksCharacter::CollectItems()
 {
-	float BatteryPower = 0.f;
+	printf("CollectItems aangeroepen!");
+	float ManaValue = 0.f;
 
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
@@ -151,30 +159,33 @@ void AMOOnshineWorksCharacter::CollectBatteries()
 	// For each Actor collected
 	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); ++iCollected)
 	{
-		// Cast the collected Actor to ABatteryPickup.
-		ABatteryPickup* const TestBattery = Cast<ABatteryPickup>(CollectedActors[iCollected]);
+		// Try to Cast the collected Actor to AChestPickup.
+		AChestPickup* const TestChest = Cast<AChestPickup>(CollectedActors[iCollected]);
 
-		// If the cast is successful, and the battery is valid and active
-		if (TestBattery && !TestBattery->IsPendingKill() && TestBattery->bIsActive)
+		// If the cast is successful, and the chest is valid and active
+		if (TestChest && !TestChest->IsPendingKill() && TestChest->bIsActive) //Check if you picked up a chest!
 		{
 			// Store its battery power for adding to the character's power.
-			BatteryPower = BatteryPower + TestBattery->PowerLevel;
+			ManaValue = ManaValue + TestChest->valueMana;
 			// Deactivate the battery
-			TestBattery->bIsActive = false;
-			// Call the battery's OnPickedUp function
-			TestBattery->OnPickedUp();
+			TestChest->bIsActive = false;
+			// Call the Chest's OnPickedUp function so destroy
+			TestChest->OnPickedUp();
+			printf("kom ik hier!");
 		}
 	}
 
-	if (BatteryPower > 0.f)
+	if (ManaValue > 0.f)
 	{
-		// Call the Blueprinted implementation of PowerUp with the total battery power as input.
-		PowerUp(BatteryPower);
+		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
+		ManaUp(ManaValue);
 	}
 }
 
+/*
 void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 	CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
+*/
