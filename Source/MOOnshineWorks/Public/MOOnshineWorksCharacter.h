@@ -42,7 +42,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     
     //Boolean which contains sprinting state (false / true)
     bool IsSprinting;
-
+    
+    //Boolean which contains aiming state (false / true)
+    bool IsAiming;
+    
 	//virtual void Tick(float DeltaSeconds) OVERRIDE;
 
 protected:
@@ -54,6 +57,12 @@ protected:
 	//Called when we press a key, to collect any item inside the SphereComponent
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void CollectItems();
+    
+    /** Called for start aim input */
+    void StartAim();
+    
+    /** Called for end aim input */
+    void EndAim();
     
     /** Called for start sprint input */
     void StartSprint();

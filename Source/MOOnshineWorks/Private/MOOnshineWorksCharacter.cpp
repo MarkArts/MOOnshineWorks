@@ -18,6 +18,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	BaseSpeed = 10.0f;
     //Sprint toggle
     IsSprinting = false;
+    //Aim toggle
+    IsAiming = false;
 
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
@@ -71,7 +73,9 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
-
+    InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
+    InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
+    
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
 
@@ -104,6 +108,18 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 	{
 		StopJumping();
 	}
+}
+
+void AMOOnshineWorksCharacter::StartAim()
+{
+    CameraBoom->TargetArmLength = 175.0f;
+    CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 0.0f);
+}
+
+void AMOOnshineWorksCharacter::EndAim()
+{
+    CameraBoom->TargetArmLength = 250.0f;
+    CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 0.0f);
 }
 
 void AMOOnshineWorksCharacter::TurnAtRate(float Rate)
