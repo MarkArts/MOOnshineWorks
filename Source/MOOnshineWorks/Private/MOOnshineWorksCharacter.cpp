@@ -147,6 +147,29 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 	}
 }
 
+void AMOOnshineWorksCharacter::StartSprint()
+{
+    //CharacterMovement->MaxWalkSpeed = 2000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)*2;
+    // CameraBoom->TargetArmLength = 175.0f;
+    // CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 0.0f);
+    
+    CharacterMovement->MaxWalkSpeed *= 1.5;
+    IsSprinting = true;
+}
+
+void AMOOnshineWorksCharacter::EndSprint()
+{
+    //CharacterMovement->MaxWalkSpeed = 1000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)/2;
+    //  CameraBoom->TargetArmLength = 150.0f;
+    //  CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 50.0f);
+    
+    CharacterMovement->MaxWalkSpeed /= 3;
+    CharacterMovement->MaxWalkSpeed *= 2;
+    IsSprinting = false;
+}
+
 void AMOOnshineWorksCharacter::CollectItems()
 {
 	printf("CollectItems aangeroepen!");
