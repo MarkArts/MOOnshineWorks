@@ -23,8 +23,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
-
-
 	
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
@@ -41,7 +39,13 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
 	TSubobjectPtr<class USphereComponent> CollectionSphere;
-
+    
+    //Boolean which contains sprinting state (false / true)
+    bool IsSprinting;
+    
+    //Boolean which contains aiming state (false / true)
+    bool IsAiming;
+    
 	//virtual void Tick(float DeltaSeconds) OVERRIDE;
 
 protected:
@@ -53,6 +57,18 @@ protected:
 	//Called when we press a key, to collect any item inside the SphereComponent
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void CollectItems();
+    
+    /** Called for start aim input */
+    void StartAim();
+    
+    /** Called for end aim input */
+    void EndAim();
+    
+    /** Called for start sprint input */
+    void StartSprint();
+    
+    /** Called for end sprint input */
+    void EndSprint();
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);

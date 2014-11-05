@@ -16,14 +16,15 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	SpeedFactor = 0.75f;
 	//set BaseSpeed
 	BaseSpeed = 10.0f;
+    //Sprint toggle
+    IsSprinting = false;
+    //Aim toggle
+    IsAiming = false;
 
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
-
-
-
 
 
 
@@ -67,11 +68,14 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 {
 	// Set up gameplay key bindings
 	check(InputComponent);
-	InputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
-	InputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
+	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
+	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
 	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
-
-
+    InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
+    InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
+    InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
+    InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
+    
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
 
@@ -104,6 +108,18 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 	{
 		StopJumping();
 	}
+}
+
+void AMOOnshineWorksCharacter::StartAim()
+{
+    CameraBoom->TargetArmLength = 175.0f;
+    CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 0.0f);
+}
+
+void AMOOnshineWorksCharacter::EndAim()
+{
+    CameraBoom->TargetArmLength = 250.0f;
+    CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 0.0f);
 }
 
 void AMOOnshineWorksCharacter::TurnAtRate(float Rate)
@@ -145,6 +161,29 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 		// add movement in that direction
 		AddMovementInput(Direction, Value);
 	}
+}
+
+void AMOOnshineWorksCharacter::StartSprint()
+{
+    //CharacterMovement->MaxWalkSpeed = 2000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)*2;
+    // CameraBoom->TargetArmLength = 175.0f;
+    // CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 0.0f);
+    
+    CharacterMovement->MaxWalkSpeed *= 1.5;
+    IsSprinting = true;
+}
+
+void AMOOnshineWorksCharacter::EndSprint()
+{
+    //CharacterMovement->MaxWalkSpeed = 1000.0f;
+    //CharacterMovement->MaxWalkSpeed = (SpeedFactor * PowerLevel + BaseSpeed)/2;
+    //  CameraBoom->TargetArmLength = 150.0f;
+    //  CameraBoom->SocketOffset = FVector(0.0f, 50.0f, 50.0f);
+    
+    CharacterMovement->MaxWalkSpeed /= 3;
+    CharacterMovement->MaxWalkSpeed *= 2;
+    IsSprinting = false;
 }
 
 void AMOOnshineWorksCharacter::CollectItems()

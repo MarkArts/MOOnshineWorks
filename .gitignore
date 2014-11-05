@@ -3,3 +3,16 @@ Intermediate/
 Saved/
 DerivedDataCache/
 TP_ThirdPerson_Preview.png
+*.pbxproj
+
+*.xcworkspacedata
+
+*.xcuserstate
+
+*.xccheckout
+
+*.xcsettings
+
+*.xcscheme
+
+*.plist
