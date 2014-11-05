@@ -16,3 +16,11 @@ TP_ThirdPerson_Preview.png
 *.xcscheme
 
 *.plist
+
+*.sdf
+
+*.opensdf
+
+*.suo
+
+*.vcxproj.user
