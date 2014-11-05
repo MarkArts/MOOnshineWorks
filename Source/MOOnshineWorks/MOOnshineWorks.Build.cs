@@ -7,5 +7,6 @@ public class MOOnshineWorks : ModuleRules
 	public MOOnshineWorks(TargetInfo Target)
 	{
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore" });
+        PublicIncludePaths.AddRange(new string[] {  "Levels" });
 	}
 }
