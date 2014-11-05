@@ -3,6 +3,6 @@
 #ifndef __MOONSHINEWORKS_H__
 #define __MOONSHINEWORKS_H__
 
-#include "EngineMinimal.h"
+#include "Engine.h"
 
 #endif

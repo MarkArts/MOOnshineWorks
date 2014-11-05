@@ -2,6 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Socket.h"
 #include "ChestPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -10,6 +11,7 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+
 	//set CurrentMana at 0
 	CurrentMana = 0.f;
 	//set SpeedFactor
