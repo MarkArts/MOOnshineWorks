@@ -6,7 +6,14 @@ public class MOOnshineWorks : ModuleRules
 {
 	public MOOnshineWorks(TargetInfo Target)
 	{
-        PublicDependencyModuleNames.AddRange(new string[] { "AIModule", "Core", "CoreUObject", "Engine", "InputCore" });
+
+        MinFilesUsingPrecompiledHeaderOverride = 1;
+        bFasterWithoutUnity = true;
+
+        PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Sockets", "Networking", "AIModule" });
+
         PublicIncludePaths.AddRange(new string[] {  "Levels" });
+
+        //PrivateDependencyModuleNames.AddRange(new string[] { "Sockets", "Networking" });
 	}
 }

@@ -2,6 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksGameMode.h"
+#include "Socket.h"
 #include "MOOnshineWorksCharacter.h"
 
 AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
@@ -13,4 +14,10 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+
+	if (GetWorld()){
+		ASocket* socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
+		socket->start("MarksSocket", "127.0.0.1", 5000);
+	}
+
 }

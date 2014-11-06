@@ -1,8 +1,10 @@
+# Unreal
 Binaries/
 Intermediate/
 Saved/
 DerivedDataCache/
 TP_ThirdPerson_Preview.png
+
 *.pbxproj
 
 *.xcworkspacedata
@@ -19,8 +21,7 @@ TP_ThirdPerson_Preview.png
 
 *.sdf
 
+# Visual studio
 *.opensdf
-
 *.suo
-
 *.vcxproj.user
