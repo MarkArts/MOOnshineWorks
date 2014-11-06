@@ -32,7 +32,7 @@ bool ASocket::StartTCPReceiver(
 	){
 	//Rama's CreateTCPConnectionListener
 	ListenerSocket = CreateTCPConnectionListener(YourChosenSocketName, TheIP, ThePort);
-
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateTCPConnectionListener called, socket done returning");
 	//Not created?
 	if (!ListenerSocket)
 	{
@@ -81,14 +81,14 @@ FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketNam
 	}
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+	
 	//Create Socket
 	FIPv4Endpoint Endpoint(FIPv4Address(IP4Nums[0], IP4Nums[1], IP4Nums[2], IP4Nums[3]), ThePort);
 	FSocket* ListenSocket = FTcpSocketBuilder(*YourChosenSocketName)
 		.AsReusable()
 		.BoundToEndpoint(Endpoint)
 		.Listening(8);
-
+	
 	//Set Buffer Size
 	int32 NewSize = 0;
 	ListenSocket->SetReceiveBufferSize(ReceiveBufferSize, NewSize);
@@ -165,7 +165,12 @@ void ASocket::TCPSocketListener()
 
 		int32 Read = 0;
 		ConnectionSocket->Recv(ReceivedData.GetData(), ReceivedData.Num(), Read);
-
+		FString msg = TEXT("Message received\n");
+		TCHAR *msgChar = msg.GetCharArray().GetData();
+		int32 size = FCString::Strlen(msgChar);
+		int32 sent = 0;
+		ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sent after send: %d"), sent));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Read! %d"), ReceivedData.Num()));
 	}
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
