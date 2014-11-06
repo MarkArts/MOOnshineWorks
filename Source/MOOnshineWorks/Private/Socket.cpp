@@ -15,33 +15,33 @@ ASocket::ASocket(const class FPostConstructInitializeProperties& PCIP)
 void ASocket::start(FString name, FString ip, int32 port)
 {
 	//IP = 127.0.0.1, Port = 8890 for my Python test case
-	if (!StartTCPReceiver(name, ip, port))
+	if (!StartUDPReceiver(name, ip, port))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "TCP Socket Listener Created!");
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created!");
 		return;
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "TCP Socket Listener Created! Yay!");
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created! Yay!");
 }
 
-//Rama's Start TCP Receiver
-bool ASocket::StartTCPReceiver(
+//Rama's Start UDP Receiver
+bool ASocket::StartUDPReceiver(
 	const FString& YourChosenSocketName,
 	const FString& TheIP,
 	const int32 ThePort
 	){
-	//Rama's CreateTCPConnectionListener
-	ListenerSocket = CreateTCPConnectionListener(YourChosenSocketName, TheIP, ThePort);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateTCPConnectionListener called, socket done returning");
+	//Rama's CreateUDPConnectionListener
+	ListenerSocket = CreateUDPConnectionListener(YourChosenSocketName, TheIP, ThePort);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called, socket done returning");
 	//Not created?
 	if (!ListenerSocket)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartTCPReceiver>> Listen socket could not be created! ~> %s %d"), *TheIP, ThePort));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket could not be created! ~> %s %d"), *TheIP, ThePort));
 		return false;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartTCPReceiver>> Listen socket was created ~> %s %d"), *TheIP, ThePort));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket was created ~> %s %d"), *TheIP, ThePort));
 	//Start the Listener! //thread this eventually
-	GetWorldTimerManager().SetTimer(this, &ASocket::TCPConnectionMaker, 2, true);
+	GetWorldTimerManager().SetTimer(this, &ASocket::UDPConnectionMaker, 2, true);
 
 	return true;
 }
@@ -68,10 +68,10 @@ bool ASocket::FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4])
 
 	return true;
 }
-//Rama's Create TCP Connection Listener
-FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketName, const FString& TheIP, const int32 ThePort, const int32 ReceiveBufferSize)
+//Rama's Create UDP Connection Listener
+FSocket* ASocket::CreateUDPConnectionListener(const FString& YourChosenSocketName, const FString& TheIP, const int32 ThePort, const int32 ReceiveBufferSize)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateTCPConnectionListener called");
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called");
 
 	uint8 IP4Nums[4];
 	if (!FormatIP4ToNumber(TheIP, IP4Nums))
@@ -85,7 +85,7 @@ FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketNam
 	//Create Socket
 	FIPv4Endpoint Endpoint(FIPv4Address(IP4Nums[0], IP4Nums[1], IP4Nums[2], IP4Nums[3]), ThePort);
 	Destination = Endpoint;
-	FSocket* ListenSocket = FTcpSocketBuilder(*YourChosenSocketName)
+	FSocket* ListenSocket = FUdpSocketBuilder(*YourChosenSocketName)
 		//PrPleGoo's maker code
 		.AsNonBlocking()
 		.AsReusable()
@@ -104,7 +104,7 @@ FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketNam
 }
 
 //PrPleGoo's Connection maker
-void ASocket::TCPConnectionMaker()
+void ASocket::UDPConnectionMaker()
 {
 	//if there is no ListenerSocket, stop this function
 	if (!ListenerSocket) return;
@@ -125,7 +125,7 @@ void ASocket::TCPConnectionMaker()
 			ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ConnectionSocket);
 		}
 		//New Connection receive!
-		//ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("PrPlegooTCP Received Socket Connection"));
+		//ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("PrPlegoo UDP Received Socket Connection"));
 		ConnectionSocket = ListenerSocket;
 		if (ConnectionSocket != NULL)
 		{
@@ -141,7 +141,7 @@ void ASocket::TCPConnectionMaker()
 			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
 			//can thread this too
 			GetWorldTimerManager().SetTimer(this,
-			&ASocket::TCPSocketListener, 0.01, true);
+			&ASocket::UDPSocketListener, 0.01, true);
 		}
 		else
 		{
@@ -153,8 +153,8 @@ void ASocket::TCPConnectionMaker()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
 	}
 }
-//Rama's TCP Connection Listener
-void ASocket::TCPConnectionListener()
+//Rama's UDP Connection Listener
+void ASocket::UDPConnectionListener()
 {
 	//~~~~~~~~~~~~~
 	if (!ListenerSocket) return;
@@ -179,7 +179,7 @@ void ASocket::TCPConnectionListener()
 
 
 		//New Connection receive!
-		ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("RamaTCP Received Socket Connection"));
+		ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("Rama UDP Received Socket Connection"));
 
 		if (ConnectionSocket != NULL)
 		{
@@ -189,7 +189,7 @@ void ASocket::TCPConnectionListener()
 			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
 			//can thread this too
 			GetWorldTimerManager().SetTimer(this,
-				&ASocket::TCPSocketListener, 0.01, true);
+				&ASocket::UDPSocketListener, 0.01, true);
 		}
 	}
 }
@@ -204,8 +204,8 @@ FString ASocket::StringFromBinaryArray(const TArray<uint8>& BinaryArray)
 	return FString(cstr.c_str());
 }
 
-//Rama's TCP Socket Listener
-void ASocket::TCPSocketListener()
+//Rama's UDP Socket Listener
+void ASocket::UDPSocketListener()
 {
 	//~~~~~~~~~~~~~
 	if (!ConnectionSocket) return;
