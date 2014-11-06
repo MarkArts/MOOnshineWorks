@@ -41,7 +41,7 @@ bool ASocket::StartTCPReceiver(
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartTCPReceiver>> Listen socket was created ~> %s %d"), *TheIP, ThePort));
 	//Start the Listener! //thread this eventually
-	GetWorldTimerManager().SetTimer(this, &ASocket::TCPConnectionListener, 0.01, true);
+	GetWorldTimerManager().SetTimer(this, &ASocket::TCPConnectionMaker, 2, true);
 
 	return true;
 }
@@ -84,10 +84,16 @@ FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketNam
 	
 	//Create Socket
 	FIPv4Endpoint Endpoint(FIPv4Address(IP4Nums[0], IP4Nums[1], IP4Nums[2], IP4Nums[3]), ThePort);
+	Destination = Endpoint;
 	FSocket* ListenSocket = FTcpSocketBuilder(*YourChosenSocketName)
+		//PrPleGoo's maker code
+		.AsNonBlocking()
 		.AsReusable()
-		.BoundToEndpoint(Endpoint)
-		.Listening(8);
+		.Build();
+	//rama's listener code
+		//.AsReusable()
+		//.BoundToEndpoint(Endpoint)
+		//.Listening(8);
 	
 	//Set Buffer Size
 	int32 NewSize = 0;
@@ -95,6 +101,57 @@ FSocket* ASocket::CreateTCPConnectionListener(const FString& YourChosenSocketNam
 
 	//Done!
 	return ListenSocket;
+}
+
+//PrPleGoo's Connection maker
+void ASocket::TCPConnectionMaker()
+{
+	//if there is no ListenerSocket, stop this function
+	if (!ListenerSocket) return;
+	//if there already is a ConnectionSocket, stop this function
+	if (ConnectionSocket) return;
+	//Remote address
+	//TSharedRef<FInternetAddr> RemoteAddress = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
+	TSharedRef<FInternetAddr> RemoteAddress = Destination.ToInternetAddr();
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Attempting connection...");
+	if (ListenerSocket->Connect(*RemoteAddress))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes?");
+		if (ConnectionSocket)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Already has a connection, destroying");
+			ConnectionSocket->Close();
+			ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ConnectionSocket);
+		}
+		//New Connection receive!
+		//ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("PrPlegooTCP Received Socket Connection"));
+		ConnectionSocket = ListenerSocket;
+		if (ConnectionSocket != NULL)
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? YUP!");
+			//Global cache of current Remote Address
+			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
+			FString msg = TEXT("Message received\n");
+			TCHAR *msgChar = msg.GetCharArray().GetData();
+			int32 size = FCString::Strlen(msgChar);
+			int32 sent = 0;
+			ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sent after send: %d"), sent));
+			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
+			//can thread this too
+			GetWorldTimerManager().SetTimer(this,
+			&ASocket::TCPSocketListener, 0.01, true);
+		}
+		else
+		{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? Nope :<");
+		}
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
+	}
 }
 //Rama's TCP Connection Listener
 void ASocket::TCPConnectionListener()
@@ -120,6 +177,7 @@ void ASocket::TCPConnectionListener()
 		}
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+
 		//New Connection receive!
 		ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("RamaTCP Received Socket Connection"));
 
@@ -129,7 +187,6 @@ void ASocket::TCPConnectionListener()
 			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
 
 			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
-
 			//can thread this too
 			GetWorldTimerManager().SetTimer(this,
 				&ASocket::TCPSocketListener, 0.01, true);

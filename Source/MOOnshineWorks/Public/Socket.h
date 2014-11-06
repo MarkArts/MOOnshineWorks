@@ -33,9 +33,12 @@ public:
 		const int32 ReceiveBufferSize = 2 * 1024 * 1024
 		);
 
+	FIPv4Endpoint Destination;
+
 	void start(FString name, FString ip, int32 port);
 
 	//Timer functions, could be threads
+	void TCPConnectionMaker();
 	void TCPConnectionListener(); 	//can thread this eventually
 	void TCPSocketListener();		//can thread this eventually
 
