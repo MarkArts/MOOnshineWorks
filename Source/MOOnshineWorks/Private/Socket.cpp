@@ -222,12 +222,6 @@ void ASocket::UDPSocketListener()
 
 		int32 Read = 0;
 		ConnectionSocket->Recv(ReceivedData.GetData(), ReceivedData.Num(), Read);
-		FString msg = TEXT("Message received\n");
-		TCHAR *msgChar = msg.GetCharArray().GetData();
-		int32 size = FCString::Strlen(msgChar);
-		int32 sent = 0;
-		ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sent after send: %d"), sent));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Read! %d"), ReceivedData.Num()));
 	}
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -252,3 +246,11 @@ void ASocket::UDPSocketListener()
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("As String Data ~> %s"), *ReceivedUE4String));
 }
 
+void ASocket::SendString(FString msg)
+{
+	//msg = TEXT("dummy text");
+	TCHAR *msgChar = msg.GetCharArray().GetData();
+	int32 size = FCString::Strlen(msgChar);
+	int32 sent = 0;
+	ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
+}

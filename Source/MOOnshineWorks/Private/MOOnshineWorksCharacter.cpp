@@ -2,6 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
 #include "ChestPickup.h"
 
@@ -190,6 +191,10 @@ void AMOOnshineWorksCharacter::EndSprint()
 
 void AMOOnshineWorksCharacter::CollectItems()
 {
+
+	AMOOnshineWorksGameMode* GameMode = (AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode();
+	(*GameMode).Socket->SendString(TEXT("Ik druk op E mon pere"));
+
 	printf("CollectItems aangeroepen!");
 	float ManaValue = 0.f;
 

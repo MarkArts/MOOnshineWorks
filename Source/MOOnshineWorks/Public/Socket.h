@@ -42,6 +42,8 @@ public:
 	void UDPConnectionListener(); 	//can thread this eventually
 	void UDPSocketListener();		//can thread this eventually
 
+	void SendString(FString msg);
+
 
 	//Format String IP4 to number array
 	bool FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4]);
