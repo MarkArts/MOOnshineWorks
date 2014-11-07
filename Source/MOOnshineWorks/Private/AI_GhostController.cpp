@@ -78,3 +78,16 @@ void AAI_GhostController::AttackPlayer()
 
 	}
 }
+
+void AAI_GhostController::Patrol()
+{
+	APawn* MyBot = GetPawn();
+	if (MyBot == NULL)
+	{
+		return;
+	}
+	
+	const FVector MyLoc = MyBot->GetActorLocation();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
+
+}

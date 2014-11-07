@@ -33,6 +33,9 @@ class MOONSHINEWORKS_API AAI_GhostController : public AAIController
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void AttackPlayer();
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void Patrol();
+
 protected:
 
 	uint8 EnemyKeyID;	   //Object
