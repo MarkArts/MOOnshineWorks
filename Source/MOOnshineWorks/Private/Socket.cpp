@@ -51,9 +51,7 @@ bool ASocket::FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4])
 	//IP Formatting
 	TheIP.Replace(TEXT(" "), TEXT(""));
 
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//						   IP 4 Parts
-
+	//IP 4 Parts
 	//String Parts
 	TArray<FString> Parts;
 	TheIP.ParseIntoArray(&Parts, TEXT("."), true);
@@ -90,11 +88,7 @@ FSocket* ASocket::CreateUDPConnectionListener(const FString& YourChosenSocketNam
 		.AsNonBlocking()
 		.AsReusable()
 		.Build();
-	//rama's listener code
-		//.AsReusable()
-		//.BoundToEndpoint(Endpoint)
-		//.Listening(8);
-	
+
 	//Set Buffer Size
 	int32 NewSize = 0;
 	ListenSocket->SetReceiveBufferSize(ReceiveBufferSize, NewSize);
@@ -153,47 +147,6 @@ void ASocket::UDPConnectionMaker()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
 	}
 }
-//Rama's UDP Connection Listener
-void ASocket::UDPConnectionListener()
-{
-	//~~~~~~~~~~~~~
-	if (!ListenerSocket) return;
-	//~~~~~~~~~~~~~
-
-	//Remote address
-	TSharedRef<FInternetAddr> RemoteAddress = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
-	bool Pending;
-
-	// handle incoming connections
-	if (ListenerSocket->HasPendingConnection(Pending) && Pending)
-	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//Already have a Connection? destroy previous
-		if (ConnectionSocket)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Already has a connection");
-			ConnectionSocket->Close();
-			ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ConnectionSocket);
-		}
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-		//New Connection receive!
-		ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("Rama UDP Received Socket Connection"));
-
-		if (ConnectionSocket != NULL)
-		{
-			//Global cache of current Remote Address
-			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
-
-			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
-			//can thread this too
-			GetWorldTimerManager().SetTimer(this,
-				&ASocket::UDPSocketListener, 0.01, true);
-		}
-	}
-}
-
 //Rama's String From Binary Array
 //This function requires 
 //		#include <string>
