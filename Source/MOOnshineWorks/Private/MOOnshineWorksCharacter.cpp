@@ -11,7 +11,8 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	//set currentHealth at 3
+	CurrentHealth = 1.f;
 	//set CurrentMana at 0
 	CurrentMana = 0.f;
 	//set SpeedFactor

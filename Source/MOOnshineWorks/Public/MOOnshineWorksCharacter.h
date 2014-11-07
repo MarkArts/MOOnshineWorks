@@ -28,6 +28,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	float CurrentHealth;
+
 	/* Characters basespeed */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float BaseSpeed;

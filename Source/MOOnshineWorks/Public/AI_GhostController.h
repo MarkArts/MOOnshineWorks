@@ -30,9 +30,13 @@ class MOONSHINEWORKS_API AAI_GhostController : public AAIController
 
 	void SetEnemy(class APawn *InPawn);
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void AttackPlayer();
+
 protected:
 
 	uint8 EnemyKeyID;	   //Object
 	uint8 EnemyLocationID; //Vector
+	uint8 EnemyDistance;   //Float
 
 };

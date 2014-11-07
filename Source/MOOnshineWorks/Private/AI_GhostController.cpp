@@ -19,6 +19,7 @@ void AAI_GhostController::Possess(class APawn *InPawn)
 		BlackboardComp->InitializeBlackboard(ghost->Behavior->BlackboardAsset);
 		EnemyKeyID = BlackboardComp->GetKeyID("Enemy");
 		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
+		EnemyDistance = BlackboardComp->GetKeyID("EnemyDistance");
 
 		BehaviorComp->StartTree(ghost->Behavior);
 	}
@@ -51,6 +52,7 @@ void AAI_GhostController::SearchForEnemy()
 
 	if (BestPawn)
 	{
+		BlackboardComp->SetValueAsFloat(EnemyDistance, BestDistSq);
 		SetEnemy(BestPawn);
 	}
 }
@@ -59,5 +61,20 @@ void AAI_GhostController::SetEnemy(class APawn *InPawn)
 	BlackboardComp->SetValueAsObject(EnemyKeyID, InPawn);
 	BlackboardComp->SetValueAsVector(EnemyLocationID, InPawn->GetActorLocation());
 }
+void AAI_GhostController::AttackPlayer()
+{
+	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	{
+		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			playerCharacter->CurrentHealth = playerCharacter->CurrentHealth - 1;
+			
+			if (playerCharacter->CurrentHealth == 0)
+			{
+				playerCharacter->Destroy();
+			}
+		}
 
-
+	}
+}
