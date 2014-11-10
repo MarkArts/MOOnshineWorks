@@ -4,6 +4,8 @@
 
 #include "AIController.h"
 #include "AI_Ghost.h"
+#include "GameFramework/Character.h"
+#include "MOOnshineWorksCharacter.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -41,5 +43,6 @@ protected:
 	uint8 EnemyKeyID;	   //Object
 	uint8 EnemyLocationID; //Vector
 	uint8 EnemyDistance;   //Float
+	uint8 SetPatrolRoute;   //Vector
 
 };

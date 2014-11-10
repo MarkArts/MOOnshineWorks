@@ -20,6 +20,8 @@ void AAI_GhostController::Possess(class APawn *InPawn)
 		EnemyKeyID = BlackboardComp->GetKeyID("Enemy");
 		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
 		EnemyDistance = BlackboardComp->GetKeyID("EnemyDistance");
+		SetPatrolRoute = BlackboardComp->GetKeyID("PatrolTo");
+
 
 		BehaviorComp->StartTree(ghost->Behavior);
 	}
@@ -87,7 +89,26 @@ void AAI_GhostController::Patrol()
 		return;
 	}
 	
-	const FVector MyLoc = MyBot->GetActorLocation();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
+	FVector MyLoc = MyBot->GetActorLocation();
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
 
+	float random = (float)rand() / (float)RAND_MAX;
+	float randomy = (float)rand() / (float)RAND_MAX;
+
+	int xValue = 1 + random * ((3) - (1));
+	int yValue = 1 + randomy * ((3) - (1));
+
+	float x, y;
+
+	if (xValue == 1)
+		x = ((MyLoc[0]) + 100) + random * (((MyLoc[0]) + 400) - ((MyLoc[0]) + 100));
+	else
+		x = ((MyLoc[0]) - 100) + random * (((MyLoc[0]) - 400) - ((MyLoc[0]) - 100));
+	if (yValue == 1)
+		y = ((MyLoc[1]) + 100) + random * (((MyLoc[1]) + 400) - ((MyLoc[1]) + 100));
+	else
+		y = ((MyLoc[1]) - 100) + random * (((MyLoc[1]) - 400) - ((MyLoc[1]) - 100));
+	
+	MyLoc.Set(x, y, MyLoc[2]);
+	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
 }
