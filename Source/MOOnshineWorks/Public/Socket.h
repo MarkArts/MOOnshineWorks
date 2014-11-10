@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Networking.h"
+#include "Messages.h"
 #include "Socket.generated.h"
 
 /**
@@ -20,26 +21,33 @@ public:
 	FSocket* ConnectionSocket;
 	FIPv4Endpoint RemoteAddressForConnection;
 
-	bool StartTCPReceiver(
+	bool StartUDPReceiver(
 		const FString& YourChosenSocketName,
 		const FString& TheIP,
 		const int32 ThePort
 		);
 
-	FSocket* CreateTCPConnectionListener(
+	FSocket* CreateUDPConnectionListener(
 		const FString& YourChosenSocketName,
 		const FString& TheIP,
 		const int32 ThePort,
 		const int32 ReceiveBufferSize = 2 * 1024 * 1024
 		);
 
+	FIPv4Endpoint Destination;
+
 	void start(FString name, FString ip, int32 port);
 
 	//Timer functions, could be threads
-	void TCPConnectionListener(); 	//can thread this eventually
-	void TCPSocketListener();		//can thread this eventually
+	void UDPConnectionMaker();
+	void UDPConnectionListener(); 	//can thread this eventually
+	void UDPSocketListener();		//can thread this eventually
 
-
+	bool ParseMessage(TArray<uint8> msg);
+	
+	void SendString(FString msg);
+	void SendMEvent(int id, int x, int y, int powerLevel);
+	
 	//Format String IP4 to number array
 	bool FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4]);
 

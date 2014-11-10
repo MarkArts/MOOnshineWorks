@@ -1,45 +1,74 @@
-// Load the TCP Library
-net = require('net');
- 
-// Keep track of the chat clients
-var clients = [];
- 
-// Start a TCP Server
-net.createServer(function (socket) {
- 
-  // Identify this client
-  socket.name = socket.remoteAddress + ":" + socket.remotePort 
- 
-  // Put this new client in the list
-  clients.push(socket);
- 
-  // Send a nice welcome message and announce
-  socket.write("Welcome " + socket.name + "\n");
-  broadcast(socket.name + " joined the chat\n", socket);
- 
-  // Handle incoming messages from clients.
-  socket.on('data', function (data) {
-    broadcast(socket.name + "> " + data, socket);
-  });
- 
-  // Remove the client from the list when it leaves
-  socket.on('end', function () {
-    clients.splice(clients.indexOf(socket), 1);
-    broadcast(socket.name + " left the chat.\n");
-  });
+var PORT = 5000;
+var HOST = '192.168.2.10';
+
+var dgram = require("dgram");
+
+var socket = dgram.createSocket("udp4");
+var clients = {};
+
+socket.on("error", function (err) {
+  console.log("socket error:\n" + err.stack);
+  socket.close();
+});
+
+socket.on("message", function (msg, rinfo) {
   
-  // Send a message to all clients
-  function broadcast(message, sender) {
-    clients.forEach(function (client) {
-      // Don't want to send it to sender
-      if (client === sender) return;
-      client.write(message);
-    });
-    // Log it to the server output too
-    process.stdout.write(message)
+  if(!isClient(rinfo.address+":"+rinfo.port) ){ //&& clients.length < 4){
+	clients[rinfo.address+":"+rinfo.port] = {
+		id : rinfo.address+":"+rinfo.port,
+		address : rinfo.address, 
+		port : rinfo.port, 
+		lastMessage : new Date().getTime(),
+	}
+	console.log(rinfo.address+":"+rinfo.port+" Added to clients")
   }
- 
-}).listen(5000);
- 
-// Put a friendly message on the terminal of the server.
-console.log("Chat server running at port 5000\n");
+  
+  clients[rinfo.address+":"+rinfo.port].lastMessage = new Date().getTime();
+  broadcast(msg, rinfo.address+":"+rinfo.port);
+  console.log("socket got: ", msg, " from " + rinfo.address + ":" + rinfo.port);
+});
+
+socket.on("listening", function () {
+  var address = socket.address();
+  console.log("socket listening " + address.address + ":" + address.port);
+});
+
+setInterval(function () {
+		currentTime = new Date().getTime();
+		for(var key in clients)
+		{
+			if(currentTime - clients[key].lastMessage > 30000) 
+			{
+				console.log(clients[key].address+":"+clients[key].port+" removed from clients, no message for longer than 30 seconds")
+				delete clients[key]
+			}
+		}
+}, 1000)
+
+socket.bind(PORT, HOST);
+
+function isClient(id)
+{
+	if(clients[id]) return true;
+	return false
+}
+
+function broadcast(msg, exeption)
+{
+	console.log("broadcasting: ", msg, exeption);
+	for(var key in clients){
+		if(clients[key].id == exeption) continue;
+		console.log("too: "+key);
+		socket.send(msg, 0, msg.length, clients[key].port, clients[key].address, function(err, bytes) {
+			if (err) throw err;
+		});
+	}
+}
+
+// Objects
+var client = {
+	id : "",
+	address : "",
+	port : "",
+	lastMessage : "",
+}
