@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "Networking.h"
+#include "Messages.h"
 #include "Socket.generated.h"
 
 /**
@@ -42,9 +43,11 @@ public:
 	void UDPConnectionListener(); 	//can thread this eventually
 	void UDPSocketListener();		//can thread this eventually
 
+	bool ParseMessage(TArray<uint8> msg);
+	
 	void SendString(FString msg);
-
-
+	void SendMEvent(int id, int x, int y, int powerLevel);
+	
 	//Format String IP4 to number array
 	bool FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4]);
 

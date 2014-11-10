@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include <string>
 #include "Networking.h"
+#include "Messages.h"
 #include "Socket.h"
 
 
@@ -14,7 +15,6 @@ ASocket::ASocket(const class FPostConstructInitializeProperties& PCIP)
 
 void ASocket::start(FString name, FString ip, int32 port)
 {
-	//IP = 127.0.0.1, Port = 8890 for my Python test case
 	if (!StartUDPReceiver(name, ip, port))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created!");
@@ -90,11 +90,7 @@ FSocket* ASocket::CreateUDPConnectionListener(const FString& YourChosenSocketNam
 		.AsNonBlocking()
 		.AsReusable()
 		.Build();
-	//rama's listener code
-		//.AsReusable()
-		//.BoundToEndpoint(Endpoint)
-		//.Listening(8);
-	
+
 	//Set Buffer Size
 	int32 NewSize = 0;
 	ListenSocket->SetReceiveBufferSize(ReceiveBufferSize, NewSize);
@@ -132,12 +128,7 @@ void ASocket::UDPConnectionMaker()
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? YUP!");
 			//Global cache of current Remote Address
 			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
-			FString msg = TEXT("Message received\n");
-			TCHAR *msgChar = msg.GetCharArray().GetData();
-			int32 size = FCString::Strlen(msgChar);
-			int32 sent = 0;
-			ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Sent after send: %d"), sent));
+			//SendString("Message received");
 			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
 			//can thread this too
 			GetWorldTimerManager().SetTimer(this,
@@ -151,46 +142,6 @@ void ASocket::UDPConnectionMaker()
 	else
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
-	}
-}
-//Rama's UDP Connection Listener
-void ASocket::UDPConnectionListener()
-{
-	//~~~~~~~~~~~~~
-	if (!ListenerSocket) return;
-	//~~~~~~~~~~~~~
-
-	//Remote address
-	TSharedRef<FInternetAddr> RemoteAddress = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
-	bool Pending;
-
-	// handle incoming connections
-	if (ListenerSocket->HasPendingConnection(Pending) && Pending)
-	{
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		//Already have a Connection? destroy previous
-		if (ConnectionSocket)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Already has a connection");
-			ConnectionSocket->Close();
-			ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ConnectionSocket);
-		}
-		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-		//New Connection receive!
-		ConnectionSocket = ListenerSocket->Accept(*RemoteAddress, TEXT("Rama UDP Received Socket Connection"));
-
-		if (ConnectionSocket != NULL)
-		{
-			//Global cache of current Remote Address
-			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
-
-			//UE_LOG "Accepted Connection! WOOOHOOOO!!!";
-			//can thread this too
-			GetWorldTimerManager().SetTimer(this,
-				&ASocket::UDPSocketListener, 0.01, true);
-		}
 	}
 }
 
@@ -231,26 +182,65 @@ void ASocket::UDPSocketListener()
 		//No Data Received
 		return;
 	}
-
-	//VShow("Total Data read!", ReceivedData.Num());
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Bytes Read ~> %d"), ReceivedData.Num()));
-
-
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//						Rama's String From Binary Array
-	const FString ReceivedUE4String = StringFromBinaryArray(ReceivedData);
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-
-	//VShow("As String!!!!! ~>", ReceivedUE4String);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("As String Data ~> %s"), *ReceivedUE4String));
+	ParseMessage(ReceivedData);
 }
 
 void ASocket::SendString(FString msg)
 {
+//	MDString Message = MDString();
+//	Message.Type = MessageType::TMDString;
+//	Message.Name = TEXT("TestName");
+//	Message.TestInt = 13;
+	//Message.TestString = (uint8*)TCHAR_TO_UTF8(msg.GetCharArray().GetData());
+//	Message.String = msg.GetCharArray().GetData();
+	//Message.Int = 12;
+
+	//Send(Message);
+
 	//msg = TEXT("dummy text");
-	TCHAR *msgChar = msg.GetCharArray().GetData();
-	int32 size = FCString::Strlen(msgChar);
-	int32 sent = 0;
-	ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
+	//TCHAR *msgChar = msg.GetCharArray().GetData();
+	//int32 size = FCString::Strlen(msgChar);
+	//int32 sent = 0;
+	//ConnectionSocket->Send((uint8*)TCHAR_TO_UTF8(msgChar), size, sent);
+}
+
+bool ASocket::ParseMessage(TArray<uint8> ReceivedData){
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Bytes Read ~> %d"), ReceivedData.Num()));
+
+	MBase* Message = reinterpret_cast<MBase*>(ReceivedData.GetData());
+
+	switch ((*Message).Type){
+		case MessageType::String:
+		{
+			//MString* DString = reinterpret_cast<MString*>(ReceivedData.GetData());
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("recived string"));
+			break;
+		}
+		case MessageType::Event:
+		{
+			MEvent* DEvent = reinterpret_cast<MEvent*>(ReceivedData.GetData());
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("event: %d"), (*DEvent).id));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %d"), (*DEvent).x));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("y: %d"), (*DEvent).y));
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("powerLevel: %d"), (*DEvent).powerLevel));
+			break;
+		}
+		default: break;
+	}
+
+	return true;
+}
+
+void ASocket::SendMEvent(int id, int x, int y, int powerLevel)
+{
+	MEvent msg = MEvent();
+	msg.Type = MessageType::Event;
+	msg.id = id;
+	msg.x = x;
+	msg.y = y;
+	msg.powerLevel = powerLevel;
+
+	int send;
+	ConnectionSocket->Send((uint8 *)&msg, sizeof(MEvent), send);
 }
