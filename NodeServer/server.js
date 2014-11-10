@@ -1,5 +1,5 @@
-var PORT = 5000;
-var HOST = '192.168.2.10';
+var PORT = 4243;
+var HOST = '127.0.0.1';
 
 var dgram = require("dgram");
 
