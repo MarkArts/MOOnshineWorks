@@ -51,9 +51,7 @@ bool ASocket::FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4])
 	//IP Formatting
 	TheIP.Replace(TEXT(" "), TEXT(""));
 
-	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-	//						   IP 4 Parts
-
+	//IP 4 Parts
 	//String Parts
 	TArray<FString> Parts;
 	TheIP.ParseIntoArray(&Parts, TEXT("."), true);
