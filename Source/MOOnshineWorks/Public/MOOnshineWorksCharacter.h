@@ -47,8 +47,19 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
 	float MaxRadius;
 	void UpdateLightRadius(float DeltaSeconds);
-
-
+    
+    // Float that contains the character stamina
+    float BaseStamina;
+    float Stamina;
+    
+    //Standard camera values
+    float baseCameraZoom;
+    float baseCameraAimZoom;
+    float baseCameraSprintZoom;
+    FVector baseCameraOffset;
+    FVector baseZoomOffset;
+    FVector baseSprintOffset;
+    
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
 	TSubobjectPtr<USphereComponent> CollectionSphere;
@@ -74,6 +85,9 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void CollectItems();
     
+    /** This function needs to be reviewed, doesn't work somehow */
+    //void PerformCameraShake();
+    
     /** Called for start aim input */
     void StartAim();
     
@@ -85,6 +99,9 @@ protected:
     
     /** Called for end sprint input */
     void EndSprint();
+    
+    /** Calculates stamina of character*/
+    void CalcStamina();
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
