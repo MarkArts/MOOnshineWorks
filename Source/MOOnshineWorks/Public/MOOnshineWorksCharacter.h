@@ -39,17 +39,30 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float SpeedFactor;
 
+	/* Light */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float LightPercentage;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float DimSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float MaxRadius;
+	void UpdateLightRadius(float DeltaSeconds);
+
+
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
-	TSubobjectPtr<class USphereComponent> CollectionSphere;
+	TSubobjectPtr<USphereComponent> CollectionSphere;
     
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubobjectPtr<UPointLightComponent> Light;
+
     //Boolean which contains sprinting state (false / true)
     bool IsSprinting;
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
     
-	//virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) OVERRIDE;
 
 protected:
 
@@ -97,7 +110,6 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface

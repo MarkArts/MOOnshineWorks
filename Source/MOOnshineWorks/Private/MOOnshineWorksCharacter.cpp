@@ -30,7 +30,21 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
 
+	// setup light
+	
+	DimSpeed = 0.01f;
+	MaxRadius = 2000.f;
+	LightPercentage = 1.0f;
 
+	Light = PCIP.CreateDefaultSubobject<UPointLightComponent>(this, "Light");
+	Light->SetIntensity(5.f);
+	Light->SetAttenuationRadius(MaxRadius);
+	Light->SetSourceRadius(1.f);
+	Light->bUseInverseSquaredFalloff = false;
+	Light->SetLightFalloffExponent(2.0f);
+	Light->MinRoughness = 0.001f;
+	Light->SetCastShadows(false);
+	Light->AttachTo(RootComponent);
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
@@ -219,10 +233,17 @@ void AMOOnshineWorksCharacter::CollectItems()
 	}
 }
 
-/*
+
 void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
+
+	LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	UpdateLightRadius(DeltaSeconds);
 }
-*/
+
+void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
+{
+	float ATRadius = MaxRadius * LightPercentage;
+	Light->SetAttenuationRadius(ATRadius);
+}
