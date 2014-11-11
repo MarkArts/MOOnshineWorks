@@ -3,6 +3,8 @@
 #include "MOOnshineWorks.h"
 #include "AI_GhostController.h"
 #include "MOOnshineWorksCharacter.h"
+#include "GameFramework/Character.h"
+#include "AI_Ghost.h"
 
 AAI_GhostController::AAI_GhostController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -62,6 +64,7 @@ void AAI_GhostController::SetEnemy(class APawn *InPawn)
 {
 	BlackboardComp->SetValueAsObject(EnemyKeyID, InPawn);
 	BlackboardComp->SetValueAsVector(EnemyLocationID, InPawn->GetActorLocation());
+
 }
 void AAI_GhostController::AttackPlayer()
 {
@@ -89,6 +92,10 @@ void AAI_GhostController::Patrol()
 		return;
 	}
 	
+	AAI_WalkingEnemy* WalkingEnemy = (AAI_WalkingEnemy*)GetPawn();
+	WalkingEnemy->StartWalk();
+
+
 	FVector MyLoc = MyBot->GetActorLocation();
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
 
@@ -111,4 +118,10 @@ void AAI_GhostController::Patrol()
 	
 	MyLoc.Set(x, y, MyLoc[2]);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+}
+
+void AAI_GhostController::SpeedUp()
+{
+	AAI_WalkingEnemy* WalkingEnemy = (AAI_WalkingEnemy*)GetPawn();
+	WalkingEnemy->StartSprint();
 }

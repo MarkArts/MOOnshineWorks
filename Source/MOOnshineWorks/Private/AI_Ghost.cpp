@@ -10,5 +10,3 @@ AAI_Ghost::AAI_Ghost(const class FPostConstructInitializeProperties& PCIP)
 {
 	AIControllerClass = AAI_GhostController::StaticClass();
 }
-
-

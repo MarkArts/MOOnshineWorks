@@ -4,8 +4,6 @@
 
 #include "AIController.h"
 #include "AI_Ghost.h"
-#include "GameFramework/Character.h"
-#include "MOOnshineWorksCharacter.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
@@ -37,6 +35,9 @@ class MOONSHINEWORKS_API AAI_GhostController : public AAIController
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void Patrol();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void SpeedUp();
 
 protected:
 
