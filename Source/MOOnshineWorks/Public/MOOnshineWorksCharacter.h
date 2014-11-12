@@ -49,7 +49,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void UpdateLightRadius(float DeltaSeconds);
     
     // Float that contains the character stamina
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float BaseStamina;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float Stamina;
     
     //Standard camera values

@@ -75,7 +75,7 @@ FSocket* ASocket::CreateUDPConnectionListener(const FString& YourChosenSocketNam
 	if (!FormatIP4ToNumber(TheIP, IP4Nums))
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Invalid IP! Expecting 4 parts separated by .");
-		return false;
+		//return false;
 	}
 
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
