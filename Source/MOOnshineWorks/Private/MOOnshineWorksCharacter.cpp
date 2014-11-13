@@ -15,7 +15,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     //set base health
     BaseHealth = 100.f;
     //set base mana
-    BaseMana = 100.f;
+    BaseMana = 0.f;
 	//set currentHealth at 3
 	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
