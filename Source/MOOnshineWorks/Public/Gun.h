@@ -38,7 +38,6 @@ class MOONSHINEWORKS_API AGun : public AItem
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	TSubclassOf<class AProjectile> projectileClass;
 
-
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	FVector gunOffset;
 

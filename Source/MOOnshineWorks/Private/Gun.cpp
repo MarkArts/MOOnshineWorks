@@ -16,15 +16,15 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 FRotator AGun::getBulletAngle()
 {
 	FRotator bulletAngle = gunMesh->GetComponentRotation();
-	float randomYaw = FMath::Rand() * 360.f;
-	float randomPitch = FMath::Rand() * spreadAngle * 2;
-	randomPitch -= spreadAngle;
-	bulletAngle.Yaw += randomYaw;
-	bulletAngle.Pitch = randomPitch;
+	float randomRoll = FMath::Rand() * 360.f;
+	float randomYaw = FMath::Rand() * spreadAngle * 2;
+	randomYaw -= spreadAngle;
+	bulletAngle.Roll += randomRoll;
+	bulletAngle.Yaw = randomYaw;
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("angleshizzle"));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(bulletAngle.Roll));
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(bulletAngle.Yaw));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(bulletAngle.Pitch));
 	return bulletAngle;
 }
 
@@ -44,7 +44,7 @@ void AGun::activate(FRotator controlRotation)
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[0]));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[1]));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[2]));
-			world->SpawnActor<AProjectile>(AProjectile::StaticClass(), SpawnLocation, getBulletAngle());
+			world->SpawnActor<AProjectile>(projectileClass, SpawnLocation, getBulletAngle());
 		}
 	}
 	else

@@ -25,7 +25,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	ProjectileMovement->bRotationFollowsVelocity = true;
 	ProjectileMovement->bShouldBounce = false;
 	ProjectileMovement->ProjectileGravityScale = 0;
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("projectile made"));
+//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("projectile made"));
 	// Die after 10 seconds by default
 	InitialLifeSpan = 10.0f;
 }
@@ -33,7 +33,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
+//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
 	{
