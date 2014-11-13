@@ -31,14 +31,15 @@ void ADungeonLevelBlueprint::LoadLevel(FName TargetLevel, FString UniqueName)
 	UnloadCurrentLevel();
 
 	ULevelStreaming* NewLevel = UGameplayStatics::GetStreamingLevel(GetWorld(), TargetLevel);
+
 	//NewLevel = NewLevel->CreateInstance(UniqueName);
 	NewLevel->bShouldBeLoaded = true;
 	NewLevel->bShouldBeVisible = true;
-	NewLevel->LevelTransform = FTransform(
+	/* NewLevel->LevelTransform = FTransform(
 		FQuat(0.f, 0.f, 0.f, 0.f),
 		FVector(0.f, 0.f, 0.f),
 		FVector(0.f, 0.f, 0.f)
-	);
+	); */
 
 //	CurrentLevel = UniqueName;
 	CurrentLevel = TargetLevel.ToString();
