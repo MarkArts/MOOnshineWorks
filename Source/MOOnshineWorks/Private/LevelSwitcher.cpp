@@ -12,9 +12,13 @@ ALevelSwitcher::ALevelSwitcher(const class FPostConstructInitializeProperties& P
 
 void ALevelSwitcher::Activate()
 {
+
+	//UGameplayStatics::OpenLevel(GetWorld(), FName("level2"), true)
+	
 	UWorld* currentWorld = GetWorld();
 	ULevel* actor = currentWorld->GetCurrentLevel();
 	ALevelScriptActor* levelScript = currentWorld->GetLevelScriptActor();
 	ADungeonLevelBlueprint* blp = (ADungeonLevelBlueprint*)levelScript;
 	blp->LoadLevel(TargetLevel, "");
+	
 }

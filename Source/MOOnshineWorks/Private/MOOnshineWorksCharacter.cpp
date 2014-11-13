@@ -48,7 +48,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// setup light
 	
-	DimSpeed = 0.01f;
+	DimSpeed = 0.05f;
 	MaxRadius = 2000.f;
 	LightPercentage = 1.0f;
 
