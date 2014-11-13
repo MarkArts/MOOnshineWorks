@@ -24,10 +24,19 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 	
+    /* Characters base mana */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+    float BaseMana;
+    
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-
+    
+    /* Characters base health */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+    float BaseHealth;
+    
+    /* Characters current health */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentHealth;
 
@@ -49,7 +58,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void UpdateLightRadius(float DeltaSeconds);
     
     // Float that contains the character stamina
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float BaseStamina;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float Stamina;
     
     //Standard camera values

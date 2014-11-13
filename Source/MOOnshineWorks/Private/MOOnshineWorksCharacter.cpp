@@ -12,10 +12,14 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+    //set base health
+    BaseHealth = 100.f;
+    //set base mana
+    BaseMana = 0.f;
 	//set currentHealth at 3
-	CurrentHealth = 1.f;
+	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
-	CurrentMana = 0.f;
+	CurrentMana = BaseMana;
 	//set SpeedFactor
 	SpeedFactor = 0.75f;
 	//set BaseSpeed
