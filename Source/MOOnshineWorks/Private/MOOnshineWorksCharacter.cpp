@@ -293,7 +293,15 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	// y = 1/((x+2)/15)-1
+
+	if (LightPercentage > 0){
+		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	}
+	else{
+		LightPercentage = 0;
+	}
+	
 	UpdateLightRadius(DeltaSeconds);
     
     CalcStamina();
