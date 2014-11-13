@@ -11,6 +11,30 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	UWorld* const world = GetWorld();
+	if (world)
+	{
+		FActorSpawnParameters spawnParams;
+		spawnParams.Owner = this;
+		spawnParams.bNoCollisionFail = false;
+		spawnParams.Instigator = NULL;
+
+		activeItem = world->SpawnActor<APistol>(APistol::StaticClass(), spawnParams);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
+		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentToActor(this, "head");
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+	if (!activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("it lied :<"));
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, activeItem->name);
+		activeItem->activate(GetControlRotation());
+	}
 	//set currentHealth at 3
 	CurrentHealth = 1.f;
 	//set CurrentMana at 0
@@ -78,6 +102,8 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
+	InputComponent->BindAction("UseActiveItem", IE_Pressed, this, &AMOOnshineWorksCharacter::useActiveItem);
+	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -203,7 +229,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 			TestChest->bIsActive = false;
 			// Call the Chest's OnPickedUp function so destroy
 			TestChest->OnPickedUp();
-			printf("kom ik hier!");
 		}
 	}
 
@@ -214,6 +239,31 @@ void AMOOnshineWorksCharacter::CollectItems()
 	}
 }
 
+void AMOOnshineWorksCharacter::useActiveItem()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("getting into activating"));
+	if (activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activating"));
+		activeItem->activate(GetControlRotation());
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
+	}
+}
+
+void AMOOnshineWorksCharacter::reload()
+{
+	/*if (&activeItem != NULL)
+	{
+		AGun* gun = Cast<AGun>(activeItem);
+		if (gun)
+		{
+			gun->reload();
+		}
+	}*/
+}
 /*
 void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {

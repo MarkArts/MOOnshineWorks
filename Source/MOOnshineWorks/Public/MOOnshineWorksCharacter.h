@@ -1,5 +1,9 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
+
+#include "Item.h"
+#include "Gun.h"
+#include "Pistol.h"
 #include "GameFramework/Character.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
@@ -7,6 +11,9 @@ UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
+	AItem* activeItem;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -96,6 +103,10 @@ protected:
 
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
+
+	void useActiveItem();
+
+	void reload();
 
 protected:
 	// APawn interface

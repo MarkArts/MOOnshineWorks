@@ -88,6 +88,4 @@ void AAI_GhostController::Patrol()
 	}
 	
 	const FVector MyLoc = MyBot->GetActorLocation();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
-
 }
