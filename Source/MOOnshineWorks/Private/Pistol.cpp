@@ -10,8 +10,8 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	name = "Pistol";
 	id = 14.f;
 
-	static ConstructorHelpers::FClassFinder<AProjectile> random(TEXT("/Game/Blueprints/BP_Projectile"));
-	projectileClass = random.Class;
+	static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
+	projectileClass = BP_Projectile.Class;
 
 	magazineCapacity = 15.f;
 	magazineLoadCount = magazineCapacity;

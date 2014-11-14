@@ -15,6 +15,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
+	TSubclassOf<APistol> PistolClass;
+
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	TSubobjectPtr<class USpringArmComponent> CameraBoom;
@@ -57,6 +60,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     bool IsAiming;
     
 	//virtual void Tick(float DeltaSeconds) OVERRIDE;
+
+	UFUNCTION(BlueprintCallable, Category = Pistol)
+	void equipPistol();
 
 protected:
 

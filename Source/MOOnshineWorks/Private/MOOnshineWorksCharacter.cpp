@@ -11,6 +11,10 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+
+	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
+	PistolClass = BP_Pistol.Class;
+
 	//set currentHealth at 3
 	CurrentHealth = 1.f;
 	//set CurrentMana at 0
@@ -71,7 +75,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		spawnParams.Owner = this;
 		spawnParams.bNoCollisionFail = false;
 
-		activeItem = world->SpawnActor<APistol>(APistol::StaticClass(), spawnParams);
+		activeItem = world->SpawnActor<APistol>(PistolClass, spawnParams);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
 		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
 		activeItem->SetActorRotation(FRotator::ZeroRotator);
@@ -250,6 +254,35 @@ void AMOOnshineWorksCharacter::CollectItems()
 		ManaUp(ManaValue);
 	}
 }
+
+void AMOOnshineWorksCharacter::equipPistol()
+{
+	if (activeItem)
+	{
+		//activeItem->GetRootComponent()->AttachTo(RootComponent);
+		//Mesh->GetSocketByName("hand_rSocket")->AttachActor(activeItem, Mesh);
+		activeItem->GetRootComponent()->AttachParent = Mesh;
+		activeItem->GetRootComponent()->AttachSocketName = FName(TEXT("hand_rSocket"));
+		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+}
+/*
+void AMOOnshineWorksCharacter::useActiveItem()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("getting into activating"));
+	if (activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activating"));
+		activeItem->activate(GetControlRotation());
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
+	}
+} */
 
 void AMOOnshineWorksCharacter::reload()
 {
