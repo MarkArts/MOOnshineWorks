@@ -58,6 +58,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     
 	//virtual void Tick(float DeltaSeconds) OVERRIDE;
 
+	UFUNCTION(BlueprintCallable, Category = Pistol)
+	void equipPistol();
+
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality

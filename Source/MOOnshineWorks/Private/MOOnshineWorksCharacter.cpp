@@ -19,21 +19,11 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 		spawnParams.bNoCollisionFail = false;
 		spawnParams.Instigator = NULL;
 
-		activeItem = world->SpawnActor<APistol>(APistol::StaticClass(), spawnParams);
+		static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
+		TSubclassOf<class APistol> pistolClass = BP_Pistol.Class;
+
+		activeItem = world->SpawnActor<APistol>(pistolClass, spawnParams);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
-		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentToActor(this, "head");
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-	}
-	if (!activeItem)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("it lied :<"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, activeItem->name);
-		activeItem->activate(GetControlRotation());
 	}
 	//set currentHealth at 3
 	CurrentHealth = 1.f;
@@ -236,6 +226,26 @@ void AMOOnshineWorksCharacter::CollectItems()
 	{
 		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
 		ManaUp(ManaValue);
+	}
+}
+
+void AMOOnshineWorksCharacter::equipPistol()
+{
+	if (activeItem)
+	{
+		//activeItem->GetRootComponent()->AttachTo(RootComponent);
+		//Mesh->GetSocketByName("hand_rSocket")->AttachActor(activeItem, Mesh);
+		activeItem->GetRootComponent()->AttachParent = Mesh;
+		activeItem->GetRootComponent()->AttachSocketName = FName(TEXT("hand_rSocket"));
+		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+	if (activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, activeItem->name);
+		activeItem->activate(GetControlRotation());
 	}
 }
 
