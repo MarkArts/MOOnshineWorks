@@ -41,7 +41,7 @@ class MOONSHINEWORKS_API AGun : public AItem
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	FVector gunOffset;
 
-	virtual void activate(FRotator controlRotation) override;
+	virtual void Use() override;
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
 	FRotator getBulletAngle();

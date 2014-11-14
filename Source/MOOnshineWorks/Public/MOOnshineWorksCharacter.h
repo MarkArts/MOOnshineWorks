@@ -12,7 +12,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Item)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
 
 	/** Camera boom positioning the camera behind the character */
@@ -68,16 +68,16 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void CollectItems();
     
-    /** Called for start aim input */
+	/** Called for useItem input */
+	void StartUse();
+	void EndUse();
+
+    /** Called for aim input */
     void StartAim();
-    
-    /** Called for end aim input */
     void EndAim();
     
-    /** Called for start sprint input */
+    /** Called for sprint input */
     void StartSprint();
-    
-    /** Called for end sprint input */
     void EndSprint();
 
 	/** Called for forwards/backward input */
@@ -104,13 +104,14 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	void useActiveItem();
-
 	void reload();
 
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+
+	virtual void ReceiveBeginPlay() override;
+
 };
 

@@ -11,30 +11,6 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	UWorld* const world = GetWorld();
-	if (world)
-	{
-		FActorSpawnParameters spawnParams;
-		spawnParams.Owner = this;
-		spawnParams.bNoCollisionFail = false;
-		spawnParams.Instigator = NULL;
-
-		activeItem = world->SpawnActor<APistol>(APistol::StaticClass(), spawnParams);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
-		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentToActor(this, "head");
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-	}
-	if (!activeItem)
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("it lied :<"));
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, activeItem->name);
-		activeItem->activate(GetControlRotation());
-	}
 	//set currentHealth at 3
 	CurrentHealth = 1.f;
 	//set CurrentMana at 0
@@ -52,8 +28,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
-
-
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
@@ -88,6 +62,24 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
+void AMOOnshineWorksCharacter::ReceiveBeginPlay()
+{
+	UWorld* const world = GetWorld();
+	if (world)
+	{
+		FActorSpawnParameters spawnParams;
+		spawnParams.Owner = this;
+		spawnParams.bNoCollisionFail = false;
+
+		activeItem = world->SpawnActor<APistol>(APistol::StaticClass(), spawnParams);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
+		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentToActor(this, "head");
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -100,9 +92,10 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
+	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
+	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
-	InputComponent->BindAction("UseActiveItem", IE_Pressed, this, &AMOOnshineWorksCharacter::useActiveItem);
 	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
@@ -137,6 +130,25 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 	{
 		StopJumping();
 	}
+}
+
+void AMOOnshineWorksCharacter::StartUse()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("getting into activating"));
+	if (activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activating"));
+		activeItem->Use();
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
+	}
+}
+
+void AMOOnshineWorksCharacter::EndUse()
+{
+
 }
 
 void AMOOnshineWorksCharacter::StartAim()
@@ -236,20 +248,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 	{
 		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
 		ManaUp(ManaValue);
-	}
-}
-
-void AMOOnshineWorksCharacter::useActiveItem()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("getting into activating"));
-	if (activeItem)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activating"));
-		activeItem->activate(GetControlRotation());
-	}
-	else
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
 	}
 }
 

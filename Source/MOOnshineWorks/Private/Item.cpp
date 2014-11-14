@@ -10,14 +10,7 @@ AItem::AItem(const class FPostConstructInitializeProperties& PCIP)
 
 }
 
-
-void AItem::onActivate_Implementation()
-{
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("onActivate"));
-}
-
-void AItem::activate(FRotator controlRotation)
+void AItem::Use()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activate"));
-	onActivate();
 }

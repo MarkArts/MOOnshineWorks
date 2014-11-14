@@ -18,10 +18,7 @@ class MOONSHINEWORKS_API AItem : public AActor
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
 	float id;
-
-	UFUNCTION(BlueprintNativeEvent)
-	void onActivate();
 	
 	UFUNCTION(BlueprintCallable, Category = Item)
-	virtual void activate(FRotator controlRotation);
+	virtual void Use();
 };

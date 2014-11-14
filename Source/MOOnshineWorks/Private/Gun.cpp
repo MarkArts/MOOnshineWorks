@@ -28,7 +28,7 @@ FRotator AGun::getBulletAngle()
 	return bulletAngle;
 }
 
-void AGun::activate(FRotator controlRotation)
+void AGun::Use()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pew1"));
 	if (magazineLoadCount > 0)
@@ -36,7 +36,8 @@ void AGun::activate(FRotator controlRotation)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pew2"));
 		magazineLoadCount--;
 		UWorld* const world = GetWorld();
-		FVector SpawnLocation = GetActorLocation() + controlRotation.RotateVector(gunOffset);
+		FVector SpawnLocation = GetActorLocation() + FVector(100.f, 100.f, 100.f);
+
 		if (world != NULL)
 		{
 			// spawn the projectile at the muzzle
@@ -51,7 +52,6 @@ void AGun::activate(FRotator controlRotation)
 	{
 		reload();
 	}
-	Super::activate(controlRotation);
 }
 
 void AGun::onReload_Implementation()
