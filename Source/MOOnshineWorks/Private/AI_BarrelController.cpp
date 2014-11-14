@@ -12,6 +12,7 @@ AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeP
 {
 
 }
+
 void AAI_BarrelController::AttackPlayer()
 {
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
@@ -33,7 +34,7 @@ void AAI_BarrelController::SpeedUp()
 	AAI_BasicEnemy* WalkingEnemy = (AAI_BasicEnemy*)GetPawn();
 	WalkingEnemy->StartSprint();
 }
-void AAI_BarrelController::Patrol()
+void AAI_BarrelController::BarrelPatrol()
 {
 	APawn* MyBot = GetPawn();
 	if (MyBot == NULL)

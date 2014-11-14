@@ -17,8 +17,6 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 {
 	GENERATED_UCLASS_BODY()
 
-	virtual void Possess(class APawn *InPawn);
-
 	UPROPERTY(transient)
 	TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
 
@@ -30,8 +28,11 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 
 	void SetEnemy(class APawn *InPawn);
 
-	uint8 EnemyKeyID;	   //Object
-	uint8 EnemyLocationID; //Vector
-	uint8 EnemyDistance;   //Float
-	uint8 SetPatrolRoute;   //Vector
+	virtual void Possess(class APawn *InPawn);
+
+	uint8 EnemyKeyID;				//Object
+	uint8 EnemyLocationID;			//Vector
+	uint8 EnemyDistance;			//Float
+	uint8 SetPatrolRoute;			//Vector
+	uint8 WhereShouldAIPatrolTo;    //Float
 };
