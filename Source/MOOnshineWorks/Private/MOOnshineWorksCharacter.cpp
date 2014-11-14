@@ -2,6 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
 #include "ChestPickup.h"
 
@@ -15,23 +16,56 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
 	PistolClass = BP_Pistol.Class;
 
+    //set base health
+    BaseHealth = 100.f;
+    //set base mana
+    BaseMana = 0.f;
+>>>>>>> origin/Develop
 	//set currentHealth at 3
-	CurrentHealth = 1.f;
+	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
-	CurrentMana = 0.f;
+	CurrentMana = BaseMana;
 	//set SpeedFactor
 	SpeedFactor = 0.75f;
 	//set BaseSpeed
 	BaseSpeed = 10.0f;
+    //set BaseStamina
+    BaseStamina = 150.0f;
+    //Set stamina
+    Stamina = BaseStamina;
     //Sprint toggle
     IsSprinting = false;
     //Aim toggle
     IsAiming = false;
 
+    //Set camera values
+    baseCameraZoom = 250;
+    baseCameraAimZoom = 150;
+    baseCameraSprintZoom = 160;
+    baseCameraOffset = FVector(0.0f, 0.0f, 0.0f);
+    baseZoomOffset = FVector(10.0f, 65.0f, 20.0f);
+    baseSprintOffset = FVector(0.0f, 0.0f, 20.0f);
+    
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
+
+	// setup light
+	
+	DimSpeed = 0.05f;
+	MaxRadius = 2000.f;
+	LightPercentage = 1.0f;
+
+	Light = PCIP.CreateDefaultSubobject<UPointLightComponent>(this, "Light");
+	Light->SetIntensity(5.f);
+	Light->SetAttenuationRadius(MaxRadius);
+	Light->SetSourceRadius(1.f);
+	Light->bUseInverseSquaredFalloff = false;
+	Light->SetLightFalloffExponent(2.0f);
+	Light->MinRoughness = 0.001f;
+	Light->SetCastShadows(false);
+	Light->AttachTo(RootComponent);
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
@@ -54,7 +88,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	// Create a camera boom (pulls in towards the player if there is a collision)
 	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
-	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
+	CameraBoom->TargetArmLength = baseCameraZoom; // The camera follows at this distance behind the character
 	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
@@ -157,14 +191,19 @@ void AMOOnshineWorksCharacter::EndUse()
 
 void AMOOnshineWorksCharacter::StartAim()
 {
-    CameraBoom->TargetArmLength = 175.0f;
-    CameraBoom->SocketOffset = FVector(10.0f, 60.0f, 0.0f);
+    if(IsSprinting == true){
+        EndSprint();
+    }
+    CameraBoom->TargetArmLength = baseCameraAimZoom;
+    CameraBoom->SocketOffset = baseZoomOffset;
+    IsAiming = true;
 }
 
 void AMOOnshineWorksCharacter::EndAim()
 {
-    CameraBoom->TargetArmLength = 250.0f;
-    CameraBoom->SocketOffset = FVector(0.0f, 0.0f, 0.0f);
+    CameraBoom->TargetArmLength = baseCameraZoom;
+    CameraBoom->SocketOffset = baseCameraOffset;
+    IsAiming = false;
 }
 
 void AMOOnshineWorksCharacter::TurnAtRate(float Rate)
@@ -210,19 +249,40 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-    CharacterMovement->MaxWalkSpeed *= 1.5;
-    IsSprinting = true;
+    if(Stamina > 0)
+    {
+        //Adjust camera to sprint values
+        CameraBoom->TargetArmLength = baseCameraSprintZoom;
+        CameraBoom->SocketOffset = baseSprintOffset;
+        //PerformCameraShake();
+        //Adjust movement speed to sprint values & switch boolean to true
+        CharacterMovement->MaxWalkSpeed *= 1.75;
+        IsSprinting = true;
+    }
 }
 
 void AMOOnshineWorksCharacter::EndSprint()
 {
-    CharacterMovement->MaxWalkSpeed /= 3;
-    CharacterMovement->MaxWalkSpeed *= 2;
-    IsSprinting = false;
+    //If statement Assures that no double adjustment of speed is called in some situations
+    if(IsSprinting == true)
+    {
+        //Adjust camera to standard values
+        CameraBoom->TargetArmLength = baseCameraZoom;
+        CameraBoom->SocketOffset = baseCameraOffset;
+        
+        //Adjust movement speed to standard values & switch boolean to false
+        CharacterMovement->MaxWalkSpeed /= 7;
+        CharacterMovement->MaxWalkSpeed *= 4;
+        IsSprinting = false;
+    }
 }
 
 void AMOOnshineWorksCharacter::CollectItems()
 {
+
+	AMOOnshineWorksGameMode* GameMode = (AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode();
+	(*GameMode).Socket->SendString(TEXT("Ik druk op E mon pere"));
+
 	printf("CollectItems aangeroepen!");
 	float ManaValue = 0.f;
 
@@ -295,10 +355,68 @@ void AMOOnshineWorksCharacter::reload()
 		}
 	}*/
 }
-/*
+
+void AMOOnshineWorksCharacter::CalcStamina()
+{
+    if(IsSprinting == true && Stamina > 0.f)
+    {
+        Stamina = Stamina - 1.f;
+    }
+    else if(IsSprinting == false && Stamina < 150.0f)
+    {
+        Stamina = Stamina + 0.5f;
+    }
+    
+    //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + FString::FromInt(Stamina)));
+    if(Stamina > 150.f)
+    {
+        Stamina = 150.f;
+    }
+}
+
 void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
-	CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
+
+	// y = 1/((x+2)/15)-1
+
+	if (LightPercentage > 0){
+		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	}
+	else{
+		LightPercentage = 0;
+	}
+	
+	UpdateLightRadius(DeltaSeconds);
+    
+    CalcStamina();
+    
+    if(Stamina < 1)
+    {
+        EndSprint();
+    }
+    //CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
-*/
+
+void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
+{
+	float ATRadius = MaxRadius * LightPercentage;
+	Light->SetAttenuationRadius(ATRadius);
+}
+
+/* this function needs to be reviewed, doesn't work somehow
+ void AMOOnshineWorksCharacter::PerformCameraShake()
+ {
+ UCameraShake* CameraShake = ConstructObject<UCameraShake>(UCameraShake::StaticClass());
+ CameraShake->OscillationDuration = -1.0f; //negative value will run forever
+ CameraShake->RotOscillation.Pitch.Amplitude = 1.0f;
+ CameraShake->RotOscillation.Pitch.Frequency = 0.5f;
+ CameraShake->RotOscillation.Pitch.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
+ CameraShake->RotOscillation.Yaw.Amplitude = 1.0f;
+ CameraShake->RotOscillation.Yaw.Frequency = 0.5f;
+ CameraShake->RotOscillation.Yaw.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
+ CameraShake->FOVOscillation.Amplitude = 1.0f;
+ 
+ //Somehow doesn't do anything... should work though. Figure out later.
+ GetWorld()->GetFirstLocalPlayerFromController()->PlayerController->ClientPlayCameraShake(CameraShake->GetClass(), 1.0f);
+ }*/

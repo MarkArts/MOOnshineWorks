@@ -34,10 +34,19 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	float BaseLookUpRate;
 	
+    /* Characters base mana */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+    float BaseMana;
+    
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-
+    
+    /* Characters base health */
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+    float BaseHealth;
+    
+    /* Characters current health */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentHealth;
 
@@ -49,17 +58,43 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float SpeedFactor;
 
+	/* Light */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float LightPercentage;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float DimSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	float MaxRadius;
+	void UpdateLightRadius(float DeltaSeconds);
+    
+    // Float that contains the character stamina
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+    float BaseStamina;
+    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+    float Stamina;
+    
+    //Standard camera values
+    float baseCameraZoom;
+    float baseCameraAimZoom;
+    float baseCameraSprintZoom;
+    FVector baseCameraOffset;
+    FVector baseZoomOffset;
+    FVector baseSprintOffset;
+    
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
-	TSubobjectPtr<class USphereComponent> CollectionSphere;
+	TSubobjectPtr<USphereComponent> CollectionSphere;
     
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubobjectPtr<UPointLightComponent> Light;
+
     //Boolean which contains sprinting state (false / true)
     bool IsSprinting;
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
     
-	//virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) OVERRIDE;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)
 	void equipPistol();
@@ -79,12 +114,19 @@ protected:
 	void EndUse();
 
     /** Called for aim input */
+    /** This function needs to be reviewed, doesn't work somehow */
+    //void PerformCameraShake();
+    
+    /** Called for start aim input */
     void StartAim();
     void EndAim();
     
     /** Called for sprint input */
     void StartSprint();
     void EndSprint();
+    
+    /** Calculates stamina of character*/
+    void CalcStamina();
 
 	/** Called for forwards/backward input */
 	void MoveForward(float Value);
@@ -113,6 +155,7 @@ protected:
 	void reload();
 
 protected:
+
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface

@@ -3,16 +3,23 @@
 #pragma once
 
 #include "GameFramework/Character.h"
-#include "AI_Ghost.generated.h"
+#include "AI_WalkingEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_Ghost : public ACharacter
+class MOONSHINEWORKS_API AAI_WalkingEnemy : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(EditAnywhere, Category = Behavior)
 	class UBehaviorTree* Behavior;
+
+
+public:
+
+	void StartSprint();
+
+	void StartWalk();
 };
