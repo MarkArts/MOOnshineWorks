@@ -1,0 +1,41 @@
+LEES DIT EERST!!
+
+VOEG HIER JE OBJECT TOE EN OF ER BUGS ZIJN OFZO
+DIT IS DE MAP WAAR ENKEL DE BESTANDEN STAAN DIE KLAAR ZIJN OM
+INGELADEN TE WORDEN!
+
+IMPORT STATUS OF OBJECTS:
+
+BOEKEN KAST:
+GOOD*
+*achterkant ontbreekt en is dus doorzichtig
+
+BOEKEN STAPEL:
+GOOD
+
+SCHILDERIJ:
+GOOD*
+*soms worden de kleuren gefucked met flikkeringen
+
+GUN:
+GOOD
+
+CANDLE:
+GOOD
+animation moet naar gekeken worden
+
+BATTERY:
+GOOD
+moet ingekleurd worden
+
+TAFEL LAMB:
+GOOD
+moet ingekleurd worden
+
+SOFA:
+GOOD
+
+
+
+
+
