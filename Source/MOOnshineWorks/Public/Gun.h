@@ -15,40 +15,40 @@ class MOONSHINEWORKS_API AGun : public AItem
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float magazineCapacity;
+	float MagazineCapacity;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float magazineLoadCount;
+	float MagazineLoadCount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float damageValue;
+	float DamageValue;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float reloadTime;
+	float ReloadTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float spreadAngle;
+	float SpreadAngle;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
-	bool reloading;
+	bool Reloading;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
-	TSubobjectPtr<UStaticMeshComponent> gunMesh;
+	TSubobjectPtr<UStaticMeshComponent> GunMesh;
 
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
-	TSubclassOf<class AProjectile> projectileClass;
+	TSubclassOf<class AProjectile> ProjectileClass;
 
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
-	FVector gunOffset;
+	FVector GunOffset;
 
 	virtual void Use() override;
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
-	FRotator getBulletAngle();
+	FRotator GetBulletAngle();
 
-	UFUNCTION(BlueprintNativeEvent)
-	void onReload();
+	UFUNCTION(BlueprintNativeEvent, Category = Gun)
+	void OnReload();
 
-	UFUNCTION()
-	void reload();
+	UFUNCTION(BlueprintCallable, Category = Gun)
+	void Reload();
 };

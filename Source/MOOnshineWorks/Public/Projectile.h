@@ -18,11 +18,14 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 	TSubobjectPtr<class USphereComponent> CollisionComp;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
-	TSubobjectPtr<UStaticMeshComponent> projectileMesh;
+	TSubobjectPtr<UStaticMeshComponent> ProjectileMesh;
 
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Movement)
 	TSubobjectPtr<class UProjectileMovementComponent> ProjectileMovement;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
+	float DamageValue;
 
 	/** called when projectile hits something */
 	UFUNCTION()

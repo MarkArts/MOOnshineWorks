@@ -7,18 +7,18 @@
 APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	name = "Pistol";
-	id = 14.f;
+	Name = "Pistol";
+	Id = 14.f;
 
 	static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
-	projectileClass = BP_Projectile.Class;
+	ProjectileClass = BP_Projectile.Class;
 
-	magazineCapacity = 15.f;
-	magazineLoadCount = magazineCapacity;
-	damageValue = 5.f;
-	reloadTime = 2.f;
-	spreadAngle = 0.f;
-	reloading = false;
+	MagazineCapacity = 15.f;
+	MagazineLoadCount = MagazineCapacity;
+	DamageValue = 5.f;
+	ReloadTime = 2.f;
+	SpreadAngle = 0.f;
+	Reloading = false;
 }
 
 

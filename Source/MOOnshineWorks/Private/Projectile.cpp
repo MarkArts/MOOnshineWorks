@@ -14,8 +14,8 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	CollisionComp->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blocking
 	RootComponent = CollisionComp;
 
-	projectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
-	projectileMesh->AttachTo(RootComponent);
+	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
+	ProjectileMesh->AttachTo(RootComponent);
 
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
@@ -35,9 +35,9 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 {
 //	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
 	// Only add impulse and destroy projectile if we hit a physics
-	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL) && OtherComp->IsSimulatingPhysics())
+	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL))
 	{
-		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
+		
 	}
 	Destroy();
 }

@@ -14,11 +14,15 @@ class MOONSHINEWORKS_API AItem : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
-	FString name;
+	FString Name;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
-	float id;
+	float Id;
 	
+	UFUNCTION(BlueprintNativeEvent, Category = Item)
+	void OnUse();
+
 	UFUNCTION(BlueprintCallable, Category = Item)
 	virtual void Use();
+
 };

@@ -7,64 +7,66 @@
 AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	gunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
-	RootComponent = gunMesh;
+	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
+	RootComponent = GunMesh;
 
-	gunOffset = FVector(0.f, 0.f, 100.f);
+	GunOffset = FVector(0.f, 0.f, 100.f);
 }
 
-FRotator AGun::getBulletAngle()
+FRotator AGun::GetBulletAngle()
 {
-	FRotator bulletAngle = gunMesh->GetComponentRotation();
-	float randomRoll = FMath::Rand() * 360.f;
-	float randomYaw = FMath::Rand() * spreadAngle * 2;
-	randomYaw -= spreadAngle;
-	bulletAngle.Roll += randomRoll;
-	bulletAngle.Yaw = randomYaw;
+	FRotator BulletAngle = GunMesh->GetComponentRotation();
+	float RandomRoll = FMath::Rand() * 360.f;
+	float RandomYaw = FMath::Rand() * SpreadAngle * 2;
+	RandomYaw -= SpreadAngle;
+	BulletAngle.Roll += RandomRoll;
+	BulletAngle.Yaw = RandomYaw;
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("angleshizzle"));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(bulletAngle.Roll));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(bulletAngle.Yaw));
-	return bulletAngle;
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BulletAngle.Roll));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BulletAngle.Yaw));
+	return BulletAngle;
 }
 
 void AGun::Use()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pew1"));
-	if (magazineLoadCount > 0)
+	if (MagazineLoadCount > 0)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pew2"));
-		magazineLoadCount--;
-		UWorld* const world = GetWorld();
+		MagazineLoadCount--;
+		UWorld* const World = GetWorld();
 		FVector SpawnLocation = GetActorLocation() + FVector(100.f, 100.f, 100.f);
 
-		if (world != NULL)
+		if (World != NULL)
 		{
 			// spawn the projectile at the muzzle
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("pew3"));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[0]));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[1]));
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(SpawnLocation[2]));
-			world->SpawnActor<AProjectile>(projectileClass, SpawnLocation, getBulletAngle());
+			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle());
+			Projectile->DamageValue = DamageValue;
+			Super::Use();
 		}
 	}
 	else
 	{
-		reload();
+		Reload();
 	}
 }
 
-void AGun::onReload_Implementation()
+void AGun::OnReload_Implementation()
 {
 	
 }
 
-void AGun::reload()
+void AGun::Reload()
 {
-	reloading = true;
+	Reloading = true;
+	OnReload();
 	//delay
-	magazineLoadCount = magazineCapacity;
+	MagazineLoadCount = MagazineCapacity;
 
-	reloading = false;
-	onReload();
+	Reloading = false
 }
