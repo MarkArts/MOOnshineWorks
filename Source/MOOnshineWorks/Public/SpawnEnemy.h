@@ -21,4 +21,6 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TSubclassOf<AAI_BarrelEnemy> EnemyClass;
+
+	class UBehaviorTree * BehaviorTree;
 };

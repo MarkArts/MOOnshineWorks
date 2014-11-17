@@ -27,11 +27,32 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 void ASpawnEnemy::SpawnRandomEnemy()
 {
 	//UWorld* const World = GetWorld();
+	APawn* NewPawn = NULL;
 	FVector BoxOnWorld = GetActorLocation();
 	FRotator RotatorBoxOnWorld = GetActorRotation();
 //	if (World)
 //	{
-		AAI_BarrelEnemy* enemy = GetWorld()->SpawnActor<AAI_BarrelEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+		//AAI_BarrelEnemy* enemy = GetWorld()->SpawnActor<AAI_BarrelEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+
+	if (GetWorld())
+	{
+		NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+		if (NewPawn != NULL)
+		{
+			if (NewPawn->Controller == NULL)
+			{
+				NewPawn->SpawnDefaultController();
+			}
+			if (BehaviorTree != NULL)
+			{
+				AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+				if (AIController != NULL)
+				{
+					AIController->RunBehaviorTree(BehaviorTree);
+				}
+			}
+		}
+	}
 
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
