@@ -116,6 +116,8 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		activeItem->AttachRootComponentToActor(this, "head");
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
+	
+	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////
