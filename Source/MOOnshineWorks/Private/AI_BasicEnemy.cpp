@@ -26,3 +26,4 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
+
