@@ -20,7 +20,18 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 			EnemyClass = PlayerPawnBPClass.Class;
 		}
 	}
+	Time = 4.f;
+}
 
+void ASpawnEnemy::ReceiveBeginPlay()
+{
+	Super::ReceiveBeginPlay();
+	SetTime(Time);
+}
+
+void ASpawnEnemy::SetTime(float Time)
+{
+	GetWorld()->GetTimerManager().SetTimer(this, &ASpawnEnemy::SpawnRandomEnemy, Time, true);
 }
 
 

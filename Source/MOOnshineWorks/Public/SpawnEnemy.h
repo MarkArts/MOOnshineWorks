@@ -23,4 +23,13 @@ public:
 	TSubclassOf<AAI_BarrelEnemy> EnemyClass;
 
 	class UBehaviorTree * BehaviorTree;
+
+	void SetTime(float Time);
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	float Time;
+
+protected:
+
+	virtual void ReceiveBeginPlay() override;
 };
