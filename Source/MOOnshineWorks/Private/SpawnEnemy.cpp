@@ -23,12 +23,6 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	Time = 4.f;
 }
 
-void ASpawnEnemy::ReceiveBeginPlay()
-{
-	Super::ReceiveBeginPlay();
-	SetTime(Time);
-}
-
 void ASpawnEnemy::SetTime(float Time)
 {
 	GetWorld()->GetTimerManager().SetTimer(this, &ASpawnEnemy::SpawnRandomEnemy, Time, true);
@@ -36,6 +30,8 @@ void ASpawnEnemy::SetTime(float Time)
 
 void ASpawnEnemy::ReceiveBeginPlay()
 {
+	Super::ReceiveBeginPlay();
+	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
 	EnemyClass = GameMode->BlueprintContainer->AI_BarrelEnemy;
 }
