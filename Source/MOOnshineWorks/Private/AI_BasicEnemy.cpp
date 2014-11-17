@@ -27,6 +27,7 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
+<<<<<<< HEAD
 void AAI_BasicEnemy::DealDamage(float Damage)
 {
 	float FinalDamage = Damage - Defense;
@@ -39,3 +40,6 @@ void AAI_BasicEnemy::DealDamage(float Damage)
 		Destroy();
 	}
 }
+=======
+
+>>>>>>> origin/Develop
