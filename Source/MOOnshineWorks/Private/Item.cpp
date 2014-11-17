@@ -17,6 +17,5 @@ void AItem::OnUse_Implementation()
 
 void AItem::Use()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activate"));
 	OnUse();
 }

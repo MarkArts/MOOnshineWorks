@@ -10,8 +10,8 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	// Use a sphere as a simple collision representation
 	CollisionComp = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(5.0f);
-	CollisionComp->BodyInstance.SetCollisionProfileName("Projectile");			// Collision profiles are defined in DefaultEngine.ini
-	CollisionComp->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blocking
+	CollisionComp->BodyInstance.SetCollisionProfileName("BlockAll");			// Collision profiles are defined in DefaultEngine.ini
+	CollisionComp->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blockin
 	RootComponent = CollisionComp;
 
 	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
@@ -33,11 +33,19 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL))
 	{
-		
+		if (OtherActor->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, OtherActor->GetName());
+			AAI_BasicEnemy* TargetEnemy = Cast<AAI_BasicEnemy>(OtherActor);
+			if (TargetEnemy)
+			{
+				TargetEnemy->DealDamage(DamageValue);
+			}
+		}
 	}
 	Destroy();
 }

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "AI_BasicEnemy.h"
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
