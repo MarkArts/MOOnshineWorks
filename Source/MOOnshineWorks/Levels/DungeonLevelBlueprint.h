@@ -20,7 +20,6 @@ class MOONSHINEWORKS_API ADungeonLevelBlueprint : public ALevelScriptActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Moonshine)
 	FString CurrentLevel;
 
-
 	//===========
 	// BP Nodes
 	//===========
@@ -29,18 +28,17 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
 	void LoadLevel(FName TargetLevel, FString UniqueName);
 
+	ULevelStreaming* CreateLevelInstance(ULevelStreaming* level, FString& InstanceUniqueName);
+
 	//OVERRIDES
 protected:
 
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
-	void UnloadCurrentLevel();
+	void UnloadCurrentLevel(FLatentActionInfo LatentAction);
 
 	virtual void ReceiveBeginPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-
-	//TICK
-protected:
 
 	//Tick
 	virtual void Tick(float DeltaSeconds) override;
