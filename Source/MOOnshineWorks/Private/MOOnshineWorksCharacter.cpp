@@ -79,7 +79,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
-	CharacterMovement->bOrientRotationToMovement = false; // Character moves in the direction of input...	
+	CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	CharacterMovement->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	CharacterMovement->JumpZVelocity = 600.f;
 	CharacterMovement->AirControl = 0.2f;
@@ -116,6 +116,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		activeItem->AttachRootComponentToActor(this, "head");
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
+	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "MOOnshineWorksGameMode.h"
+#include "BlueprintLoader.h"
 #include "AI_BarrelEnemy.h"
 #include "SpawnEnemy.generated.h"
 
@@ -23,4 +25,6 @@ public:
 	TSubclassOf<AAI_BarrelEnemy> EnemyClass;
 
 	class UBehaviorTree * BehaviorTree;
+protected:
+	virtual void ReceiveBeginPlay() override;
 };

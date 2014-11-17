@@ -7,22 +7,27 @@
 #include "AI_BarrelController.h"
 #include "SpawnEnemy.h"
 
-
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 
-	if (EnemyClass == NULL){
+	/*if (EnemyClass == NULL){
+		
 		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
 
 		if (PlayerPawnBPClass.Class != NULL)
 		{
 			EnemyClass = PlayerPawnBPClass.Class;
 		}
-	}
+	}*/
 
 }
 
+void ASpawnEnemy::ReceiveBeginPlay()
+{
+	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
+	EnemyClass = GameMode->BlueprintContainer->AI_BarrelEnemy;
+}
 
 void ASpawnEnemy::SpawnRandomEnemy()
 {
