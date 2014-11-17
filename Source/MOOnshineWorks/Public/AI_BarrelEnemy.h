@@ -17,4 +17,5 @@ class MOONSHINEWORKS_API AAI_BarrelEnemy : public AAI_BasicEnemy
 
 	//UPROPERTY(EditAnywhere, Category = Behavior)
 	//class UBehaviorTree* Behavior;
+
 };

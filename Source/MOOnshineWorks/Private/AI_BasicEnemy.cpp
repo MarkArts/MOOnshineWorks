@@ -7,7 +7,8 @@
 AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	//AIControllerClass = AAI_BasicEnemy::StaticClass();
+	AIControllerClass = AAI_BasicEnemy::StaticClass();
+	CharacterMovement->AirControl = 0.2f;
 }
 
 void AAI_BasicEnemy::StartSprint()
@@ -19,4 +20,5 @@ void AAI_BasicEnemy::StartWalk()
 {
 	CharacterMovement->MaxWalkSpeed = 100;
 }
+
 

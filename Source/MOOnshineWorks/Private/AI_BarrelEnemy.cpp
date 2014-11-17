@@ -9,4 +9,6 @@ AAI_BarrelEnemy::AAI_BarrelEnemy(const class FPostConstructInitializeProperties&
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_BarrelController::StaticClass();
+//	static ConstructorHelpers::FClassFinder<UBehaviorTree> tree(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/BarrelBrainTree"));
+//	Behavior = tree.Class.GetDefaultObject();
 }
