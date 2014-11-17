@@ -5,17 +5,13 @@
 #include "GameFramework/Character.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
-#include "AI_BookEnemy.generated.h"
+#include "AI_BookEnemyLight.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_BookEnemy : public AAI_BasicEnemy
+class MOONSHINEWORKS_API AAI_BookEnemyLight : public AAI_BasicEnemy
 {
-	GENERATED_UCLASS_BODY()
-
-	//UPROPERTY(EditAnywhere, Category = Behavior)
-	//class UBehaviorTree* Behavior;
-	
+	GENERATED_UCLASS_BODY()	
 };

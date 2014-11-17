@@ -4,7 +4,6 @@
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.h"
 
-
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
@@ -23,6 +22,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
 		EnemyDistance = BlackboardComp->GetKeyID("EnemyDistance");
 		SetPatrolRoute = BlackboardComp->GetKeyID("PatrolTo");
+		WhereShouldAIPatrolTo = BlackboardComp->GetKeyID("WhereShouldAIPatrolTo");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -57,6 +57,7 @@ void AAI_BasicController::SearchForEnemy()
 	if (BestPawn)
 	{
 		BlackboardComp->SetValueAsFloat(EnemyDistance, BestDistSq);
+		//BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, BestDistSq);
 		SetEnemy(BestPawn);
 	}
 }
