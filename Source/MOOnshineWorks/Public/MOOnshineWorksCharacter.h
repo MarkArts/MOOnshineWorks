@@ -94,7 +94,7 @@ class AMOOnshineWorksCharacter : public ACharacter
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
     
-	virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)
 	void equipPistol();

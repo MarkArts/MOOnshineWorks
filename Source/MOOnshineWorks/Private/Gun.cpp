@@ -68,5 +68,5 @@ void AGun::Reload()
 	//delay
 	MagazineLoadCount = MagazineCapacity;
 
-	Reloading = false
+	Reloading = false;
 }

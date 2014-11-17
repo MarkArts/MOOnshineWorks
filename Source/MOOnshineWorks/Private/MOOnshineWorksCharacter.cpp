@@ -20,7 +20,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     BaseHealth = 100.f;
     //set base mana
     BaseMana = 0.f;
->>>>>>> origin/Develop
 	//set currentHealth at 3
 	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
@@ -103,6 +102,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const world = GetWorld();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
 		FActorSpawnParameters spawnParams;
