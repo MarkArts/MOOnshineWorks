@@ -36,7 +36,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	const TCHAR* Delims[] = { TEXT(":"), TEXT(";") };
 
 	float RandomNumber = (float)rand() / (float)RAND_MAX;
-	int SetNumber = 0 + RandomNumber * (Enemies.Num());
+	int SetNumber = RandomNumber * (Enemies.Num());
 
 	Enemies[SetNumber].ParseIntoArray(&Parsed, Delims, 2);
 
