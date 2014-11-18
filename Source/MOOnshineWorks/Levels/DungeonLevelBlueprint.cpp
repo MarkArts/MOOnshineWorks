@@ -87,7 +87,7 @@ ULevelStreaming* ADungeonLevelBlueprint::CreateLevelInstance(ULevelStreaming* le
 }
 void ADungeonLevelBlueprint::UnloadCurrentLevel(FLatentActionInfo LatentAction)
 {
-	if (CurrentLevel != FString("") )
+	if (!CurrentLevel.IsEmpty())
 	{
 		UGameplayStatics::UnloadStreamLevel(GetWorld(), FName(*CurrentLevel), LatentAction);
 	}
