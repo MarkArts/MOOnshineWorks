@@ -12,21 +12,17 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 	// set default pawn class to our Blueprinted character
 
 	if (GetWorld()){
-		BlueprintContainer = new BlueprintLoader();
+
 		ABaseLevelScriptActor* level = (ABaseLevelScriptActor*)GetWorld()->GetLevelScriptActor();
 		if (level){
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, (*level).LevelName);
 
-			/*static ConstructorHelpers::FClassFinder<APawn> PlayerPawnBPClass(TEXT("/Game/Blueprints/MyCharacter"));
-			if (PlayerPawnBPClass.Class != NULL)
-			{
-					DefaultPawnClass = PlayerPawnBPClass.Class;
-			}*/
-			//DefaultPawnClass = BlueprintContainer->MOOnshineWorksCharacter;
+			DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 
 			Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
 			Socket->start("MarksSocket", "127.0.0.1", 4243);
 
 		}
+
 	}
 }

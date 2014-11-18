@@ -56,7 +56,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CollectionSphere->SetSphereRadius(200.f);
 
 	// setup light
-	
 	DimSpeed = 0.05f;
 	MaxRadius = 2000.f;
 	LightPercentage = 1.0f;

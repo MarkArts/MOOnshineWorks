@@ -23,8 +23,9 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 void APistol::ReceiveBeginPlay()
 {
-	//AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-	//ProjectileClass = GameMode->BlueprintContainer->ProjectileClass;
-	//Super::ReceiveBeginPlay();
+	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
+
+	ProjectileClass =  TSubclassOf<AProjectile>(*(BlueprintLoader::Get().GetBP("BP_Projectile")));
+	Super::ReceiveBeginPlay();
 }
 
