@@ -12,6 +12,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 {
 
 	Time = 4.f;
+	Enemies.Add("2:BarrelEnemy;2:BookEnemy");
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -34,7 +35,10 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	TArray<FString> TypeEnemy;
 	const TCHAR* Delims[] = { TEXT(":"), TEXT(";") };
 
-	Enemies[0].ParseIntoArray(&Parsed, Delims, 2);
+	float RandomNumber = (float)rand() / (float)RAND_MAX;
+	int SetNumber = 0 + RandomNumber * (Enemies.Num());
+
+	Enemies[SetNumber].ParseIntoArray(&Parsed, Delims, 2);
 
 	int SizeOfArrayParsed = Parsed.Num() - 1;
 
@@ -49,6 +53,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(HowMuch[Itr.GetIndex()]));
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TypeEnemy[Itr.GetIndex()]));
 	}
+
 
 	APawn* NewPawn = NULL;
 	FVector BoxOnWorld = GetActorLocation();
