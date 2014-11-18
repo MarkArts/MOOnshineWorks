@@ -6,6 +6,7 @@
 #include "AI_BarrelEnemy.h"
 #include "AI_BarrelController.h"
 #include "SpawnEnemy.h"
+#include <sstream>
 
 
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
@@ -21,6 +22,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 		}
 	}
 	Time = 4.f;
+	Enemies = "Not Set";
 }
 
 void ASpawnEnemy::ReceiveBeginPlay()
@@ -37,13 +39,15 @@ void ASpawnEnemy::SetTime(float Time)
 
 void ASpawnEnemy::SpawnRandomEnemy()
 {
-	//UWorld* const World = GetWorld();
+	TArray<FString> Parsed;
+	Enemies.ParseIntoArray(&Parsed, TEXT(";"), false);
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(Parsed[0]));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(Parsed[1]));
+
 	APawn* NewPawn = NULL;
 	FVector BoxOnWorld = GetActorLocation();
 	FRotator RotatorBoxOnWorld = GetActorRotation();
-//	if (World)
-//	{
-		//AAI_BarrelEnemy* enemy = GetWorld()->SpawnActor<AAI_BarrelEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
 
 	if (GetWorld())
 	{
@@ -65,8 +69,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		}
 	}
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
-//	}
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
 }
 

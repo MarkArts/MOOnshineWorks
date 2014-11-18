@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "AI_BarrelEnemy.h"
+#include <sstream>
 #include "SpawnEnemy.generated.h"
 
 /**
@@ -28,6 +29,9 @@ public:
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Time;
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	FString Enemies;
 
 protected:
 
