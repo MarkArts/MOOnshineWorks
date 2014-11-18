@@ -13,8 +13,14 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+<<<<<<< HEAD
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
+=======
+
+	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
+	PistolClass = BP_Pistol.Class;
+>>>>>>> origin/Develop
 
     //set base health
     BaseHealth = 100.f;
@@ -101,6 +107,26 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
 }
 
+void AMOOnshineWorksCharacter::ReceiveBeginPlay()
+{
+	UWorld* const world = GetWorld();
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+	if (world)
+	{
+		FActorSpawnParameters spawnParams;
+		spawnParams.Owner = this;
+		spawnParams.bNoCollisionFail = false;
+
+		activeItem = world->SpawnActor<APistol>(PistolClass, spawnParams);
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
+		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentToActor(this, "head");
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+	Super::ReceiveBeginPlay();
+}
+
 //////////////////////////////////////////////////////////////////////////
 // Input
 
@@ -113,8 +139,11 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
+	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
+	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
+	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -148,6 +177,19 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 	{
 		StopJumping();
 	}
+}
+
+void AMOOnshineWorksCharacter::StartUse()
+{
+	if (activeItem)
+	{
+		activeItem->Use();
+	}
+}
+
+void AMOOnshineWorksCharacter::EndUse()
+{
+
 }
 
 void AMOOnshineWorksCharacter::StartAim()
@@ -274,6 +316,47 @@ void AMOOnshineWorksCharacter::CollectItems()
 		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
 		ManaUp(ManaValue);
 	}
+}
+
+void AMOOnshineWorksCharacter::equipPistol()
+{
+	if (activeItem)
+	{
+		//activeItem->GetRootComponent()->AttachTo(RootComponent);
+		//Mesh->GetSocketByName("hand_rSocket")->AttachActor(activeItem, Mesh);
+		activeItem->GetRootComponent()->AttachParent = Mesh;
+		activeItem->GetRootComponent()->AttachSocketName = FName(TEXT("hand_rSocket"));
+		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
+		activeItem->SetActorRotation(FRotator::ZeroRotator);
+		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+	}
+}
+/*
+void AMOOnshineWorksCharacter::useActiveItem()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("getting into activating"));
+	if (activeItem)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("activating"));
+		activeItem->activate(GetControlRotation());
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
+	}
+} */
+
+void AMOOnshineWorksCharacter::reload()
+{
+	/*if (&activeItem != NULL)
+	{
+		AGun* gun = Cast<AGun>(activeItem);
+		if (gun)
+		{
+			gun->reload();
+		}
+	}*/
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()

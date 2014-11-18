@@ -52,8 +52,13 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
+<<<<<<< HEAD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AIStats)
 	int32 LightType;
+=======
+	UFUNCTION(BlueprintCallable, Category = AIStats)
+	void DealDamage(float Damage);
+>>>>>>> origin/Develop
 };
 
 enum EnemyLightType {

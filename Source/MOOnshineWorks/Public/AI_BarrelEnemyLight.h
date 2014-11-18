@@ -15,6 +15,12 @@ class MOONSHINEWORKS_API AAI_BarrelEnemyLight : public AAI_BasicEnemy
 {
 	GENERATED_UCLASS_BODY()
 
+<<<<<<< HEAD:Source/MOOnshineWorks/Public/AI_BarrelEnemyLight.h
 		//UPROPERTY(EditAnywhere, Category = Behavior)
 		//class UBehaviorTree* Behavior;
+=======
+	//UPROPERTY(EditAnywhere, Category = Behavior)
+	//class UBehaviorTree* Behavior;
+
+>>>>>>> origin/Develop:Source/MOOnshineWorks/Public/AI_BarrelEnemy.h
 };

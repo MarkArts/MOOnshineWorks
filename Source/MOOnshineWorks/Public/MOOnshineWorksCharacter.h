@@ -1,5 +1,9 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
+
+#include "Item.h"
+#include "Gun.h"
+#include "Pistol.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -9,9 +13,17 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+<<<<<<< HEAD
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
+=======
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
+	AItem* activeItem;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
+	TSubclassOf<APistol> PistolClass;
+>>>>>>> origin/Develop
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -93,7 +105,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
     
-	virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION(BlueprintCallable, Category = Pistol)
+	void equipPistol();
 
 protected:
 
@@ -105,19 +120,20 @@ protected:
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void CollectItems();
     
+	/** Called for useItem input */
+	void StartUse();
+	void EndUse();
+
+    /** Called for aim input */
     /** This function needs to be reviewed, doesn't work somehow */
     //void PerformCameraShake();
     
     /** Called for start aim input */
     void StartAim();
-    
-    /** Called for end aim input */
     void EndAim();
     
-    /** Called for start sprint input */
+    /** Called for sprint input */
     void StartSprint();
-    
-    /** Called for end sprint input */
     void EndSprint();
     
     /** Calculates stamina of character*/
@@ -147,8 +163,15 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
+	void reload();
+
+protected:
+
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 	// End of APawn interface
+
+	virtual void ReceiveBeginPlay() override;
+
 };
 

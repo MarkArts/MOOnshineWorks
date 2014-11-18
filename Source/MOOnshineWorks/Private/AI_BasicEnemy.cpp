@@ -47,8 +47,21 @@ void AAI_BasicEnemy::StartWalk()
 {
 	CharacterMovement->MaxWalkSpeed = 100;
 }
+
 void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
+void AAI_BasicEnemy::DealDamage(float Damage)
+{
+	float FinalDamage = Damage - Defense;
+	if (FinalDamage > 0)
+	{
+		Health -= FinalDamage;
+	}
+	if (Health < 0)
+	{
+		Destroy();
+	}
+}

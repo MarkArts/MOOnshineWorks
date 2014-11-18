@@ -14,6 +14,9 @@ class MOONSHINEWORKS_API ALevelSwitcher : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Moonshine)
+	bool IsActive;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Moonshine)
 	FName TargetLevel;
 
 public:
