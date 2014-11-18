@@ -20,20 +20,14 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
-	ProjectileMovement->InitialSpeed = 200.f;
-	ProjectileMovement->MaxSpeed = 200.f;
-	ProjectileMovement->bRotationFollowsVelocity = true;
-	ProjectileMovement->bShouldBounce = false;
-	ProjectileMovement->ProjectileGravityScale = 0;
-//	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("projectile made"));
+
 	// Die after 10 seconds by default
-	InitialLifeSpan = 10.0f;
+	InitialLifeSpan = 10.f;
 }
 
 
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("hitting!"));
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL))
 	{
@@ -44,8 +38,12 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 			if (TargetEnemy)
 			{
 				TargetEnemy->DealDamage(DamageValue);
+				Destroy();
 			}
 		}
 	}
-	Destroy();
+
+	if (!ProjectileMovement->bShouldBounce){
+		Destroy();
+	}
 }

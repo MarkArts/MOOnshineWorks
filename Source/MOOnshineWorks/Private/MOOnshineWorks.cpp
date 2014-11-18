@@ -2,6 +2,5 @@
 
 #include "MOOnshineWorks.h"
 
-
 IMPLEMENT_PRIMARY_GAME_MODULE( FDefaultGameModuleImpl, MOOnshineWorks, "MOOnshineWorks" );
  

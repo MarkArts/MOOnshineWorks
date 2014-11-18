@@ -8,27 +8,21 @@
 #include "SpawnEnemy.h"
 #include <sstream>
 
-
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 
-	if (EnemyClass == NULL){
+	/*if (EnemyClass == NULL){
+		
 		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
 
 		if (PlayerPawnBPClass.Class != NULL)
 		{
 			EnemyClass = PlayerPawnBPClass.Class;
 		}
-	}
+	}*/
 	Time = 4.f;
 	Enemies = "Not Set";
-}
-
-void ASpawnEnemy::ReceiveBeginPlay()
-{
-	Super::ReceiveBeginPlay();
-	SetTime(Time);
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -36,6 +30,13 @@ void ASpawnEnemy::SetTime(float Time)
 	GetWorld()->GetTimerManager().SetTimer(this, &ASpawnEnemy::SpawnRandomEnemy, Time, true);
 }
 
+void ASpawnEnemy::ReceiveBeginPlay()
+{
+	Super::ReceiveBeginPlay();
+	SetTime(Time);
+	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
+	EnemyClass = GameMode->BlueprintContainer->AI_BarrelEnemy;
+}
 
 void ASpawnEnemy::SpawnRandomEnemy()
 {

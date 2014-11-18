@@ -10,8 +10,8 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Pistol";
 	Id = 14.f;
 
-	static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
-	ProjectileClass = BP_Projectile.Class;
+	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
+	ProjectileClass = BP_Projectile.Class;*/
 
 	MagazineCapacity = 15.f;
 	MagazineLoadCount = MagazineCapacity;
@@ -21,4 +21,10 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	Reloading = false;
 }
 
+void APistol::ReceiveBeginPlay()
+{
+	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
+	ProjectileClass = GameMode->BlueprintContainer->ProjectileClass;
+	Super::ReceiveBeginPlay();
+}
 
