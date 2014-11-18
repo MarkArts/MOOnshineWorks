@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "MOOnshineWorksGameMode.h"
+#include "BlueprintLoader.h"
 #include "AI_BarrelEnemy.h"
 #include <sstream>
 #include "SpawnEnemy.generated.h"
@@ -25,13 +27,15 @@ public:
 
 	class UBehaviorTree * BehaviorTree;
 
+protected:
+
 	void SetTime(float Time);
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Time;
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
-	FString Enemies;
+	TArray<FString> Enemies;
 
 protected:
 

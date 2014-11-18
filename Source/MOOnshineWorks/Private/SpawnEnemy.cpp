@@ -6,23 +6,12 @@
 #include "AI_BarrelEnemy.h"
 #include "AI_BarrelController.h"
 #include "SpawnEnemy.h"
-#include <sstream>
 
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 
-	/*if (EnemyClass == NULL){
-		
-		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
-
-		if (PlayerPawnBPClass.Class != NULL)
-		{
-			EnemyClass = PlayerPawnBPClass.Class;
-		}
-	}*/
 	Time = 4.f;
-	Enemies = "Not Set";
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -41,10 +30,25 @@ void ASpawnEnemy::ReceiveBeginPlay()
 void ASpawnEnemy::SpawnRandomEnemy()
 {
 	TArray<FString> Parsed;
-	Enemies.ParseIntoArray(&Parsed, TEXT(";"), false);
+	TArray<FString> HowMuch;
+	TArray<FString> TypeEnemy;
+	const TCHAR* Delims[] = { TEXT(":"), TEXT(";") };
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(Parsed[0]));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(Parsed[1]));
+	Enemies[0].ParseIntoArray(&Parsed, Delims, 2);
+
+	int SizeOfArrayParsed = Parsed.Num() - 1;
+
+	for (int x = 0; x <= SizeOfArrayParsed; x = x + 2) {
+		HowMuch.Add(Parsed[x]);
+	}
+	for (int x = 1; x <= SizeOfArrayParsed; x = x + 2) {
+		TypeEnemy.Add(Parsed[x]);
+	}
+
+	for (auto Itr(HowMuch.CreateIterator()); Itr; Itr++) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(HowMuch[Itr.GetIndex()]));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TypeEnemy[Itr.GetIndex()]));
+	}
 
 	APawn* NewPawn = NULL;
 	FVector BoxOnWorld = GetActorLocation();
