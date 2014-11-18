@@ -25,7 +25,7 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	Super::ReceiveBeginPlay();
 	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-	EnemyClass = GameMode->BlueprintContainer->AI_BarrelEnemy;
+	EnemyClass = TSubclassOf<AAI_BarrelEnemy>( *(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy")) ) );
 }
 
 void ASpawnEnemy::SpawnRandomEnemy()
