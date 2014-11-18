@@ -6,7 +6,6 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
-#include "AI_BasicEnemy.h"
 #include "AI_BasicController.generated.h"
 
 /**
@@ -17,6 +16,7 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 {
 	GENERATED_UCLASS_BODY()
 
+public:
 	UPROPERTY(transient)
 	TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
 
@@ -28,11 +28,27 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 
 	void SetEnemy(class APawn *InPawn);
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void SetOriginalPosition();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void ChangeAIDarkLight(bool DarkLight);
+
 	virtual void Possess(class APawn *InPawn);
+
+	virtual void Tick(float DeltaSeconds) OVERRIDE;
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void FoundPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void LostPlayer();
 
 	uint8 EnemyKeyID;				//Object
 	uint8 EnemyLocationID;			//Vector
 	uint8 EnemyDistance;			//Float
 	uint8 SetPatrolRoute;			//Vector
 	uint8 WhereShouldAIPatrolTo;    //Float
+	uint8 OriginalPosition;			//Vector
+	uint8 GotEnemyAsTarget;			//Bool
 };

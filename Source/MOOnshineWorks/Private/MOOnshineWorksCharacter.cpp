@@ -5,6 +5,7 @@
 #include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
 #include "ChestPickup.h"
+#include "AI_BasicController.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
@@ -12,6 +13,9 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	/** Make Character able to produce sound */
+	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
+
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -32,6 +36,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Aim toggle
     IsAiming = false;
+	//AI starts Dark
+	DarkLight = true;
 
     //Set camera values
     baseCameraZoom = 250;
@@ -260,7 +266,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 			TestChest->bIsActive = false;
 			// Call the Chest's OnPickedUp function so destroy
 			TestChest->OnPickedUp();
-			printf("kom ik hier!");
 		}
 	}
 

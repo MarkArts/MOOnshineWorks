@@ -1,12 +1,17 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 #include "GameFramework/Character.h"
+#include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
 UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
+
+	/** Make Character able to produce sound */
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
+	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -39,6 +44,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     /* Characters current health */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentHealth;
+
+	/* AI Dark(true)/Light(false)*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	bool DarkLight;
 
 	/* Characters basespeed */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
