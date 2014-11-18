@@ -13,17 +13,15 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
-<<<<<<< HEAD
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
-=======
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
 	TSubclassOf<APistol> PistolClass;
->>>>>>> origin/Develop
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)

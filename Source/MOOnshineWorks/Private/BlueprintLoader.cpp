@@ -2,7 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "Projectile.h"
-#include "AI_BarrelEnemy.h"
+#include "AI_ClosetEnemyLight.h" 
 #include "BlueprintLoader.h"
 
 BlueprintLoader::BlueprintLoader()
@@ -22,14 +22,16 @@ BlueprintLoader::BlueprintLoader()
 	//add these lines to the c++ file and replace <FieldName> with the field you want
 	*/
 
+	/*
 	static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
 	ProjectileClass = BP_Projectile.Class;
 
-	static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> BP_AI_BarrelEnemy(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
-	AI_BarrelEnemy = BP_AI_BarrelEnemy.Class;
+	static ConstructorHelpers::FClassFinder<AAI_ClosetEnemyLight> BP_AI_ClosetEnemyLight(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
+	AI_ClosetEnemyLight = BP_AI_ClosetEnemyLight.Class;
 
 	static ConstructorHelpers::FClassFinder<APawn> BP_MOOnshineWorksCharacter(TEXT("/Game/Blueprints/MyCharacter"));
 	MOOnshineWorksCharacter = BP_MOOnshineWorksCharacter.Class;
+	*/
 }
 
 BlueprintLoader::~BlueprintLoader()

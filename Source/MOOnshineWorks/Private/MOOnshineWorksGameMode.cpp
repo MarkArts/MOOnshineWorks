@@ -22,7 +22,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 			{
 					DefaultPawnClass = PlayerPawnBPClass.Class;
 			}*/
-			DefaultPawnClass = BlueprintContainer->MOOnshineWorksCharacter;
+			//DefaultPawnClass = BlueprintContainer->MOOnshineWorksCharacter;
 
 			Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
 			Socket->start("MarksSocket", "127.0.0.1", 4243);

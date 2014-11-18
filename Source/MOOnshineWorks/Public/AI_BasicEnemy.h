@@ -27,15 +27,12 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void OnSeePawn(APawn *OtherPawn);
 
-
-
-
 	/** Health */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AIStats)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Health;
 
 	/** Defense */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AIStats)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Defense;
 
 	/** Speed */
@@ -52,13 +49,11 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
-<<<<<<< HEAD
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AIStats)
 	int32 LightType;
-=======
+
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float Damage);
->>>>>>> origin/Develop
 };
 
 enum EnemyLightType {

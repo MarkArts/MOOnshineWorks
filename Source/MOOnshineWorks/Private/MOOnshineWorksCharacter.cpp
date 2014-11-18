@@ -13,14 +13,11 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-<<<<<<< HEAD
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
-=======
 
 	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
 	PistolClass = BP_Pistol.Class;
->>>>>>> origin/Develop
 
     //set base health
     BaseHealth = 100.f;

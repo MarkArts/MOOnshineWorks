@@ -3,8 +3,8 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
-#include "AI_BarrelEnemy.h"
-#include "AI_BarrelController.h"
+#include "AI_ClosetEnemyLight.h"
+#include "AI_ClosetControllerLight.h"
 #include "SpawnEnemy.h"
 
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
@@ -13,7 +13,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 
 	/*if (EnemyClass == NULL){
 		
-		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
+		static ConstructorHelpers::FClassFinder<AAI_ClosetEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_ClosetEnemyLight"));
 
 		if (PlayerPawnBPClass.Class != NULL)
 		{
@@ -33,7 +33,7 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	Super::ReceiveBeginPlay();
 	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-	EnemyClass = GameMode->BlueprintContainer->AI_BarrelEnemy;
+	//EnemyClass = GameMode->BlueprintContainer->AI_ClosetEnemyLight;
 }
 
 void ASpawnEnemy::SpawnRandomEnemy()
@@ -44,7 +44,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	FRotator RotatorBoxOnWorld = GetActorRotation();
 //	if (World)
 //	{
-		//AAI_BarrelEnemy* enemy = GetWorld()->SpawnActor<AAI_BarrelEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+		//AAI_ClosetEnemyLight* enemy = GetWorld()->SpawnActor<AAI_ClosetEnemyLight>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
 
 	if (GetWorld())
 	{

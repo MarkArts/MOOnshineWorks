@@ -2,7 +2,7 @@
 
 #pragma once
 #include "Projectile.h"
-#include "AI_BarrelEnemy.h"
+#include "AI_ClosetEnemyLight.h"
 //#include "BlueprintLoader.generated.h"
 /**
  * 
@@ -10,9 +10,9 @@
 class MOONSHINEWORKS_API BlueprintLoader
 {
 public:
-	TSubclassOf<class AProjectile> ProjectileClass;
-	TSubclassOf<class AAI_BarrelEnemy> AI_BarrelEnemy;
-	TSubclassOf<class APawn> MOOnshineWorksCharacter;
+	//TSubclassOf<class AProjectile> ProjectileClass;
+	//TSubclassOf<class AAI_ClosetEnemyLight> AAI_ClosetEnemyLight;
+	//TSubclassOf<class APawn> MOOnshineWorksCharacter;
 
 	BlueprintLoader();
 	~BlueprintLoader();
