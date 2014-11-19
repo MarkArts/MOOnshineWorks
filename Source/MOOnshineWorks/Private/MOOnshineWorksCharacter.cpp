@@ -398,6 +398,15 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 	Light->SetAttenuationRadius(ATRadius);
 }
 
+void AMOOnshineWorksCharacter::DealDamage(float Damage)
+{
+	CurrentHealth -= Damage;
+	if (CurrentHealth < 0)
+	{
+		Destroy();
+	}
+}
+
 /* this function needs to be reviewed, doesn't work somehow
  void AMOOnshineWorksCharacter::PerformCameraShake()
  {

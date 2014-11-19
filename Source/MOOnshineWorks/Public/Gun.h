@@ -51,4 +51,6 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	UFUNCTION(BlueprintCallable, Category = Gun)
 	void Reload();
+
+	//FVector GetPlayerOrientation();
 };

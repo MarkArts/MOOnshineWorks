@@ -17,12 +17,8 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 FRotator AGun::GetBulletAngle()
 {
 	FRotator BulletAngle = GunMesh->GetComponentRotation();
-	/*float RandomRoll = FMath::Rand() * 360.f;
-	float RandomYaw = FMath::Rand() * SpreadAngle * 2;
-	RandomYaw -= SpreadAngle;
-	BulletAngle.Roll += RandomRoll;
-	BulletAngle.Yaw = RandomYaw;*/
-
+	BulletAngle.Pitch += (FMath::FRandRange(0,1) * SpreadAngle) - (SpreadAngle / 2);
+	BulletAngle.Roll += (FMath::FRand() * 360.f);
 	return BulletAngle;
 }
 
@@ -35,10 +31,10 @@ void AGun::Use()
 		MagazineLoadCount--;
 		UWorld* const World = GetWorld();
 		FVector SpawnLocation = GetActorLocation() + OwnerRotation.RotateVector(GunOffset);
-
+		//Enemies don't have cameras, catch this
+		
 		if (World != NULL)
 		{
-			// spawn the projectile at the muzzle
 			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle());
 			Projectile->DamageValue = DamageValue;
 			Super::Use();
@@ -64,3 +60,36 @@ void AGun::Reload()
 
 	Reloading = false;
 }
+
+/*FVector AGun::GetPlayerOrientation()
+{
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	UCameraComponent* Camera = Owner->FollowCamera;
+	FMinimalViewInfo ViewInfo = FMinimalViewInfo();
+	Camera->GetCameraView(0.f, ViewInfo);
+
+	FVector Location = ViewInfo.Location;
+	FVector Rotation = ViewInfo.Rotation.Vector();
+
+	FVector End = Location + Rotation * FVector(5000.f, 5000.f, 5000.f);
+
+	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
+	RV_TraceParams.bTraceComplex = false;
+	RV_TraceParams.bTraceAsyncScene = true;
+	RV_TraceParams.bReturnPhysicalMaterial = false;
+	//Re-initialize hit info
+	FHitResult RV_Hit(ForceInit);
+
+	//call GetWorld() from within an actor extending class
+	if (GetWorld()->LineTraceSingle(
+		RV_Hit,        //result
+		Location,    //start
+		End, //end
+		ECC_MAX, //collision channel
+		RV_TraceParams
+		))
+	{
+		return RV_Hit.Location;
+	}
+	//return NULL;
+}*/

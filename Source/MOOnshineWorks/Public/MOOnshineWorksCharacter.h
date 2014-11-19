@@ -99,6 +99,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = Pistol)
 	void equipPistol();
 
+	void DealDamage(float Damage);
+
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality
