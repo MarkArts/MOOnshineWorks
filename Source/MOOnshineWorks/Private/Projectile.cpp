@@ -22,8 +22,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
 
-	// Die after 10 seconds by default
-	InitialLifeSpan = 10.f;
+	InitialLifeSpan = 1.f;
 }
 
 

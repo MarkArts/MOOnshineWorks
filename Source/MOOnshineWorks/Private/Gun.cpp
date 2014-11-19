@@ -14,7 +14,7 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 	GunOffset = FVector(50.f, 0.f, 40.f);
 }
 
-FRotator AGun::GetBulletAngle()
+FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
 {
 	FRotator BulletAngle = GunMesh->GetComponentRotation();
 	BulletAngle.Pitch += (FMath::FRandRange(0,1) * SpreadAngle) - (SpreadAngle / 2);
@@ -26,16 +26,25 @@ void AGun::Use()
 {
 	if (MagazineLoadCount > 0)
 	{
-		AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+		APawn* Owner = Cast<APawn>(GetOwner());
 		FRotator OwnerRotation = Owner->GetControlRotation();
 		MagazineLoadCount--;
 		UWorld* const World = GetWorld();
 		FVector SpawnLocation = GetActorLocation() + OwnerRotation.RotateVector(GunOffset);
+		UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 		//Enemies don't have cameras, catch this
-		
+		FVector Target = FVector::ZeroVector;
+		if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+		{
+			Target = GetEnemyTarget();
+		}
+		if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
+		{
+			Target = GetPlayerTarget();
+		}
 		if (World != NULL)
 		{
-			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle());
+			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
 			Projectile->DamageValue = DamageValue;
 			Super::Use();
 		}
@@ -61,7 +70,14 @@ void AGun::Reload()
 	Reloading = false;
 }
 
-/*FVector AGun::GetPlayerOrientation()
+FVector AGun::GetEnemyTarget()
+{
+	AAI_BasicEnemy* Owner = Cast<AAI_BasicEnemy>(GetOwner());
+	AAI_BasicController* OwnerController = Cast<AAI_BasicController>(Owner->Controller);
+	return OwnerController->BlackboardComp->GetValueAsVector(OwnerController->EnemyLocationID);
+}
+
+FVector AGun::GetPlayerTarget()
 {
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	UCameraComponent* Camera = Owner->FollowCamera;
@@ -91,5 +107,5 @@ void AGun::Reload()
 	{
 		return RV_Hit.Location;
 	}
-	//return NULL;
-}*/
+	return;
+}
