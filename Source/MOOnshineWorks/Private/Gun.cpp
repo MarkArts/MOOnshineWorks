@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "MOOnshineWorksCharacter.h"
 #include "Gun.h"
 
 
@@ -29,9 +30,11 @@ void AGun::Use()
 {
 	if (MagazineLoadCount > 0)
 	{
+		AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+		FRotator OwnerRotation = Owner->GetControlRotation();
 		MagazineLoadCount--;
 		UWorld* const World = GetWorld();
-		FVector SpawnLocation = GetActorLocation() + GunOffset;
+		FVector SpawnLocation = GetActorLocation() + OwnerRotation.RotateVector(GunOffset);
 
 		if (World != NULL)
 		{
