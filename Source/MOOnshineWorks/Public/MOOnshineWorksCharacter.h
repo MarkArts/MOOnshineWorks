@@ -15,9 +15,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
-	TSubclassOf<APistol> PistolClass;
-
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	TSubobjectPtr<class USpringArmComponent> CameraBoom;
@@ -72,7 +69,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     float BaseStamina;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float Stamina;
-    
+	void SetStamina(float New_Stamina) { Stamina = New_Stamina; };
+	float GetStamina() { return Stamina; };
+
     //Standard camera values
     float baseCameraZoom;
     float baseCameraAimZoom;
@@ -93,7 +92,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
-    
+
+    //Boolean which contains moving state (false / true)
+    bool IsMovingForward;
+
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)

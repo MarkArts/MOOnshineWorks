@@ -2,9 +2,8 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Pickup.h"
 #include "MOOnshineWorksGameMode.h"
-#include "Socket.h"
-#include "ChestPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
@@ -12,10 +11,6 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
-	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
-	PistolClass = BP_Pistol.Class;
-
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -36,7 +31,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Aim toggle
     IsAiming = false;
-
+    //Move forward state
+    IsMovingForward = false;
+    
     //Set camera values
     baseCameraZoom = 250;
     baseCameraAimZoom = 150;
@@ -108,7 +105,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		spawnParams.Owner = this;
 		spawnParams.bNoCollisionFail = false;
 
-		activeItem = world->SpawnActor<APistol>(PistolClass, spawnParams);
+		activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
 		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
 		activeItem->SetActorRotation(FRotator::ZeroRotator);
@@ -127,7 +124,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
-	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+	//InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
@@ -223,7 +220,10 @@ void AMOOnshineWorksCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
-	}
+        IsMovingForward = true;
+    }else{
+        IsMovingForward = false;
+    }
 }
 
 void AMOOnshineWorksCharacter::MoveRight(float Value)
@@ -243,7 +243,7 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-    if(Stamina > 0)
+    if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
         CameraBoom->TargetArmLength = baseCameraSprintZoom;
@@ -274,38 +274,19 @@ void AMOOnshineWorksCharacter::EndSprint()
 void AMOOnshineWorksCharacter::CollectItems()
 {
 
-	AMOOnshineWorksGameMode* GameMode = (AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode();
-	(*GameMode).Socket->SendString(TEXT("Ik druk op E mon pere"));
-
-	printf("CollectItems aangeroepen!");
-	float ManaValue = 0.f;
-
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
 	// For each Actor collected
-	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); ++iCollected)
-	{
-		// Try to Cast the collected Actor to AChestPickup.
-		AChestPickup* const TestChest = Cast<AChestPickup>(CollectedActors[iCollected]);
 
-		// If the cast is successful, and the chest is valid and active
-		if (TestChest && !TestChest->IsPendingKill() && TestChest->bIsActive) //Check if you picked up a chest!
+	for (AActor* Item : CollectedActors)
+	{
+		APickup* Pickup = Cast<APickup>(Item);
+		if (Pickup)
 		{
-			// Store its battery power for adding to the character's power.
-			ManaValue = ManaValue + TestChest->valueMana;
-			// Deactivate the battery
-			TestChest->bIsActive = false;
-			// Call the Chest's OnPickedUp function so destroy
-			TestChest->OnPickedUp();
+			Pickup->OnPickedUp(this);
 		}
-	}
-
-	if (ManaValue > 0.f)
-	{
-		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
-		ManaUp(ManaValue);
 	}
 }
 
@@ -372,8 +353,6 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	// y = 1/((x+2)/15)-1
-
 	if (LightPercentage > 0){
 		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
 	}
@@ -384,7 +363,9 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 	UpdateLightRadius(DeltaSeconds);
     
     CalcStamina();
-    
+	CollectItems();
+
+
     if(Stamina < 1)
     {
         EndSprint();

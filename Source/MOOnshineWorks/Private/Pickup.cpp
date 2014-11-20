@@ -26,7 +26,7 @@ APickup::APickup(const class FPostConstructInitializeProperties& PCIP)
 	PickupMesh->AttachTo(RootComponent);
 }
 
-void APickup::OnPickedUp_Implementation()
+void APickup::OnPickedUp_Implementation(AMOOnshineWorksCharacter *Actor)
 {
 	// There is no default behavior for a Pickup when it is picked up.
 }
