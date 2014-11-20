@@ -11,10 +11,6 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
-	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
-	PistolClass = BP_Pistol.Class;
-
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -109,7 +105,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		spawnParams.Owner = this;
 		spawnParams.bNoCollisionFail = false;
 
-		activeItem = world->SpawnActor<APistol>(PistolClass, spawnParams);
+		activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
 		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
 		activeItem->SetActorRotation(FRotator::ZeroRotator);
