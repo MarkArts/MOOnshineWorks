@@ -9,9 +9,6 @@ UCLASS(minimalapi)
 class AMOOnshineWorksGameMode : public AGameMode
 {
 	GENERATED_UCLASS_BODY()
-public:
-	//UPROPERTY(VisibleAnywhere, Category = "Blueprints")
-	BlueprintLoader* BlueprintContainer;
 
 	ASocket* Socket;
 };

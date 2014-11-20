@@ -27,5 +27,5 @@ class MOONSHINEWORKS_API APickup : public AActor
 
 	/** Function to call when the Pickup is collected. */
 	UFUNCTION(BlueprintNativeEvent)
-	void OnPickedUp();
+	void OnPickedUp(AMOOnshineWorksCharacter *Actor);
 };

@@ -3,13 +3,16 @@
 #include "MOOnshineWorks.h"
 #include "Projectile.h"
 #include "AI_BarrelEnemy.h"
+#include "AI_BookEnemyLight.h"
 #include "BlueprintLoader.h"
 
 BlueprintLoader::BlueprintLoader()
 {
-    AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
-    AddBP(FName("AI_BarrelEnemy"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
+	AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
+	AddBP(FName("AI_BarrelEnemy"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
+	AddBP(FName("AI_BookEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BookLight/AI_BookEnemyLight"));
 	AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
+	AddBP(FName("PistolClass"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Pistol"));
 }
 
 BlueprintLoader::~BlueprintLoader()

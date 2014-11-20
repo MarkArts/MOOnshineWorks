@@ -18,7 +18,7 @@ private:
 	BlueprintLoader(BlueprintLoader const&); // Don't Implement
 	void operator=(BlueprintLoader const&); // Don't implement
 
-	TMap<FName, TSubclassOf<class UObject> > Classes;
+	TMap<FName, TSubclassOf<class UObject>> Classes;
 
 public:
 
