@@ -36,7 +36,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Aim toggle
     IsAiming = false;
-
+    //Move forward state
+    IsMovingForward = false;
+    
     //Set camera values
     baseCameraZoom = 250;
     baseCameraAimZoom = 150;
@@ -223,7 +225,10 @@ void AMOOnshineWorksCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
-	}
+        IsMovingForward = true;
+    }else{
+        IsMovingForward = false;
+    }
 }
 
 void AMOOnshineWorksCharacter::MoveRight(float Value)
@@ -243,7 +248,7 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-    if(Stamina > 0)
+    if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
         CameraBoom->TargetArmLength = baseCameraSprintZoom;

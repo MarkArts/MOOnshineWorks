@@ -93,7 +93,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
-    
+
+    //Boolean which contains moving state (false / true)
+    bool IsMovingForward;
+
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)
