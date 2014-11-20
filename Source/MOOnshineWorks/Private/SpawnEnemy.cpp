@@ -5,6 +5,8 @@
 #include "AI_BasicEnemy.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_BarrelController.h"
+#include "AI_BookEnemyLight.h"
+#include "AI_BookControllerLight.h"
 #include "SpawnEnemy.h"
 
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
@@ -25,7 +27,6 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	Super::ReceiveBeginPlay();
 	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-	EnemyClass = TSubclassOf<AAI_BarrelEnemy>( *(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy")) ) );
 }
 
 void ASpawnEnemy::SpawnRandomEnemy()
@@ -50,36 +51,40 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	}
 
 	for (auto Itr(HowMuch.CreateIterator()); Itr; Itr++) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(HowMuch[Itr.GetIndex()]));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TypeEnemy[Itr.GetIndex()]));
-	}
+		APawn* NewPawn = NULL;
+		FVector BoxOnWorld = GetActorLocation();
+		FRotator RotatorBoxOnWorld = GetActorRotation();
 
+		if (TypeEnemy[Itr.GetIndex()] == "BarrelEnemy") {
+			EnemyClass = TSubclassOf<AAI_BarrelEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy"))));
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
+			EnemyClass = TSubclassOf<AAI_BarrelEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy"))));
+		}
 
-	APawn* NewPawn = NULL;
-	FVector BoxOnWorld = GetActorLocation();
-	FRotator RotatorBoxOnWorld = GetActorRotation();
-
-	if (GetWorld())
-	{
-		NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
-		if (NewPawn != NULL)
+		if (GetWorld())
 		{
-			if (NewPawn->Controller == NULL)
-			{
-				NewPawn->SpawnDefaultController();
-			}
-			if (BehaviorTree != NULL)
-			{
-				AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-				if (AIController != NULL)
+			int32 MyShinyNewInt = FCString::Atoi(*HowMuch[Itr.GetIndex()]);
+			for (int x = 1; x <= MyShinyNewInt; x++) {
+				NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+				if (NewPawn != NULL)
 				{
-					AIController->RunBehaviorTree(BehaviorTree);
+					if (NewPawn->Controller == NULL)
+					{
+						NewPawn->SpawnDefaultController();
+					}
+					if (BehaviorTree != NULL)
+					{
+						AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+						if (AIController != NULL)
+						{
+							AIController->RunBehaviorTree(BehaviorTree);
+						}
+					}
 				}
 			}
 		}
 	}
-
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
+	EnemyClass = NULL;
 }
 
