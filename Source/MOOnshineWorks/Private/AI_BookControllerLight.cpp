@@ -25,9 +25,9 @@ void AAI_BookControllerLight::BookPatrol()
 	BaseEnemy->StartWalk();
 	FVector MyLoc = MyBot->GetActorLocation();
 	
-	float AddX;
-	float AddY;
-	float NewWhereShouldAIPatrolTo; //Voor de Blackboard key: WhereShouldAIPatrolTo
+	float AddX = 0;
+	float AddY = 0;
+	float NewWhereShouldAIPatrolTo = 0; //Voor de Blackboard key: WhereShouldAIPatrolTo
 
 	//Check de huidige waarde van WhereShouldAIPatrolTo
 	if (WhereShouldAIPatrolTo == 5)
