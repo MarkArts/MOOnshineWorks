@@ -16,10 +16,12 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 
 FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
 {
-	FRotator BulletAngle = GunMesh->GetComponentRotation();
-	BulletAngle.Pitch += (FMath::FRandRange(0,1) * SpreadAngle) - (SpreadAngle / 2);
-	BulletAngle.Roll += (FMath::FRand() * 360.f);
-	return BulletAngle;
+	FRotator OffsetAngle = FRotator::ZeroRotator;
+	OffsetAngle.Pitch += (FMath::FRandRange(0, 1) * SpreadAngle) - (SpreadAngle / 2);
+	OffsetAngle.Roll += (FMath::FRand() * 360.f);
+	FVector Direction = Target - Start;
+	OffsetAngle = OffsetAngle.Add(Direction.Rotation().Pitch, Direction.Rotation().Yaw, 0);
+	return OffsetAngle;
 }
 
 void AGun::Use()
