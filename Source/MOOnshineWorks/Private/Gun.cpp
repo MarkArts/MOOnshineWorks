@@ -109,5 +109,5 @@ FVector AGun::GetPlayerTarget()
 	{
 		return RV_Hit.Location;
 	}
-	return FVector::ZeroVector;
+	return End;
 }
