@@ -7,9 +7,9 @@
 
 BlueprintLoader::BlueprintLoader()
 {
-	AddBP(FName("BP_Projectile"), TEXT("/Game/Blueprints/BP_Projectile"));
-	AddBP(FName("AI_BarrelEnemy"), TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
-	AddBP(FName("MyCharacter"), TEXT("/Game/Blueprints/MyCharacter"));
+    AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
+    AddBP(FName("AI_BarrelEnemy"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
+	AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
 }
 
 BlueprintLoader::~BlueprintLoader()
