@@ -2,9 +2,8 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Pickup.h"
 #include "MOOnshineWorksGameMode.h"
-#include "Socket.h"
-#include "ChestPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
@@ -129,7 +128,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
-	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+	//InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
@@ -279,38 +278,19 @@ void AMOOnshineWorksCharacter::EndSprint()
 void AMOOnshineWorksCharacter::CollectItems()
 {
 
-	AMOOnshineWorksGameMode* GameMode = (AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode();
-	(*GameMode).Socket->SendString(TEXT("Ik druk op E mon pere"));
-
-	printf("CollectItems aangeroepen!");
-	float ManaValue = 0.f;
-
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
 	// For each Actor collected
-	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); ++iCollected)
-	{
-		// Try to Cast the collected Actor to AChestPickup.
-		AChestPickup* const TestChest = Cast<AChestPickup>(CollectedActors[iCollected]);
 
-		// If the cast is successful, and the chest is valid and active
-		if (TestChest && !TestChest->IsPendingKill() && TestChest->bIsActive) //Check if you picked up a chest!
+	for (AActor* Item : CollectedActors)
+	{
+		APickup* Pickup = Cast<APickup>(Item);
+		if (Pickup)
 		{
-			// Store its battery power for adding to the character's power.
-			ManaValue = ManaValue + TestChest->valueMana;
-			// Deactivate the battery
-			TestChest->bIsActive = false;
-			// Call the Chest's OnPickedUp function so destroy
-			TestChest->OnPickedUp();
+			Pickup->OnPickedUp(this);
 		}
-	}
-
-	if (ManaValue > 0.f)
-	{
-		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
-		ManaUp(ManaValue);
 	}
 }
 
@@ -377,8 +357,6 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	// y = 1/((x+2)/15)-1
-
 	if (LightPercentage > 0){
 		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
 	}
@@ -389,7 +367,9 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 	UpdateLightRadius(DeltaSeconds);
     
     CalcStamina();
-    
+	CollectItems();
+
+
     if(Stamina < 1)
     {
         EndSprint();

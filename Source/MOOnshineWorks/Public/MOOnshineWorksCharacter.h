@@ -72,7 +72,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     float BaseStamina;
     UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
     float Stamina;
-    
+	void SetStamina(float New_Stamina) { Stamina = New_Stamina; };
+	float GetStamina() { return Stamina; };
+
     //Standard camera values
     float baseCameraZoom;
     float baseCameraAimZoom;
