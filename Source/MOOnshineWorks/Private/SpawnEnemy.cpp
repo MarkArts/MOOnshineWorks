@@ -11,16 +11,8 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 
-	/*if (EnemyClass == NULL){
-		
-		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_BarrelEnemy"));
-
-		if (PlayerPawnBPClass.Class != NULL)
-		{
-			EnemyClass = PlayerPawnBPClass.Class;
-		}
-	}*/
 	Time = 4.f;
+	Enemies.Add("2:BarrelEnemy;2:BookEnemy");
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -38,13 +30,34 @@ void ASpawnEnemy::ReceiveBeginPlay()
 
 void ASpawnEnemy::SpawnRandomEnemy()
 {
-	//UWorld* const World = GetWorld();
+	TArray<FString> Parsed;
+	TArray<FString> HowMuch;
+	TArray<FString> TypeEnemy;
+	const TCHAR* Delims[] = { TEXT(":"), TEXT(";") };
+
+	float RandomNumber = (float)rand() / (float)RAND_MAX;
+	int SetNumber = RandomNumber * (Enemies.Num());
+
+	Enemies[SetNumber].ParseIntoArray(&Parsed, Delims, 2);
+
+	int SizeOfArrayParsed = Parsed.Num() - 1;
+
+	for (int x = 0; x <= SizeOfArrayParsed; x = x + 2) {
+		HowMuch.Add(Parsed[x]);
+	}
+	for (int x = 1; x <= SizeOfArrayParsed; x = x + 2) {
+		TypeEnemy.Add(Parsed[x]);
+	}
+
+	for (auto Itr(HowMuch.CreateIterator()); Itr; Itr++) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(HowMuch[Itr.GetIndex()]));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString(TypeEnemy[Itr.GetIndex()]));
+	}
+
+
 	APawn* NewPawn = NULL;
 	FVector BoxOnWorld = GetActorLocation();
 	FRotator RotatorBoxOnWorld = GetActorRotation();
-//	if (World)
-//	{
-		//AAI_BarrelEnemy* enemy = GetWorld()->SpawnActor<AAI_BarrelEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
 
 	if (GetWorld())
 	{
@@ -66,8 +79,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		}
 	}
 
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
-//	}
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(BoxOnWorld[2]));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Blue, FString("Spawned"));
 }
 
