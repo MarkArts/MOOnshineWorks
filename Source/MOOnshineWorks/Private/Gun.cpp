@@ -36,11 +36,11 @@ void AGun::Use()
 		FVector Target = FVector::ZeroVector;
 		if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
 		{
-			Target = GetEnemyTarget();
+			Target = GetPlayerTarget();
 		}
 		if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
 		{
-			Target = GetPlayerTarget();
+			Target = GetEnemyTarget();
 		}
 		if (World != NULL)
 		{
@@ -107,5 +107,5 @@ FVector AGun::GetPlayerTarget()
 	{
 		return RV_Hit.Location;
 	}
-	return;
+	return FVector::ZeroVector;
 }
