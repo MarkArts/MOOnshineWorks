@@ -41,8 +41,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     baseCameraZoom = 250;
     baseCameraAimZoom = 150;
     baseCameraSprintZoom = 160;
-    baseCameraOffset = FVector(0.0f, 0.0f, 0.0f);
-    baseZoomOffset = FVector(10.0f, 65.0f, 20.0f);
+    baseCameraOffset = FVector(7.5f, 90.0f, 25.0f);
+    baseZoomOffset = FVector(15.0f, 90.0f, 25.0f);
     baseSprintOffset = FVector(0.0f, 0.0f, 20.0f);
     
 	// Create our battery collection volume.
@@ -87,7 +87,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->TargetArmLength = baseCameraZoom; // The camera follows at this distance behind the character
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
 	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
@@ -115,6 +115,8 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		activeItem->AttachRootComponentToActor(this, "head");
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
+    CameraBoom->SocketOffset = baseCameraOffset;
+    
 	Super::ReceiveBeginPlay();
 }
 
