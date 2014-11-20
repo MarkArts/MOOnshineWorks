@@ -396,7 +396,7 @@ float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
-	float ATRadius = MaxRadius * LightPercentage;
+	float ATRadius = GetMaxRadius() * GetLightPercentage();
 	Light->SetAttenuationRadius(ATRadius);
 }
 
