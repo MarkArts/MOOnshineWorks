@@ -11,7 +11,7 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
 	RootComponent = GunMesh;
 
-	GunOffset = FVector(50.f, 0.f, 40.f);
+	GunOffset = FVector(80.f, 0.f, 40.f);
 }
 
 FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
