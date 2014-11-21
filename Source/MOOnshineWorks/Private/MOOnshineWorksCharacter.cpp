@@ -418,7 +418,6 @@ void AMOOnshineWorksCharacter::SetStamina(float New_Stamina) {
 	Stamina = New_Stamina; if (Stamina > BaseStamina) Stamina = BaseStamina;
 };
 float AMOOnshineWorksCharacter::GetStamina() { return Stamina; };
->>>>>>> Develop
 
 /* this function needs to be reviewed, doesn't work somehow
  void AMOOnshineWorksCharacter::PerformCameraShake()
