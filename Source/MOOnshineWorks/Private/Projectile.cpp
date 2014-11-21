@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "MOOnshineWorksCharacter.h"
 #include "Projectile.h"
 
 
@@ -21,8 +22,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
 	ProjectileMovement->UpdatedComponent = CollisionComp;
 
-	// Die after 10 seconds by default
-	InitialLifeSpan = 10.f;
+	InitialLifeSpan = 1.f;
 }
 
 
@@ -38,6 +38,16 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 			if (TargetEnemy)
 			{
 				TargetEnemy->DealDamage(DamageValue);
+				Destroy();
+			}
+		}
+		if (OtherActor->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+		{
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, OtherActor->GetName());
+			AMOOnshineWorksCharacter* TargetPlayer = Cast<AMOOnshineWorksCharacter>(OtherActor);
+			if (TargetPlayer)
+			{
+				TargetPlayer->DealDamage(DamageValue);
 				Destroy();
 			}
 		}

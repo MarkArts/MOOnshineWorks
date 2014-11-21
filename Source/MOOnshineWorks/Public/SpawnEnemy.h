@@ -6,6 +6,7 @@
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
 #include "AI_PegEnemyLight.h"
+#include "AI_BasicEnemy.h"
 #include "SpawnEnemy.generated.h"
 
 /**
@@ -32,6 +33,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Time;
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	TArray<FString> Enemies;
+
+protected:
 
 	virtual void ReceiveBeginPlay() override;
 };

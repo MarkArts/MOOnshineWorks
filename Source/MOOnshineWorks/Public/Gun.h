@@ -44,11 +44,14 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void Use() override;
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
-	FRotator GetBulletAngle();
+	FRotator GetBulletAngle(FVector Start, FVector Target);
 
 	UFUNCTION(BlueprintNativeEvent, Category = Gun)
 	void OnReload();
 
 	UFUNCTION(BlueprintCallable, Category = Gun)
 	void Reload();
+
+	FVector GetPlayerTarget();
+	FVector GetEnemyTarget();
 };

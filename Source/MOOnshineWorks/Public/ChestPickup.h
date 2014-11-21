@@ -18,5 +18,5 @@ class MOONSHINEWORKS_API AChestPickup : public APickup
 	float valueMana;
 
 	//Override the OnPickedUp function (use implementation because this is a BlueprintNativeEvent)
-	void OnPickedUp_Implementation() override;	
+	void OnPickedUp_Implementation(AMOOnshineWorksCharacter *Actor) override;
 };

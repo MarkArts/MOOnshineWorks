@@ -21,12 +21,7 @@ void AAI_PegControllerLight::AttackPlayer()
 		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
 		{
-			playerCharacter->CurrentHealth = playerCharacter->CurrentHealth - 1;
-
-			if (playerCharacter->CurrentHealth == 0)
-			{
-				playerCharacter->Destroy();
-			}
+			playerCharacter->DealDamage(1.f);
 		}
 	}
 }

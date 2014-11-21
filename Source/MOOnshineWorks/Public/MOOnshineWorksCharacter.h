@@ -20,9 +20,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
-	TSubclassOf<APistol> PistolClass;
-
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
 	TSubobjectPtr<class USpringArmComponent> CameraBoom;
@@ -46,12 +43,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-    
-    /* Characters base health */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-    float BaseHealth;
-    
-    /* Characters current health */
+   
+	/* Characters speed */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentHealth;
 
@@ -60,28 +53,68 @@ class AMOOnshineWorksCharacter : public ACharacter
 	bool DarkLight;
 
 	/* Characters basespeed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
 	float BaseSpeed;
 
-	/* Characters increase */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float SpeedFactor;
 
+private:
+    /* Characters health */
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+    float BaseHealth;
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+	float CurrentHealth;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseHealth(float NewBaseHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseHealth();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetCurrentHealth(float NewCurrentHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetCurrentHealth();
+
 	/* Light */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float LightPercentage;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float DimSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float MaxRadius;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetLightPercentage(float NewLightPercentage);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetLightPercentage();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetDimSpeed(float NewDimSpeed);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetDimSpeed();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetMaxRadius(float NewMaxRadius);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetMaxRadius();
+	
 	void UpdateLightRadius(float DeltaSeconds);
     
-    // Float that contains the character stamina
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float BaseStamina;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float Stamina;
-    
+    // Stamina logic
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float BaseStamina;
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float Stamina;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseStamina(float NewBastStamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseStamina();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetStamina(float New_Stamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetStamina();
+
     //Standard camera values
     float baseCameraZoom;
     float baseCameraAimZoom;
@@ -102,11 +135,16 @@ class AMOOnshineWorksCharacter : public ACharacter
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
-    
+
+    //Boolean which contains moving state (false / true)
+    bool IsMovingForward;
+
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)
 	void equipPistol();
+
+	void DealDamage(float Damage);
 
 protected:
 
