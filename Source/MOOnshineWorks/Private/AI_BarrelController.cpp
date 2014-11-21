@@ -20,7 +20,7 @@ void AAI_BarrelController::AttackPlayer()
 		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
 		{
-			playerCharacter->DealDamage(1.f);
+			playerCharacter->DealDamage(1.f)
 		}
 	}
 }

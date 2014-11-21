@@ -375,9 +375,30 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
     //CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
 
+/* Character health logic */
+void AMOOnshineWorksCharacter::SetBaseHealth(float NewBaseHealth) { BaseHealth = NewBaseHealth;  };
+float AMOOnshineWorksCharacter::GetBaseHealth() { return BaseHealth; };
+void AMOOnshineWorksCharacter::SetCurrentHealth(float NewCurrentHealth) {
+	CurrentHealth = NewCurrentHealth; 
+	if (CurrentHealth > BaseHealth){ CurrentHealth = BaseHealth; }
+	else if (CurrentHealth > 0){ Destroy(); };
+};
+float AMOOnshineWorksCharacter::GetCurrentHealth(){ return CurrentHealth; };
+
+
+/* Character light logic */
+void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
+	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+};
+float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
+void AMOOnshineWorksCharacter::SetDimSpeed(float NewDimSpeed) { DimSpeed = NewDimSpeed; };
+float AMOOnshineWorksCharacter::GetDimSpeed(){ return DimSpeed; };
+void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = NewMaxRadius; };
+float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
-	float ATRadius = MaxRadius * LightPercentage;
+	float ATRadius = GetMaxRadius() * GetLightPercentage();
 	Light->SetAttenuationRadius(ATRadius);
 }
 
@@ -389,6 +410,15 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 		Destroy();
 	}
 }
+
+/* Character Stamina logic  */
+void AMOOnshineWorksCharacter::SetBaseStamina(float NewBastStamina) { BaseStamina = NewBastStamina; };
+float AMOOnshineWorksCharacter::GetBaseStamina(){ return BaseStamina; };
+void AMOOnshineWorksCharacter::SetStamina(float New_Stamina) { 
+	Stamina = New_Stamina; if (Stamina > BaseStamina) Stamina = BaseStamina;
+};
+float AMOOnshineWorksCharacter::GetStamina() { return Stamina; };
+>>>>>>> Develop
 
 /* this function needs to be reviewed, doesn't work somehow
  void AMOOnshineWorksCharacter::PerformCameraShake()

@@ -38,39 +38,68 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-    
-    /* Characters base health */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+   
+	/* Characters speed */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+		float BaseSpeed;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+		float SpeedFactor;
+
+private:
+    /* Characters health */
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
     float BaseHealth;
-    
-    /* Characters current health */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentHealth;
-
-	/* Characters basespeed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-	float BaseSpeed;
-
-	/* Characters increase */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-	float SpeedFactor;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseHealth(float NewBaseHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseHealth();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetCurrentHealth(float NewCurrentHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetCurrentHealth();
 
 	/* Light */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float LightPercentage;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float DimSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float MaxRadius;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetLightPercentage(float NewLightPercentage);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetLightPercentage();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetDimSpeed(float NewDimSpeed);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetDimSpeed();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetMaxRadius(float NewMaxRadius);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetMaxRadius();
+	
 	void UpdateLightRadius(float DeltaSeconds);
     
-    // Float that contains the character stamina
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float BaseStamina;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float Stamina;
-	void SetStamina(float New_Stamina) { Stamina = New_Stamina; };
-	float GetStamina() { return Stamina; };
+    // Stamina logic
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float BaseStamina;
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float Stamina;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseStamina(float NewBastStamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseStamina();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetStamina(float New_Stamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetStamina();
 
     //Standard camera values
     float baseCameraZoom;
