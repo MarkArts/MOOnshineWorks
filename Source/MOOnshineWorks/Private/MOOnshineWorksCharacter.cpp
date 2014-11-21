@@ -258,6 +258,18 @@ void AMOOnshineWorksCharacter::StartSprint()
         CharacterMovement->MaxWalkSpeed *= 1.75;
         IsSprinting = true;
     }
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	{
+		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			FVector loc = playerCharacter->GetActorLocation();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			MakeNoise(10.0f, playerCharacter, loc);
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::EndSprint()

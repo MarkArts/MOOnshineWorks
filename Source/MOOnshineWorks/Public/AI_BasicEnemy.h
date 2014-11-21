@@ -36,7 +36,7 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	float Defense;
 
 	/** Speed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = AIStats)
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Speed;
 
 	UPROPERTY(EditAnywhere, Category = Behavior)

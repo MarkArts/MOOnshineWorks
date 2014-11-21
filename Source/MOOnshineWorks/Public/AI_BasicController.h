@@ -51,4 +51,23 @@ public:
 	uint8 WhereShouldAIPatrolTo;    //Float
 	uint8 OriginalPosition;			//Vector
 	uint8 GotEnemyAsTarget;			//Bool
+	uint8 LastSeenPosition;			//Vector
+	uint8 RecentlyAttackedEnemy;	//Bool
+
+	//Animations setten!
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void SetIdleAnimation();
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void SetPatrollingAnimation();
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void SetAttackAnimation();
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void RecentlyAttackedEnemyTrue();
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void RecentlyAttackedEnemyFalse();
+
 };

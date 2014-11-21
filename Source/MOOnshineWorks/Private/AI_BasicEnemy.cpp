@@ -25,18 +25,18 @@ void AAI_BasicEnemy::PostInitializeComponents()
 }
 void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume)
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
+
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT ("AI hoort me!"));   
 }
 
 void AAI_BasicEnemy::OnSeePawn(APawn *OtherPawn)
 {	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
+
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
 }
 
 void AAI_BasicEnemy::StartSprint()

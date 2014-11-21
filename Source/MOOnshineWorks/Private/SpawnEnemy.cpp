@@ -3,8 +3,8 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
-#include "AI_ClosetEnemyLight.h"
-#include "AI_ClosetControllerLight.h"
+#include "AI_PegEnemyLight.h"
+#include "AI_PegControllerLight.h"
 #include "SpawnEnemy.h"
 
 ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
@@ -13,7 +13,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 
 	/*if (EnemyClass == NULL){
 		
-		static ConstructorHelpers::FClassFinder<AAI_ClosetEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_ClosetEnemyLight"));
+		static ConstructorHelpers::FClassFinder<AAI_PegEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/BarrelEnemy/Services/AI_PegEnemyLight"));
 
 		if (PlayerPawnBPClass.Class != NULL)
 		{
@@ -34,7 +34,7 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
 
-	EnemyClass = TSubclassOf<AAI_BarrelEnemy>( *(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy")) ) );
+	EnemyClass = TSubclassOf<AAI_PegEnemyLight>( *(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyLight")) ) );
 }
 
 void ASpawnEnemy::SpawnRandomEnemy()
@@ -45,7 +45,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	FRotator RotatorBoxOnWorld = GetActorRotation();
 //	if (World)
 //	{
-		//AAI_ClosetEnemyLight* enemy = GetWorld()->SpawnActor<AAI_ClosetEnemyLight>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+		//AAI_PegEnemyLight* enemy = GetWorld()->SpawnActor<AAI_PegEnemyLight>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
 
 	if (GetWorld())
 	{

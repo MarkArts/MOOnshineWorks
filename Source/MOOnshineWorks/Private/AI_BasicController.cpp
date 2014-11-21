@@ -4,6 +4,7 @@
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
 #include "MOOnshineWorksCharacter.h"
+#include "BasicAnimationInstance.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -25,7 +26,9 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		SetPatrolRoute = BlackboardComp->GetKeyID("PatrolTo");
 		WhereShouldAIPatrolTo = BlackboardComp->GetKeyID("WhereShouldAIPatrolTo");
 		OriginalPosition = BlackboardComp->GetKeyID("OriginalPosition");
-		GotEnemyAsTarget = BlackboardComp->GetKeyID("GotEnemyAsTarget");
+		GotEnemyAsTarget = BlackboardComp->GetKeyID("GotEnemyInSight/Hear");
+		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
+		RecentlyAttackedEnemy = BlackboardComp->GetKeyID("RecentlyAttackedEnemy");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -129,7 +132,61 @@ void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviou
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
 	BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, 0);
+
+	//Pak positie speler en set deze om daar nog heen te lopen!
+	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	const FVector MyLoc = Player->GetActorLocation();
+
+	BlackboardComp->SetValueAsVector(LastSeenPosition, MyLoc);
 }
+
+void AAI_BasicController::SetAttackAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = true;
+	BasicAnimInstance->AIPatrolling = false;
+	BasicAnimInstance->AIIdle = false;
+}
+void AAI_BasicController::SetIdleAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = false;
+	BasicAnimInstance->AIPatrolling = false;
+	BasicAnimInstance->AIIdle = true;
+}
+
+void AAI_BasicController::SetPatrollingAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = false;
+	BasicAnimInstance->AIPatrolling = true;
+	BasicAnimInstance->AIIdle = false;
+}
+
+void AAI_BasicController::RecentlyAttackedEnemyTrue()
+{
+	BlackboardComp->SetValueAsBool(RecentlyAttackedEnemy, true);
+}
+void AAI_BasicController::RecentlyAttackedEnemyFalse()
+{
+	BlackboardComp->SetValueAsBool(RecentlyAttackedEnemy, false);
+}
+
 
 
 

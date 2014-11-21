@@ -2,19 +2,13 @@
 
 #pragma once
 #include "Projectile.h"
-#include "AI_ClosetEnemyLight.h"
+#include "AI_PegEnemyLight.h"
 //#include "BlueprintLoader.generated.h"
 /**
  * 
  */
 class MOONSHINEWORKS_API BlueprintLoader
-
-public:
-	//TSubclassOf<class AProjectile> ProjectileClass;
-	//TSubclassOf<class AAI_ClosetEnemyLight> AAI_ClosetEnemyLight;
-	//TSubclassOf<class APawn> MOOnshineWorksCharacter;
-=======
->>>>>>> origin/Develop
+{
 
 private:
 
