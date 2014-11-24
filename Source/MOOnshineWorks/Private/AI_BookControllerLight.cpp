@@ -13,6 +13,14 @@ AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructIniti
 {
 
 }
+
+void AAI_BookControllerLight::GoBackToOriginalPosition()
+{
+	LostPlayer();
+	FVector MyLoc = BlackboardComp->GetValueAsVector(OriginalPosition);
+	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+}
+
 void AAI_BookControllerLight::BookPatrol()
 {
 	APawn* MyBot = GetPawn();
@@ -22,45 +30,49 @@ void AAI_BookControllerLight::BookPatrol()
 	}
 
 	AAI_BasicEnemy* BaseEnemy = (AAI_BasicEnemy*)GetPawn();
-	BaseEnemy->StartWalk();
+	BaseEnemy->StartSprint();
 	FVector MyLoc = MyBot->GetActorLocation();
 	
-	float AddX = 0;
-	float AddY = 0;
-	float NewWhereShouldAIPatrolTo = 0; //Voor de Blackboard key: WhereShouldAIPatrolTo
+	float AddX; ////// WhereShouldAIPatrolTo
+	float AddY;
+	float WhereShouldAIPatrolToFloat = BlackboardComp->GetValueAsFloat(WhereShouldAIPatrolTo);
+	float NewWhereShouldAIPatrolTo;
 
 	//Check de huidige waarde van WhereShouldAIPatrolTo
-	if (WhereShouldAIPatrolTo == 5)
+	if (WhereShouldAIPatrolToFloat == 0)
 	{
-		AddX = 100;
-		AddY = 100;
-		NewWhereShouldAIPatrolTo = 6;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("kom ik hier! if1"));
+		AddX = 500;
+		AddY = 500;
+		NewWhereShouldAIPatrolTo = 1;
+
+		BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, NewWhereShouldAIPatrolTo);
 	} 
-	else if (WhereShouldAIPatrolTo == 6)
+	else if (WhereShouldAIPatrolToFloat == 1)
 	{
-		AddX = 100;
-		AddY = -100;
-		NewWhereShouldAIPatrolTo = 7;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("kom ik hier! if2"));
+		AddX = 500;
+		AddY = -500;
+		NewWhereShouldAIPatrolTo = 2;
+
+		BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, NewWhereShouldAIPatrolTo);
 	}
-	else if (WhereShouldAIPatrolTo == 7)
+	else if (WhereShouldAIPatrolToFloat == 2)
 	{
-		AddX = -100;
-		AddY = -100;
-		NewWhereShouldAIPatrolTo = 8;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("kom ik hier! if3"));
+		AddX = -500;
+		AddY = -500;
+		NewWhereShouldAIPatrolTo = 3;
+
+		BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, NewWhereShouldAIPatrolTo);
 	}
-	else if (WhereShouldAIPatrolTo == 8)
+	else if (WhereShouldAIPatrolToFloat == 3)
 	{
-		AddX = -100;
-		AddY = 100;
-		NewWhereShouldAIPatrolTo = 9;
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("kom ik hier! if4"));
+		AddX = -500;
+		AddY = 500;
+		NewWhereShouldAIPatrolTo = 0;
+
+		BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, NewWhereShouldAIPatrolTo);
 	}
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(NewWhereShouldAIPatrolTo));
 	//Pas de WhereShouldAIPatrolTo nummer aan zodat die een andere kant op loopt volgende keer
-	BlackboardComp->SetValueAsFloat(WhereShouldAIPatrolTo, NewWhereShouldAIPatrolTo);
 
 	//Pas de locatie waar de AI moet heen lopen aan en stuur deze naar het Blackboard
 	float NewX = MyLoc[0] + AddX;

@@ -11,6 +11,9 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	/** Make Character able to produce sound */
+	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
+
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -31,6 +34,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Aim toggle
     IsAiming = false;
+	//AI starts Dark
+	DarkLight = true;
     //Move forward state
     IsMovingForward = false;
     
@@ -255,6 +260,18 @@ void AMOOnshineWorksCharacter::StartSprint()
         CharacterMovement->MaxWalkSpeed *= 1.75;
         IsSprinting = true;
     }
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	{
+		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			FVector loc = playerCharacter->GetActorLocation();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			MakeNoise(10.0f, playerCharacter, loc);
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::EndSprint()

@@ -5,12 +5,17 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "GameFramework/Character.h"
+#include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
 UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
+
+	/** Make Character able to produce sound */
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
+	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
@@ -38,12 +43,17 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-   
-	/* Characters speed */
+
+	/* AI Dark(true)/Light(false)*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	bool DarkLight;
+
+	/* Characters basespeed */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	float BaseSpeed;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-		float BaseSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-		float SpeedFactor;
+	float SpeedFactor;
 
 private:
     /* Characters health */

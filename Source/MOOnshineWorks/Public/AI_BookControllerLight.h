@@ -19,4 +19,7 @@ class MOONSHINEWORKS_API AAI_BookControllerLight : public AAI_BasicController
 
 	UFUNCTION(BlueprintCallable, Category = AIBookBehavior)
 	void BookAttackPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = AIBookBehavior)
+	void GoBackToOriginalPosition();
 };

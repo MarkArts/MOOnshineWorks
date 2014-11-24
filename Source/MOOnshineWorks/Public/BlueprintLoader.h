@@ -2,7 +2,7 @@
 
 #pragma once
 #include "Projectile.h"
-#include "AI_BarrelEnemy.h"
+#include "AI_PegEnemyLight.h"
 //#include "BlueprintLoader.generated.h"
 /**
  * 
