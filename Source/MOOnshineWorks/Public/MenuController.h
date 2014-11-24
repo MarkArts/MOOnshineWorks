@@ -12,11 +12,4 @@ UCLASS()
 class MOONSHINEWORKS_API AMenuController : public APlayerController
 {
 	GENERATED_UCLASS_BODY()
-
-	UFUNCTION(BlueprintCallable, Category = "MOOnshine")
-	void SetMousePosition(float LocationX, float LocationY);
-
-	UFUNCTION(BlueprintCallable, Category = "MOOnshine")
-	AActor* getPointedObject();
-	
 };

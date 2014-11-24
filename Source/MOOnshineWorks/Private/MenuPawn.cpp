@@ -31,6 +31,8 @@ void AMenuPawn::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 	InputComponent->BindAxis("TurnRate", this, &AMenuPawn::TurnAtRate);
 	InputComponent->BindAxis("LookUp", this, &APawn::AddControllerPitchInput);
 	InputComponent->BindAxis("LookUpRate", this, &AMenuPawn::LookUpAtRate);
+
+	InputComponent->BindAction("Use", IE_Pressed, this, &AMenuPawn::Click);
 }
 
 void AMenuPawn::TurnAtRate(float Rate)
@@ -43,4 +45,46 @@ void AMenuPawn::LookUpAtRate(float Rate)
 {
 	// calculate delta for this frame from the rate information
 	AddControllerPitchInput(Rate * BaseLookUpRate * GetWorld()->GetDeltaSeconds());
+}
+
+AActor* AMenuPawn::getPointedObject(){
+
+	UCameraComponent* Camera = FollowCamera.Get();
+	FMinimalViewInfo ViewInfo = FMinimalViewInfo();
+	Camera->GetCameraView(0.f, ViewInfo);
+
+	FVector Location = ViewInfo.Location;
+	FVector Rotation = ViewInfo.Rotation.Vector();
+
+	FVector End = Location + Rotation * FVector(3000.f, 3000.f, 3000.f);
+
+	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
+	RV_TraceParams.bTraceComplex = false;
+	RV_TraceParams.bTraceAsyncScene = true;
+	RV_TraceParams.bReturnPhysicalMaterial = false;
+
+	//Re-initialize hit info
+	FHitResult RV_Hit(ForceInit);
+
+	//call GetWorld() from within an actor extending class
+	if (GetWorld()->LineTraceSingle(
+		RV_Hit,        //result
+		Location,    //start
+		End, //end
+		ECollisionChannel::ECC_MAX, //collision channel
+		RV_TraceParams
+		)){
+
+		return  RV_Hit.Actor.Get();;
+
+	}
+
+	return NULL;
+}
+
+void AMenuPawn::Click(){
+	AActor* Target = getPointedObject();
+	if (Target){
+		Target->ReceiveActorOnClicked();
+	}
 }
