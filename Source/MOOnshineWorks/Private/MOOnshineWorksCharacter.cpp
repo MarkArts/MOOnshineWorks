@@ -355,15 +355,9 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
-	}
-	else{
-		LightPercentage = 0;
-	}
-	
 	UpdateLightRadius(DeltaSeconds);
-    
+	SetLightRadius();
+
     CalcStamina();
 	CollectItems();
 
@@ -397,6 +391,16 @@ void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = Ne
 float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
+{
+	if (LightPercentage > 0){
+		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	}
+	else{
+		LightPercentage = 0;
+	}
+}
+
+void AMOOnshineWorksCharacter::SetLightRadius()
 {
 	float ATRadius = GetMaxRadius() * GetLightPercentage();
 	Light->SetAttenuationRadius(ATRadius);

@@ -84,7 +84,8 @@ public:
 	float GetMaxRadius();
 	
 	void UpdateLightRadius(float DeltaSeconds);
-    
+	void SetLightRadius();
+
     // Stamina logic
 private:
 	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
