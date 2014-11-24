@@ -29,6 +29,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     Stamina = BaseStamina;
     //Sprint toggle
     IsSprinting = false;
+    //Set sprint multiplier;
+    SprintMultiplier = 1.75;
     //Aim toggle
     IsAiming = false;
     //Move forward state
@@ -93,6 +95,16 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+    
+    //Set avatar img
+    // Set the standard texture
+    static ConstructorHelpers::FObjectFinder<UTexture2D> StandardAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey1.Spidey1'"));
+    StandardAvatar = StandardAvatarTexObj.Object;
+    static ConstructorHelpers::FObjectFinder<UTexture2D> LowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey2.Spidey2'"));
+    AvatarLowHP = LowHPAvatarTexObj.Object;
+    static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey3.Spidey3'"));
+    AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
+
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -252,7 +264,7 @@ void AMOOnshineWorksCharacter::StartSprint()
         CameraBoom->SocketOffset = baseSprintOffset;
         //PerformCameraShake();
         //Adjust movement speed to sprint values & switch boolean to true
-        CharacterMovement->MaxWalkSpeed *= 1.75;
+        CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
 }
@@ -267,8 +279,7 @@ void AMOOnshineWorksCharacter::EndSprint()
         CameraBoom->SocketOffset = baseCameraOffset;
         
         //Adjust movement speed to standard values & switch boolean to false
-        CharacterMovement->MaxWalkSpeed /= 7;
-        CharacterMovement->MaxWalkSpeed *= 4;
+        CharacterMovement->MaxWalkSpeed = (CharacterMovement->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
         IsSprinting = false;
     }
 }
@@ -335,19 +346,19 @@ void AMOOnshineWorksCharacter::reload()
 
 void AMOOnshineWorksCharacter::CalcStamina()
 {
-    if(IsSprinting == true && Stamina > 0.f)
+    if(IsSprinting == true && GetStamina() > 0.f)
     {
-        Stamina = Stamina - 1.f;
+        SetStamina(GetStamina() - 1.f);
     }
-    else if(IsSprinting == false && Stamina < 150.0f)
+    else if(IsSprinting == false && GetStamina() < GetBaseStamina())
     {
-        Stamina = Stamina + 0.5f;
+        SetStamina(GetStamina() + 0.5f);
     }
     
     //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + FString::FromInt(Stamina)));
-    if(Stamina > 150.f)
+    if(GetStamina() > GetBaseStamina())
     {
-        Stamina = 150.f;
+        SetStamina(GetBaseStamina());
     }
 }
 
@@ -368,7 +379,7 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 	CollectItems();
 
 
-    if(Stamina < 1)
+    if(GetStamina() < 1)
     {
         EndSprint();
     }
@@ -384,6 +395,7 @@ void AMOOnshineWorksCharacter::SetCurrentHealth(float NewCurrentHealth) {
 	else if (CurrentHealth > 0){ Destroy(); };
 };
 float AMOOnshineWorksCharacter::GetCurrentHealth(){ return CurrentHealth; };
+float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 
 /* Character light logic */
@@ -412,12 +424,25 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 }
 
 /* Character Stamina logic  */
-void AMOOnshineWorksCharacter::SetBaseStamina(float NewBastStamina) { BaseStamina = NewBastStamina; };
+void AMOOnshineWorksCharacter::SetBaseStamina(float NewBaseStamina) { BaseStamina = NewBaseStamina; };
 float AMOOnshineWorksCharacter::GetBaseStamina(){ return BaseStamina; };
 void AMOOnshineWorksCharacter::SetStamina(float New_Stamina) { 
 	Stamina = New_Stamina; if (Stamina > BaseStamina) Stamina = BaseStamina;
 };
 float AMOOnshineWorksCharacter::GetStamina() { return Stamina; };
+
+UTexture2D* AMOOnshineWorksCharacter::GetAvatar()
+{
+    if(GetCurrentHealth() < (GetBaseHealth() / 4 )){
+        return AvatarVeryLowHP;
+    }
+    else if(GetCurrentHealth() < (GetBaseHealth() / 2 )){
+        return AvatarLowHP;
+    }
+    else{
+        return StandardAvatar;
+    }
+}
 
 /* this function needs to be reviewed, doesn't work somehow
  void AMOOnshineWorksCharacter::PerformCameraShake()
