@@ -11,6 +11,9 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	/** Make Character able to produce sound */
+	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
+
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -33,6 +36,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     SprintMultiplier = 1.75;
     //Aim toggle
     IsAiming = false;
+	//AI starts Dark
+	DarkLight = true;
     //Move forward state
     IsMovingForward = false;
     
@@ -267,6 +272,18 @@ void AMOOnshineWorksCharacter::StartSprint()
         CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	{
+		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			FVector loc = playerCharacter->GetActorLocation();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			MakeNoise(10.0f, playerCharacter, loc);
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::EndSprint()
@@ -366,15 +383,9 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
-	}
-	else{
-		LightPercentage = 0;
-	}
-	
 	UpdateLightRadius(DeltaSeconds);
-    
+	SetLightRadius();
+
     CalcStamina();
 	CollectItems();
 
@@ -409,6 +420,16 @@ void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = Ne
 float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
+{
+	if (LightPercentage > 0){
+		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	}
+	else{
+		LightPercentage = 0;
+	}
+}
+
+void AMOOnshineWorksCharacter::SetLightRadius()
 {
 	float ATRadius = GetMaxRadius() * GetLightPercentage();
 	Light->SetAttenuationRadius(ATRadius);
