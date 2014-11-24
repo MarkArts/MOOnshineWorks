@@ -13,7 +13,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Time = 4.f;
-	Enemies.Add("2:BarrelEnemy;2:BookEnemy");
+	Enemies.Add("2:PegEnemy;2:BookEnemy");
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -26,8 +26,6 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	Super::ReceiveBeginPlay();
 	SetTime(Time);
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-
-	EnemyClass = TSubclassOf<AAI_BasicEnemy>( *(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyLight")) ) );
 }
 
 void ASpawnEnemy::SpawnRandomEnemy()
@@ -58,8 +56,8 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		FBox BoxInfo = GetComponentsBoundingBox();
 		FVector BoxSize = BoxInfo.GetSize();
 
-		if (TypeEnemy[Itr.GetIndex()] == "BarrelEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy"))));
+		if (TypeEnemy[Itr.GetIndex()] == "PegEnemy") {
+			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyLight"))));
 		}
 		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
 			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));

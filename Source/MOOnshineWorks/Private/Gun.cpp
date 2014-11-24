@@ -18,7 +18,7 @@ FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
 {
 	FRotator OffsetAngle = FRotator::ZeroRotator;
 	OffsetAngle.Pitch += (FMath::FRandRange(0, 1) * SpreadAngle) - (SpreadAngle / 2);
-	OffsetAngle.Roll += (FMath::FRand() * 360.f);
+	OffsetAngle.Yaw += (FMath::FRandRange(0, 1) * SpreadAngle) - (SpreadAngle / 2);
 	FVector Direction = Target - Start;
 	OffsetAngle = OffsetAngle.Add(Direction.Rotation().Pitch, Direction.Rotation().Yaw, 0);
 	return OffsetAngle;
