@@ -8,9 +8,9 @@
 
 BlueprintLoader::BlueprintLoader()
 {
-	AddBP(FName("AI_PegEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/ClosetEnemy/Services/AI_PegEnemy"));
+	AddBP(FName("AI_PegEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyLight"));
 	AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
-	AddBP(FName("AI_BookEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BookLight/AI_BookEnemyLight"));
+	AddBP(FName("AI_BookEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BookAILight/AI_BookEnemyLight"));
 	AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
 	AddBP(FName("PistolClass"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Pistol"));
 }

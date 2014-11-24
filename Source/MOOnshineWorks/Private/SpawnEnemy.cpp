@@ -92,6 +92,7 @@ void ASpawnEnemy::SpawnRandomEnemy()
 				BoxOnWorld[1] += y;
 
 				if (BoxInfo.IsInside(BoxOnWorld)) {
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("TEST"));
 					NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
 					FVector BoxOnWorld = GetActorLocation();
 					if (NewPawn != NULL)
