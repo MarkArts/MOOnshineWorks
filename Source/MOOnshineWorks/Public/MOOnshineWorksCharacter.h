@@ -5,12 +5,17 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "GameFramework/Character.h"
+#include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
 UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
+
+	/** Make Character able to produce sound */
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
+	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
@@ -38,13 +43,20 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-   
-	/* Characters speed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-		float BaseSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-		float SpeedFactor;
 
+	/* AI Dark(true)/Light(false)*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	bool DarkLight;
+
+	/* Characters basespeed */
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	float BaseSpeed;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+    float SpeedFactor;
+    
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    UTexture2D* GetAvatar();
 private:
     /* Characters health */
     UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
@@ -60,7 +72,9 @@ public:
 	void SetCurrentHealth(float NewCurrentHealth);
 	UFUNCTION(BlueprintCallable, Category = CharacterStats)
 	float GetCurrentHealth();
-
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    float GetCurrentMana();
+    
 	/* Light */
 private:
 	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
@@ -84,7 +98,8 @@ public:
 	float GetMaxRadius();
 	
 	void UpdateLightRadius(float DeltaSeconds);
-    
+	void SetLightRadius();
+
     // Stamina logic
 private:
 	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
@@ -116,8 +131,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<UPointLightComponent> Light;
 
-    //Boolean which contains sprinting state (false / true)
+    // Sprint logic
     bool IsSprinting;
+    float SprintMultiplier;
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
@@ -131,6 +147,15 @@ public:
 	void equipPistol();
 
 	void DealDamage(float Damage);
+    
+private:
+    // Character avatar
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* StandardAvatar;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarLowHP;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarVeryLowHP;
 
 protected:
 

@@ -3,8 +3,8 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
-#include "AI_BarrelEnemy.h"
-#include "AI_BarrelController.h"
+#include "AI_PegEnemyLight.h"
+#include "AI_PegControllerLight.h"
 #include "AI_BookEnemyLight.h"
 #include "AI_BookControllerLight.h"
 #include "SpawnEnemy.h"
@@ -13,7 +13,7 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Time = 4.f;
-	Enemies.Add("2:BarrelEnemy;2:BookEnemy");
+	Enemies.Add("2:PegEnemy;2:BookEnemy");
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -56,8 +56,8 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		FBox BoxInfo = GetComponentsBoundingBox();
 		FVector BoxSize = BoxInfo.GetSize();
 
-		if (TypeEnemy[Itr.GetIndex()] == "BarrelEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BarrelEnemy"))));
+		if (TypeEnemy[Itr.GetIndex()] == "PegEnemy") {
+			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyLight"))));
 		}
 		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
 			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));
