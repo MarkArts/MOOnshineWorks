@@ -33,21 +33,25 @@ void AGun::Use()
 		MagazineLoadCount--;
 		UWorld* const World = GetWorld();
 		if (World){
-			FVector SpawnLocation = GetActorLocation() + OwnerRotation.RotateVector(GunOffset);
-			UGameplayStatics::GetPlayerCharacter(World, 0);
-			//Enemies don't have cameras, catch this
-			FVector Target = FVector::ZeroVector;
-			if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+
+			if (RootComponent->DoesSocketExist("BulletSpawn"))
 			{
-				Target = GetPlayerTarget();
+				FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
+				//Enemies don't have cameras, catch this
+				FVector Target = FVector::ZeroVector;
+				if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+				{
+					Target = GetPlayerTarget();
+				}
+				if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
+				{
+					Target = GetEnemyTarget();
+				}
+
+				AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
+				Projectile->DamageValue = DamageValue;
+				Super::Use();
 			}
-			if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
-			{
-				Target = GetEnemyTarget();
-			}
-			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
-			Projectile->DamageValue = DamageValue;
-			Super::Use();
 		}
 	}
 	else
