@@ -45,9 +45,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     baseCameraZoom = 250;
     baseCameraAimZoom = 150;
     baseCameraSprintZoom = 160;
-    baseCameraOffset = FVector(7.5f, 90.0f, 25.0f);
-    baseZoomOffset = FVector(15.0f, 90.0f, 25.0f);
-    baseSprintOffset = FVector(0.0f, 0.0f, 20.0f);
+    baseCameraOffset = FVector(7.5f, 100.0f, 25.0f);
+    baseZoomOffset = FVector(17.5f, 90.0f, 25.0f);
+    baseSprintOffset = FVector(10.0f, 90.0f, 25.0f);
     
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
