@@ -126,8 +126,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
 		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentToActor(this, "head");
+		activeItem->AttachRootComponentToActor(this);
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
     CameraBoom->SocketOffset = baseCameraOffset;
