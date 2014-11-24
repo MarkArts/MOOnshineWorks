@@ -187,6 +187,8 @@ protected:
 
 	void reload();
 
+	void Interact();
+
 protected:
 
 	// APawn interface

@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
 #include "Pickup.h"
+#include "Door.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -134,6 +135,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
 	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -285,9 +287,26 @@ void AMOOnshineWorksCharacter::CollectItems()
 	for (AActor* Item : CollectedActors)
 	{
 		APickup* Pickup = Cast<APickup>(Item);
+		ADoor* Door = Cast<ADoor>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
+		}
+	}
+}
+
+void AMOOnshineWorksCharacter::Interact()
+{
+	TArray<AActor*> CollectedActors;
+	CollectionSphere->GetOverlappingActors(CollectedActors);
+
+	// For each Actor collected
+
+	for (AActor* Item : CollectedActors)
+	{
+		ADoor* Door = Cast<ADoor>(Item);
+		if (Door) {
+			Door->DoorOpen();
 		}
 	}
 }
