@@ -53,15 +53,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	float BaseSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-<<<<<<< HEAD
-		float SpeedFactor;
+    float SpeedFactor;
     
     UFUNCTION(BlueprintCallable, Category = CharacterStats)
     UTexture2D* GetAvatar();
-=======
-	float SpeedFactor;
->>>>>>> 715e8a3302b0a916d3f5c74d45c37d5feec1a191
-
 private:
     /* Characters health */
     UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
