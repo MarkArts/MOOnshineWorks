@@ -29,7 +29,6 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		OriginalPosition = BlackboardComp->GetKeyID("OriginalPosition");
 		GotEnemyAsTarget = BlackboardComp->GetKeyID("GotEnemyInSight/Hear");
 		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
-		RecentlyAttackedEnemy = BlackboardComp->GetKeyID("RecentlyAttackedEnemy");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -179,14 +178,6 @@ void AAI_BasicController::SetPatrollingAnimation()
 	BasicAnimInstance->AIIdle = false;
 }
 
-void AAI_BasicController::RecentlyAttackedEnemyTrue()
-{
-	BlackboardComp->SetValueAsBool(RecentlyAttackedEnemy, true);
-}
-void AAI_BasicController::RecentlyAttackedEnemyFalse()
-{
-	BlackboardComp->SetValueAsBool(RecentlyAttackedEnemy, false);
-}
 void AAI_BasicController::AISetPatrolState()
 {
 	int State = 0;
