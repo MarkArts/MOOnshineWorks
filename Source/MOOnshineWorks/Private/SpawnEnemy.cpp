@@ -18,13 +18,14 @@ ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
 
 void ASpawnEnemy::SetTime(float Time)
 {
-	GetWorld()->GetTimerManager().SetTimer(this, &ASpawnEnemy::SpawnRandomEnemy, Time, true);
+	//GetWorld()->GetTimerManager().SetTimer(this, &ASpawnEnemy::SpawnRandomEnemy, Time, true);
 }
 
 void ASpawnEnemy::ReceiveBeginPlay()
 {
 	Super::ReceiveBeginPlay();
-	SetTime(Time);
+	//SetTime(Time);
+	SpawnRandomEnemy();
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
 }
 
