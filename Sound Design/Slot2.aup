@@ -1,0 +1,31 @@
+<?xml version="1.0" standalone="no" ?>
+<!DOCTYPE project PUBLIC "-//audacityproject-1.3.0//DTD//EN" "http://audacity.sourceforge.net/xml/audacityproject-1.3.0.dtd" >
+<project xmlns="http://audacity.sourceforge.net/xml/" projname="Slot2_data" version="1.3.0" audacityversion="2.0.6" sel0="7.7670748299" sel1="7.7670748299" vpos="0" h="0.0000000000" zoom="86.1328125000" rate="44100.0" snapto="off" selectionformat="uu:mm:ss + milliseconden">
+	<tags/>
+	<wavetrack name="Audiospoor" channel="0" linked="1" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="432640">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000c79.au" len="262144" min="-1.0" max="0.999969" rms="0.037219"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e00009f3.au" len="170496" min="-1.0" max="0.999969" rms="0.014393"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+	<wavetrack name="Audiospoor" channel="1" linked="0" mute="0" solo="0" height="150" minimized="0" isSelected="1" rate="44100" gain="1.0" pan="0.0">
+		<waveclip offset="0.00000000">
+			<sequence maxsamples="262144" sampleformat="262159" numsamples="432640">
+				<waveblock start="0">
+					<simpleblockfile filename="e0000d7f.au" len="262144" min="-0.000244" max="0.000214" rms="0.000027"/>
+				</waveblock>
+				<waveblock start="262144">
+					<simpleblockfile filename="e000093a.au" len="170496" min="-0.000122" max="0.000153" rms="0.000024"/>
+				</waveblock>
+			</sequence>
+			<envelope numpoints="0"/>
+		</waveclip>
+	</wavetrack>
+</project>
