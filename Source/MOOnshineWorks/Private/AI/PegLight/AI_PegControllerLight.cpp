@@ -18,6 +18,7 @@ AAI_PegControllerLight::AAI_PegControllerLight(const class FPostConstructInitial
 void AAI_PegControllerLight::AttackPlayer()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
 	if(AiChar)
 	{
