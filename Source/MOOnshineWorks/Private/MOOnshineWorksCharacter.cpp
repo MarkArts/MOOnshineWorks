@@ -123,12 +123,35 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		spawnParams.Owner = this;
 		spawnParams.bNoCollisionFail = false;
 
-		activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
-		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
-		activeItem->AttachRootComponentToActor(this);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+		USceneComponent *Mesh = nullptr;
+
+		for(int i = 0; i < RootComponent->GetNumChildrenComponents(); i++)
+		{
+			USceneComponent* Comp =  RootComponent->GetChildComponent(i);
+
+			if (Comp->GetName() == FString("CharacterMesh0"))
+			{
+				Mesh = Comp;
+			}
+		}
+
+		if(Mesh)
+		{
+			if (Mesh->DoesSocketExist("hand_rSocket"))
+			{
+				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
+				activeItem->SetActorLocation(FVector::ZeroVector, false);
+				activeItem->SetActorRotation(FRotator::ZeroRotator);
+				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
+
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+			}
+			else{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
+			}
+		}
 	}
+
     CameraBoom->SocketOffset = baseCameraOffset;
     
 	Super::ReceiveBeginPlay();

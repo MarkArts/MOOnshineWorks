@@ -23,9 +23,37 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 void APistol::ReceiveBeginPlay()
 {
-	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
-
 	ProjectileClass =  TSubclassOf<AProjectile>(*(BlueprintLoader::Get().GetBP("BP_Projectile")));
 	Super::ReceiveBeginPlay();
 }
 
+void APistol::Use()
+{
+	if (CanShoot())
+	{
+		Shoot();
+		MagazineCountDecrement();
+	}
+	else
+	{
+		Reload();
+	}
+}
+
+void APistol::Shoot()
+{
+	MagazineCountDecrement();
+	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
+	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
+	OnUse();
+}
+
+bool APistol::CanShoot()
+{
+	return MagazineLoadCount > 0;
+}
+
+void APistol::MagazineCountDecrement()
+{
+	MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
+}
