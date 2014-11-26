@@ -1,0 +1,41 @@
+LEES DIT EERST!!
+
+HIER STAAT HOE OBJECTEN ERUIT ZIEN IN UNREAL ENGINE 4
+DE OBJECTEN ZIJN GETEST DOOR ARTISTS VOORDAT ZE WORDEN TOEGEVOEGD AAN DE MAP
+HIERONDER IS EEN STATUS LIST MET DE STATUS EN EVENTUELE BUGS
+
+IMPORT STATUS OF OBJECTS:
+
+BOEKEN KAST:
+GOOD*
+*achterkant ontbreekt en is dus doorzichtig
+
+BOEKEN STAPEL:
+GOOD
+
+SCHILDERIJ:
+GOOD*
+*soms worden de kleuren gefucked met flikkeringen
+
+GUN:
+GOOD
+
+CANDLE:
+GOOD
+animation moet naar gekeken worden
+
+BATTERY:
+GOOD
+moet ingekleurd worden
+
+TAFEL LAMB:
+GOOD
+moet ingekleurd worden
+
+SOFA:
+GOOD
+
+
+
+
+
