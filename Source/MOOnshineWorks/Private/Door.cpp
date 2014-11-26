@@ -22,11 +22,10 @@ void ADoor::DoorOpen() {
 		this->SetActorLocation(DoorLocation);
 		this->SetActorRotation(DoorRotator);
 		DoorClosed = false;*/
-		
-		TArray<class AMatineeActor*> MActors = GetWorld()->GetMatineeActors();
+
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Close Door"));
+		/*GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Close Door"));
 		FRotator DoorRotator = this->GetActorRotation();
 		FVector DoorLocation = this->GetActorLocation();
 		DoorLocation[0] += 90;
@@ -34,7 +33,7 @@ void ADoor::DoorOpen() {
 		DoorRotator.Yaw -= 90;
 		this->SetActorLocation(DoorLocation);
 		this->SetActorRotation(DoorRotator);
-		DoorClosed = true;
+		DoorClosed = true;*/
 	}
 	
 }
