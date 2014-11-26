@@ -20,6 +20,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 	if (BaseChar && BaseChar->Behavior)
 	{
 		BlackboardComp->InitializeBlackboard(BaseChar->Behavior->BlackboardAsset);
+		StateAI = BlackboardComp->GetKeyID("StateAI");
 		EnemyKeyID = BlackboardComp->GetKeyID("Enemy");
 		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
 		EnemyDistance = BlackboardComp->GetKeyID("EnemyDistance");
@@ -186,8 +187,21 @@ void AAI_BasicController::RecentlyAttackedEnemyFalse()
 {
 	BlackboardComp->SetValueAsBool(RecentlyAttackedEnemy, false);
 }
-
-
+void AAI_BasicController::AISetPatrolState()
+{
+	int State = 0;
+	BlackboardComp->SetValueAsInt(StateAI, State);
+}
+void AAI_BasicController::AISetAttackState()
+{
+	int State = 1;
+	BlackboardComp->SetValueAsInt(StateAI, State);
+}
+void AAI_BasicController::AISetSearchState()
+{
+	int State = 2;
+	BlackboardComp->SetValueAsInt(StateAI, State);
+}
 
 
 
