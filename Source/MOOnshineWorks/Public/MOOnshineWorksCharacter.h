@@ -53,8 +53,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	float BaseSpeed;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-	float SpeedFactor;
-
+    float SpeedFactor;
+    
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    UTexture2D* GetAvatar();
 private:
     /* Characters health */
     UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
@@ -70,7 +72,9 @@ public:
 	void SetCurrentHealth(float NewCurrentHealth);
 	UFUNCTION(BlueprintCallable, Category = CharacterStats)
 	float GetCurrentHealth();
-
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    float GetCurrentMana();
+    
 	/* Light */
 private:
 	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
@@ -127,8 +131,9 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<UPointLightComponent> Light;
 
-    //Boolean which contains sprinting state (false / true)
+    // Sprint logic
     bool IsSprinting;
+    float SprintMultiplier;
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
@@ -142,6 +147,15 @@ public:
 	void equipPistol();
 
 	void DealDamage(float Damage);
+    
+private:
+    // Character avatar
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* StandardAvatar;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarLowHP;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarVeryLowHP;
 
 protected:
 
@@ -197,6 +211,8 @@ protected:
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 	void reload();
+
+	void Interact();
 
 protected:
 

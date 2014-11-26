@@ -32,23 +32,26 @@ void AGun::Use()
 		FRotator OwnerRotation = Owner->GetControlRotation();
 		MagazineLoadCount--;
 		UWorld* const World = GetWorld();
-		FVector SpawnLocation = GetActorLocation() + OwnerRotation.RotateVector(GunOffset);
-		UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-		//Enemies don't have cameras, catch this
-		FVector Target = FVector::ZeroVector;
-		if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
-		{
-			Target = GetPlayerTarget();
-		}
-		if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
-		{
-			Target = GetEnemyTarget();
-		}
-		if (World != NULL)
-		{
-			AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
-			Projectile->DamageValue = DamageValue;
-			Super::Use();
+		if (World){
+
+			if (RootComponent->DoesSocketExist("BulletSpawn"))
+			{
+				FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
+				//Enemies don't have cameras, catch this
+				FVector Target = FVector::ZeroVector;
+				if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+				{
+					Target = GetPlayerTarget();
+				}
+				if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
+				{
+					Target = GetEnemyTarget();
+				}
+
+				AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
+				Projectile->DamageValue = DamageValue;
+				Super::Use();
+			}
 		}
 	}
 	else
@@ -90,24 +93,56 @@ FVector AGun::GetPlayerTarget()
 	FVector Rotation = ViewInfo.Rotation.Vector();
 
 	FVector End = Location + Rotation * FVector(5000.f, 5000.f, 5000.f);
+	FVector Result = End;
 
 	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
-	RV_TraceParams.bTraceComplex = false;
 	RV_TraceParams.bTraceAsyncScene = true;
 	RV_TraceParams.bReturnPhysicalMaterial = false;
 	//Re-initialize hit info
-	FHitResult RV_Hit(ForceInit);
-
+	FHitResult RV_Hit(EForceInit::ForceInit);
+	bool bPawnHit = false;
 	//call GetWorld() from within an actor extending class
 	if (GetWorld()->LineTraceSingle(
 		RV_Hit,        //result
 		Location,    //start
 		End, //end
-		ECC_MAX, //collision channel
+		ECollisionChannel::ECC_Pawn, //collision channel
 		RV_TraceParams
 		))
 	{
-		return RV_Hit.Location;
+		Result = RV_Hit.Location;
+		if(!LocationBehindOwner(Result))
+		{
+			bPawnHit = true;
+		}
+		else
+		{
+			Result = End;
+		}
 	}
-	return End;
+	if (!bPawnHit && GetWorld()->LineTraceSingle(
+		RV_Hit,        //result
+		Location,    //start
+		End, //end
+		ECollisionChannel::ECC_MAX, //collision channel
+		RV_TraceParams
+		))
+	{
+		Result = RV_Hit.Location;
+	}
+	return Result;
+	bool YarborDies = true;
+}
+
+bool AGun::LocationBehindOwner(FVector Location)
+{
+	APawn* Owner = Cast<APawn>(GetOwner());
+	FVector OwnerLocation = Owner->GetActorLocation();
+	FRotator OwnerRotation = Owner->GetActorRotation();
+	bool Result = true;
+	if (OwnerRotation.UnrotateVector(OwnerLocation).X < OwnerRotation.UnrotateVector(Location).X)
+	{
+		Result = false;
+	}
+	return Result;
 }

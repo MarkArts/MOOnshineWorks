@@ -54,4 +54,5 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	FVector GetPlayerTarget();
 	FVector GetEnemyTarget();
+	bool LocationBehindOwner(FVector Location);
 };
