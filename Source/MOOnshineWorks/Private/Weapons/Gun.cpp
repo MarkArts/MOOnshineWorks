@@ -26,38 +26,30 @@ FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
 
 void AGun::Use()
 {
-	if (MagazineLoadCount > 0)
-	{
-		APawn* Owner = Cast<APawn>(GetOwner());
-		FRotator OwnerRotation = Owner->GetControlRotation();
-		MagazineLoadCount--;
-		UWorld* const World = GetWorld();
-		if (World){
+	Shoot();
+}
 
-			if (RootComponent->DoesSocketExist("BulletSpawn"))
-			{
-				FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
-				//Enemies don't have cameras, catch this
-				FVector Target = FVector::ZeroVector;
-				if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
-				{
-					Target = GetPlayerTarget();
-				}
-				if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
-				{
-					Target = GetEnemyTarget();
-				}
+void AGun::Shoot()
+{
+	MagazineCountDecrement();
+	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
+	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
+	OnUse();
+}
 
-				AProjectile* Projectile = World->SpawnActor<AProjectile>(ProjectileClass, SpawnLocation, GetBulletAngle(SpawnLocation, Target));
-				Projectile->DamageValue = DamageValue;
-				Super::Use();
-			}
+AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
+{
+	AProjectile* Result = NULL;
+	UWorld* const World = GetWorld();
+	if (World){
+
+		if (RootComponent->DoesSocketExist("BulletSpawn"))
+		{
+			Result= World->SpawnActor<AProjectile>(ProjectileClass, Start, GetBulletAngle(Start, End));
+			Result->DamageValue = DamageValue;
 		}
 	}
-	else
-	{
-		Reload();
-	}
+	return Result;
 }
 
 void AGun::OnReload_Implementation()
@@ -73,6 +65,30 @@ void AGun::Reload()
 	MagazineLoadCount = MagazineCapacity;
 
 	Reloading = false;
+}
+
+bool AGun::CanShoot()
+{
+	return true;// MagazineLoadCount > 0;
+}
+
+void AGun::MagazineCountDecrement()
+{
+	//MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
+}
+
+FVector AGun::GetTarget()
+{
+	APawn* Owner = Cast<APawn>(GetOwner());
+	if (Owner->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+	{
+		return GetPlayerTarget();
+	}
+	if (Owner->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
+	{
+		return GetEnemyTarget();
+	}
+	return FVector::ZeroVector;
 }
 
 FVector AGun::GetEnemyTarget()
@@ -131,7 +147,6 @@ FVector AGun::GetPlayerTarget()
 		Result = RV_Hit.Location;
 	}
 	return Result;
-	bool YarborDies = true;
 }
 
 bool AGun::LocationBehindOwner(FVector Location)

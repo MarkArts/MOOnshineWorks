@@ -52,7 +52,13 @@ class MOONSHINEWORKS_API AGun : public AItem
 	UFUNCTION(BlueprintCallable, Category = Gun)
 	void Reload();
 
+	FVector GetTarget();
 	FVector GetPlayerTarget();
 	FVector GetEnemyTarget();
 	bool LocationBehindOwner(FVector Location);
+	virtual void MagazineCountDecrement();
+	virtual bool CanShoot();
+	virtual void Shoot();
+	AProjectile* SpawnProjectile(FVector Start, FVector End);
+
 };

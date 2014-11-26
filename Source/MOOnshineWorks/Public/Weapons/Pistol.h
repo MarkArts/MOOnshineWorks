@@ -15,6 +15,11 @@ class MOONSHINEWORKS_API APistol : public AGun
 {
 	GENERATED_UCLASS_BODY()
 
+	virtual void Use() override;
+	virtual void MagazineCountDecrement() override;
+	virtual bool CanShoot() override;
+	virtual void Shoot() override;
+
 protected:
 	virtual void ReceiveBeginPlay() override;
 	

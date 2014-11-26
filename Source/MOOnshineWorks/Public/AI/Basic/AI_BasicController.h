@@ -44,6 +44,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void LostPlayer();
 
+	uint8 StateAI;					//Int
 	uint8 EnemyKeyID;				//Object
 	uint8 EnemyLocationID;			//Vector
 	uint8 EnemyDistance;			//Float
@@ -53,7 +54,7 @@ public:
 	uint8 GotEnemyAsTarget;			//Bool
 	uint8 LastSeenPosition;			//Vector
 	uint8 RecentlyAttackedEnemy;	//Bool
-
+	
 	//Animations setten!
 	UFUNCTION(BlueprintCallable, Category = Animation)
 	void SetIdleAnimation();
@@ -70,4 +71,13 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Animation)
 	void RecentlyAttackedEnemyFalse();
 
+
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void AISetPatrolState();
+
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void AISetAttackState();
+
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void AISetSearchState();
 };

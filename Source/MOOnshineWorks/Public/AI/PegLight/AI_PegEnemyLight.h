@@ -14,7 +14,4 @@ UCLASS()
 class MOONSHINEWORKS_API AAI_PegEnemyLight : public AAI_BasicEnemy
 {
 	GENERATED_UCLASS_BODY()
-
-	//UPROPERTY(EditAnywhere, Category = Behavior)
-	//class UBehaviorTree* Behavior;
 };
