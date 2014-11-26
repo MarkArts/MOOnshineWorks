@@ -7,6 +7,7 @@
 #include "AI_PegEnemyLight.h"
 #include "AI_BasicController.h"
 #include "BasicAnimationInstance.h"
+#include "AI_BasicEnemy.h"
 
 AAI_PegControllerLight::AAI_PegControllerLight(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -16,12 +17,17 @@ AAI_PegControllerLight::AAI_PegControllerLight(const class FPostConstructInitial
 
 void AAI_PegControllerLight::AttackPlayer()
 {
-	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+
+	if(AiChar)
 	{
-		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
-		if (playerCharacter)
+		for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
 		{
-			playerCharacter->DealDamage(1.f);
+			AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+			if (playerCharacter)
+			{
+				playerCharacter->DealDamage(AiChar->Damage);
+			}
 		}
 	}
 }

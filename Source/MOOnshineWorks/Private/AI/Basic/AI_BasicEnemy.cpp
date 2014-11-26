@@ -15,6 +15,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	Health = 0.f;
 	Defense = 0.f;
 	Speed = 0.f;
+	Damage = 0.f;
 }
 
 void AAI_BasicEnemy::PostInitializeComponents()
@@ -53,7 +54,7 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
-void AAI_BasicEnemy::DealDamage(float Damage)
+void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
 	float FinalDamage = Damage - Defense;
 	if (FinalDamage > 0)
