@@ -10,9 +10,12 @@ AAI_PegEnemyLight::AAI_PegEnemyLight(const class FPostConstructInitializePropert
 {
 	AIControllerClass = AAI_PegControllerLight::StaticClass();
 
+	/*
 	Health = 5.f;
 	Defense = 0.f;
 	Speed = 0.6f;
+	Damage = 5.f;
+	*/
 
 	LightType = EnemyLightType::Light;
 }
