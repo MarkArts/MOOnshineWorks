@@ -5,7 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
-#include "AI_BarrelEnemy.h"
+#include "AI_PegEnemyLight.h"
+#include "AI_BasicEnemy.h"
 #include "SpawnEnemy.generated.h"
 
 /**
@@ -22,7 +23,7 @@ public:
 	void SpawnRandomEnemy();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = MOOnshine)
-	TSubclassOf<AAI_BarrelEnemy> EnemyClass;
+	TSubclassOf<AAI_BasicEnemy> EnemyClass;
 
 	class UBehaviorTree * BehaviorTree;
 
@@ -32,6 +33,11 @@ protected:
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Time;
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	TArray<FString> Enemies;
+
+protected:
 
 	virtual void ReceiveBeginPlay() override;
 };

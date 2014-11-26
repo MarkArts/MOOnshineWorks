@@ -21,8 +21,6 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 
 			Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
 			Socket->start("MarksSocket", "127.0.0.1", 4243);
-
 		}
-
 	}
 }

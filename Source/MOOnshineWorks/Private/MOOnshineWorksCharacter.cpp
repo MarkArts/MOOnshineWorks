@@ -2,9 +2,9 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Pickup.h"
+#include "Door.h"
 #include "MOOnshineWorksGameMode.h"
-#include "Socket.h"
-#include "ChestPickup.h"
 
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
@@ -12,9 +12,8 @@
 AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
-	static ConstructorHelpers::FClassFinder<APistol> BP_Pistol(TEXT("/Game/Blueprints/BP_Pistol"));
-	PistolClass = BP_Pistol.Class;
+	/** Make Character able to produce sound */
+	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
     //set base health
     BaseHealth = 100.f;
@@ -34,16 +33,22 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     Stamina = BaseStamina;
     //Sprint toggle
     IsSprinting = false;
+    //Set sprint multiplier;
+    SprintMultiplier = 1.75;
     //Aim toggle
     IsAiming = false;
-
+	//AI starts Dark
+	DarkLight = true;
+    //Move forward state
+    IsMovingForward = false;
+    
     //Set camera values
     baseCameraZoom = 250;
     baseCameraAimZoom = 150;
     baseCameraSprintZoom = 160;
-    baseCameraOffset = FVector(0.0f, 0.0f, 0.0f);
-    baseZoomOffset = FVector(10.0f, 65.0f, 20.0f);
-    baseSprintOffset = FVector(0.0f, 0.0f, 20.0f);
+    baseCameraOffset = FVector(7.5f, 100.0f, 25.0f);
+    baseZoomOffset = FVector(17.5f, 90.0f, 25.0f);
+    baseSprintOffset = FVector(10.0f, 90.0f, 25.0f);
     
 	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
@@ -74,7 +79,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = false;
+	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
 	// Configure character movement
@@ -87,7 +92,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->TargetArmLength = baseCameraZoom; // The camera follows at this distance behind the character
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
 	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
@@ -96,6 +101,16 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
+    
+    //Set avatar img
+    // Set the standard texture
+    static ConstructorHelpers::FObjectFinder<UTexture2D> StandardAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey1.Spidey1'"));
+    StandardAvatar = StandardAvatarTexObj.Object;
+    static ConstructorHelpers::FObjectFinder<UTexture2D> LowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey2.Spidey2'"));
+    AvatarLowHP = LowHPAvatarTexObj.Object;
+    static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey3.Spidey3'"));
+    AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
+
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -108,13 +123,37 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		spawnParams.Owner = this;
 		spawnParams.bNoCollisionFail = false;
 
-		activeItem = world->SpawnActor<APistol>(PistolClass, spawnParams);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun made, yay!"));
-		activeItem->SetActorLocation(RootComponent->GetSocketLocation("head"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentToActor(this, "head");
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+		USceneComponent *Mesh = nullptr;
+
+		for(int i = 0; i < RootComponent->GetNumChildrenComponents(); i++)
+		{
+			USceneComponent* Comp =  RootComponent->GetChildComponent(i);
+
+			if (Comp->GetName() == FString("CharacterMesh0"))
+			{
+				Mesh = Comp;
+			}
+		}
+
+		if(Mesh)
+		{
+			if (Mesh->DoesSocketExist("hand_rSocket"))
+			{
+				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
+				activeItem->SetActorLocation(FVector::ZeroVector, false);
+				activeItem->SetActorRotation(FRotator::ZeroRotator);
+				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
+
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+			}
+			else{
+				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
+			}
+		}
 	}
+
+    CameraBoom->SocketOffset = baseCameraOffset;
+    
 	Super::ReceiveBeginPlay();
 }
 
@@ -127,7 +166,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
-	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+	//InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
@@ -135,6 +174,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
 	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
+	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -223,7 +263,10 @@ void AMOOnshineWorksCharacter::MoveForward(float Value)
 		// get forward vector
 		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 		AddMovementInput(Direction, Value);
-	}
+        IsMovingForward = true;
+    }else{
+        IsMovingForward = false;
+    }
 }
 
 void AMOOnshineWorksCharacter::MoveRight(float Value)
@@ -243,16 +286,28 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-    if(Stamina > 0)
+    if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
         CameraBoom->TargetArmLength = baseCameraSprintZoom;
         CameraBoom->SocketOffset = baseSprintOffset;
         //PerformCameraShake();
         //Adjust movement speed to sprint values & switch boolean to true
-        CharacterMovement->MaxWalkSpeed *= 1.75;
+        CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+	{
+		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			FVector loc = playerCharacter->GetActorLocation();
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			MakeNoise(10.0f, playerCharacter, loc);
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::EndSprint()
@@ -265,8 +320,7 @@ void AMOOnshineWorksCharacter::EndSprint()
         CameraBoom->SocketOffset = baseCameraOffset;
         
         //Adjust movement speed to standard values & switch boolean to false
-        CharacterMovement->MaxWalkSpeed /= 7;
-        CharacterMovement->MaxWalkSpeed *= 4;
+        CharacterMovement->MaxWalkSpeed = (CharacterMovement->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
         IsSprinting = false;
     }
 }
@@ -274,38 +328,36 @@ void AMOOnshineWorksCharacter::EndSprint()
 void AMOOnshineWorksCharacter::CollectItems()
 {
 
-	AMOOnshineWorksGameMode* GameMode = (AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode();
-	(*GameMode).Socket->SendString(TEXT("Ik druk op E mon pere"));
-
-	printf("CollectItems aangeroepen!");
-	float ManaValue = 0.f;
-
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
 	// For each Actor collected
-	for (int32 iCollected = 0; iCollected < CollectedActors.Num(); ++iCollected)
-	{
-		// Try to Cast the collected Actor to AChestPickup.
-		AChestPickup* const TestChest = Cast<AChestPickup>(CollectedActors[iCollected]);
 
-		// If the cast is successful, and the chest is valid and active
-		if (TestChest && !TestChest->IsPendingKill() && TestChest->bIsActive) //Check if you picked up a chest!
+	for (AActor* Item : CollectedActors)
+	{
+		APickup* Pickup = Cast<APickup>(Item);
+		ADoor* Door = Cast<ADoor>(Item);
+		if (Pickup)
 		{
-			// Store its battery power for adding to the character's power.
-			ManaValue = ManaValue + TestChest->valueMana;
-			// Deactivate the battery
-			TestChest->bIsActive = false;
-			// Call the Chest's OnPickedUp function so destroy
-			TestChest->OnPickedUp();
+			Pickup->OnPickedUp(this);
 		}
 	}
+}
 
-	if (ManaValue > 0.f)
+void AMOOnshineWorksCharacter::Interact()
+{
+	TArray<AActor*> CollectedActors;
+	CollectionSphere->GetOverlappingActors(CollectedActors);
+
+	// For each Actor collected
+
+	for (AActor* Item : CollectedActors)
 	{
-		// Call the !Blueprinted implementation! of ManaUp with the total mana as input.
-		ManaUp(ManaValue);
+		ADoor* Door = Cast<ADoor>(Item);
+		if (Door) {
+			Door->DoorOpen();
+		}
 	}
 }
 
@@ -352,19 +404,19 @@ void AMOOnshineWorksCharacter::reload()
 
 void AMOOnshineWorksCharacter::CalcStamina()
 {
-    if(IsSprinting == true && Stamina > 0.f)
+    if(IsSprinting == true && GetStamina() > 0.f)
     {
-        Stamina = Stamina - 1.f;
+        SetStamina(GetStamina() - 1.f);
     }
-    else if(IsSprinting == false && Stamina < 150.0f)
+    else if(IsSprinting == false && GetStamina() < GetBaseStamina())
     {
-        Stamina = Stamina + 0.5f;
+        SetStamina(GetStamina() + 0.5f);
     }
     
     //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + FString::FromInt(Stamina)));
-    if(Stamina > 150.f)
+    if(GetStamina() > GetBaseStamina())
     {
-        Stamina = 150.f;
+        SetStamina(GetBaseStamina());
     }
 }
 
@@ -372,30 +424,86 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	// y = 1/((x+2)/15)-1
-
-	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
-	}
-	else{
-		LightPercentage = 0;
-	}
-	
 	UpdateLightRadius(DeltaSeconds);
-    
+	SetLightRadius();
+
     CalcStamina();
-    
-    if(Stamina < 1)
+	CollectItems();
+
+
+    if(GetStamina() < 1)
     {
         EndSprint();
     }
     //CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
 
+/* Character health logic */
+void AMOOnshineWorksCharacter::SetBaseHealth(float NewBaseHealth) { BaseHealth = NewBaseHealth;  };
+float AMOOnshineWorksCharacter::GetBaseHealth() { return BaseHealth; };
+void AMOOnshineWorksCharacter::SetCurrentHealth(float NewCurrentHealth) {
+	CurrentHealth = NewCurrentHealth; 
+	if (CurrentHealth > BaseHealth){ CurrentHealth = BaseHealth; }
+	else if (CurrentHealth > 0){ Destroy(); };
+};
+float AMOOnshineWorksCharacter::GetCurrentHealth(){ return CurrentHealth; };
+float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
+
+
+/* Character light logic */
+void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
+	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+};
+float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
+void AMOOnshineWorksCharacter::SetDimSpeed(float NewDimSpeed) { DimSpeed = NewDimSpeed; };
+float AMOOnshineWorksCharacter::GetDimSpeed(){ return DimSpeed; };
+void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = NewMaxRadius; };
+float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
-	float ATRadius = MaxRadius * LightPercentage;
+	if (LightPercentage > 0){
+		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+	}
+	else{
+		LightPercentage = 0;
+	}
+}
+
+void AMOOnshineWorksCharacter::SetLightRadius()
+{
+	float ATRadius = GetMaxRadius() * GetLightPercentage();
 	Light->SetAttenuationRadius(ATRadius);
+}
+
+void AMOOnshineWorksCharacter::DealDamage(float Damage)
+{
+	CurrentHealth -= Damage;
+	if (CurrentHealth < 0)
+	{
+		Destroy();
+	}
+}
+
+/* Character Stamina logic  */
+void AMOOnshineWorksCharacter::SetBaseStamina(float NewBaseStamina) { BaseStamina = NewBaseStamina; };
+float AMOOnshineWorksCharacter::GetBaseStamina(){ return BaseStamina; };
+void AMOOnshineWorksCharacter::SetStamina(float New_Stamina) { 
+	Stamina = New_Stamina; if (Stamina > BaseStamina) Stamina = BaseStamina;
+};
+float AMOOnshineWorksCharacter::GetStamina() { return Stamina; };
+
+UTexture2D* AMOOnshineWorksCharacter::GetAvatar()
+{
+    if(GetCurrentHealth() < (GetBaseHealth() / 4 )){
+        return AvatarVeryLowHP;
+    }
+    else if(GetCurrentHealth() < (GetBaseHealth() / 2 )){
+        return AvatarLowHP;
+    }
+    else{
+        return StandardAvatar;
+    }
 }
 
 /* this function needs to be reviewed, doesn't work somehow

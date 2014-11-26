@@ -5,6 +5,7 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "GameFramework/Character.h"
+#include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
 UCLASS(config=Game)
@@ -12,11 +13,12 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+	/** Make Character able to produce sound */
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
+	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
 	AItem* activeItem;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = pistol)
-	TSubclassOf<APistol> PistolClass;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
@@ -41,38 +43,79 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/* Characters current mana */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
 	float CurrentMana;
-    
-    /* Characters base health */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-    float BaseHealth;
-    
-    /* Characters current health */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-	float CurrentHealth;
+
+	/* AI Dark(true)/Light(false)*/
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	bool DarkLight;
 
 	/* Characters basespeed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
 	float BaseSpeed;
 
-	/* Characters increase */
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-	float SpeedFactor;
-
+    float SpeedFactor;
+    
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    UTexture2D* GetAvatar();
+private:
+    /* Characters health */
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+    float BaseHealth;
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+	float CurrentHealth;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseHealth(float NewBaseHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseHealth();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetCurrentHealth(float NewCurrentHealth);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetCurrentHealth();
+    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+    float GetCurrentMana();
+    
 	/* Light */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float LightPercentage;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float DimSpeed;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
 	float MaxRadius;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetLightPercentage(float NewLightPercentage);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetLightPercentage();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetDimSpeed(float NewDimSpeed);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetDimSpeed();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetMaxRadius(float NewMaxRadius);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetMaxRadius();
+	
 	void UpdateLightRadius(float DeltaSeconds);
-    
-    // Float that contains the character stamina
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float BaseStamina;
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats)
-    float Stamina;
-    
+	void SetLightRadius();
+
+    // Stamina logic
+private:
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float BaseStamina;
+	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	float Stamina;
+public:
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetBaseStamina(float NewBastStamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetBaseStamina();
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	void SetStamina(float New_Stamina);
+	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	float GetStamina();
+
     //Standard camera values
     float baseCameraZoom;
     float baseCameraAimZoom;
@@ -88,16 +131,31 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<UPointLightComponent> Light;
 
-    //Boolean which contains sprinting state (false / true)
+    // Sprint logic
     bool IsSprinting;
+    float SprintMultiplier;
     
     //Boolean which contains aiming state (false / true)
     bool IsAiming;
-    
+
+    //Boolean which contains moving state (false / true)
+    bool IsMovingForward;
+
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Pistol)
 	void equipPistol();
+
+	void DealDamage(float Damage);
+    
+private:
+    // Character avatar
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* StandardAvatar;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarLowHP;
+    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+    UTexture2D* AvatarVeryLowHP;
 
 protected:
 
@@ -153,6 +211,8 @@ protected:
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
 	void reload();
+
+	void Interact();
 
 protected:
 

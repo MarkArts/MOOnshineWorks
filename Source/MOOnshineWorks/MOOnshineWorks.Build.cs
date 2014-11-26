@@ -12,7 +12,7 @@ public class MOOnshineWorks : ModuleRules
 
         PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Sockets", "Networking", "AIModule" });
 
-        PublicIncludePaths.AddRange(new string[] {  "Levels" });
+        PublicIncludePaths.AddRange(new string[] {  "AI", "Menu", "Network", "Pickups", "Weapons" });
 
         //PrivateDependencyModuleNames.AddRange(new string[] { "Sockets", "Networking" });
 	}
