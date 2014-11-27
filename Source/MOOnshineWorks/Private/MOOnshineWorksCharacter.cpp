@@ -116,7 +116,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const world = GetWorld();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
 		FActorSpawnParameters spawnParams;
@@ -144,10 +144,10 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				activeItem->SetActorRotation(FRotator::ZeroRotator);
 				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
 
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 			}
 			else{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
 			}
 		}
 	}
@@ -297,14 +297,14 @@ void AMOOnshineWorksCharacter::StartSprint()
         IsSprinting = true;
     }
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
 	{
 		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
 		{
 			FVector loc = playerCharacter->GetActorLocation();
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
 			MakeNoise(10.0f, playerCharacter, loc);
 		}
 	}
@@ -372,7 +372,7 @@ void AMOOnshineWorksCharacter::equipPistol()
 		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
 		activeItem->SetActorRotation(FRotator::ZeroRotator);
 		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
 }
 /*

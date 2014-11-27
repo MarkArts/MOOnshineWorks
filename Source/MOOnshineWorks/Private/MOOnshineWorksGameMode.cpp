@@ -15,7 +15,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 
 		ABaseLevelScriptActor* level = (ABaseLevelScriptActor*)GetWorld()->GetLevelScriptActor();
 		if (level){
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, (*level).LevelName);
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, (*level).LevelName);
 
 			DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 

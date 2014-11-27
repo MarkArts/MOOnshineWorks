@@ -88,7 +88,7 @@ void AAI_BasicController::SetEnemy(class APawn *InPawn)
 
 void AAI_BasicController::ChangeAIDarkLight(bool DarkLight) //Deze functie verwijderd alle AI's van Dark naar Light of andersom
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + DarkLight));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + DarkLight));
 
 	if (DarkLight == false) //als die false is dan moeten ze naar Light versie
 	{
@@ -96,8 +96,8 @@ void AAI_BasicController::ChangeAIDarkLight(bool DarkLight) //Deze functie verwi
 
 		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetName()));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetActorLocation().ToString()));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetName()));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetActorLocation().ToString()));
 		}
 		
 	}
@@ -115,11 +115,11 @@ void AAI_BasicController::Tick(float DeltaSeconds)
 	AAI_BasicEnemy* Parent = (AAI_BasicEnemy*)GetActorClass();
 	if (Parent->LightType == EnemyLightType::Dark && Player->GetLightPercentage() >= 0.5f) //Destroy Dark types enemies en spawn Light types enemies
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("BatteryLevel boven 50 nu ChangeAIDarkLight() aanroepen!!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("BatteryLevel boven 50 nu ChangeAIDarkLight() aanroepen!!"));
 	}
 	else if (Parent->LightType == EnemyLightType::Light && Player->GetLightPercentage() <= 0.5f) //Destroy Light types enemies en spawn Dark types enemies
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("BatteryLevel onder 50 nu ChangeAIDarkLight() aanroepen!!"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("BatteryLevel onder 50 nu ChangeAIDarkLight() aanroepen!!"));
 	}
 }
 
