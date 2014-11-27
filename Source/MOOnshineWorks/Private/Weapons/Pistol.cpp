@@ -42,7 +42,6 @@ void APistol::Use()
 
 void APistol::Shoot()
 {
-	MagazineCountDecrement();
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
