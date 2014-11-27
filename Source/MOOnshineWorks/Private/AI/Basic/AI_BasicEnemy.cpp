@@ -26,7 +26,7 @@ void AAI_BasicEnemy::PostInitializeComponents()
 }
 void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
 
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
@@ -34,7 +34,7 @@ void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, flo
 
 void AAI_BasicEnemy::OnSeePawn(APawn *OtherPawn)
 {	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
 
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
@@ -51,7 +51,7 @@ void AAI_BasicEnemy::StartWalk()
 
 void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
