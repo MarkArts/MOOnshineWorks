@@ -14,106 +14,99 @@ class AMOOnshineWorksCharacter : public ACharacter
 	GENERATED_UCLASS_BODY()
 
 	/** Make Character able to produce sound */
-	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Noise)
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Item)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	AItem* activeItem;
 
 	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class USpringArmComponent> CameraBoom;
 
 	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UCameraComponent> FollowCamera;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	float BaseTurnRate;
 
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Camera)
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	float BaseLookUpRate;
 	
     /* Characters base mana */
-    UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine) //BlueprintReadOnly
     float BaseMana;
     
 	/* Characters current mana */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine) //BlueprintReadOnly
 	float CurrentMana;
 
 	/* AI Dark(true)/Light(false)*/
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine) //BlueprintReadOnly
 	bool DarkLight;
-
-	/* Characters basespeed */
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = AIStats) //BlueprintReadOnly
-	float BaseSpeed;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = CharacterStats) //BlueprintReadOnly
-    float SpeedFactor;
     
-    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
     UTexture2D* GetAvatar();
-private:
+//private:
     /* Characters health */
-    UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(EditAnywhere, Category = MOOnshine) //BlueprintReadOnly
     float BaseHealth;
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats) //BlueprintReadOnly
+	UPROPERTY(EditAnywhere, Category = MOOnshine) //BlueprintReadOnly
 	float CurrentHealth;
-public:
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+//public:
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetBaseHealth(float NewBaseHealth);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetBaseHealth();
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetCurrentHealth(float NewCurrentHealth);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetCurrentHealth();
-    UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
     float GetCurrentMana();
     
 	/* Light */
-private:
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+//private:
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float LightPercentage;
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float DimSpeed;
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float MaxRadius;
-public:
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+//public:
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetLightPercentage(float NewLightPercentage);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetLightPercentage();
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetDimSpeed(float NewDimSpeed);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetDimSpeed();
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetMaxRadius(float NewMaxRadius);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetMaxRadius();
 	
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();
 
     // Stamina logic
-private:
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+//private:
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float BaseStamina;
-	UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Stamina;
-public:
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+//public:
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetBaseStamina(float NewBastStamina);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetBaseStamina();
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetStamina(float New_Stamina);
-	UFUNCTION(BlueprintCallable, Category = CharacterStats)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetStamina();
 
     //Standard camera values
@@ -125,7 +118,7 @@ public:
     FVector baseSprintOffset;
     
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Pickup)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<USphereComponent> CollectionSphere;
     
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
@@ -133,6 +126,7 @@ public:
 
     // Sprint logic
     bool IsSprinting;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     float SprintMultiplier;
     
     //Boolean which contains aiming state (false / true)
@@ -143,28 +137,28 @@ public:
 
 	virtual void Tick(float DeltaSeconds) override;
 
-	UFUNCTION(BlueprintCallable, Category = Pistol)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void equipPistol();
 
 	void DealDamage(float Damage);
     
-private:
+//private:
     // Character avatar
-    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* StandardAvatar;
-    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarLowHP;
-    UPROPERTY(VisibleAnywhere, Category = CharacterStats)
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarVeryLowHP;
 
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality
-	UFUNCTION(BlueprintImplementableEvent, Category = Items)
+	UFUNCTION(BlueprintImplementableEvent, Category = MOOnshine)
 	void ManaUp(float Mana);
 
 	//Called when we press a key, to collect any item inside the SphereComponent
-	UFUNCTION(BlueprintCallable, Category = Items)
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void CollectItems();
     
 	/** Called for useItem input */

@@ -23,10 +23,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
 	CurrentMana = BaseMana;
-	//set SpeedFactor
-	SpeedFactor = 0.75f;
-	//set BaseSpeed
-	BaseSpeed = 10.0f;
     //set BaseStamina
     BaseStamina = 150.0f;
     //Set stamina
@@ -435,7 +431,6 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
     {
         EndSprint();
     }
-    //CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
 
 /* Character health logic */
@@ -463,7 +458,7 @@ float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+		LightPercentage -= DimSpeed * DeltaSeconds;
 	}
 	else{
 		LightPercentage = 0;
