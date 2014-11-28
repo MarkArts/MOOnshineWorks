@@ -52,13 +52,14 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CollectionSphere->SetSphereRadius(200.f);
 
 	// setup light
-	DimSpeed = 0.05f;
-	MaxRadius = 2000.f;
+	LightDimSpeed = 0.05f;
+	LightMaxRadius = 2000.f;
+	LightMinRadius = 200.f;
 	LightPercentage = 1.0f;
 
 	Light = PCIP.CreateDefaultSubobject<UPointLightComponent>(this, "Light");
 	Light->SetIntensity(5.f);
-	Light->SetAttenuationRadius(MaxRadius);
+	Light->SetAttenuationRadius(LightMaxRadius);
 	Light->SetSourceRadius(1.f);
 	Light->bUseInverseSquaredFalloff = false;
 	Light->SetLightFalloffExponent(2.0f);
@@ -450,15 +451,18 @@ void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) {
 	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
-void AMOOnshineWorksCharacter::SetDimSpeed(float NewDimSpeed) { DimSpeed = NewDimSpeed; };
-float AMOOnshineWorksCharacter::GetDimSpeed(){ return DimSpeed; };
-void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = NewMaxRadius; };
-float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
+void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
+float AMOOnshineWorksCharacter::GetLightDimSpeed(){ return LightDimSpeed; };
+void AMOOnshineWorksCharacter::SetLightMaxRadius(float NewLightMaxRadius) { LightMaxRadius = NewLightMaxRadius; };
+float AMOOnshineWorksCharacter::GetLightMaxRadius(){ return LightMaxRadius; };
+void AMOOnshineWorksCharacter::SetLightMinRadius(float NewLightMinRadius) { LightMinRadius = NewLightMinRadius; };
+float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
+
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * DeltaSeconds;
+		LightPercentage -= LightDimSpeed * DeltaSeconds;
 	}
 	else{
 		LightPercentage = 0;
@@ -467,7 +471,7 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 
 void AMOOnshineWorksCharacter::SetLightRadius()
 {
-	float ATRadius = GetMaxRadius() * GetLightPercentage();
+	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius();
 	Light->SetAttenuationRadius(ATRadius);
 }
 
