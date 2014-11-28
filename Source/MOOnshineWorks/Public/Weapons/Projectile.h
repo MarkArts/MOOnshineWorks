@@ -44,4 +44,7 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
+	void HitEvent();
 };

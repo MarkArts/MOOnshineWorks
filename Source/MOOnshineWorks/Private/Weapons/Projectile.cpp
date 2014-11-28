@@ -30,6 +30,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	HitEvent();
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL))
 	{
@@ -57,5 +58,14 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 
 	if (!ProjectileMovement->bShouldBounce){
 		Destroy();
+	}
+}
+
+void AProjectile::HitEvent_Implementation()
+{
+	UWorld* const World = GetWorld();
+	if (World)
+	{
+		World->SpawnActor<AActor>(TSubclassOf<AActor>(*(BlueprintLoader::Get().GetBP("ProjectileDeath"))), RootComponent->GetComponentLocation(), FRotator::ZeroRotator);
 	}
 }
