@@ -24,6 +24,10 @@ class MOONSHINEWORKS_API AGun : public AItem
 	float DamageValue;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
+	float ShootCooldown;
+	FDateTime LastShot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ReloadTime;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
@@ -57,7 +61,9 @@ class MOONSHINEWORKS_API AGun : public AItem
 	FVector GetEnemyTarget();
 	bool LocationBehindOwner(FVector Location);
 	virtual void MagazineCountDecrement();
+	virtual bool HasAmmo();
 	virtual bool CanShoot();
+	void SetLastShotTime();
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 
