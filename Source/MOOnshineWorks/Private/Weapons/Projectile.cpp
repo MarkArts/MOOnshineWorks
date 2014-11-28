@@ -9,20 +9,16 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	// Use a sphere as a simple collision representation
-	CollisionComp = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
-	CollisionComp->InitSphereRadius(5.0f);
-	CollisionComp->BodyInstance.SetCollisionProfileName("ProjectileCollisionProfile");			// Collision profiles are defined in DefaultEngine.ini
-	CollisionComp->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blockin
-	RootComponent = CollisionComp;
+	
 
 	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
-	ProjectileMesh->AttachTo(RootComponent);
-	ProjectileMesh->SetCollisionProfileName(FName("NoCollision"));
-	ProjectileMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	ProjectileMesh->SetCollisionProfileName(FName("ProjectileCollisionProfile"));
+	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	RootComponent = ProjectileMesh;
 
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
-	ProjectileMovement->UpdatedComponent = CollisionComp;
+	ProjectileMovement->UpdatedComponent = ProjectileMesh;
 
 	InitialLifeSpan = 1.f;
 }

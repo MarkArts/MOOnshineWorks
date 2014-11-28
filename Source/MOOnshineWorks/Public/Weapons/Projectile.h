@@ -14,10 +14,6 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	/** Sphere collision component */
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-	TSubobjectPtr<class USphereComponent> CollisionComp;
-
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile)
 	TSubobjectPtr<UStaticMeshComponent> ProjectileMesh;
 
