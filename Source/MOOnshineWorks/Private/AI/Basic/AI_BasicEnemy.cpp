@@ -11,7 +11,8 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->SensingInterval = .25f; // 4 times per second
 	PawnSensor->bOnlySensePlayers = true;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
-
+	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
+	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
 	Health = 0.f;
 	Defense = 0.f;
 	Speed = 0.f;
@@ -26,7 +27,7 @@ void AAI_BasicEnemy::PostInitializeComponents()
 }
 void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
 
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
@@ -34,7 +35,7 @@ void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, flo
 
 void AAI_BasicEnemy::OnSeePawn(APawn *OtherPawn)
 {	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI ziet me!"));
 
 	AAI_BasicController* cont = (AAI_BasicController*)GetController();
 	cont->FoundPlayer();
@@ -51,7 +52,7 @@ void AAI_BasicEnemy::StartWalk()
 
 void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Switch Stance nu!"));
 }
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)

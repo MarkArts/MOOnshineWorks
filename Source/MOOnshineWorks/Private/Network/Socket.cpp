@@ -17,11 +17,11 @@ void ASocket::start(FString name, FString ip, int32 port)
 {
 	if (!StartUDPReceiver(name, ip, port))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created!");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created!");
 		return;
 	}
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created! Yay!");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "UDP Socket Listener Created! Yay!");
 }
 
 //Rama's Start UDP Receiver
@@ -32,14 +32,14 @@ bool ASocket::StartUDPReceiver(
 	){
 	//Rama's CreateUDPConnectionListener
 	ListenerSocket = CreateUDPConnectionListener(YourChosenSocketName, TheIP, ThePort);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called, socket done returning");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called, socket done returning");
 	//Not created?
 	if (!ListenerSocket)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket could not be created! ~> %s %d"), *TheIP, ThePort));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket could not be created! ~> %s %d"), *TheIP, ThePort));
 		return false;
 	}
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket was created ~> %s %d"), *TheIP, ThePort));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("StartUDPReceiver>> Listen socket was created ~> %s %d"), *TheIP, ThePort));
 	//Start the Listener! //thread this eventually
 	GetWorldTimerManager().SetTimer(this, &ASocket::UDPConnectionMaker, 2, true);
 
@@ -69,12 +69,12 @@ bool ASocket::FormatIP4ToNumber(const FString& TheIP, uint8(&Out)[4])
 //Rama's Create UDP Connection Listener
 FSocket* ASocket::CreateUDPConnectionListener(const FString& YourChosenSocketName, const FString& TheIP, const int32 ThePort, const int32 ReceiveBufferSize)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "CreateUDPConnectionListener called");
 
 	uint8 IP4Nums[4];
 	if (!FormatIP4ToNumber(TheIP, IP4Nums))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Invalid IP! Expecting 4 parts separated by .");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Invalid IP! Expecting 4 parts separated by .");
 		//return false;
 	}
 
@@ -108,13 +108,13 @@ void ASocket::UDPConnectionMaker()
 	//TSharedRef<FInternetAddr> RemoteAddress = ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->CreateInternetAddr();
 	TSharedRef<FInternetAddr> RemoteAddress = Destination.ToInternetAddr();
 	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Attempting connection...");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Attempting connection...");
 	if (ListenerSocket->Connect(*RemoteAddress))
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes?");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes?");
 		if (ConnectionSocket)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Already has a connection, destroying");
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Already has a connection, destroying");
 			ConnectionSocket->Close();
 			ISocketSubsystem::Get(PLATFORM_SOCKETSUBSYSTEM)->DestroySocket(ConnectionSocket);
 		}
@@ -123,7 +123,7 @@ void ASocket::UDPConnectionMaker()
 		ConnectionSocket = ListenerSocket;
 		if (ConnectionSocket != NULL)
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? YUP!");
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? YUP!");
 			//Global cache of current Remote Address
 			RemoteAddressForConnection = FIPv4Endpoint(RemoteAddress);
 			//SendString("Message received");
@@ -134,12 +134,12 @@ void ASocket::UDPConnectionMaker()
 		}
 		else
 		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? Nope :<");
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt succes? Nope :<");
 		}
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Connection attempt fail!");
 	}
 }
 
@@ -171,7 +171,7 @@ void ASocket::UDPSocketListener()
 
 		int32 Read = 0;
 		ConnectionSocket->Recv(ReceivedData.GetData(), ReceivedData.Num(), Read);
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Read! %d"), ReceivedData.Num()));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Read! %d"), ReceivedData.Num()));
 	}
 	//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -204,7 +204,7 @@ void ASocket::SendString(FString msg)
 
 bool ASocket::ParseMessage(TArray<uint8> ReceivedData){
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Bytes Read ~> %d"), ReceivedData.Num()));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("Data Bytes Read ~> %d"), ReceivedData.Num()));
 
 	MBase* Message = reinterpret_cast<MBase*>(ReceivedData.GetData());
 
@@ -218,10 +218,10 @@ bool ASocket::ParseMessage(TArray<uint8> ReceivedData){
 		case MessageType::Event:
 		{
 			MEvent* DEvent = reinterpret_cast<MEvent*>(ReceivedData.GetData());
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("event: %d"), (*DEvent).id));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %d"), (*DEvent).x));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("y: %d"), (*DEvent).y));
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("powerLevel: %d"), (*DEvent).powerLevel));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("event: %d"), (*DEvent).id));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("x: %d"), (*DEvent).x));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("y: %d"), (*DEvent).y));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::Printf(TEXT("powerLevel: %d"), (*DEvent).powerLevel));
 			break;
 		}
 		default: break;

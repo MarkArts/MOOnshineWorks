@@ -23,10 +23,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CurrentHealth = BaseHealth;
 	//set CurrentMana at 0
 	CurrentMana = BaseMana;
-	//set SpeedFactor
-	SpeedFactor = 0.75f;
-	//set BaseSpeed
-	BaseSpeed = 10.0f;
     //set BaseStamina
     BaseStamina = 150.0f;
     //Set stamina
@@ -56,13 +52,14 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CollectionSphere->SetSphereRadius(200.f);
 
 	// setup light
-	DimSpeed = 0.05f;
-	MaxRadius = 2000.f;
+	LightDimSpeed = 0.05f;
+	LightMaxRadius = 2000.f;
+	LightMinRadius = 200.f;
 	LightPercentage = 1.0f;
 
 	Light = PCIP.CreateDefaultSubobject<UPointLightComponent>(this, "Light");
 	Light->SetIntensity(5.f);
-	Light->SetAttenuationRadius(MaxRadius);
+	Light->SetAttenuationRadius(LightMaxRadius);
 	Light->SetSourceRadius(1.f);
 	Light->bUseInverseSquaredFalloff = false;
 	Light->SetLightFalloffExponent(2.0f);
@@ -116,7 +113,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const world = GetWorld();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
 		FActorSpawnParameters spawnParams;
@@ -144,10 +141,10 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				activeItem->SetActorRotation(FRotator::ZeroRotator);
 				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
 
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 			}
 			else{
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
 			}
 		}
 	}
@@ -297,14 +294,14 @@ void AMOOnshineWorksCharacter::StartSprint()
         IsSprinting = true;
     }
 
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
 	{
 		AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
 		{
 			FVector loc = playerCharacter->GetActorLocation();
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound!"));
 			MakeNoise(10.0f, playerCharacter, loc);
 		}
 	}
@@ -372,7 +369,7 @@ void AMOOnshineWorksCharacter::equipPistol()
 		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
 		activeItem->SetActorRotation(FRotator::ZeroRotator);
 		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 	}
 }
 /*
@@ -435,7 +432,6 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
     {
         EndSprint();
     }
-    //CharacterMovement->MaxWalkSpeed = SpeedFactor * PowerLevel + BaseSpeed;
 }
 
 /* Character health logic */
@@ -455,15 +451,18 @@ void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) {
 	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
-void AMOOnshineWorksCharacter::SetDimSpeed(float NewDimSpeed) { DimSpeed = NewDimSpeed; };
-float AMOOnshineWorksCharacter::GetDimSpeed(){ return DimSpeed; };
-void AMOOnshineWorksCharacter::SetMaxRadius(float NewMaxRadius) { MaxRadius = NewMaxRadius; };
-float AMOOnshineWorksCharacter::GetMaxRadius(){ return MaxRadius; };
+void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
+float AMOOnshineWorksCharacter::GetLightDimSpeed(){ return LightDimSpeed; };
+void AMOOnshineWorksCharacter::SetLightMaxRadius(float NewLightMaxRadius) { LightMaxRadius = NewLightMaxRadius; };
+float AMOOnshineWorksCharacter::GetLightMaxRadius(){ return LightMaxRadius; };
+void AMOOnshineWorksCharacter::SetLightMinRadius(float NewLightMinRadius) { LightMinRadius = NewLightMinRadius; };
+float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
+
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
-		LightPercentage -= DimSpeed * LightPercentage * DeltaSeconds;
+		LightPercentage -= LightDimSpeed * DeltaSeconds;
 	}
 	else{
 		LightPercentage = 0;
@@ -472,7 +471,7 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 
 void AMOOnshineWorksCharacter::SetLightRadius()
 {
-	float ATRadius = GetMaxRadius() * GetLightPercentage();
+	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius();
 	Light->SetAttenuationRadius(ATRadius);
 }
 
