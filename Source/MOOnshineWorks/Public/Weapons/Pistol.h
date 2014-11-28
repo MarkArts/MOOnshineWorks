@@ -17,7 +17,7 @@ class MOONSHINEWORKS_API APistol : public AGun
 
 	virtual void Use() override;
 	virtual void MagazineCountDecrement() override;
-	virtual bool CanShoot() override;
+	virtual bool HasAmmo() override;
 	virtual void Shoot() override;
 
 protected:

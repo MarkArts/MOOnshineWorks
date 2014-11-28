@@ -18,6 +18,7 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	DamageValue = 5.f;
 	ReloadTime = 2.f;
 	SpreadAngle = 0.f;
+	ShootCooldown = 1.5f;
 	Reloading = false;
 }
 
@@ -31,12 +32,15 @@ void APistol::Use()
 {
 	if (CanShoot())
 	{
-		Shoot();
-		MagazineCountDecrement();
-	}
-	else
-	{
-		Reload();
+		if (HasAmmo())
+		{
+			Shoot();
+			MagazineCountDecrement();
+		}
+		else
+		{
+			Reload();
+		}
 	}
 }
 
@@ -44,10 +48,11 @@ void APistol::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
+	SetLastShotTime();
 	OnUse();
 }
 
-bool APistol::CanShoot()
+bool APistol::HasAmmo()
 {
 	return MagazineLoadCount > 0;
 }
