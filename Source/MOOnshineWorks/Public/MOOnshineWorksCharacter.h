@@ -68,28 +68,34 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
     float GetCurrentMana();
     
-	/* Light */
+/* Light */
 //private:
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float LightPercentage;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
-	float DimSpeed;
+	float LightDimSpeed;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
-	float MaxRadius;
+	float LightMaxRadius;
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	float LightMinRadius;
 //public:
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetLightPercentage(float NewLightPercentage);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetLightPercentage();
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void SetDimSpeed(float NewDimSpeed);
+	void SetLightDimSpeed(float NewLightDimSpeed);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	float GetDimSpeed();
+	float GetLightDimSpeed();
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void SetMaxRadius(float NewMaxRadius);
+	void SetLightMaxRadius(float NewLightMaxRadius);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	float GetMaxRadius();
-	
+	float GetLightMaxRadius();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void SetLightMinRadius(float NewLightMinRadius);
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	float GetLightMinRadius();
+
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();
 
