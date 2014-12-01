@@ -14,10 +14,6 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	/** Sphere collision component */
-	UPROPERTY(VisibleDefaultsOnly, Category = Projectile)
-	TSubobjectPtr<class USphereComponent> CollisionComp;
-
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile)
 	TSubobjectPtr<UStaticMeshComponent> ProjectileMesh;
 
@@ -44,4 +40,10 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
+	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
+	void HitEvent();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+	TSubclassOf<AActor> DeathBlueprint;
 };

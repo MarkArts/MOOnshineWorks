@@ -11,7 +11,8 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->SensingInterval = .25f; // 4 times per second
 	PawnSensor->bOnlySensePlayers = true;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
-
+	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
+	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
 	Health = 0.f;
 	Defense = 0.f;
 	Speed = 0.f;
