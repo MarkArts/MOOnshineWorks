@@ -29,6 +29,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		OriginalPosition = BlackboardComp->GetKeyID("OriginalPosition");
 		GotEnemyAsTarget = BlackboardComp->GetKeyID("GotEnemyInSight/Hear");
 		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
+		ShouldTheAIPatrol = BlackboardComp->GetKeyID("ShouldTheAIPatrol");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -127,7 +128,6 @@ void AAI_BasicController::FoundPlayer() //Bool in blackboard setten voor behavio
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, true);
 }
-
 void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviour tree en reset patrol key
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
@@ -203,12 +203,11 @@ void AAI_BasicController::SetSpeedAnimation(float speed)
 
 	//BasicAnimInstance->Speed = speed;
 }
-
-
 void AAI_BasicController::AISetPatrolState()
 {
 	int State = 0;
 	BlackboardComp->SetValueAsInt(StateAI, State);
+	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
 }
 void AAI_BasicController::AISetAttackState()
 {
@@ -219,6 +218,19 @@ void AAI_BasicController::AISetSearchState()
 {
 	int State = 2;
 	BlackboardComp->SetValueAsInt(StateAI, State);
+}
+void AAI_BasicController::ShouldAIPatrol()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	//APawn* MyBot = GetPawn();
+	if (BasicEnemy->AIPatrol == false) //AI moet niet patrollen en State is niet al gezet naar 3
+	{
+		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, false);
+	}
+	if (BasicEnemy->AIPatrol == true)
+	{
+		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, true);
+	}
 }
 
 

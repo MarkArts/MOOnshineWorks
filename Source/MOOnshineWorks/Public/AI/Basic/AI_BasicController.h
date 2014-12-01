@@ -44,6 +44,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 		void LostPlayer();
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		void ShouldAIPatrol();
+
+
 	uint8 StateAI;					//Int
 	uint8 EnemyKeyID;				//Object
 	uint8 EnemyLocationID;			//Vector
@@ -53,6 +57,7 @@ public:
 	uint8 OriginalPosition;			//Vector
 	uint8 GotEnemyAsTarget;			//Bool
 	uint8 LastSeenPosition;			//Vector
+	uint8 ShouldTheAIPatrol;		//Bool
 
 	//Animations setten!
 	UFUNCTION(BlueprintCallable, Category = Animation)
