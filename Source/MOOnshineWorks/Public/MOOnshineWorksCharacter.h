@@ -32,6 +32,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	float BaseTurnRate;
 
+	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	float MaxMovementSpeed;
+
 	/** Base look up/down rate, in deg/sec. Other scaling may affect final rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	float BaseLookUpRate;
