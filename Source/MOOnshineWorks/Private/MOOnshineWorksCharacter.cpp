@@ -136,7 +136,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		{
 			if (Mesh->DoesSocketExist("hand_rSocket"))
 			{
-				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
+				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("ShotgunClass")))), spawnParams);
 				activeItem->SetActorLocation(FVector::ZeroVector, false);
 				activeItem->SetActorRotation(FRotator::ZeroRotator);
 				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");

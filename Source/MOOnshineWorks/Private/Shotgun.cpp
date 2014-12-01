@@ -1,34 +1,29 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
-#include "Pistol.h"
+#include "Shotgun.h"
 
 
-APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
+AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	Name = "Pistol";
-	Id = 14.f;
+	Name = "Shotgun";
+	Id = 15.f;
 
 	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
 	ProjectileClass = BP_Projectile.Class;*/
-
-	MagazineCapacity = 15.f;
-	MagazineLoadCount = MagazineCapacity;
-	DamageValue = 5.f;
+	
+	MagazineCapacity = 0.f;
+	MagazineLoadCount = 6;
+	DamageValue = 1.f;
 	ReloadTime = 2.f;
-	SpreadAngle = 0.f;
-	ShootCooldown = 0.8f;
+	SpreadAngle = 20.f;
+	ShootCooldown = 1.2f;
 	Reloading = false;
+	PelletCount = 6.f;
 }
 
-//void APistol::ReceiveBeginPlay()
-//{
-//	ProjectileClass =  TSubclassOf<AProjectile>(*(BlueprintLoader::Get().GetBP("BP_Projectile")));
-//	Super::ReceiveBeginPlay();
-//}
-
-void APistol::Use()
+void AShotgun::Use()
 {
 	if (HasAmmo())
 	{
@@ -44,20 +39,24 @@ void APistol::Use()
 	}
 }
 
-void APistol::Shoot()
+void AShotgun::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
-	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
+	FVector Target = GetTarget();
+	for (int i = 0; i < PelletCount; i++)
+	{
+		AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+	}
 	SetLastShotTime();
 	OnUse();
 }
 
-bool APistol::HasAmmo()
+bool AShotgun::CanShoot()
 {
 	return MagazineLoadCount > 0;
 }
 
-void APistol::MagazineCountDecrement()
+void AShotgun::MagazineCountDecrement()
 {
 	MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }

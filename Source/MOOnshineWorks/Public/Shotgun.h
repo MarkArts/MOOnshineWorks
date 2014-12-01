@@ -4,20 +4,23 @@
 
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
-#include "Gun.h"
-#include "Pistol.generated.h"
+#include "Weapons/Gun.h"
+#include "Shotgun.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API APistol : public AGun
+class MOONSHINEWORKS_API AShotgun : public AGun
 {
 	GENERATED_UCLASS_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shotgun)
+	float PelletCount;
+
 	virtual void Use() override;
 	virtual void MagazineCountDecrement() override;
-	virtual bool HasAmmo() override;
+	virtual bool CanShoot() override;
 	virtual void Shoot() override;
-	
+
 };
