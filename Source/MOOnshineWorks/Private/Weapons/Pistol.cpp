@@ -18,7 +18,7 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	DamageValue = 5.f;
 	ReloadTime = 2.f;
 	SpreadAngle = 0.f;
-	ShootCooldown = 1.5f;
+	ShootCooldown = 0.8f;
 	Reloading = false;
 }
 
