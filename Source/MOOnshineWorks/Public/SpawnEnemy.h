@@ -32,6 +32,9 @@ protected:
 	void SetTime(float Time);
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	bool Repeat;
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Time;
 
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
