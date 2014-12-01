@@ -48,7 +48,7 @@ void APistol::Shoot()
 
 bool APistol::HasAmmo()
 {
-	return MagazineLoadCount > 0;
+	return MagazineLoadCount > 0 && !Reloading;
 }
 
 void APistol::MagazineCountDecrement()

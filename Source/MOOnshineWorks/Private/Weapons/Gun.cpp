@@ -59,12 +59,14 @@ void AGun::OnReload_Implementation()
 
 void AGun::Reload()
 {
-	Reloading = true;
-	OnReload();
-	//delay
-	MagazineLoadCount = MagazineCapacity;
-
-	Reloading = false;
+	if (!Reloading)
+	{
+		Reloading = true;
+		OnReload();
+		//delay
+		MagazineLoadCount = MagazineCapacity;
+		Reloading = false;
+	}
 }
 
 bool AGun::HasAmmo()
