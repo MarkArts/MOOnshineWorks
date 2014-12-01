@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
-#include "AI_PegEnemyLight.h"
+#include "AI_PegEnemyDark.h"
 #include "AI_BasicEnemy.h"
 #include "SpawnEnemy.generated.h"
 

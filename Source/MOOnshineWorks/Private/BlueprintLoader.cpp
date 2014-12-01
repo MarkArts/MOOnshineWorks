@@ -2,7 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "Projectile.h"
-#include "AI_PegEnemyLight.h" 
+#include "AI_PegEnemyDark.h" 
 #include "AI_BookEnemyLight.h"
 #include "BlueprintLoader.h"
 

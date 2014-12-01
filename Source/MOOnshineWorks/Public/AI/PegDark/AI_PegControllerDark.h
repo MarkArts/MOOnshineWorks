@@ -3,15 +3,15 @@
 #pragma once
 
 #include "AI_BasicController.h"
-#include "AI_PegEnemyLight.h"
+#include "AI_PegEnemyDark.h"
 #include "AI_BasicEnemy.h"
-#include "AI_PegControllerLight.generated.h"
+#include "AI_PegControllerDark.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_PegControllerLight : public AAI_BasicController
+class MOONSHINEWORKS_API AAI_PegControllerDark : public AAI_BasicController
 {
 	GENERATED_UCLASS_BODY()
 

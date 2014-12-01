@@ -1,21 +1,21 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
-#include "AI_PegControllerLight.h"
+#include "AI_PegControllerDark.h"
 #include "MOOnshineWorksCharacter.h"
 #include "GameFramework/Character.h"
-#include "AI_PegEnemyLight.h"
+#include "AI_PegEnemyDark.h"
 #include "AI_BasicController.h"
 #include "BasicAnimationInstance.h"
 #include "AI_BasicEnemy.h"
 
-AAI_PegControllerLight::AAI_PegControllerLight(const class FPostConstructInitializeProperties& PCIP)
+AAI_PegControllerDark::AAI_PegControllerDark(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	
 }
 
-void AAI_PegControllerLight::AttackPlayer()
+void AAI_PegControllerDark::AttackPlayer()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
@@ -32,12 +32,12 @@ void AAI_PegControllerLight::AttackPlayer()
 		}
 	}
 }
-void AAI_PegControllerLight::SpeedUp()
+void AAI_PegControllerDark::SpeedUp()
 {
 	AAI_BasicEnemy* WalkingEnemy = (AAI_BasicEnemy*)GetPawn();
 	WalkingEnemy->StartSprint();
 }
-void AAI_PegControllerLight::PegPatrol()
+void AAI_PegControllerDark::PegPatrol()
 {
 	APawn* MyBot = GetPawn();
 	if (MyBot == NULL)
