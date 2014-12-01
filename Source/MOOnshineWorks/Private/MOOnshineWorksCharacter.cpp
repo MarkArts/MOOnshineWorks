@@ -136,11 +136,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		{
 			if (Mesh->DoesSocketExist("hand_rSocket"))
 			{
-				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("ShotgunClass")))), spawnParams);
-				activeItem->SetActorLocation(FVector::ZeroVector, false);
-				activeItem->SetActorRotation(FRotator::ZeroRotator);
-				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
-
+				AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
+				EquipGun(Pistol);
+				activeItem = Pistol;
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 			}
 			else{
@@ -351,26 +349,29 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
-		ADoor* Door = Cast<ADoor>(Item);
-		if (Door) {
-			Door->DoorOpen();
+		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
+		{	
+			ADoor* Door = Cast<ADoor>(Item);
+			if (Door) {
+				Door->DoorOpen();
+			}
+		}
+		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))
+		{
+			AGun* Gun = Cast<AGun>(Item);
+			if (Gun)
+			{
+				//add to inventory
+			}
 		}
 	}
 }
 
-void AMOOnshineWorksCharacter::equipPistol()
+void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 {
-	if (activeItem)
-	{
-		//activeItem->GetRootComponent()->AttachTo(RootComponent);
-		//Mesh->GetSocketByName("hand_rSocket")->AttachActor(activeItem, Mesh);
-		activeItem->GetRootComponent()->AttachParent = Mesh;
-		activeItem->GetRootComponent()->AttachSocketName = FName(TEXT("hand_rSocket"));
-		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-	}
+	Gun->SetActorLocation(FVector::ZeroVector, false);
+	Gun->SetActorRotation(FRotator::ZeroRotator);
+	Gun->AttachRootComponentTo(Mesh, "hand_rSocket");
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()

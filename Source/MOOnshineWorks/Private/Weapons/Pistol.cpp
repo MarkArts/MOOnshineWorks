@@ -22,12 +22,6 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	Reloading = false;
 }
 
-//void APistol::ReceiveBeginPlay()
-//{
-//	ProjectileClass =  TSubclassOf<AProjectile>(*(BlueprintLoader::Get().GetBP("BP_Projectile")));
-//	Super::ReceiveBeginPlay();
-//}
-
 void APistol::Use()
 {
 	if (HasAmmo())

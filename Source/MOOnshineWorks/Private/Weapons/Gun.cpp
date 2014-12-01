@@ -10,6 +10,7 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 {
 	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
 	RootComponent = GunMesh;
+	GunMesh->SetCollisionProfileName("OverlapAll");
 	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
 	GunOffset = FVector(80.f, 0.f, 40.f);
 }

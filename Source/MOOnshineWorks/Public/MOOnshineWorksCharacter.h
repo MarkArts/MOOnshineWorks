@@ -144,7 +144,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void equipPistol();
+	void EquipGun(AGun* Gun);
 
 	void DealDamage(float Damage);
     
