@@ -168,7 +168,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
-	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
+	InputComponent->BindAction("Reload", IE_Pressed, this, &AMOOnshineWorksCharacter::Reload);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
@@ -388,16 +388,16 @@ void AMOOnshineWorksCharacter::useActiveItem()
 	}
 } */
 
-void AMOOnshineWorksCharacter::reload()
+void AMOOnshineWorksCharacter::Reload()
 {
-	/*if (&activeItem != NULL)
+	if (activeItem)
 	{
-		AGun* gun = Cast<AGun>(activeItem);
-		if (gun)
+		APistol* Pistol = Cast<APistol>(activeItem);
+		if (Pistol)
 		{
-			gun->reload();
+			Pistol->Reload();
 		}
-	}*/
+	}
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()

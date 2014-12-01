@@ -24,17 +24,20 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 void APistol::Use()
 {
-	if (HasAmmo())
+	if (!Reloading)
 	{
-		if (CanShoot())
+		if (HasAmmo())
 		{
-			Shoot();
-			MagazineCountDecrement();
+			if (CanShoot())
+			{
+				Shoot();
+				MagazineCountDecrement();
+			}
 		}
-	}
-	else
-	{
-		Reload();
+		else
+		{
+			Reload();
+		}
 	}
 }
 
@@ -48,7 +51,7 @@ void APistol::Shoot()
 
 bool APistol::HasAmmo()
 {
-	return MagazineLoadCount > 0 && !Reloading;
+	return MagazineLoadCount > 0;
 }
 
 void APistol::MagazineCountDecrement()

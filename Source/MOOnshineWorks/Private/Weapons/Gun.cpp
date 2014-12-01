@@ -13,6 +13,8 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 	GunMesh->SetCollisionProfileName("OverlapAll");
 	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
 	GunOffset = FVector(80.f, 0.f, 40.f);
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
@@ -62,11 +64,23 @@ void AGun::Reload()
 	if (!Reloading)
 	{
 		Reloading = true;
+		ReloadTimeLeft = ReloadTime;
 		OnReload();
-		//delay
-		MagazineLoadCount = MagazineCapacity;
-		Reloading = false;
 	}
+}
+
+void AGun::Tick(float DeltaSeconds)
+{
+	if (Reloading)
+	{
+		ReloadTimeLeft -= DeltaSeconds;
+		if (ReloadTimeLeft <= 0)
+		{
+			MagazineLoadCount = MagazineCapacity;
+			Reloading = false;
+		}
+	}
+	Super::Tick(DeltaSeconds);
 }
 
 bool AGun::HasAmmo()
