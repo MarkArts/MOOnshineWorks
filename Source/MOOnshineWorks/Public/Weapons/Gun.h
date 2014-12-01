@@ -35,6 +35,7 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
 	bool Reloading;
+	float ReloadTimeLeft;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
 	TSubobjectPtr<UStaticMeshComponent> GunMesh;
@@ -45,7 +46,8 @@ class MOONSHINEWORKS_API AGun : public AItem
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	FVector GunOffset;
 
-	virtual void Use() override;
+	virtual void Use() override; 
+	virtual void Tick(float DeltaSeconds) override;
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
 	FRotator GetBulletAngle(FVector Start, FVector Target);

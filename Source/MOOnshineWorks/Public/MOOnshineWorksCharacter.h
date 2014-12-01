@@ -144,7 +144,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void equipPistol();
+	void EquipGun(AGun* Gun);
 
 	void DealDamage(float Damage);
     
@@ -210,7 +210,7 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	void reload();
+	void Reload();
 
 	void Interact();
 
