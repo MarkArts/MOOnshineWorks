@@ -99,7 +99,7 @@ void AAI_BasicController::ChangeAIDarkLight(bool DarkLight) //Deze functie verwi
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetName()));
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetActorLocation().ToString()));
 		}
-		
+
 	}
 	if (DarkLight == true) //als die true is dan moeten ze naar Dark versie
 	{
@@ -151,6 +151,7 @@ void AAI_BasicController::SetAttackAnimation()
 	BasicAnimInstance->AIAttacking = true;
 	BasicAnimInstance->AIPatrolling = false;
 	BasicAnimInstance->AIIdle = false;
+	//BasicAnimInstance->Jumping = false;
 }
 void AAI_BasicController::SetIdleAnimation()
 {
@@ -163,6 +164,7 @@ void AAI_BasicController::SetIdleAnimation()
 	BasicAnimInstance->AIAttacking = false;
 	BasicAnimInstance->AIPatrolling = false;
 	BasicAnimInstance->AIIdle = true;
+	//BasicAnimInstance->Jumping = false;
 }
 
 void AAI_BasicController::SetPatrollingAnimation()
@@ -176,7 +178,32 @@ void AAI_BasicController::SetPatrollingAnimation()
 	BasicAnimInstance->AIAttacking = false;
 	BasicAnimInstance->AIPatrolling = true;
 	BasicAnimInstance->AIIdle = false;
+	//BasicAnimInstance->Jumping = false;
 }
+void AAI_BasicController::SetJumpingAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = false;
+	BasicAnimInstance->AIPatrolling = false;
+	BasicAnimInstance->AIIdle = false;
+	//BasicAnimInstance->Jumping = true;
+}
+void AAI_BasicController::SetSpeedAnimation(float speed)
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	//BasicAnimInstance->Speed = speed;
+}
+
 
 void AAI_BasicController::AISetPatrolState()
 {
