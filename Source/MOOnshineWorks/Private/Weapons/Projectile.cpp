@@ -9,18 +9,16 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	// Use a sphere as a simple collision representation
-	CollisionComp = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
-	CollisionComp->InitSphereRadius(5.0f);
-	CollisionComp->BodyInstance.SetCollisionProfileName("BlockAll");			// Collision profiles are defined in DefaultEngine.ini
-	CollisionComp->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);		// set up a notification for when this component hits something blockin
-	RootComponent = CollisionComp;
+	
 
 	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
-	ProjectileMesh->AttachTo(RootComponent);
+	ProjectileMesh->SetCollisionProfileName(FName("ProjectileCollisionProfile"));
+	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	RootComponent = ProjectileMesh;
 
 	// Use a ProjectileMovementComponent to govern this projectile's movement
 	ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
-	ProjectileMovement->UpdatedComponent = CollisionComp;
+	ProjectileMovement->UpdatedComponent = ProjectileMesh;
 
 	InitialLifeSpan = 1.f;
 }
@@ -28,6 +26,7 @@ AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
 
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	HitEvent();
 	// Only add impulse and destroy projectile if we hit a physics
 	if ((OtherActor != NULL) && (OtherActor != this) && (OtherComp != NULL))
 	{
@@ -55,5 +54,14 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 
 	if (!ProjectileMovement->bShouldBounce){
 		Destroy();
+	}
+}
+
+void AProjectile::HitEvent_Implementation()
+{
+	UWorld* const World = GetWorld();
+	if (World)
+	{
+		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), FRotator::ZeroRotator);
 	}
 }

@@ -10,7 +10,7 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 {
 	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
 	RootComponent = GunMesh;
-
+	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
 	GunOffset = FVector(80.f, 0.f, 40.f);
 }
 
@@ -31,7 +31,6 @@ void AGun::Use()
 
 void AGun::Shoot()
 {
-	MagazineCountDecrement();
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
@@ -67,9 +66,19 @@ void AGun::Reload()
 	Reloading = false;
 }
 
+bool AGun::HasAmmo()
+{
+	return true; //MagazineLoadCount > 0;
+}
+
 bool AGun::CanShoot()
 {
-	return true;// MagazineLoadCount > 0;
+	return FDateTime::Now() - LastShot >= FTimespan::FromSeconds(ShootCooldown);
+}
+
+void AGun::SetLastShotTime()
+{
+	LastShot = FDateTime::Now();
 }
 
 void AGun::MagazineCountDecrement()
