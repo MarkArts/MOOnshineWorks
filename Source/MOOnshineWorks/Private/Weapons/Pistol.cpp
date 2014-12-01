@@ -30,17 +30,17 @@ void APistol::ReceiveBeginPlay()
 
 void APistol::Use()
 {
-	if (CanShoot())
+	if (HasAmmo())
 	{
-		if (HasAmmo())
+		if (CanShoot())
 		{
 			Shoot();
 			MagazineCountDecrement();
 		}
-		else
-		{
-			Reload();
-		}
+	}
+	else
+	{
+		Reload();
 	}
 }
 
