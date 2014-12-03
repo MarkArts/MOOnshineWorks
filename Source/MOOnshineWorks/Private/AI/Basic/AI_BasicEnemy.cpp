@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
+#include "BasicAnimationInstance.h"
 
 AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -66,6 +67,11 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 	}
 	if (Health < 0)
 	{
+		//Physics/animation voor dood afspelen en daarna verwijderen!
+		//AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
+		//AAI_BasicController* TargetEnemyController = Cast<AAI_BasicController>(AIEnemy);
+
+		//TargetEnemyController->SetDeathAnimation();
 		Destroy();
 	}
 }
