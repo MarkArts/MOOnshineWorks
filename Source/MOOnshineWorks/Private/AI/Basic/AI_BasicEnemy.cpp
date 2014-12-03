@@ -13,10 +13,12 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->SetPeripheralVisionAngle(85.f);
 	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
 	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
+
 	Health = 0.f;
 	Defense = 0.f;
 	Speed = 0.f;
 	Damage = 0.f;
+	AIPatrol = true;
 }
 
 void AAI_BasicEnemy::PostInitializeComponents()
