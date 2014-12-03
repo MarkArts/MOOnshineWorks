@@ -140,6 +140,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
 				EquipGun(Pistol);
 				activeItem = Pistol;
+				AmmoContainer = world->SpawnActor<AAmmoContainer>(spawnParams);
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
 			}
 			else{

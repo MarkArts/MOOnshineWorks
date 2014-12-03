@@ -1,6 +1,7 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 
+#include "AmmoContainer.h"
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
@@ -19,6 +20,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	AItem* activeItem;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ammo)
+	AAmmoContainer* AmmoContainer;
 
 	/** Camera boom positioning the camera behind the character */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
@@ -145,7 +149,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void EquipGun(AGun* Gun);
-
+	
 	void DealDamage(float Damage);
     
 //private:
