@@ -212,9 +212,9 @@ void AAI_BasicController::SetDeathAnimation()
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIDeath = true;
-	BasicAnimInstance->AIAttacking = false;
-	BasicAnimInstance->AIPatrolling = false;
-	BasicAnimInstance->AIIdle = false;
+	BasicAnimInstance->AIAttacking = true;
+	BasicAnimInstance->AIPatrolling = true;
+	BasicAnimInstance->AIIdle = true;
 	//BasicAnimInstance->Jumping = true;
 
 	//BasicAnimInstance->Speed = speed;
