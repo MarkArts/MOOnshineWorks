@@ -19,8 +19,8 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 
 			DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 
-			Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
-			Socket->start("MarksSocket", "127.0.0.1", 4243);
+			//Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
+			//Socket->start("MarksSocket", "127.0.0.1", 4243);
 		}
 	}
 }
