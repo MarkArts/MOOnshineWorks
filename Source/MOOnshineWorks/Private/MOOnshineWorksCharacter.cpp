@@ -111,9 +111,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
-		FActorSpawnParameters spawnParams;
-		spawnParams.Owner = this;
-		spawnParams.bNoCollisionFail = false;
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.bNoCollisionFail = false;
 
 		USceneComponent *Mesh = nullptr;
 
@@ -126,20 +126,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-
-		if(Mesh)
-		{
-			if (Mesh->DoesSocketExist("hand_rSocket"))
-			{
-				AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
-				EquipGun(Pistol);
-				activeItem = Pistol;
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-			}
-			else{
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
-			}
-		}
+		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		EquipGun(Pistol);
+		activeItem = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
@@ -355,9 +344,15 @@ void AMOOnshineWorksCharacter::Interact()
 
 void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 {
-	Gun->SetActorLocation(FVector::ZeroVector, false);
-	Gun->SetActorRotation(FRotator::ZeroRotator);
-	Gun->AttachRootComponentTo(Mesh, "hand_rSocket");
+	Gun->SetActorLocation(RootComponent->GetComponentLocation());
+	Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
+	Gun->AttachRootComponentTo(RootComponent);
+	FRotator GunRotation = FRotator::ZeroRotator;
+	GunRotation.Yaw = 75;
+	GunRotation.Roll = 0;
+	GunRotation.Pitch = 0;
+	Gun->SetActorRotation(GunRotation);
+	Gun->SetOwner(this);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
