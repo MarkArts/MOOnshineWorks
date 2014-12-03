@@ -96,12 +96,13 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     
     //Set avatar img
     // Set the standard texture
-    static ConstructorHelpers::FObjectFinder<UTexture2D> StandardAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/avatar_round.avatar_round'"));
+    static ConstructorHelpers::FObjectFinder<UTexture2D> StandardAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Normal.Normal'"));
     StandardAvatar = StandardAvatarTexObj.Object;
-    static ConstructorHelpers::FObjectFinder<UTexture2D> LowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey2.Spidey2'"));
+    static ConstructorHelpers::FObjectFinder<UTexture2D> LowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Hurt.Hurt'"));
     AvatarLowHP = LowHPAvatarTexObj.Object;
-    static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Spidey3.Spidey3'"));
+    static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
+    
 
 }
 

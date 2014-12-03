@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
+#include "BasicAnimationInstance.h"
 
 AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -13,10 +14,12 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->SetPeripheralVisionAngle(85.f);
 	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
 	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
+
 	Health = 0.f;
 	Defense = 0.f;
 	Speed = 0.f;
 	Damage = 0.f;
+	AIPatrol = true;
 }
 
 void AAI_BasicEnemy::PostInitializeComponents()
@@ -64,6 +67,11 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 	}
 	if (Health < 0)
 	{
-		Destroy();
+		//Physics/animation voor dood afspelen en daarna verwijderen!
+		//AAI_BasicController* TargetEnemyController = Cast<AAI_BasicController>(AIEnemy);
+
+		AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
+		TargetEnemyController->SetDeathAnimation();
+		//Destroy();
 	}
 }
