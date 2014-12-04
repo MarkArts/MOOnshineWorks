@@ -61,7 +61,7 @@ class MOONSHINEWORKS_API AGun : public AItem
 	FVector GetTarget();
 	FVector GetPlayerTarget();
 	FVector GetEnemyTarget();
-	bool LocationBehindOwner(FVector Location);
+	bool LocationBehindBulletSpawn(FVector Location);
 	virtual void MagazineCountDecrement();
 	virtual bool HasAmmo();
 	virtual bool CanShoot();

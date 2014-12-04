@@ -75,7 +75,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	BaseLookUpRate = 45.f;
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
-	bUseControllerRotationPitch = false;
+	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
 	bUseControllerRotationRoll = false;
 
@@ -85,16 +85,11 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	CharacterMovement->JumpZVelocity = 600.f;
 	CharacterMovement->AirControl = 0.2f;
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
-	CameraBoom->AttachTo(RootComponent);
-	CameraBoom->TargetArmLength = baseCameraZoom; // The camera follows at this distance behind the character
-    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
-
 	// Create a follow camera
 	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
-	FollowCamera->AttachTo(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	FollowCamera->AttachParent = CapsuleComponent;
+	FollowCamera->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
+	FollowCamera->bUsePawnControlRotation = true;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -117,9 +112,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
-		FActorSpawnParameters spawnParams;
-		spawnParams.Owner = this;
-		spawnParams.bNoCollisionFail = false;
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.bNoCollisionFail = false;
 
 		USceneComponent *Mesh = nullptr;
 
@@ -132,24 +127,10 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-
-		if(Mesh)
-		{
-			if (Mesh->DoesSocketExist("hand_rSocket"))
-			{
-				AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
-				EquipGun(Pistol);
-				activeItem = Pistol;
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-			}
-			else{
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
-			}
-		}
+		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		EquipGun(Pistol);
+		activeItem = Pistol;
 	}
-
-    CameraBoom->SocketOffset = baseCameraOffset;
-    
 	Super::ReceiveBeginPlay();
 }
 
@@ -210,7 +191,10 @@ void AMOOnshineWorksCharacter::StartUse()
 {
 	if (activeItem)
 	{
-		activeItem->Use();
+		if (!IsSprinting)
+		{
+			activeItem->Use();
+		}
 	}
 }
 
@@ -224,15 +208,11 @@ void AMOOnshineWorksCharacter::StartAim()
     if(IsSprinting == true){
         EndSprint();
     }
-    CameraBoom->TargetArmLength = baseCameraAimZoom;
-    CameraBoom->SocketOffset = baseZoomOffset;
     IsAiming = true;
 }
 
 void AMOOnshineWorksCharacter::EndAim()
 {
-    CameraBoom->TargetArmLength = baseCameraZoom;
-    CameraBoom->SocketOffset = baseCameraOffset;
     IsAiming = false;
 }
 
@@ -285,8 +265,6 @@ void AMOOnshineWorksCharacter::StartSprint()
     if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
-        CameraBoom->TargetArmLength = baseCameraSprintZoom;
-        CameraBoom->SocketOffset = baseSprintOffset;
         //PerformCameraShake();
         //Adjust movement speed to sprint values & switch boolean to true
         CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
@@ -312,9 +290,6 @@ void AMOOnshineWorksCharacter::EndSprint()
     if(IsSprinting == true)
     {
         //Adjust camera to standard values
-        CameraBoom->TargetArmLength = baseCameraZoom;
-        CameraBoom->SocketOffset = baseCameraOffset;
-        
         //Adjust movement speed to standard values & switch boolean to false
         CharacterMovement->MaxWalkSpeed = (CharacterMovement->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
         IsSprinting = false;
@@ -370,9 +345,15 @@ void AMOOnshineWorksCharacter::Interact()
 
 void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 {
-	Gun->SetActorLocation(FVector::ZeroVector, false);
-	Gun->SetActorRotation(FRotator::ZeroRotator);
-	Gun->AttachRootComponentTo(Mesh, "hand_rSocket");
+	Gun->SetActorLocation(RootComponent->GetComponentLocation());
+	Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
+	Gun->AttachRootComponentTo(RootComponent);
+	FRotator GunRotation = FRotator::ZeroRotator;
+	GunRotation.Yaw = 75;
+	GunRotation.Roll = 0;
+	GunRotation.Pitch = 0;
+	Gun->SetActorRotation(GunRotation);
+	Gun->SetOwner(this);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
