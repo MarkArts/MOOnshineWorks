@@ -8,8 +8,8 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	: Super(PCIP)
 {
 	AmmoCounters.Add(0);
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(TEXT("Ammo A: ")));
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(AmmoCounters[EAmmoType::A]));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Ammo A: "));
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(AmmoCounters[EAmmoType::A]));
 }
 
 

@@ -128,6 +128,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 			}
 		}
 		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
 		activeItem = Pistol;
 	}
@@ -136,7 +137,6 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
