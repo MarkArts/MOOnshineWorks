@@ -77,7 +77,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	// Don't rotate when the controller rotates. Let that just affect the camera.
 	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = false;
+	bUseControllerRotationRoll = true;
 
 	// Configure character movement
 	CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -230,17 +230,14 @@ void AMOOnshineWorksCharacter::LookUpAtRate(float Rate)
 
 void AMOOnshineWorksCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (Value != 0.0f)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+		// add movement in that direction
+		AddMovementInput(GetActorForwardVector(), Value);
         IsMovingForward = true;
-    }else{
+    }
+	else
+	{
         IsMovingForward = false;
     }
 }
@@ -263,7 +260,6 @@ void AMOOnshineWorksCharacter::StartSprint()
         CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
-
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
 	{
@@ -345,6 +341,7 @@ void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 	GunRotation.Yaw = 75;
 	GunRotation.Roll = 0;
 	GunRotation.Pitch = 0;
+	GunRotation.Add(RootComponent->GetComponentRotation().Pitch, RootComponent->GetComponentRotation().Yaw, RootComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
 	Gun->SetOwner(this);
 }
