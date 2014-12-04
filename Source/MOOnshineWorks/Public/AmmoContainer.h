@@ -17,7 +17,8 @@ class MOONSHINEWORKS_API AAmmoContainer : public AActor
 	TArray<int16> AmmoCounters;
 };
 
-enum EAmmoType {
+enum EAmmoType 
+{
 	A = 0,
 	B = 1,
 	C = 2
