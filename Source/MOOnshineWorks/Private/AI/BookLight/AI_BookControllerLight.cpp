@@ -11,7 +11,7 @@
 AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	AttackRange = 0.0f;
+
 }
 
 void AAI_BookControllerLight::GoBackToOriginalPosition()
