@@ -203,6 +203,22 @@ void AAI_BasicController::SetSpeedAnimation(float speed)
 
 	//BasicAnimInstance->Speed = speed;
 }
+void AAI_BasicController::SetDeathAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIDeath = true;
+	BasicAnimInstance->AIAttacking = true;
+	BasicAnimInstance->AIPatrolling = true;
+	BasicAnimInstance->AIIdle = true;
+	//BasicAnimInstance->Jumping = true;
+
+	//BasicAnimInstance->Speed = speed;
+}
 void AAI_BasicController::AISetPatrolState()
 {
 	int State = 0;

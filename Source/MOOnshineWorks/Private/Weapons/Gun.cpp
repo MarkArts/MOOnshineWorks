@@ -43,13 +43,11 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 {
 	AProjectile* Result = NULL;
 	UWorld* const World = GetWorld();
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
 	if (World){
-
-		if (RootComponent->DoesSocketExist("BulletSpawn"))
-		{
-			Result= World->SpawnActor<AProjectile>(ProjectileClass, Start, GetBulletAngle(Start, End));
-			Result->DamageValue = DamageValue;
-		}
+		Result = World->SpawnActor<AProjectile>(ProjectileClass, Start, GetBulletAngle(Start, End), SpawnParams);
+		Result->DamageValue = DamageValue;
 	}
 	return Result;
 }
@@ -153,7 +151,7 @@ FVector AGun::GetPlayerTarget()
 		))
 	{
 		Result = RV_Hit.Location;
-		if(!LocationBehindOwner(Result))
+		if(!LocationBehindBulletSpawn(Result))
 		{
 			bPawnHit = true;
 		}
@@ -175,10 +173,10 @@ FVector AGun::GetPlayerTarget()
 	return Result;
 }
 
-bool AGun::LocationBehindOwner(FVector Location)
+bool AGun::LocationBehindBulletSpawn(FVector Location)
 {
+	FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	APawn* Owner = Cast<APawn>(GetOwner());
-	FVector OwnerLocation = Owner->GetActorLocation();
 	FRotator OwnerRotation = Owner->GetActorRotation();
 	bool Result = true;
 	if (OwnerRotation.UnrotateVector(OwnerLocation).X < OwnerRotation.UnrotateVector(Location).X)

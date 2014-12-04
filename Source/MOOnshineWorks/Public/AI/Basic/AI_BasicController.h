@@ -47,7 +47,6 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 		void ShouldAIPatrol();
 
-
 	uint8 StateAI;					//Int
 	uint8 EnemyKeyID;				//Object
 	uint8 EnemyLocationID;			//Vector
@@ -61,26 +60,32 @@ public:
 
 	//Animations setten!
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetIdleAnimation();
+	void SetIdleAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetPatrollingAnimation();
+	void SetPatrollingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetAttackAnimation();
+	void SetAttackAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetJumpingAnimation();
+	void SetJumpingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetSpeedAnimation(float speed);
+	void SetDeathAnimation();
+
+	UFUNCTION(BlueprintCallable, Category = Animation)
+	void SetSpeedAnimation(float speed);
+	//
+
+	//SetStates
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void AISetPatrolState();
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetPatrolState();
+	void AISetAttackState();
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetAttackState();
-
-	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetSearchState();
+	void AISetSearchState();
+	//
 };
