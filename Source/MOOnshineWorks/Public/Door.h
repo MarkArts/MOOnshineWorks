@@ -30,5 +30,7 @@ class MOONSHINEWORKS_API ADoor : public AActor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	FVector BeginningPos;
+
+
 	
 };

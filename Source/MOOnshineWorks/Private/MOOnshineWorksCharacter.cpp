@@ -329,7 +329,7 @@ void AMOOnshineWorksCharacter::Interact()
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
 			if (Door) {
-				Door->DoorOpen();
+				Door->DoorOpen_Implementation();
 			}
 		}
 		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))

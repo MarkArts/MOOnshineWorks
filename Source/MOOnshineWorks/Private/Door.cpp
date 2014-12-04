@@ -7,18 +7,16 @@
 ADoor::ADoor(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	DoorClosed = true;
+	DoorClosed = false;
 }
 
 void ADoor::DoorOpen_Implementation() {
 	if (DoorClosed) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Open Door"));
 		DoorClosed = false;
 
 	}
 	else {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Close Door"));
 		DoorClosed = true;
 	}
-	
+	DoorOpen();
 }
