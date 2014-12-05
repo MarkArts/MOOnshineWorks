@@ -75,9 +75,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	BaseLookUpRate = 45.f;
 
 	// Don't rotate when the controller rotates. Let that just affect the camera.
-	/*bUseControllerRotationPitch = true;
+	bUseControllerRotationPitch = true;
 	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = true;*/
+	bUseControllerRotationRoll = false;
 
 	// Configure character movement
 	CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
@@ -334,14 +334,12 @@ void AMOOnshineWorksCharacter::Interact()
 
 void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 {
-	Gun->SetActorLocation(RootComponent->GetComponentLocation());
-	Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
-	Gun->AttachRootComponentTo(RootComponent);
-	FRotator GunRotation = FRotator::ZeroRotator;
-	GunRotation.Yaw = 75;
-	GunRotation.Roll = 0;
-	GunRotation.Pitch = 0;
-	GunRotation.Add(RootComponent->GetComponentRotation().Pitch, RootComponent->GetComponentRotation().Yaw, RootComponent->GetComponentRotation().Roll);
+	Gun->SetActorLocation(FollowCamera->GetComponentLocation());
+	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
+	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
+	Gun->AttachRootComponentTo(FollowCamera);
+	FRotator GunRotation = Gun->CharacterEquipRotation;
+	GunRotation.Add(FollowCamera->GetComponentRotation().Pitch, FollowCamera->GetComponentRotation().Yaw, FollowCamera->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
 	Gun->SetOwner(this);
 }
