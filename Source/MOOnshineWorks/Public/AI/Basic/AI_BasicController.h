@@ -45,6 +45,9 @@ public:
 		void LostPlayer();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
+		void ResetSight();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
 		void ShouldAIPatrol();
 
 	uint8 StateAI;					//Int
