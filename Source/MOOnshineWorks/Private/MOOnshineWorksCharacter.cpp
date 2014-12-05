@@ -69,27 +69,22 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
-
+	
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
-	// Don't rotate when the controller rotates. Let that just affect the camera.
-	bUseControllerRotationPitch = true;
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = false;
-
 	// Configure character movement
-	CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	//CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	CharacterMovement->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	CharacterMovement->JumpZVelocity = 600.f;
 	//CharacterMovement->AirControl = 0.2f;
 
 	// Create a follow camera
-	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
-	FollowCamera->AttachParent = CapsuleComponent;
-	FollowCamera->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
-	FollowCamera->bUsePawnControlRotation = true;
+	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
+	FirstPersonCameraComponent->AttachParent = CapsuleComponent;
+	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
+	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -334,12 +329,12 @@ void AMOOnshineWorksCharacter::Interact()
 
 void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 {
-	Gun->SetActorLocation(FollowCamera->GetComponentLocation());
+	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
 	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
 	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
-	Gun->AttachRootComponentTo(FollowCamera);
+	Gun->AttachRootComponentTo(FirstPersonCameraComponent);
 	FRotator GunRotation = Gun->CharacterEquipRotation;
-	GunRotation.Add(FollowCamera->GetComponentRotation().Pitch, FollowCamera->GetComponentRotation().Yaw, FollowCamera->GetComponentRotation().Roll);
+	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
 	Gun->SetOwner(this);
 }
