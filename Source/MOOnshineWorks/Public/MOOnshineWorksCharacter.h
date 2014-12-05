@@ -19,7 +19,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	AItem* activeItem;
+	APlayerGun* ActiveGun;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
@@ -143,7 +143,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void EquipGun(AGun* Gun);
+	void EquipGun(APlayerGun* Gun);
 	
 	void DealDamage(float Damage);
     

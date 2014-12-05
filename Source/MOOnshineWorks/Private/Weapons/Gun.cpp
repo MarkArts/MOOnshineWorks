@@ -47,44 +47,15 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = this;
 	if (World){
-		Result = World->SpawnActor<AProjectile>(ProjectileClass, Start, GetBulletAngle(Start, End), SpawnParams);
+		Result = World->SpawnActor<AProjectile>(GetProjectileClass(), Start, GetBulletAngle(Start, End), SpawnParams);
 		Result->DamageValue = DamageValue;
 	}
 	return Result;
 }
 
-void AGun::OnReload_Implementation()
+TSubclassOf<class AProjectile> AGun::GetProjectileClass()
 {
-	
-}
-
-void AGun::Reload()
-{
-	if (!Reloading)
-	{
-		Reloading = true;
-		ReloadTimeLeft = ReloadTime;
-		OnReload();
-	}
-}
-
-void AGun::Tick(float DeltaSeconds)
-{
-	if (Reloading)
-	{
-		ReloadTimeLeft -= DeltaSeconds;
-		if (ReloadTimeLeft <= 0)
-		{
-			MagazineLoadCount = MagazineCapacity;
-			Reloading = false;
-		}
-	}
-	Super::Tick(DeltaSeconds);
-}
-
-bool AGun::HasAmmo()
-{
-	return true; //MagazineLoadCount > 0;
+	return ProjectileClass;
 }
 
 bool AGun::CanShoot()
@@ -95,11 +66,6 @@ bool AGun::CanShoot()
 void AGun::SetLastShotTime()
 {
 	LastShot = FDateTime::Now();
-}
-
-void AGun::MagazineCountDecrement()
-{
-	//MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }
 
 FVector AGun::GetTarget()

@@ -11,7 +11,7 @@
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AShotgun : public AGun
+class MOONSHINEWORKS_API AShotgun : public APlayerGun
 {
 	GENERATED_UCLASS_BODY()
 

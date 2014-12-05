@@ -7,9 +7,27 @@
 AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	AmmoCounters.Add(15);
 	AmmoCounters.Add(0);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString("Ammo A: "));
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(AmmoCounters[EAmmoType::A]));
+	AmmoCounters.Add(0);
+	ActiveAmmoType = EAmmoType::A;
 }
 
+void AAmmoContainer::UseAmmo(int16 Count, EAmmoType Type)
+{
+	if (HasAmmo(Count, Type))
+	{
+		SetAmmo(Type, AmmoCounters[Type] - Count);
+	}
+}
+
+bool AAmmoContainer::HasAmmo(int16 Count, EAmmoType Type)
+{
+	return AmmoCounters[Type] >= Count;
+}
+
+void AAmmoContainer::SetAmmo(EAmmoType Type, int16 NewCount)
+{
+	AmmoCounters[Type] = NewCount;
+}
 

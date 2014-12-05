@@ -122,10 +122,10 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
-		activeItem = Pistol;
+		ActiveGun = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
@@ -184,11 +184,11 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (activeItem)
+	if (ActiveGun)
 	{
 		if (!IsSprinting)
 		{
-			activeItem->Use();
+			ActiveGun->Use();
 		}
 	}
 }
@@ -327,7 +327,7 @@ void AMOOnshineWorksCharacter::Interact()
 	}
 }
 
-void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
+void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
 	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
@@ -336,6 +336,7 @@ void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 	FRotator GunRotation = Gun->CharacterEquipRotation;
 	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
+	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
 }
 /*
@@ -355,14 +356,7 @@ void AMOOnshineWorksCharacter::useActiveItem()
 
 void AMOOnshineWorksCharacter::Reload()
 {
-	if (activeItem)
-	{
-		APistol* Pistol = Cast<APistol>(activeItem);
-		if (Pistol)
-		{
-			Pistol->Reload();
-		}
-	}
+	//what to do?
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()
