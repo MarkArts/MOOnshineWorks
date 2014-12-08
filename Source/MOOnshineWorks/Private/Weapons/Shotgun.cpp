@@ -10,8 +10,8 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Shotgun";
 	Id = 15.f;
 
-	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
-	ProjectileClass = BP_Projectile.Class;*/
+	CharacterEquipOffset = FVector(25.f, 25.f, -14.f);
+	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
 	
 	SpreadAngle = 20.f;
 	ShootCooldown = 1.2f;
@@ -25,6 +25,7 @@ void AShotgun::Use()
 		if (CanShoot())
 		{
 			Shoot();
+			UseAmmo();
 		}
 	}
 }
@@ -33,9 +34,16 @@ void AShotgun::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	FVector Target = GetTarget();
-	for (int i = 0; i < PelletCount; i++)
+	switch (AmmoContainer->ActiveAmmoType)
 	{
-		AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+		default:
+			for (int i = 0; i < PelletCount; i++)
+			{
+				AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+			}
+			break;
+		case EAmmoType::Type::B:
+			break;
 	}
 	SetLastShotTime();
 	OnUse();

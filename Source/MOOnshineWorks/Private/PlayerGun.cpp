@@ -7,7 +7,6 @@
 APlayerGun::APlayerGun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	SetActiveGun();
 }
 
 

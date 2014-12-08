@@ -122,7 +122,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("ShotgunClass")))), SpawnParams);
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
 		ActiveGun = Pistol;
@@ -316,7 +316,7 @@ void AMOOnshineWorksCharacter::Interact()
 				Door->DoorOpen();
 			}
 		}
-		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))
+		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
 			AGun* Gun = Cast<AGun>(Item);
 			if (Gun)
@@ -338,6 +338,7 @@ void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 	Gun->SetActorRotation(GunRotation);
 	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
+	Gun->SetActiveGun();
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
