@@ -17,5 +17,8 @@ class MOONSHINEWORKS_API AAI_BarrelController : public AAI_BasicController
     void AttackPlayer();
     
     UFUNCTION(BlueprintCallable, Category = Behavior)
+    void SpeedUp();
+    
+    UFUNCTION(BlueprintCallable, Category = Behavior)
     void BarrelPatrol();
 };
