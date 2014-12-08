@@ -14,11 +14,14 @@ class MOONSHINEWORKS_API AWeaponStrap : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns)
 	TArray<APlayerGun*> Guns;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns)
 	int8 ActiveGunIndex;
 
 	void AddGun(APlayerGun* NewGun);
 	void NextGun();
 	void PreviousGun();
+	UFUNCTION(BlueprintCallable, Category = Gun)
 	APlayerGun* GetActiveGun();
 };

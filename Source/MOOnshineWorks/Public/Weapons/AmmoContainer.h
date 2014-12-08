@@ -24,8 +24,6 @@ class MOONSHINEWORKS_API AAmmoContainer : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-public: 
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TArray<int16> AmmoCounters;
 
@@ -35,4 +33,6 @@ public:
 	void UseAmmo(int16 Count, EAmmoType::Type Type);
 	bool HasAmmo(int16 Count, EAmmoType::Type Type);
 	void SetAmmo(EAmmoType::Type Type, int16 NewCount);
+	UFUNCTION(BlueprintCallable, Category = Ammo)
+	int32 GetAmmo(EAmmoType::Type Type);
 };

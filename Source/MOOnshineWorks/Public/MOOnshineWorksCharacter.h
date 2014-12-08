@@ -19,7 +19,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 	
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Guns)
 	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
