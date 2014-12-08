@@ -6,6 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "Materials/MaterialInterface.h"
 #include "AI_BasicController.generated.h"
 
 /**
@@ -91,4 +92,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void AISetSearchState();
 	//
+
+
+	UFUNCTION(BlueprintCallable, Category = Materials)
+	void ActivateEnemy();
 };

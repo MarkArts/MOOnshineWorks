@@ -60,16 +60,21 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
-	float FinalDamage = DamageInflicted - Defense;
+	float FinalDamage = Damage - Defense;
 	if (FinalDamage > 0)
 	{
 		Health -= FinalDamage;
 	}
-	if (Health <= 0)
+	if (Health < 0)
 	{
 		//Physics/animation voor dood afspelen en daarna verwijderen!
 		AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
-		TargetEnemyController->SetDeathAnimation();
 		Destroy();
+		if (TargetEnemyController){
+			TargetEnemyController->SetDeathAnimation();
+		}
+		else{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
+		}
 	}
 }

@@ -4,6 +4,7 @@
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Materials/MaterialInstanceDynamic.h"
 #include "BasicAnimationInstance.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
@@ -214,14 +215,17 @@ void AAI_BasicController::SetDeathAnimation()
 	APawn* Inst = Controller->GetControlledPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
-
-	BasicAnimInstance->AIDeath = true;
-	BasicAnimInstance->AIAttacking = true;
-	BasicAnimInstance->AIPatrolling = true;
-	BasicAnimInstance->AIIdle = true;
-	//BasicAnimInstance->Jumping = true;
-
-	//BasicAnimInstance->Speed = speed;
+	if (BasicAnimInstance){
+		BasicAnimInstance->AIDeath = true;
+		BasicAnimInstance->AIAttacking = true;
+		BasicAnimInstance->AIPatrolling = true;
+		BasicAnimInstance->AIIdle = true;
+		//BasicAnimInstance->Jumping = true;
+		//BasicAnimInstance->Speed = speed;
+	}
+	else{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Anim instance not found"));
+	}
 }
 void AAI_BasicController::AISetPatrolState()
 {
@@ -251,6 +255,17 @@ void AAI_BasicController::ShouldAIPatrol()
 	{
 		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, true);
 	}
+}
+void AAI_BasicController::ActivateEnemy()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	//APawn* MyBot = GetPawn();
+	//AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetControlledPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+
+	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
 }
 
 

@@ -427,7 +427,11 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Player)
+	{ 
+		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	}
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
