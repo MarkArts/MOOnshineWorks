@@ -10,10 +10,10 @@ FName GeneratePersistentId(AActor* Actor)
 	if (World)
 	{
 		FVector Pos = Actor->GetActorLocation();
-		FString PosString = FString::SanitizeFloat(abs(Pos.X)) + FString::SanitizeFloat(abs(Pos.Y)) + FString::SanitizeFloat(abs(Pos.Z));
+		FString PosString = FString::SanitizeFloat(round(Pos.X)) + FString::SanitizeFloat(round(Pos.Y)) + FString::SanitizeFloat(round(Pos.Z));
 		
 		FRotator Rot = Actor->GetActorRotation();
-		FString RotString = FString::SanitizeFloat(abs(Rot.Yaw)) + FString::SanitizeFloat(abs(Rot.Roll)) + FString::SanitizeFloat(abs(Rot.Pitch));
+		FString RotString = FString::SanitizeFloat(round(Rot.Yaw)) + FString::SanitizeFloat(round(Rot.Roll)) + FString::SanitizeFloat(round(Rot.Pitch));
 
 		FString Name = Actor->GetName();
 		FString LevelName = Actor->GetLevel()->GetName();

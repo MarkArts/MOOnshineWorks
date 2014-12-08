@@ -16,8 +16,7 @@ struct FEnemySave{
 	UPROPERTY()
 	FRotator Rotation;
 	UPROPERTY()
-	int8 State;
-
+	bool Death;
 };
 
 USTRUCT()
@@ -32,6 +31,19 @@ struct FPlayerSave{
 	FRotator Rotation;
 };
 
+USTRUCT()
+struct FSave{
+	GENERATED_USTRUCT_BODY()
+
+	UPROPERTY()
+	FString PlayerName;
+
+	UPROPERTY()
+	TArray<FEnemySave> Enemies;
+
+	UPROPERTY()
+	FPlayerSave Player;
+};
 
 /**
  * 
@@ -42,19 +54,6 @@ class MOONSHINEWORKS_API UMOOSaveGame : public USaveGame
 	GENERATED_UCLASS_BODY()
 
 public:
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-	FString PlayerName;
-
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-	FString SaveSlotName;
-
-	UPROPERTY(VisibleAnywhere, Category = Basic)
-	uint32 UserIndex;
-
 	UPROPERTY(VisibleAnywhere, Category = MOO)
-	TArray<FEnemySave> Enemies;
-
-	UPROPERTY(VisibleAnywhere, Category = MOO)
-	FPlayerSave Player;
-
+	FSave Data;
 };

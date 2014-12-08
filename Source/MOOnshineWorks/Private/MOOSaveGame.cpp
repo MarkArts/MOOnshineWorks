@@ -7,9 +7,7 @@
 UMOOSaveGame::UMOOSaveGame(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	PlayerName = TEXT("Gaydor MacSwagginBrah");
-	SaveSlotName = TEXT("TestSaveSlot");
-	UserIndex = 0;
+
 }
 
 
