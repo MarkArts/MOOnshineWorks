@@ -7,7 +7,9 @@
 AAI_BarrelEnemy::AAI_BarrelEnemy(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+    AIControllerClass = AAI_BarrelController::StaticClass();
+    
+    //LightType = EnemyLightType::Light;
 }
 
 
