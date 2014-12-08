@@ -1,6 +1,7 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 
+#include "AmmoContainer.h"
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
@@ -18,7 +19,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	AItem* activeItem;
+	APlayerGun* ActiveGun;
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ammo)
+	AAmmoContainer* AmmoContainer;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
@@ -139,8 +143,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void EquipGun(AGun* Gun);
-
+	void EquipGun(APlayerGun* Gun);
+	
 	void DealDamage(float Damage);
     
 //private:
