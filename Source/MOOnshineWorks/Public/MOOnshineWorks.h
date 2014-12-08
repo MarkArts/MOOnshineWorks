@@ -6,3 +6,5 @@
 #include "Engine.h"
 
 #endif
+
+FName GeneratePersistentId(AActor* Actor);

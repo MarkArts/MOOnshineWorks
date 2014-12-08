@@ -28,6 +28,13 @@ void AAI_BasicEnemy::PostInitializeComponents()
 	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
 	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
 }
+
+void AAI_BasicEnemy::ReceiveBeginPlay()
+{
+	PersistentId = GeneratePersistentId( (AActor*) this );
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("PersistenID: " + PersistentId.ToString()));
+}
+
 void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume)
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
@@ -79,4 +86,8 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 
 		//Destroy();
 	}
+}
+
+FName AAI_BasicEnemy::GetPersistentId(){
+	return PersistentId;
 }

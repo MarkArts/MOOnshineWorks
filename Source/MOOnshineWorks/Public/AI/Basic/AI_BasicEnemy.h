@@ -62,6 +62,14 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
+
+	UFUNCTION(BlueprintCallable, Category = AIStats)
+	FName GetPersistentId();
+private:
+	FName PersistentId;
+
+protected:
+	virtual void ReceiveBeginPlay() override;
 };
 
 enum EnemyLightType {
