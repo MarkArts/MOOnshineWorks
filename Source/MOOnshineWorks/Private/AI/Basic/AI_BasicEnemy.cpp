@@ -60,16 +60,16 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
-	float FinalDamage = Damage - Defense;
+	float FinalDamage = DamageInflicted - Defense;
 	if (FinalDamage > 0)
 	{
 		Health -= FinalDamage;
 	}
-	if (Health < 0)
+	if (Health <= 0)
 	{
 		//Physics/animation voor dood afspelen en daarna verwijderen!
 		AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
 		TargetEnemyController->SetDeathAnimation();
-		//Destroy();
+		Destroy();
 	}
 }

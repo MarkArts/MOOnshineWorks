@@ -12,6 +12,8 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
 	ProjectileClass = BP_Projectile.Class;*/
+	CharacterEquipOffset = FVector(25.f, 25.f, -14.f);
+	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
 
 	MagazineCapacity = 15.f;
 	MagazineLoadCount = MagazineCapacity;
