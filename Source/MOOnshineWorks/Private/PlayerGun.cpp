@@ -7,7 +7,7 @@
 APlayerGun::APlayerGun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	SetActiveGun();
 }
 
 
@@ -18,35 +18,55 @@ FVector APlayerGun::GetTarget()
 
 bool APlayerGun::HasAmmo()
 {
-	FAmmoItem Item = FindActiveAmmoItem();
-	return AmmoContainer->HasAmmo(Item.Multiplier, Item.Type);
+	return AmmoContainer->HasAmmo(FindActiveMultiplier(), FindActiveAmmoType());
 }
 
 void APlayerGun::UseAmmo()
 {
-	FAmmoItem Item = FindActiveAmmoItem();
-	AmmoContainer->UseAmmo(Item.Multiplier, Item.Type);
+	AmmoContainer->UseAmmo(FindActiveMultiplier(), FindActiveAmmoType());
 }
 
 TSubclassOf<class AProjectile> APlayerGun::GetProjectileClass()
 {
-	return FindActiveAmmoItem().ProjectileClass;
+	return FindActiveProjectileClass();
 }
 
-AmmoItem APlayerGun::FindActiveAmmoItem()
+void APlayerGun::SetActiveIndex(EAmmoType::Type NewType)
 {
-	for (FAmmoItem Item : AmmoItems)
+	bool IsSet = false;
+	for (int8 I = 0; I < AmmoTypes.Num(); I++)
 	{
-		if (Item.Type == AmmoContainer->ActiveAmmo)
+		if (AmmoTypes[I] == NewType)
 		{
-			return Item;
+			ActiveIndex = I;
+			AmmoContainer->ActiveAmmoType = AmmoTypes[I];
+			IsSet = true;
+			break;
 		}
 	}
-	AmmoContainer->SwitchGun(this);
-	return FindActiveAmmoItem();
+	if (!IsSet)
+	{
+		SetActiveGun();
+	}
 }
 
-void APlayerGun::SwitchGun()
+EAmmoType::Type APlayerGun::FindActiveAmmoType()
 {
-	AmmoContainer->ActiveAmmoType = AmmoItems[0].Type;
+	return AmmoTypes[ActiveIndex];
+}
+
+int8 APlayerGun::FindActiveMultiplier()
+{
+	return Multipliers[ActiveIndex];
+}
+
+TSubclassOf<class AProjectile> APlayerGun::FindActiveProjectileClass()
+{
+	return ProjectileClasses[ActiveIndex];
+}
+
+void APlayerGun::SetActiveGun()
+{
+	AmmoContainer->ActiveAmmoType = AmmoTypes[0];
+	ActiveIndex = 0;
 }

@@ -16,28 +16,24 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 
 	AAmmoContainer* AmmoContainer;
 
-	USTRUCT(BlueprintType)
-	struct FAmmoItem
-	{
-		GENERATED_USTRUCT_BODY()
-
-		UPROPERTY(EditAnywhere, Category = AmmoItem)
-		EAmmoType Type;
-
-		UPROPERTY(EditAnywhere, Category = AmmoItem)
-		int8 Multiplier;
-
-		UPROPERTY(EditAnywhere, Category = AmmoItem)
-		TSubclassOf<class AProjectile> ProjectileClass;
-	};
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
-	TArray<FAmmoItem> AmmoItems;
-
 	virtual FVector GetTarget() override;	
 	void UseAmmo();
 	bool HasAmmo();
 	virtual	TSubclassOf<class AProjectile> GetProjectileClass() override;
-	FAmmoItem FindActiveAmmoItem();
 	void SetActiveGun();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
+	TArray<TEnumAsByte<EAmmoType::Type>> AmmoTypes;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
+	TArray<int8> Multipliers;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
+	TArray<TSubclassOf<class AProjectile>> ProjectileClasses;
+
+	uint8 ActiveIndex;
+	void SetActiveIndex(EAmmoType::Type);
+	EAmmoType::Type FindActiveAmmoType();
+	int8 FindActiveMultiplier();
+	TSubclassOf<class AProjectile> FindActiveProjectileClass();
 };

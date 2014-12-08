@@ -10,10 +10,10 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	AmmoCounters.Add(15);
 	AmmoCounters.Add(0);
 	AmmoCounters.Add(0);
-	ActiveAmmoType = EAmmoType::A;
+	ActiveAmmoType = EAmmoType::Type::A;
 }
 
-void AAmmoContainer::UseAmmo(int16 Count, EAmmoType Type)
+void AAmmoContainer::UseAmmo(int16 Count, EAmmoType::Type Type)
 {
 	if (HasAmmo(Count, Type))
 	{
@@ -21,12 +21,12 @@ void AAmmoContainer::UseAmmo(int16 Count, EAmmoType Type)
 	}
 }
 
-bool AAmmoContainer::HasAmmo(int16 Count, EAmmoType Type)
+bool AAmmoContainer::HasAmmo(int16 Count, EAmmoType::Type Type)
 {
 	return AmmoCounters[Type] >= Count;
 }
 
-void AAmmoContainer::SetAmmo(EAmmoType Type, int16 NewCount)
+void AAmmoContainer::SetAmmo(EAmmoType::Type Type, int16 NewCount)
 {
 	AmmoCounters[Type] = NewCount;
 }

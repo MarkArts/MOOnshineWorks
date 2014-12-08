@@ -13,13 +13,8 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
 	ProjectileClass = BP_Projectile.Class;*/
 	
-	MagazineCapacity = 0.f;
-	MagazineLoadCount = 6;
-	DamageValue = 1.f;
-	ReloadTime = 2.f;
 	SpreadAngle = 20.f;
 	ShootCooldown = 1.2f;
-	Reloading = false;
 	PelletCount = 6.f;
 }
 
@@ -30,12 +25,7 @@ void AShotgun::Use()
 		if (CanShoot())
 		{
 			Shoot();
-			MagazineCountDecrement();
 		}
-	}
-	else
-	{
-		Reload();
 	}
 }
 
@@ -49,14 +39,4 @@ void AShotgun::Shoot()
 	}
 	SetLastShotTime();
 	OnUse();
-}
-
-bool AShotgun::CanShoot()
-{
-	return MagazineLoadCount > 0;
-}
-
-void AShotgun::MagazineCountDecrement()
-{
-	MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }

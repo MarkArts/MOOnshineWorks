@@ -4,7 +4,7 @@
 
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
-#include "Weapons/Gun.h"
+#include "PlayerGun.h"
 #include "Shotgun.generated.h"
 
 /**
@@ -19,8 +19,6 @@ class MOONSHINEWORKS_API AShotgun : public APlayerGun
 	float PelletCount;
 
 	virtual void Use() override;
-	virtual void MagazineCountDecrement() override;
-	virtual bool CanShoot() override;
 	virtual void Shoot() override;
 
 };
