@@ -10,6 +10,7 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 {
 	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
 	RootComponent = GunMesh;
+	GunMesh->CastShadow = false;
 	GunMesh->SetCollisionProfileName("OverlapAll");
 	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
 	GunOffset = FVector(80.f, 0.f, 40.f);
@@ -125,7 +126,7 @@ FVector AGun::GetEnemyTarget()
 FVector AGun::GetPlayerTarget()
 {
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
-	UCameraComponent* Camera = Owner->FollowCamera;
+	UCameraComponent* Camera = Owner->FirstPersonCameraComponent;
 	FMinimalViewInfo ViewInfo = FMinimalViewInfo();
 	Camera->GetCameraView(0.f, ViewInfo);
 
