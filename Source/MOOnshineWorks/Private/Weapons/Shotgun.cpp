@@ -10,7 +10,7 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Shotgun";
 	Id = 15.f;
 
-	CharacterEquipOffset = FVector(25.f, 25.f, -14.f);
+	CharacterEquipOffset = FVector(25.f, 25.f, -30.f);
 	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
 	
 	SpreadAngle = 20.f;

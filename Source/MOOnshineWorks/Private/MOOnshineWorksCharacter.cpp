@@ -122,10 +122,10 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("ShotgunClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
-		ActiveGun = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
@@ -184,11 +184,11 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (ActiveGun)
+	if (WeaponStrap->GetActiveGun())
 	{
 		if (!IsSprinting)
 		{
-			ActiveGun->Use();
+			WeaponStrap->GetActiveGun()->Use();
 		}
 	}
 }
@@ -318,10 +318,10 @@ void AMOOnshineWorksCharacter::Interact()
 		}
 		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
-			AGun* Gun = Cast<AGun>(Item);
+			APlayerGun* Gun = Cast<APlayerGun>(Item);
 			if (Gun)
 			{
-				//add to inventory
+				EquipGun(Gun);
 			}
 		}
 	}
@@ -339,6 +339,7 @@ void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
 	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()

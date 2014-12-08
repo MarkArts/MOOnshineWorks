@@ -2,6 +2,7 @@
 #pragma once
 
 #include "AmmoContainer.h"
+#include "WeaponStrap.h"
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
@@ -17,12 +18,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	APlayerGun* ActiveGun;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
+	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
