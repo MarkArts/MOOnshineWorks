@@ -16,9 +16,6 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	FVector CharacterEquipOffset;
 	FRotator CharacterEquipRotation;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float DamageValue;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
