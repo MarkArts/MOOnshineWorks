@@ -8,11 +8,30 @@
 /**
  * 
  */
+
+UENUM(BlueprintType)
+namespace EDoorKey
+{
+	enum Type
+	{
+		None,
+		Red,
+		Green,
+		Blue
+	};
+}
+
 UCLASS()
 class MOONSHINEWORKS_API ADoorKey : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	
-	
+		UFUNCTION(BlueprintCallable, Category = "Moonshine")
+		int8 GetKeyName();
+
+		UFUNCTION(BlueprintCallable, Category = "Moonshine")
+		void SetKeyName(const EDoorKey::Type InsertKey);
+
+		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
+		TEnumAsByte<EDoorKey::Type> KeyName;
 };
