@@ -14,8 +14,12 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BookEnemyLight : public AAI_BasicEnemy
 {
-	GENERATED_UCLASS_BODY()	
+	GENERATED_UCLASS_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AIGun)
+	virtual void ReceiveBeginPlay() override;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIGun)
+	TSubclassOf<AAIBookGun> GunClass;
+
 	AAIBookGun* Gun;
 };

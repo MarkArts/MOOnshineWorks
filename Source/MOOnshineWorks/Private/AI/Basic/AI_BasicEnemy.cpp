@@ -69,7 +69,7 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 	{
 		//Physics/animation voor dood afspelen en daarna verwijderen!
 		AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
-		TargetEnemyController->SetDeathAnimation();
-		//Destroy();
+		//TargetEnemyController->SetDeathAnimation();
+		Destroy();
 	}
 }

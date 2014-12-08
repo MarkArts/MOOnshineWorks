@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "Perception/PawnSensingComponent.h"
 #include "AI_BasicController.h"
+#include "Materials/Material.h"
 #include "AI_BasicEnemy.generated.h"
 
 /**
@@ -62,6 +63,12 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
+	UMaterial* TheMaterial;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
+	//UMaterialInterface* Base_Material;
 };
 
 enum EnemyLightType {
