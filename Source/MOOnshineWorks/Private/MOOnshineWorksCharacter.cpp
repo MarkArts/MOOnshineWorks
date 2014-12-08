@@ -4,6 +4,7 @@
 #include "MOOnshineWorksCharacter.h"
 #include "Pickup.h"
 #include "Door.h"
+#include "DoorKey.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -293,6 +294,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 	{
 		APickup* Pickup = Cast<APickup>(Item);
 		ADoor* Door = Cast<ADoor>(Item);
+		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -309,11 +311,22 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
+		{
+			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
+			if (DoorKey) {
+				KeyPack.Add(DoorKey);
+				for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
+				}
+				DoorKey->Destroy();
+			}
+		}
 		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
 			if (Door) {
-				Door->DoorOpen();
+				Door->DoorOpen_Implementation();
 			}
 		}
 		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))

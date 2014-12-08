@@ -4,6 +4,7 @@
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
+#include "DoorKey.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -142,6 +143,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void EquipGun(AGun* Gun);
 
 	void DealDamage(float Damage);
+
+	TArray<ADoorKey*> KeyPack;
     
 //private:
     // Character avatar
