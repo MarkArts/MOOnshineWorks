@@ -13,6 +13,11 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	ActiveAmmoType = EAmmoType::Type::A;
 }
 
+void AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
+{
+	AmmoCounters[AmmoType] += AmmoAmount;
+}
+
 void AAmmoContainer::UseAmmo(int16 Count, EAmmoType::Type Type)
 {
 	if (HasAmmo(Count, Type))
