@@ -12,10 +12,6 @@ struct FEnemySave{
 	UPROPERTY()
 	FName Id;
 	UPROPERTY()
-	FVector Location;
-	UPROPERTY()
-	FRotator Rotation;
-	UPROPERTY()
 	bool Death;
 };
 
@@ -38,8 +34,7 @@ struct FSave{
 	UPROPERTY()
 	FString PlayerName;
 
-	UPROPERTY()
-	TArray<FEnemySave> Enemies;
+	TMap<FName, FEnemySave> Enemies;
 
 	UPROPERTY()
 	FPlayerSave Player;

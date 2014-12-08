@@ -27,7 +27,9 @@ public:
 	uint32 UserIndex;
 
 	void Load();
-	void Reset();
+	void ResetData();
+	void RemoveSave();
 	void Save();
 	FSave GetData();
+	void SetData(FSave Data);
 };

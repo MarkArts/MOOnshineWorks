@@ -64,6 +64,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	void DealDamage(float DamageInflicted);
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
+	void Die();
+
+	UFUNCTION(BlueprintCallable, Category = AIStats)
 	FName GetPersistentId();
 private:
 	FName PersistentId;
