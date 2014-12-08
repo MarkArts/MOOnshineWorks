@@ -215,14 +215,17 @@ void AAI_BasicController::SetDeathAnimation()
 	APawn* Inst = Controller->GetControlledPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
-
-	BasicAnimInstance->AIDeath = true;
-	BasicAnimInstance->AIAttacking = true;
-	BasicAnimInstance->AIPatrolling = true;
-	BasicAnimInstance->AIIdle = true;
-	//BasicAnimInstance->Jumping = true;
-
-	//BasicAnimInstance->Speed = speed;
+	if (BasicAnimInstance){
+		BasicAnimInstance->AIDeath = true;
+		BasicAnimInstance->AIAttacking = true;
+		BasicAnimInstance->AIPatrolling = true;
+		BasicAnimInstance->AIIdle = true;
+		//BasicAnimInstance->Jumping = true;
+		//BasicAnimInstance->Speed = speed;
+	}
+	else{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Anim instance not found"));
+	}
 }
 void AAI_BasicController::AISetPatrolState()
 {

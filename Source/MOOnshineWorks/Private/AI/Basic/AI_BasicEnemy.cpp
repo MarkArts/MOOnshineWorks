@@ -69,7 +69,19 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 	{
 		//Physics/animation voor dood afspelen en daarna verwijderen!
 		AAI_BasicController* TargetEnemyController = (AAI_BasicController*)GetController();
+<<<<<<< HEAD
 		//TargetEnemyController->SetDeathAnimation();
 		Destroy();
+=======
+		if (TargetEnemyController){
+			TargetEnemyController->SetDeathAnimation();
+		}
+		else{
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
+		}
+
+
+		//Destroy();
+>>>>>>> origin/Develop
 	}
 }
