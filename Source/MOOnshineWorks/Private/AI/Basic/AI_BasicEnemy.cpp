@@ -34,14 +34,7 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 {
 	PersistentId = GeneratePersistentId( (AActor*) this );
 
-
-	AMOOnshineWorksGameMode* gamemode = (AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld());
-	ASaveManager* SaveManager = gamemode->SaveManager;
-	FSave save = SaveManager->GetData();
-	TMap<FName, FEnemySave> enemies = save.Enemies;
-	FEnemySave* savstate = enemies.Find(PersistentId);
-
-	FEnemySave* SaveState = ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->GetData().Enemies.Find(GetPersistentId());
+	FEnemySave* SaveState = GetSaveManager(GetWorld())->GetData().Enemies.Find(GetPersistentId());
 
 	if (SaveState)
 	{
@@ -115,11 +108,9 @@ void AAI_BasicEnemy::Die()
 			true
 		}
 	);
-	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->SetData(SaveData);
-	
+	GetSaveManager(GetWorld())->SetData(SaveData);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Added Enemy to death enemies");
-
 
 	Destroy();
 }

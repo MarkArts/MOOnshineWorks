@@ -4,7 +4,11 @@
 #define __MOONSHINEWORKS_H__
 
 #include "Engine.h"
+#include "SaveManager.h"
 
 #endif
 
+UFUNCTION()
 FName GeneratePersistentId(AActor* Actor);
+UFUNCTION()
+ASaveManager* GetSaveManager(UWorld* World);
