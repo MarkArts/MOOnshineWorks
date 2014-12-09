@@ -145,8 +145,9 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
-	InputComponent->BindAction("Reload", IE_Pressed, this, &AMOOnshineWorksCharacter::Reload);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
+	InputComponent->BindAction("NextWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::NextWeapon);
+	InputComponent->BindAction("PreviousWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::PreviousWeapon);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -209,6 +210,16 @@ void AMOOnshineWorksCharacter::StartAim()
 void AMOOnshineWorksCharacter::EndAim()
 {
     IsAiming = false;
+}
+
+void AMOOnshineWorksCharacter::NextWeapon()
+{
+	WeaponStrap->NextGun();
+}
+
+void AMOOnshineWorksCharacter::PreviousWeapon()
+{
+	WeaponStrap->PreviousGun();
 }
 
 void AMOOnshineWorksCharacter::TurnAtRate(float Rate)
@@ -335,7 +346,7 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
 			APlayerGun* Gun = Cast<APlayerGun>(Item);
-			if (Gun)
+			if (Gun && !WeaponStrap->ContainsGun(Gun))
 			{
 				EquipGun(Gun);
 			}
@@ -371,11 +382,6 @@ void AMOOnshineWorksCharacter::useActiveItem()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
 	}
 } */
-
-void AMOOnshineWorksCharacter::Reload()
-{
-	//what to do?
-}
 
 void AMOOnshineWorksCharacter::CalcStamina()
 {
