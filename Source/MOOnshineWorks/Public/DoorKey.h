@@ -30,6 +30,9 @@ class MOONSHINEWORKS_API ADoorKey : public AActor
 		int8 GetKeyName();
 
 		UFUNCTION(BlueprintCallable, Category = "Moonshine")
+		FString OnPickedUp();
+
+		UFUNCTION(BlueprintCallable, Category = "Moonshine")
 		void SetKeyName(const EDoorKey::Type InsertKey);
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")

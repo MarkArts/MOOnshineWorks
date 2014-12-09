@@ -6,36 +6,46 @@
 #include "MOOSaveGame.generated.h"
 
 USTRUCT()
-struct FEnemySave{
+struct FActorSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
 	FName Id;
 	UPROPERTY()
-	bool Death;
+	bool StopSpawn;
+	UPROPERTY()
+	FTransform Transform;
+};
+
+USTRUCT()
+struct FCheckPointSave{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY()
+	FTransform TransForm;
+	UPROPERTY()
+	FName StreamingLevel;
 };
 
 USTRUCT()
 struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
-	int8 Level; // desingers will be freaking i they see this man :D
+	FCheckPointSave Checkpoint;
 	UPROPERTY()
-	FVector Position;
-	UPROPERTY()
-	FRotator Rotation;
+	FTransform Transform;
 };
 
 USTRUCT()
 struct FSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
 	FString PlayerName;
 
 	UPROPERTY()
-	TArray<FEnemySave> Enemies;
+	TArray<FActorSave> Actors;
 
 	UPROPERTY()
 	FPlayerSave Player;

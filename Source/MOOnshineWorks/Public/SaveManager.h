@@ -30,6 +30,10 @@ public:
 	void ResetData();
 	void RemoveSave();
 	void Save();
-	FSave GetData();
+	FSave* GetData();
 	void SetData(FSave Data);
+	
+	void AddActorSave(FActorSave ActorSave);
+	void DeleteActorSave(FName Id);
+	FActorSave* GetActorSave(FName Id);
 };

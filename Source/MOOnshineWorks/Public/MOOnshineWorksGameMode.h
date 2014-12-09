@@ -11,7 +11,14 @@ class AMOOnshineWorksGameMode : public AGameMode
 	GENERATED_UCLASS_BODY()
 
 	//ASocket* Socket;
+
 	ASaveManager* SaveManager;
+	UFUNCTION()
+	void RestoreCheckpoint();
+	UFUNCTION()
+	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
+	UFUNCTION()
+	void LoadCheckpoint();
 };
 
 

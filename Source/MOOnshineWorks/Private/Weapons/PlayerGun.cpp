@@ -54,7 +54,7 @@ EAmmoType::Type APlayerGun::FindActiveAmmoType()
 	return AmmoTypes[ActiveIndex];
 }
 
-int8 APlayerGun::FindActiveMultiplier()
+int32 APlayerGun::FindActiveMultiplier()
 {
 	return Multipliers[ActiveIndex];
 }
