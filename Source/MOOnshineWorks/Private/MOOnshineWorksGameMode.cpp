@@ -4,6 +4,7 @@
 #include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
 #include "BaseLevelScriptActor.h"
+#include "TextDisplay.h"
 #include "MOOnshineWorksCharacter.h"
 
 AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
@@ -18,6 +19,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, (*level).LevelName);
 
 			DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
+			DisplayHUD = (ATextDisplay*)ATextDisplay::StaticClass();
 
 			//Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
 			//Socket->start("MarksSocket", "127.0.0.1", 4243);
