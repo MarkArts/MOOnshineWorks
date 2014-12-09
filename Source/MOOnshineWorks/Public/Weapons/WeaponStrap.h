@@ -22,6 +22,7 @@ class MOONSHINEWORKS_API AWeaponStrap : public AActor
 	void AddGun(APlayerGun* NewGun);
 	void NextGun();
 	void PreviousGun();
+	bool ContainsGun(APlayerGun* Gun);
 	UFUNCTION(BlueprintCallable, Category = Gun)
 	APlayerGun* GetActiveGun();
 };

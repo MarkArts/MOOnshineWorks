@@ -30,7 +30,18 @@ void AProjectile::ReceiveBeginPlay()
 		if (Gun->GetOwner())
 		{
 			AMOOnshineWorksCharacter* GunOwner = Cast<AMOOnshineWorksCharacter>(Gun->GetOwner());
-			ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
+			if (GunOwner)
+			{
+				ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
+			}
+			else
+			{
+				AAI_BasicEnemy* GunOwner = Cast<AAI_BasicEnemy>(Gun->GetOwner());
+				if (GunOwner)
+				{
+					ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
+				}
+			}
 		}
 	}
 	Super::ReceiveBeginPlay();
@@ -67,7 +78,7 @@ void AProjectile::HitEvent_Implementation()
 	UWorld* const World = GetWorld();
 	if (World)
 	{
-		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), FRotator::ZeroRotator);
+		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 }
 
