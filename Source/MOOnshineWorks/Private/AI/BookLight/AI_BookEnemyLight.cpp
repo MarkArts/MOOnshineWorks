@@ -16,5 +16,14 @@ AAI_BookEnemyLight::AAI_BookEnemyLight(const class FPostConstructInitializePrope
 
 	LightType = EnemyLightType::Light;
 }
+void AAI_BookEnemyLight::ReceiveBeginPlay()
+{
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	Gun = GetWorld()->SpawnActor<AAIBookGun>(GunClass, SpawnParams);
+	//Gun->SetActorLocation(RootComponent->GetComponentLocation()); 
+	//Gun->AttachRootComponentTo(Mesh);
+	Super::ReceiveBeginPlay();
+}
 
 

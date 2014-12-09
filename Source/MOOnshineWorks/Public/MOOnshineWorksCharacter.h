@@ -1,9 +1,12 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 
+#include "AmmoContainer.h"
+#include "WeaponStrap.h"
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
+#include "DoorKey.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -16,17 +19,14 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
+	
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
+	AAmmoContainer* AmmoContainer;
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Guns)
+	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	AItem* activeItem;
-
-	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class USpringArmComponent> CameraBoom;
-
-	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class UCameraComponent> FollowCamera;
+	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
@@ -144,9 +144,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void equipPistol();
-
+	void EquipGun(APlayerGun* Gun);
+	
 	void DealDamage(float Damage);
+
+	TArray<ADoorKey*> KeyPack;
     
 //private:
     // Character avatar
@@ -210,7 +212,7 @@ protected:
 	/** Handler for when a touch input stops. */
 	void TouchStopped(ETouchIndex::Type FingerIndex, FVector Location);
 
-	void reload();
+	void Reload();
 
 	void Interact();
 
