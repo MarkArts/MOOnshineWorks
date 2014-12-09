@@ -123,16 +123,16 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
-		activeItem = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
@@ -185,11 +185,11 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (activeItem)
+	if (WeaponStrap->GetActiveGun())
 	{
 		if (!IsSprinting)
 		{
-			activeItem->Use();
+			WeaponStrap->GetActiveGun()->Use();
 		}
 	}
 }
@@ -329,18 +329,18 @@ void AMOOnshineWorksCharacter::Interact()
 				Door->DoorOpen_Implementation();
 			}
 		}
-		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))
+		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
-			AGun* Gun = Cast<AGun>(Item);
+			APlayerGun* Gun = Cast<APlayerGun>(Item);
 			if (Gun)
 			{
-				//add to inventory
+				EquipGun(Gun);
 			}
 		}
 	}
 }
 
-void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
+void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
 	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
@@ -349,7 +349,10 @@ void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 	FRotator GunRotation = Gun->CharacterEquipRotation;
 	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
+	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
+	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
@@ -368,14 +371,7 @@ void AMOOnshineWorksCharacter::useActiveItem()
 
 void AMOOnshineWorksCharacter::Reload()
 {
-	if (activeItem)
-	{
-		APistol* Pistol = Cast<APistol>(activeItem);
-		if (Pistol)
-		{
-			Pistol->Reload();
-		}
-	}
+	//what to do?
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()

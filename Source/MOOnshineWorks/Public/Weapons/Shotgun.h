@@ -4,14 +4,14 @@
 
 #include "MOOnshineWorksGameMode.h"
 #include "BlueprintLoader.h"
-#include "Weapons/Gun.h"
+#include "PlayerGun.h"
 #include "Shotgun.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AShotgun : public AGun
+class MOONSHINEWORKS_API AShotgun : public APlayerGun
 {
 	GENERATED_UCLASS_BODY()
 
@@ -19,8 +19,6 @@ class MOONSHINEWORKS_API AShotgun : public AGun
 	float PelletCount;
 
 	virtual void Use() override;
-	virtual void MagazineCountDecrement() override;
-	virtual bool CanShoot() override;
 	virtual void Shoot() override;
 
 };
