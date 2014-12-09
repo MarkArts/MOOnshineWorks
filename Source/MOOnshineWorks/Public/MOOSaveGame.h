@@ -6,13 +6,15 @@
 #include "MOOSaveGame.generated.h"
 
 USTRUCT()
-struct FEnemySave{
+struct FActorSave{
 	GENERATED_USTRUCT_BODY()
 
 	UPROPERTY()
 	FName Id;
 	UPROPERTY()
-	bool Death;
+	bool StopSpawn;
+	UPROPERTY()
+	FTransform Transform;
 };
 
 USTRUCT()
@@ -35,7 +37,7 @@ struct FSave{
 	FString PlayerName;
 
 	UPROPERTY()
-	TArray<FEnemySave> Enemies;
+	TArray<FActorSave> Actors;
 
 	UPROPERTY()
 	FPlayerSave Player;

@@ -34,20 +34,11 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 {
 	PersistentId = GeneratePersistentId( (AActor*) this );
 
-	FEnemySave* SaveState = nullptr;
-	TArray<FEnemySave> Enemies = GetSaveManager(GetWorld())->GetData().Enemies;
-
-	for (int32 b = 0; b < Enemies.Num(); b++)
-	{
-		if (Enemies[b].Id == PersistentId)
-		{
-			SaveState = &Enemies[b];
-		}
-	}
+	FActorSave* SaveState = GetSaveManager(GetWorld())->GetActorSave(PersistentId);
 
 	if (SaveState)
 	{
-		if (SaveState->Death)
+		if (SaveState->StopSpawn)
 		{
 			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Enemy was already death");
 			Destroy();
@@ -109,16 +100,13 @@ void AAI_BasicEnemy::Die()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
-
-
-	FSave SaveData = ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->GetData();
-	SaveData.Enemies.Add(
+	GetSaveManager(GetWorld())->AddActorSave(
 		{
 			GetPersistentId(),
-			true
+			true,
+			FTransform()
 		}
 	);
-	GetSaveManager(GetWorld())->SetData(SaveData);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Added Enemy to death enemies");
 
