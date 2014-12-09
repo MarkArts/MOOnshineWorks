@@ -24,26 +24,13 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	float DamageValue;
 
-	/*
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-	float InitialSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-	float MaxSpeed;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-	bool RotationFollowsVelocity;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-	bool ShouldBounce;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
-	float GravityScale;
-	*/
-
 	/** called when projectile hits something */
 	UFUNCTION()
 	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
 	void HitEvent();
-	void HitActor(AActor* OtherActor);
+	virtual void HitActor(AActor* OtherActor);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	TSubclassOf<AActor> DeathBlueprint;

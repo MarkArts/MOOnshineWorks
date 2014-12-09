@@ -33,8 +33,8 @@ void AAI_BookControllerLight::BookPatrol()
 	BaseEnemy->StartSprint();
 	FVector MyLoc = MyBot->GetActorLocation();
 	
-	float AddX; ////// WhereShouldAIPatrolTo
-	float AddY;
+	float AddX = NULL; ////// WhereShouldAIPatrolTo
+	float AddY = NULL;
 	float WhereShouldAIPatrolToFloat = BlackboardComp->GetValueAsFloat(WhereShouldAIPatrolTo);
 	float NewWhereShouldAIPatrolTo;
 
@@ -75,10 +75,16 @@ void AAI_BookControllerLight::BookPatrol()
 	//Pas de WhereShouldAIPatrolTo nummer aan zodat die een andere kant op loopt volgende keer
 
 	//Pas de locatie waar de AI moet heen lopen aan en stuur deze naar het Blackboard
-	float NewX = MyLoc[0] + AddX;
-	float NewY = MyLoc[1] + AddY;
-	MyLoc.Set(NewX, NewY, MyLoc[2]);
-	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+	if (AddX && AddY)
+	{
+		float NewX = MyLoc[0] + AddX;
+		float NewY = MyLoc[1] + AddY;
+		MyLoc.Set(NewX, NewY, MyLoc[2]);
+		BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+	}
+	else{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("WhereShouldAIPatrolToFloat was an incorect value"));
+	}
 }
 
 void AAI_BookControllerLight::BookAttackPlayer()

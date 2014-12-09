@@ -37,7 +37,7 @@ public:
 
 	virtual void Possess(class APawn *InPawn);
 
-	virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 		void FoundPlayer();
