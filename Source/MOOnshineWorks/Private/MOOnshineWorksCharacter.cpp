@@ -367,11 +367,6 @@ void AMOOnshineWorksCharacter::useActiveItem()
 	}
 } */
 
-void AMOOnshineWorksCharacter::Reload()
-{
-	//what to do?
-}
-
 void AMOOnshineWorksCharacter::CalcStamina()
 {
     if(IsSprinting == true && GetStamina() > 0.f)
