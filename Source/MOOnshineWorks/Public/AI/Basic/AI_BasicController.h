@@ -76,11 +76,7 @@ public:
 	void SetJumpingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-	void SetDeathAnimation();
-
-	UFUNCTION(BlueprintCallable, Category = Animation)
 	void SetSpeedAnimation(float speed);
-	//
 
 	//SetStates
 	UFUNCTION(BlueprintCallable, Category = AIState)
@@ -91,8 +87,6 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void AISetSearchState();
-	//
-
 
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
