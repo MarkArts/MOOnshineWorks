@@ -18,7 +18,7 @@ void AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
 	AmmoCounters[AmmoType] += AmmoAmount;
 }
 
-void AAmmoContainer::UseAmmo(int16 Count, EAmmoType::Type Type)
+void AAmmoContainer::UseAmmo(int32 Count, EAmmoType::Type Type)
 {
 	if (HasAmmo(Count, Type))
 	{
@@ -26,17 +26,12 @@ void AAmmoContainer::UseAmmo(int16 Count, EAmmoType::Type Type)
 	}
 }
 
-bool AAmmoContainer::HasAmmo(int16 Count, EAmmoType::Type Type)
+bool AAmmoContainer::HasAmmo(int32 Count, EAmmoType::Type Type)
 {
 	return AmmoCounters[Type] >= Count;
 }
 
-void AAmmoContainer::SetAmmo(EAmmoType::Type Type, int16 NewCount)
+void AAmmoContainer::SetAmmo(EAmmoType::Type Type, int32 NewCount)
 {
 	AmmoCounters[Type] = NewCount;
-}
-
-int32 AAmmoContainer::GetAmmo(EAmmoType::Type Type)
-{
-	return (int32) AmmoCounters[Type];
 }
