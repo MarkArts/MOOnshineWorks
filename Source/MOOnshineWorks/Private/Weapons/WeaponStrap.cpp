@@ -33,11 +33,25 @@ void AWeaponStrap::NextGun()
 void AWeaponStrap::PreviousGun()
 {
 	Guns[ActiveGunIndex]->GunMesh->SetVisibility(false);
-	ActiveGunIndex = (ActiveGunIndex - 1) % Guns.Num();
+	ActiveGunIndex = ((ActiveGunIndex - 1) + Guns.Num()) % Guns.Num();
 	Guns[ActiveGunIndex]->GunMesh->SetVisibility(true);
 }
 
 APlayerGun* AWeaponStrap::GetActiveGun()
 {
 	return Guns[ActiveGunIndex];
+}
+
+bool AWeaponStrap::ContainsGun(APlayerGun* Gun)
+{
+	bool Result = false;
+	for (int8 I = 0; I < Guns.Num(); I++)
+	{
+		if (Gun->GetClass() == Guns[I]->GetClass())
+		{
+			Result = true;
+			break;
+		}
+	}
+	return Result;
 }

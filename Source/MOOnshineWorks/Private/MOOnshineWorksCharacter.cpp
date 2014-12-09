@@ -330,7 +330,7 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
 			APlayerGun* Gun = Cast<APlayerGun>(Item);
-			if (Gun)
+			if (Gun && !WeaponStrap->ContainsGun(Gun))
 			{
 				EquipGun(Gun);
 			}
