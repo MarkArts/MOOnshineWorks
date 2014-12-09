@@ -2,7 +2,6 @@
 #pragma once
 #include "BlueprintLoader.h"
 #include "GameFramework/GameMode.h"
-#include "TextDisplay.h"
 #include "SaveManager.h"
 #include "MOOnshineWorksGameMode.generated.h"
 
@@ -13,7 +12,6 @@ class AMOOnshineWorksGameMode : public AGameMode
 
 	//ASocket* Socket;
 
-	ATextDisplay* DisplayHUD;
 	ASaveManager* SaveManager;
 };
 

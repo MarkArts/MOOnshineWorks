@@ -4,7 +4,6 @@
 #include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
 #include "BaseLevelScriptActor.h"
-#include "TextDisplay.h"
 #include "MOOnshineWorksCharacter.h"
 
 AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
@@ -13,7 +12,6 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 	if (GetWorld()){
 
 		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
-		DisplayHUD = (ATextDisplay*)ATextDisplay::StaticClass();
 
 		BlueprintLoader::Get().AddBP(FName("AI_PegEnemyDark"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyDark"));
 		//BlueprintLoader::Get().AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
@@ -27,5 +25,6 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
 		SaveManager->Load();
+
 	}
 }

@@ -5,7 +5,6 @@
 #include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
-#include "TextDisplay.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -331,7 +330,6 @@ void AMOOnshineWorksCharacter::Interact()
 			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 			if (DoorKey) {
 				KeyPack.Add(DoorKey);
-				((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->DisplayHUD->DrawHUD("Picked up Key");
 				DoorKey->Destroy();
 			}
 		}
