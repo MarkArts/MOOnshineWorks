@@ -26,8 +26,7 @@ void AAIBookGun::Use()
 }
 void AAIBookGun::Shoot()
 {
-	FVector SpawnLocation = GetActorLocation();
-
+	FVector SpawnLocation = RootComponent->GetComponentLocation();
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
 }
