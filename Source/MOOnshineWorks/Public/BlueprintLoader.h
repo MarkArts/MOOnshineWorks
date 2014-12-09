@@ -12,7 +12,6 @@ class MOONSHINEWORKS_API BlueprintLoader
 
 private:
 
-	//static BlueprintLoader* Instance;
 	BlueprintLoader();
 	~BlueprintLoader();
 	BlueprintLoader(BlueprintLoader const&); // Don't Implement
