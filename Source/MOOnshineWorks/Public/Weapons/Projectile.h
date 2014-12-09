@@ -43,7 +43,7 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 
 	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
 	void HitEvent();
-	void HitActor(AActor* OtherActor);
+	virtual void HitActor(AActor* OtherActor);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	TSubclassOf<AActor> DeathBlueprint;
