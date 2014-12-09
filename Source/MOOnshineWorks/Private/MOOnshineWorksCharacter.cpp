@@ -4,6 +4,7 @@
 #include "MOOnshineWorksCharacter.h"
 #include "Pickup.h"
 #include "Door.h"
+#include "DoorKey.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -121,16 +122,16 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
-		activeItem = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
@@ -183,11 +184,11 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (activeItem)
+	if (WeaponStrap->GetActiveGun())
 	{
 		if (!IsSprinting)
 		{
-			activeItem->Use();
+			WeaponStrap->GetActiveGun()->Use();
 		}
 	}
 }
@@ -294,6 +295,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 	{
 		APickup* Pickup = Cast<APickup>(Item);
 		ADoor* Door = Cast<ADoor>(Item);
+		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -312,25 +314,36 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
+		{
+			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
+			if (DoorKey) {
+				KeyPack.Add(DoorKey);
+				for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
+				}
+				DoorKey->Destroy();
+			}
+		}
 		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
 			if (Door) {
-				Door->DoorOpen();
+				Door->DoorOpen_Implementation();
 			}
 		}
-		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))
+		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
-			AGun* Gun = Cast<AGun>(Item);
+			APlayerGun* Gun = Cast<APlayerGun>(Item);
 			if (Gun)
 			{
-				//add to inventory
+				EquipGun(Gun);
 			}
 		}
 	}
 }
 
-void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
+void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
 	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
@@ -339,7 +352,10 @@ void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 	FRotator GunRotation = Gun->CharacterEquipRotation;
 	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
+	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
+	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
@@ -358,14 +374,7 @@ void AMOOnshineWorksCharacter::useActiveItem()
 
 void AMOOnshineWorksCharacter::Reload()
 {
-	if (activeItem)
-	{
-		APistol* Pistol = Cast<APistol>(activeItem);
-		if (Pistol)
-		{
-			Pistol->Reload();
-		}
-	}
+	//what to do?
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()
@@ -417,7 +426,11 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Player)
+	{ 
+		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	}
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };

@@ -10,7 +10,6 @@ AAIBookGun::AAIBookGun(const class FPostConstructInitializeProperties& PCIP)
 	Name = "AIBookGun";
 	Id = 14.f;
 
-	DamageValue = 5.f;
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.1f;
 }

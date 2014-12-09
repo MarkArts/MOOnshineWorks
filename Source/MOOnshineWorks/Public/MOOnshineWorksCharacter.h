@@ -1,9 +1,12 @@
 // Copyright 1998-2014 Epic Games, Inc. All Rights Reserved.
 #pragma once
 
+#include "AmmoContainer.h"
+#include "WeaponStrap.h"
 #include "Item.h"
 #include "Gun.h"
 #include "Pistol.h"
+#include "DoorKey.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -16,9 +19,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	AItem* activeItem;
+	
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
+	AAmmoContainer* AmmoContainer;
+	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Guns)
+	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
@@ -139,9 +144,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-	void EquipGun(AGun* Gun);
-
+	void EquipGun(APlayerGun* Gun);
+	
 	void DealDamage(float Damage);
+
+	TArray<ADoorKey*> KeyPack;
     
 //private:
     // Character avatar

@@ -14,30 +14,15 @@ class MOONSHINEWORKS_API AGun : public AItem
 {
 	GENERATED_UCLASS_BODY()
 
-		FVector CharacterEquipOffset;
-		FRotator CharacterEquipRotation;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float MagazineCapacity;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float MagazineLoadCount;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float DamageValue;
+	FVector CharacterEquipOffset;
+	FRotator CharacterEquipRotation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
 	FDateTime LastShot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
-	float ReloadTime;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;
-
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
-	bool Reloading;
-	float ReloadTimeLeft;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
 	TSubobjectPtr<UStaticMeshComponent> GunMesh;
@@ -49,26 +34,18 @@ class MOONSHINEWORKS_API AGun : public AItem
 	FVector GunOffset;
 
 	virtual void Use() override; 
-	virtual void Tick(float DeltaSeconds) override;
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
 	FRotator GetBulletAngle(FVector Start, FVector Target);
 
-	UFUNCTION(BlueprintNativeEvent, Category = Gun)
-	void OnReload();
-
-	UFUNCTION(BlueprintCallable, Category = Gun)
-	void Reload();
-
-	FVector GetTarget();
+	virtual FVector GetTarget();
 	FVector GetPlayerTarget();
 	FVector GetEnemyTarget();
 	bool LocationBehindBulletSpawn(FVector Location);
-	virtual void MagazineCountDecrement();
-	virtual bool HasAmmo();
 	virtual bool CanShoot();
 	void SetLastShotTime();
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
+	virtual TSubclassOf<class AProjectile> GetProjectileClass();
 
 };

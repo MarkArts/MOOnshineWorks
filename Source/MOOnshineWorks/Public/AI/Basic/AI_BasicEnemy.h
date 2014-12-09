@@ -4,6 +4,7 @@
 #include "GameFramework/Character.h"
 #include "Perception/PawnSensingComponent.h"
 #include "AI_BasicController.h"
+#include "Materials/Material.h"
 #include "AI_BasicEnemy.generated.h"
 
 /**
@@ -68,6 +69,13 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	FName GetPersistentId();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
+	UMaterial* TheMaterial;
+
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
+	//UMaterialInterface* Base_Material;
+
 private:
 	FName PersistentId;
 

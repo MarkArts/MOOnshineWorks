@@ -6,6 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "Materials/MaterialInterface.h"
 #include "AI_BasicController.generated.h"
 
 /**
@@ -36,7 +37,7 @@ public:
 
 	virtual void Possess(class APawn *InPawn);
 
-	virtual void Tick(float DeltaSeconds) OVERRIDE;
+	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 		void FoundPlayer();
@@ -75,11 +76,7 @@ public:
 	void SetJumpingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-	void SetDeathAnimation();
-
-	UFUNCTION(BlueprintCallable, Category = Animation)
 	void SetSpeedAnimation(float speed);
-	//
 
 	//SetStates
 	UFUNCTION(BlueprintCallable, Category = AIState)
@@ -90,5 +87,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void AISetSearchState();
-	//
+
+	UFUNCTION(BlueprintCallable, Category = Materials)
+	void ActivateEnemy();
 };
