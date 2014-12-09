@@ -28,3 +28,47 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 
 	}
 }
+
+void AMOOnshineWorksGameMode::RestoreCheckpoint()
+{
+
+	ASaveManager* SaveManager = GetSaveManager(GetWorld());
+	SaveManager->ResetData();
+
+	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
+	LatentActionInfo.CallbackTarget = this;
+	LatentActionInfo.ExecutionFunction = "LoadCheckpoint";
+	LatentActionInfo.UUID = 1;
+	LatentActionInfo.Linkage = 0;
+
+	RemoveLevelStreaming(LatentActionInfo);
+}
+
+void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActionInfo)
+{
+	TArray<ULevelStreaming*> Levels = GetWorld()->StreamingLevels;
+	int32 LevelNum = Levels.Num();
+
+	for (int32 i = 0; i < LevelNum; i++)
+	{
+		if (Levels[i]->bShouldBeLoaded > 0)
+		{
+			UGameplayStatics::UnloadStreamLevel(GetWorld(), Levels[i]->PackageNameToLoad, LatentActionInfo);
+		}
+	}
+}
+
+void AMOOnshineWorksGameMode::LoadCheckpoint()
+{
+	FCheckPointSave CheckPoint = SaveManager->GetData()->Player.Checkpoint;
+
+	if (CheckPoint.StreamingLevel != FName())
+	{
+		UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevel, true, false, FLatentActionInfo());
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
+	}
+	else{
+		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
+	}
+}

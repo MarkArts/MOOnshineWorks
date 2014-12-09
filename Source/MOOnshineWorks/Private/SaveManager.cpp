@@ -20,7 +20,6 @@ void ASaveManager::Load()
 	else
 	{
 		SaveData = FSave();
-		SaveData.PlayerName = TEXT("Mac swagfest 2");
 	}
 
 	ResetData();
@@ -39,11 +38,12 @@ void ASaveManager::RemoveSave()
 
 void ASaveManager::Save()
 {
-	SaveDataCandidate.PlayerName = TEXT("Mac swagfest 2");
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Saved game");
 	UMOOSaveGame* SaveGameInstance = Cast<UMOOSaveGame>(UGameplayStatics::CreateSaveGameObject(UMOOSaveGame::StaticClass()));
 	SaveGameInstance->Data = SaveDataCandidate;
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveSlotName, UserIndex);
+	/* TODO: Make sure load doesn't need to be called */
+	Load();
 }
 
 FSave* ASaveManager::GetData()

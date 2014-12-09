@@ -13,6 +13,12 @@ class AMOOnshineWorksGameMode : public AGameMode
 	//ASocket* Socket;
 
 	ASaveManager* SaveManager;
+	UFUNCTION()
+	void RestoreCheckpoint();
+	UFUNCTION()
+	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
+	UFUNCTION()
+	void LoadCheckpoint();
 };
 
 

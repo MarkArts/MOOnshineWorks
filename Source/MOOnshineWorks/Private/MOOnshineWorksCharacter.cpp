@@ -214,6 +214,7 @@ void AMOOnshineWorksCharacter::EndAim()
 
 void AMOOnshineWorksCharacter::NextWeapon()
 {
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->RestoreCheckpoint();
 	WeaponStrap->NextGun();
 }
 

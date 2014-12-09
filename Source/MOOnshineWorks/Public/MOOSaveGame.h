@@ -8,7 +8,7 @@
 USTRUCT()
 struct FActorSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
 	FName Id;
 	UPROPERTY()
@@ -18,21 +18,29 @@ struct FActorSave{
 };
 
 USTRUCT()
+struct FCheckPointSave{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY()
+	FTransform TransForm;
+	UPROPERTY()
+	FName StreamingLevel;
+};
+
+USTRUCT()
 struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
-	int8 Level; // desingers will be freaking i they see this man :D
+	FCheckPointSave Checkpoint;
 	UPROPERTY()
-	FVector Position;
-	UPROPERTY()
-	FRotator Rotation;
+	FTransform Transform;
 };
 
 USTRUCT()
 struct FSave{
 	GENERATED_USTRUCT_BODY()
-
+public:
 	UPROPERTY()
 	FString PlayerName;
 
