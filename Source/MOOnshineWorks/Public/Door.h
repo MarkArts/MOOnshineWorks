@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "DoorKey.h"
 #include "Door.generated.h"
 
 /**
@@ -13,9 +14,15 @@ class MOONSHINEWORKS_API ADoor : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = "Moonshine")
+	UFUNCTION(BlueprintNativeEvent, Category = "Moonshine")
 	void DoorOpen();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	bool DoorClosed;
-	
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
+	FRotator BeginningRot;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
+	TEnumAsByte<EDoorKey::Type> KeyName;
 };

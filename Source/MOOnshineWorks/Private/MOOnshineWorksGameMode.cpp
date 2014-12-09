@@ -13,14 +13,14 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 
 	if (GetWorld()){
 
-		ABaseLevelScriptActor* level = (ABaseLevelScriptActor*)GetWorld()->GetLevelScriptActor();
-		if (level){
+		//ABaseLevelScriptActor* level = (ABaseLevelScriptActor*)GetWorld()->GetLevelScriptActor();
+		//if (level){
 			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, (*level).LevelName);
 
 			DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 
-			Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
-			Socket->start("MarksSocket", "127.0.0.1", 4243);
-		}
+			//Socket = (ASocket*)GetWorld()->SpawnActor(ASocket::StaticClass());
+			//Socket->start("MarksSocket", "127.0.0.1", 4243);
+		//}
 	}
 }

@@ -10,8 +10,12 @@ AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 {
 	GunMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("gunMesh"));
 	RootComponent = GunMesh;
+	GunMesh->CastShadow = false;
+	GunMesh->SetCollisionProfileName("OverlapAll");
 	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
 	GunOffset = FVector(80.f, 0.f, 40.f);
+	PrimaryActorTick.bStartWithTickEnabled = true;
+	PrimaryActorTick.bCanEverTick = true;
 }
 
 FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
@@ -40,35 +44,18 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 {
 	AProjectile* Result = NULL;
 	UWorld* const World = GetWorld();
-	if (World){
-
-		if (RootComponent->DoesSocketExist("BulletSpawn"))
-		{
-			Result= World->SpawnActor<AProjectile>(ProjectileClass, Start, GetBulletAngle(Start, End));
-			Result->DamageValue = DamageValue;
-		}
+	FActorSpawnParameters SpawnParams;
+	SpawnParams.Owner = this;
+	if (World)
+	{
+		Result = World->SpawnActor<AProjectile>(GetProjectileClass(), Start, GetBulletAngle(Start, End), SpawnParams);
 	}
 	return Result;
 }
 
-void AGun::OnReload_Implementation()
+TSubclassOf<class AProjectile> AGun::GetProjectileClass()
 {
-	
-}
-
-void AGun::Reload()
-{
-	Reloading = true;
-	OnReload();
-	//delay
-	MagazineLoadCount = MagazineCapacity;
-
-	Reloading = false;
-}
-
-bool AGun::HasAmmo()
-{
-	return true; //MagazineLoadCount > 0;
+	return ProjectileClass;
 }
 
 bool AGun::CanShoot()
@@ -79,11 +66,6 @@ bool AGun::CanShoot()
 void AGun::SetLastShotTime()
 {
 	LastShot = FDateTime::Now();
-}
-
-void AGun::MagazineCountDecrement()
-{
-	//MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }
 
 FVector AGun::GetTarget()
@@ -110,7 +92,7 @@ FVector AGun::GetEnemyTarget()
 FVector AGun::GetPlayerTarget()
 {
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
-	UCameraComponent* Camera = Owner->FollowCamera;
+	UCameraComponent* Camera = Owner->FirstPersonCameraComponent;
 	FMinimalViewInfo ViewInfo = FMinimalViewInfo();
 	Camera->GetCameraView(0.f, ViewInfo);
 
@@ -136,7 +118,7 @@ FVector AGun::GetPlayerTarget()
 		))
 	{
 		Result = RV_Hit.Location;
-		if(!LocationBehindOwner(Result))
+		if(!LocationBehindBulletSpawn(Result))
 		{
 			bPawnHit = true;
 		}
@@ -158,10 +140,10 @@ FVector AGun::GetPlayerTarget()
 	return Result;
 }
 
-bool AGun::LocationBehindOwner(FVector Location)
+bool AGun::LocationBehindBulletSpawn(FVector Location)
 {
+	FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	APawn* Owner = Cast<APawn>(GetOwner());
-	FVector OwnerLocation = Owner->GetActorLocation();
 	FRotator OwnerRotation = Owner->GetActorRotation();
 	bool Result = true;
 	if (OwnerRotation.UnrotateVector(OwnerLocation).X < OwnerRotation.UnrotateVector(Location).X)

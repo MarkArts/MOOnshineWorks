@@ -6,6 +6,7 @@
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "BehaviorTree/BehaviorTreeComponent.h"
+#include "Materials/MaterialInterface.h"
 #include "AI_BasicController.generated.h"
 
 /**
@@ -45,8 +46,10 @@ public:
 		void LostPlayer();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void ShouldAIPatrol();
+		void ResetSight();
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+		void ShouldAIPatrol();
 
 	uint8 StateAI;					//Int
 	uint8 EnemyKeyID;				//Object
@@ -61,26 +64,30 @@ public:
 
 	//Animations setten!
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetIdleAnimation();
+	void SetIdleAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetPatrollingAnimation();
+	void SetPatrollingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetAttackAnimation();
+	void SetAttackAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetJumpingAnimation();
+	void SetJumpingAnimation();
 
 	UFUNCTION(BlueprintCallable, Category = Animation)
-		void SetSpeedAnimation(float speed);
+	void SetSpeedAnimation(float speed);
+
+	//SetStates
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void AISetPatrolState();
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetPatrolState();
+	void AISetAttackState();
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetAttackState();
+	void AISetSearchState();
 
-	UFUNCTION(BlueprintCallable, Category = AIState)
-		void AISetSearchState();
+	UFUNCTION(BlueprintCallable, Category = Materials)
+	void ActivateEnemy();
 };

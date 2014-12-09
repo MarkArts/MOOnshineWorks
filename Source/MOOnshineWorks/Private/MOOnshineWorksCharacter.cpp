@@ -4,6 +4,7 @@
 #include "MOOnshineWorksCharacter.h"
 #include "Pickup.h"
 #include "Door.h"
+#include "DoorKey.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -69,32 +70,22 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Set size for collision capsule
 	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
-
+	
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
 	BaseLookUpRate = 45.f;
 
-	// Don't rotate when the controller rotates. Let that just affect the camera.
-	bUseControllerRotationPitch = false;
-	bUseControllerRotationYaw = true;
-	bUseControllerRotationRoll = false;
-
 	// Configure character movement
-	CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
+	//CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
 	CharacterMovement->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
 	CharacterMovement->JumpZVelocity = 600.f;
-	CharacterMovement->AirControl = 0.2f;
-
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
-	CameraBoom->AttachTo(RootComponent);
-	CameraBoom->TargetArmLength = baseCameraZoom; // The camera follows at this distance behind the character
-    CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	//CharacterMovement->AirControl = 0.2f;
 
 	// Create a follow camera
-	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
-	FollowCamera->AttachTo(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
+	FirstPersonCameraComponent->AttachParent = CapsuleComponent;
+	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
+	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
@@ -117,9 +108,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
 	if (world)
 	{
-		FActorSpawnParameters spawnParams;
-		spawnParams.Owner = this;
-		spawnParams.bNoCollisionFail = false;
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.bNoCollisionFail = false;
 
 		USceneComponent *Mesh = nullptr;
 
@@ -132,32 +123,16 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-
-		if(Mesh)
-		{
-			if (Mesh->DoesSocketExist("hand_rSocket"))
-			{
-				activeItem = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), spawnParams);
-				activeItem->SetActorLocation(FVector::ZeroVector, false);
-				activeItem->SetActorRotation(FRotator::ZeroRotator);
-				activeItem->AttachRootComponentTo(Mesh, "hand_rSocket");
-
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-			}
-			else{
-				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Hand socket not found"));
-			}
-		}
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
+		EquipGun(Pistol);
 	}
-
-    CameraBoom->SocketOffset = baseCameraOffset;
-    
 	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
@@ -171,7 +146,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
-	InputComponent->BindAction("reload", IE_Pressed, this, &AMOOnshineWorksCharacter::reload);
+	InputComponent->BindAction("Reload", IE_Pressed, this, &AMOOnshineWorksCharacter::Reload);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
@@ -210,9 +185,12 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (activeItem)
+	if (WeaponStrap->GetActiveGun())
 	{
-		activeItem->Use();
+		if (!IsSprinting)
+		{
+			WeaponStrap->GetActiveGun()->Use();
+		}
 	}
 }
 
@@ -226,15 +204,11 @@ void AMOOnshineWorksCharacter::StartAim()
     if(IsSprinting == true){
         EndSprint();
     }
-    CameraBoom->TargetArmLength = baseCameraAimZoom;
-    CameraBoom->SocketOffset = baseZoomOffset;
     IsAiming = true;
 }
 
 void AMOOnshineWorksCharacter::EndAim()
 {
-    CameraBoom->TargetArmLength = baseCameraZoom;
-    CameraBoom->SocketOffset = baseCameraOffset;
     IsAiming = false;
 }
 
@@ -252,33 +226,23 @@ void AMOOnshineWorksCharacter::LookUpAtRate(float Rate)
 
 void AMOOnshineWorksCharacter::MoveForward(float Value)
 {
-	if ((Controller != NULL) && (Value != 0.0f))
+	if (Value != 0.0f)
 	{
-		// find out which way is forward
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-
-		// get forward vector
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
-		AddMovementInput(Direction, Value);
+		// add movement in that direction
+		AddMovementInput(GetActorForwardVector(), Value);
         IsMovingForward = true;
-    }else{
+    }
+	else
+	{
         IsMovingForward = false;
     }
 }
 
 void AMOOnshineWorksCharacter::MoveRight(float Value)
 {
-	if ( (Controller != NULL) && (Value != 0.0f) )
+	if (Value != 0.0f)
 	{
-		// find out which way is right
-		const FRotator Rotation = Controller->GetControlRotation();
-		const FRotator YawRotation(0, Rotation.Yaw, 0);
-	
-		// get right vector 
-		const FVector Direction = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-		// add movement in that direction
-		AddMovementInput(Direction, Value);
+		AddMovementInput(GetActorRightVector(), Value);
 	}
 }
 
@@ -287,14 +251,11 @@ void AMOOnshineWorksCharacter::StartSprint()
     if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
-        CameraBoom->TargetArmLength = baseCameraSprintZoom;
-        CameraBoom->SocketOffset = baseSprintOffset;
         //PerformCameraShake();
         //Adjust movement speed to sprint values & switch boolean to true
         CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
-
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
 	{
@@ -314,9 +275,6 @@ void AMOOnshineWorksCharacter::EndSprint()
     if(IsSprinting == true)
     {
         //Adjust camera to standard values
-        CameraBoom->TargetArmLength = baseCameraZoom;
-        CameraBoom->SocketOffset = baseCameraOffset;
-        
         //Adjust movement speed to standard values & switch boolean to false
         CharacterMovement->MaxWalkSpeed = (CharacterMovement->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
         IsSprinting = false;
@@ -336,6 +294,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 	{
 		APickup* Pickup = Cast<APickup>(Item);
 		ADoor* Door = Cast<ADoor>(Item);
+		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -352,26 +311,48 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
-		ADoor* Door = Cast<ADoor>(Item);
-		if (Door) {
-			Door->DoorOpen();
+		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
+		{
+			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
+			if (DoorKey) {
+				KeyPack.Add(DoorKey);
+				for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
+				}
+				DoorKey->Destroy();
+			}
+		}
+		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
+		{	
+			ADoor* Door = Cast<ADoor>(Item);
+			if (Door) {
+				Door->DoorOpen_Implementation();
+			}
+		}
+		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
+		{
+			APlayerGun* Gun = Cast<APlayerGun>(Item);
+			if (Gun)
+			{
+				EquipGun(Gun);
+			}
 		}
 	}
 }
 
-void AMOOnshineWorksCharacter::equipPistol()
+void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
-	if (activeItem)
-	{
-		//activeItem->GetRootComponent()->AttachTo(RootComponent);
-		//Mesh->GetSocketByName("hand_rSocket")->AttachActor(activeItem, Mesh);
-		activeItem->GetRootComponent()->AttachParent = Mesh;
-		activeItem->GetRootComponent()->AttachSocketName = FName(TEXT("hand_rSocket"));
-		/*activeItem->SetActorLocation(Mesh->GetSocketLocation("hand_rSocket"), false);
-		activeItem->SetActorRotation(FRotator::ZeroRotator);
-		activeItem->AttachRootComponentTo(this->Mesh, "hand_rSocket");*/
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("gun attached"));
-	}
+	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
+	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
+	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
+	Gun->AttachRootComponentTo(FirstPersonCameraComponent);
+	FRotator GunRotation = Gun->CharacterEquipRotation;
+	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
+	Gun->SetActorRotation(GunRotation);
+	Gun->AmmoContainer = AmmoContainer;
+	Gun->SetOwner(this);
+	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
@@ -388,16 +369,9 @@ void AMOOnshineWorksCharacter::useActiveItem()
 	}
 } */
 
-void AMOOnshineWorksCharacter::reload()
+void AMOOnshineWorksCharacter::Reload()
 {
-	/*if (&activeItem != NULL)
-	{
-		AGun* gun = Cast<AGun>(activeItem);
-		if (gun)
-		{
-			gun->reload();
-		}
-	}*/
+	//what to do?
 }
 
 void AMOOnshineWorksCharacter::CalcStamina()
@@ -449,7 +423,11 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Player)
+	{ 
+		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	}
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };

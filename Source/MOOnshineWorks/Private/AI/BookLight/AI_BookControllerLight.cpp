@@ -83,5 +83,8 @@ void AAI_BookControllerLight::BookPatrol()
 
 void AAI_BookControllerLight::BookAttackPlayer()
 {
-	//Op de speler gaan schieten indien die in zicht is!!
+	//Op de speler gaan schieten
+	AAI_BookEnemyLight* BaseEnemy = Cast<AAI_BookEnemyLight>(GetPawn());
+	BaseEnemy->Gun->Use();
+	
 }

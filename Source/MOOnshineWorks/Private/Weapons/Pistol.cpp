@@ -10,22 +10,11 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Pistol";
 	Id = 14.f;
 
-	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
-	ProjectileClass = BP_Projectile.Class;*/
+	CharacterEquipOffset = FVector(25.f, 25.f, -14.f);
+	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
 
-	MagazineCapacity = 15.f;
-	MagazineLoadCount = MagazineCapacity;
-	DamageValue = 5.f;
-	ReloadTime = 2.f;
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.8f;
-	Reloading = false;
-}
-
-void APistol::ReceiveBeginPlay()
-{
-	ProjectileClass =  TSubclassOf<AProjectile>(*(BlueprintLoader::Get().GetBP("BP_Projectile")));
-	Super::ReceiveBeginPlay();
 }
 
 void APistol::Use()
@@ -35,12 +24,8 @@ void APistol::Use()
 		if (CanShoot())
 		{
 			Shoot();
-			MagazineCountDecrement();
+			UseAmmo();
 		}
-	}
-	else
-	{
-		Reload();
 	}
 }
 
@@ -50,14 +35,4 @@ void APistol::Shoot()
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	SetLastShotTime();
 	OnUse();
-}
-
-bool APistol::HasAmmo()
-{
-	return MagazineLoadCount > 0;
-}
-
-void APistol::MagazineCountDecrement()
-{
-	MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }
