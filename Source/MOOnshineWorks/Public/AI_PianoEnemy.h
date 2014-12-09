@@ -12,4 +12,8 @@ UCLASS()
 class MOONSHINEWORKS_API AAI_PianoEnemy : public AAI_BasicEnemy
 {
 	GENERATED_UCLASS_BODY()
+
+	/** PushBack */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	FVector PianoPushBack;
 };

@@ -10,6 +10,8 @@ AAI_PianoEnemy::AAI_PianoEnemy(const class FPostConstructInitializeProperties& P
 	AIControllerClass = AAI_PianoController::StaticClass();
 
 	LightType = EnemyLightType::Light;
+
+	PianoPushBack = FVector(5.0f, 5.0f, 5.0f);
 }
 
 
