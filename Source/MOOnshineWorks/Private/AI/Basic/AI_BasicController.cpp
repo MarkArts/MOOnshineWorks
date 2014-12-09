@@ -149,7 +149,7 @@ void AAI_BasicController::SetAttackAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
@@ -162,7 +162,7 @@ void AAI_BasicController::SetIdleAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
@@ -176,7 +176,7 @@ void AAI_BasicController::SetPatrollingAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
@@ -189,7 +189,7 @@ void AAI_BasicController::SetJumpingAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
@@ -202,7 +202,7 @@ void AAI_BasicController::SetSpeedAnimation(float speed)
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
@@ -243,7 +243,7 @@ void AAI_BasicController::ActivateEnemy()
 	//APawn* MyBot = GetPawn();
 	//AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	APawn* Inst = Controller->GetControlledPawn();
+	APawn* Inst = Controller->GetPawn();
 	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
 
 	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);

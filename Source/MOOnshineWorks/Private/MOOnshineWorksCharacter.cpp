@@ -99,7 +99,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
     
-
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -248,6 +247,8 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->Save();
+
     if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
@@ -304,6 +305,8 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 void AMOOnshineWorksCharacter::Interact()
 {
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->RemoveSave();
+
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
