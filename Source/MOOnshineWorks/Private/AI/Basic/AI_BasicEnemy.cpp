@@ -34,7 +34,16 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 {
 	PersistentId = GeneratePersistentId( (AActor*) this );
 
-	FEnemySave* SaveState = GetSaveManager(GetWorld())->GetData().Enemies.Find(GetPersistentId());
+	FEnemySave* SaveState = nullptr;
+	TArray<FEnemySave> Enemies = GetSaveManager(GetWorld())->GetData().Enemies;
+
+	for (int32 b = 0; b < Enemies.Num(); b++)
+	{
+		if (Enemies[b].Id == PersistentId)
+		{
+			SaveState = &Enemies[b];
+		}
+	}
 
 	if (SaveState)
 	{
@@ -100,9 +109,10 @@ void AAI_BasicEnemy::Die()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
+
+
 	FSave SaveData = ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->GetData();
 	SaveData.Enemies.Add(
-		PersistentId, 
 		{
 			GetPersistentId(),
 			true

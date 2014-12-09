@@ -34,7 +34,8 @@ struct FSave{
 	UPROPERTY()
 	FString PlayerName;
 
-	TMap<FName, FEnemySave> Enemies;
+	UPROPERTY()
+	TArray<FEnemySave> Enemies;
 
 	UPROPERTY()
 	FPlayerSave Player;
