@@ -11,6 +11,7 @@ class AMOOnshineWorksGameMode : public AGameMode
 	GENERATED_UCLASS_BODY()
 
 	//ASocket* Socket;
+
 	ASaveManager* SaveManager;
 };
 

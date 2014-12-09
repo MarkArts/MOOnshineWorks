@@ -330,9 +330,6 @@ void AMOOnshineWorksCharacter::Interact()
 			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 			if (DoorKey) {
 				KeyPack.Add(DoorKey);
-				for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
-				}
 				DoorKey->Destroy();
 			}
 		}
