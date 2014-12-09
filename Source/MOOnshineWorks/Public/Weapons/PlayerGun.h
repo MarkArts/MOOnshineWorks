@@ -26,7 +26,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	TArray<TEnumAsByte<EAmmoType::Type>> AmmoTypes;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
-	TArray<int8> Multipliers;
+	TArray<int32> Multipliers;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TArray<TSubclassOf<class AProjectile>> ProjectileClasses;
@@ -34,6 +34,6 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	uint8 ActiveIndex;
 	void SetActiveIndex(EAmmoType::Type);
 	EAmmoType::Type FindActiveAmmoType();
-	int8 FindActiveMultiplier();
+	int32 FindActiveMultiplier();
 	TSubclassOf<class AProjectile> FindActiveProjectileClass();
 };

@@ -15,6 +15,6 @@ void AAmmoBarrel::OnPickedUp_Implementation(AMOOnshineWorksCharacter* Actor)
 {
 	//Call the parent implementation of OnPickedUp first.
 	Super::OnPickedUp_Implementation(Actor);
-	int16 NewCount = FMath::Max(AmmoAmount - Actor->AmmoContainer->GetAmmo(AmmoType), 0);
+	int32 NewCount = FMath::Max(AmmoAmount - Actor->AmmoContainer->AmmoCounters[AmmoType], 0);
 	Actor->AmmoContainer->AddAmmo(AmmoType, AmmoAmount);
 }
