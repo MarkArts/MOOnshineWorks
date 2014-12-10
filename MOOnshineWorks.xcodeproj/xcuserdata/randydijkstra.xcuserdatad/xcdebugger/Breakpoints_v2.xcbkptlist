@@ -19,5 +19,79 @@
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Source/MOOnshineWorks/Private/AI/PegDark/AI_PegControllerDark.cpp"
+            timestampString = "439911026.108275"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "AAI_PegControllerDark::AttackPlayer()"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AAI_PegControllerDark::AttackPlayer()"
+                  moduleName = "UE4Editor-MOOnshineWorks-Mac-DebugGame.dylib"
+                  urlString = "file:///Users/randydijkstra/Workspace/Game%20Development/UE4/MOOnshineWorks/Source/MOOnshineWorks/Private/AI/PegDark/AI_PegControllerDark.cpp"
+                  timestampString = "439911961.45243"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "217">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AAI_PegControllerDark::AttackPlayer()"
+                  moduleName = "UE4Editor-MOOnshineWorks-9783-Mac-DebugGame.dylib"
+                  urlString = "file:///Users/randydijkstra/Workspace/Game%20Development/UE4/MOOnshineWorks/Source/MOOnshineWorks/Private/AI/PegDark/AI_PegControllerDark.cpp"
+                  timestampString = "439912592.203692"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "217">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AAI_PegControllerDark::AttackPlayer()"
+                  moduleName = "UE4Editor-MOOnshineWorks-745-Mac-DebugGame.dylib"
+                  urlString = "file:///Users/randydijkstra/Workspace/Game%20Development/UE4/MOOnshineWorks/Source/MOOnshineWorks/Private/AI/PegDark/AI_PegControllerDark.cpp"
+                  timestampString = "439912884.840072"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "217">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AAI_PegControllerDark::AttackPlayer()"
+                  moduleName = "UE4Editor-MOOnshineWorks-9463-Mac-DebugGame.dylib"
+                  urlString = "file:///Users/randydijkstra/Workspace/Game%20Development/UE4/MOOnshineWorks/Source/MOOnshineWorks/Private/AI/PegDark/AI_PegControllerDark.cpp"
+                  timestampString = "439912934.603999"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "30"
+                  endingLineNumber = "30"
+                  offsetFromSymbolStart = "217">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>
