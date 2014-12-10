@@ -33,13 +33,8 @@ void AAI_BookControllerLight::BookPatrol()
 	BaseEnemy->StartSprint();
 	FVector MyLoc = MyBot->GetActorLocation();
 	
-<<<<<<< HEAD
 	float AddX = 0; ////// WhereShouldAIPatrolTo
 	float AddY = 0;
-=======
-	float AddX = NULL; ////// WhereShouldAIPatrolTo
-	float AddY = NULL;
->>>>>>> Develop
 	float WhereShouldAIPatrolToFloat = BlackboardComp->GetValueAsFloat(WhereShouldAIPatrolTo);
 	float NewWhereShouldAIPatrolTo;
 
