@@ -5,6 +5,8 @@
 #include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
+#include "Interactable.h"
+#include "Collectible.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -305,6 +307,15 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(ACollectible::StaticClass()))
+		{
+			ACollectible* Collectable = Cast<ACollectible>(Item);
+			if (Collectable) {
+				Collectable->Collect(this);
+			}
+		}
+
+		/* TODO: Everything below should be rewritten to fit with the above code */
 		APickup* Pickup = Cast<APickup>(Item);
 		ADoor* Door = Cast<ADoor>(Item);
 		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
@@ -326,6 +337,15 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(Item);
+			if (Interactable) {
+				Interactable->Interact(this);
+			}
+		}
+
+		/* TODO: Everything below should be rewritten to fit with the above code */
 		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
 		{
 			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
