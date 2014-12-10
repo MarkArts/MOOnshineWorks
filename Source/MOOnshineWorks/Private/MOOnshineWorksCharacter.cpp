@@ -40,6 +40,10 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	DarkLight = true;
     //Move forward state
     IsMovingForward = false;
+	IsMovingSideway = false;
+	bIdleCameraShake = false;
+	bWalkCameraShake = false;
+	bSprintCameraShake = false;
     
     //Set camera values
     baseCameraZoom = 250;
@@ -203,7 +207,8 @@ void AMOOnshineWorksCharacter::EndUse()
 
 void AMOOnshineWorksCharacter::StartAim()
 {
-    if(IsSprinting == true){
+    if(IsSprinting == true)
+	{
         EndSprint();
     }
     IsAiming = true;
@@ -256,6 +261,11 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 	if (Value != 0.0f)
 	{
 		AddMovementInput(GetActorRightVector(), Value);
+		IsMovingSideway = true;
+	}
+	else
+	{
+		IsMovingSideway = false;
 	}
 }
 
@@ -428,7 +438,7 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 
     CalcStamina();
 	CollectItems();
-
+	PerformCameraShake();
 
     if(GetStamina() < 1)
     {
@@ -511,19 +521,64 @@ UTexture2D* AMOOnshineWorksCharacter::GetAvatar()
     }
 }
 
-/* this function needs to be reviewed, doesn't work somehow
- void AMOOnshineWorksCharacter::PerformCameraShake()
- {
- UCameraShake* CameraShake = ConstructObject<UCameraShake>(UCameraShake::StaticClass());
- CameraShake->OscillationDuration = -1.0f; //negative value will run forever
- CameraShake->RotOscillation.Pitch.Amplitude = 1.0f;
- CameraShake->RotOscillation.Pitch.Frequency = 0.5f;
- CameraShake->RotOscillation.Pitch.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
- CameraShake->RotOscillation.Yaw.Amplitude = 1.0f;
- CameraShake->RotOscillation.Yaw.Frequency = 0.5f;
- CameraShake->RotOscillation.Yaw.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
- CameraShake->FOVOscillation.Amplitude = 1.0f;
- 
- //Somehow doesn't do anything... should work though. Figure out later.
- GetWorld()->GetFirstLocalPlayerFromController()->PlayerController->ClientPlayCameraShake(CameraShake->GetClass(), 1.0f);
- }*/
+
+void AMOOnshineWorksCharacter::PerformCameraShake()
+{
+	if (!IsMovingForward && !IsMovingSideway && !IsSprinting)
+	{
+		if (!bIdleCameraShake)
+		{
+			StartShake(IdleCameraShake);
+			bIdleCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(IdleCameraShake);
+		bIdleCameraShake = false;
+	}
+
+	if (!IsSprinting && (IsMovingForward || IsMovingSideway))
+	{
+		if (!bWalkCameraShake)
+		{
+			StartShake(WalkCameraShake);
+			bWalkCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(WalkCameraShake);
+		bWalkCameraShake = false;
+	}
+
+	if (IsSprinting && (IsMovingForward || IsMovingSideway))
+	{
+		if (!bSprintCameraShake)
+		{
+			StartShake(SprintCameraShake);
+			bSprintCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(SprintCameraShake);
+		bSprintCameraShake = false;
+	}
+}
+
+void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker)
+{
+	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FRotator::ZeroRotator);
+}
+
+void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)
+{
+	GetPlayerController()->ClientStopCameraShake(Shaker);
+}
+
+//This function will kill all networked play
+APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
+{
+	return GetWorld()->GetFirstLocalPlayerFromController()->PlayerController;	
+}
