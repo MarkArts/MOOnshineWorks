@@ -5,49 +5,49 @@
 #include "GameFramework/SaveGame.h"
 #include "MOOSaveGame.generated.h"
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FActorSave{
 	GENERATED_USTRUCT_BODY()
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FName Id;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool StopSpawn;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform Transform;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FCheckPointSave{
 	GENERATED_USTRUCT_BODY()
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform TransForm;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FName StreamingLevel;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FCheckPointSave Checkpoint;
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform Transform;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FSave{
 	GENERATED_USTRUCT_BODY()
 public:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString PlayerName;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<FActorSave> Actors;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FPlayerSave Player;
 };
 
