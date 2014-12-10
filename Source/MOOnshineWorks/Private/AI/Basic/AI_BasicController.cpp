@@ -113,11 +113,11 @@ void AAI_BasicController::Tick(float DeltaSeconds)
 {
 	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
-	(Player)
+	if (Player)
 	{
 		//Check batteryLevel van speler voor Dark/Light switch
 		AAI_BasicEnemy* Parent = (AAI_BasicEnemy*)GetActorClass();
-		(Parent)
+		if (Parent)
 		{
 			if (Parent->LightType == EnemyLightType::Dark && Player->GetLightPercentage() >= 0.5f) //Destroy Dark types enemies en spawn Light types enemies
 			{
