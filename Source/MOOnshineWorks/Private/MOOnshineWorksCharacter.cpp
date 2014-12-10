@@ -5,6 +5,7 @@
 #include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
+#include "Interactable.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -326,6 +327,16 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(Item);
+			if (Interactable) {
+				Interactable->OnInteract(this);
+			}
+		}
+
+
+		/* Everything below should be rewritten to fit with the above code */
 		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
 		{
 			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
