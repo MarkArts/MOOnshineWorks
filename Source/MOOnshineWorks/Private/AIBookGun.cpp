@@ -9,8 +9,10 @@ AAIBookGun::AAIBookGun(const class FPostConstructInitializeProperties& PCIP)
 {
 	Name = "AIBookGun";
 	Id = 14.f;
+	
+	GunSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("GunSphere"));
+	RootComponent = GunSphere;
 
-	DamageValue = 5.f;
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.1f;
 }
@@ -24,8 +26,12 @@ void AAIBookGun::Use()
 }
 void AAIBookGun::Shoot()
 {
-	FVector SpawnLocation = GetActorLocation();
-
+	FVector SpawnLocation = GetOwner()->GetActorLocation();
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
+}
+
+FVector AAIBookGun::GetTarget()
+{
+	return GetEnemyTarget();
 }

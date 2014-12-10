@@ -4,6 +4,9 @@
 #include "MOOnshineWorksCharacter.h"
 #include "Pickup.h"
 #include "Door.h"
+#include "DoorKey.h"
+#include "Interactable.h"
+#include "Collectible.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -37,6 +40,10 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	DarkLight = true;
     //Move forward state
     IsMovingForward = false;
+	IsMovingSideway = false;
+	bIdleCameraShake = false;
+	bWalkCameraShake = false;
+	bSprintCameraShake = false;
     
     //Set camera values
     baseCameraZoom = 250;
@@ -98,7 +105,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
     
-
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -122,16 +128,16 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		AGun* Pistol = world->SpawnActor<AGun>(TSubclassOf<AGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
-		activeItem = Pistol;
 	}
 	Super::ReceiveBeginPlay();
 }
 
 //////////////////////////////////////////////////////////////////////////
 // Input
-
 void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* InputComponent)
 {
 	// Set up gameplay key bindings
@@ -145,8 +151,9 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Use", IE_Released, this, &AMOOnshineWorksCharacter::EndUse);
     InputComponent->BindAction("Aim", IE_Pressed, this, &AMOOnshineWorksCharacter::StartAim);
     InputComponent->BindAction("Aim", IE_Released, this, &AMOOnshineWorksCharacter::EndAim);
-	InputComponent->BindAction("Reload", IE_Pressed, this, &AMOOnshineWorksCharacter::Reload);
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
+	InputComponent->BindAction("NextWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::NextWeapon);
+	InputComponent->BindAction("PreviousWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::PreviousWeapon);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -184,11 +191,11 @@ void AMOOnshineWorksCharacter::TouchStopped(ETouchIndex::Type FingerIndex, FVect
 
 void AMOOnshineWorksCharacter::StartUse()
 {
-	if (activeItem)
+	if (WeaponStrap->GetActiveGun())
 	{
 		if (!IsSprinting)
 		{
-			activeItem->Use();
+			WeaponStrap->GetActiveGun()->Use();
 		}
 	}
 }
@@ -200,7 +207,8 @@ void AMOOnshineWorksCharacter::EndUse()
 
 void AMOOnshineWorksCharacter::StartAim()
 {
-    if(IsSprinting == true){
+    if(IsSprinting == true)
+	{
         EndSprint();
     }
     IsAiming = true;
@@ -209,6 +217,17 @@ void AMOOnshineWorksCharacter::StartAim()
 void AMOOnshineWorksCharacter::EndAim()
 {
     IsAiming = false;
+}
+
+void AMOOnshineWorksCharacter::NextWeapon()
+{
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->RestoreCheckpoint();
+	WeaponStrap->NextGun();
+}
+
+void AMOOnshineWorksCharacter::PreviousWeapon()
+{
+	WeaponStrap->PreviousGun();
 }
 
 void AMOOnshineWorksCharacter::TurnAtRate(float Rate)
@@ -242,11 +261,18 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 	if (Value != 0.0f)
 	{
 		AddMovementInput(GetActorRightVector(), Value);
+		IsMovingSideway = true;
+	}
+	else
+	{
+		IsMovingSideway = false;
 	}
 }
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->Save();
+
     if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
@@ -291,8 +317,18 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(ACollectible::StaticClass()))
+		{
+			ACollectible* Collectable = Cast<ACollectible>(Item);
+			if (Collectable) {
+				Collectable->Collect(this);
+			}
+		}
+
+		/* TODO: Everything below should be rewritten to fit with the above code */
 		APickup* Pickup = Cast<APickup>(Item);
 		ADoor* Door = Cast<ADoor>(Item);
+		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -302,6 +338,8 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 void AMOOnshineWorksCharacter::Interact()
 {
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->RemoveSave();
+
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
@@ -309,25 +347,42 @@ void AMOOnshineWorksCharacter::Interact()
 
 	for (AActor* Item : CollectedActors)
 	{
+		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(Item);
+			if (Interactable) {
+				Interactable->Interact(this);
+			}
+		}
+
+		/* TODO: Everything below should be rewritten to fit with the above code */
+		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
+		{
+			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
+			if (DoorKey) {
+				KeyPack.Add(DoorKey);
+				DoorKey->Destroy();
+			}
+		}
 		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
 			if (Door) {
-				Door->DoorOpen();
+				Door->DoorOpen_Implementation();
 			}
 		}
-		if (Item->GetClass()->IsChildOf(AGun::StaticClass()))
+		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
-			AGun* Gun = Cast<AGun>(Item);
-			if (Gun)
+			APlayerGun* Gun = Cast<APlayerGun>(Item);
+			if (Gun && !WeaponStrap->ContainsGun(Gun))
 			{
-				//add to inventory
+				EquipGun(Gun);
 			}
 		}
 	}
 }
 
-void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
+void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
 	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
@@ -336,7 +391,10 @@ void AMOOnshineWorksCharacter::EquipGun(AGun* Gun)
 	FRotator GunRotation = Gun->CharacterEquipRotation;
 	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
 	Gun->SetActorRotation(GunRotation);
+	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
+	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
@@ -352,18 +410,6 @@ void AMOOnshineWorksCharacter::useActiveItem()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("not activating"));
 	}
 } */
-
-void AMOOnshineWorksCharacter::Reload()
-{
-	if (activeItem)
-	{
-		APistol* Pistol = Cast<APistol>(activeItem);
-		if (Pistol)
-		{
-			Pistol->Reload();
-		}
-	}
-}
 
 void AMOOnshineWorksCharacter::CalcStamina()
 {
@@ -392,7 +438,7 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 
     CalcStamina();
 	CollectItems();
-
+	PerformCameraShake();
 
     if(GetStamina() < 1)
     {
@@ -414,7 +460,11 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	if (Player)
+	{ 
+		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
+	}
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
@@ -471,19 +521,64 @@ UTexture2D* AMOOnshineWorksCharacter::GetAvatar()
     }
 }
 
-/* this function needs to be reviewed, doesn't work somehow
- void AMOOnshineWorksCharacter::PerformCameraShake()
- {
- UCameraShake* CameraShake = ConstructObject<UCameraShake>(UCameraShake::StaticClass());
- CameraShake->OscillationDuration = -1.0f; //negative value will run forever
- CameraShake->RotOscillation.Pitch.Amplitude = 1.0f;
- CameraShake->RotOscillation.Pitch.Frequency = 0.5f;
- CameraShake->RotOscillation.Pitch.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
- CameraShake->RotOscillation.Yaw.Amplitude = 1.0f;
- CameraShake->RotOscillation.Yaw.Frequency = 0.5f;
- CameraShake->RotOscillation.Yaw.InitialOffset = EInitialOscillatorOffset::EOO_OffsetRandom;
- CameraShake->FOVOscillation.Amplitude = 1.0f;
- 
- //Somehow doesn't do anything... should work though. Figure out later.
- GetWorld()->GetFirstLocalPlayerFromController()->PlayerController->ClientPlayCameraShake(CameraShake->GetClass(), 1.0f);
- }*/
+
+void AMOOnshineWorksCharacter::PerformCameraShake()
+{
+	if (!IsMovingForward && !IsMovingSideway && !IsSprinting)
+	{
+		if (!bIdleCameraShake)
+		{
+			StartShake(IdleCameraShake);
+			bIdleCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(IdleCameraShake);
+		bIdleCameraShake = false;
+	}
+
+	if (!IsSprinting && (IsMovingForward || IsMovingSideway))
+	{
+		if (!bWalkCameraShake)
+		{
+			StartShake(WalkCameraShake);
+			bWalkCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(WalkCameraShake);
+		bWalkCameraShake = false;
+	}
+
+	if (IsSprinting && (IsMovingForward || IsMovingSideway))
+	{
+		if (!bSprintCameraShake)
+		{
+			StartShake(SprintCameraShake);
+			bSprintCameraShake = true;
+		}
+	}
+	else
+	{
+		StopShake(SprintCameraShake);
+		bSprintCameraShake = false;
+	}
+}
+
+void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker)
+{
+	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FRotator::ZeroRotator);
+}
+
+void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)
+{
+	GetPlayerController()->ClientStopCameraShake(Shaker);
+}
+
+//This function will kill all networked play
+APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
+{
+	return GetWorld()->GetFirstLocalPlayerFromController()->PlayerController;	
+}

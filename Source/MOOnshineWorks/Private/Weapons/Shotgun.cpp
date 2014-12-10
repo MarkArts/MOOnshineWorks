@@ -10,16 +10,11 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Shotgun";
 	Id = 15.f;
 
-	/*static ConstructorHelpers::FClassFinder<AProjectile> BP_Projectile(TEXT("/Game/Blueprints/BP_Projectile"));
-	ProjectileClass = BP_Projectile.Class;*/
+	CharacterEquipOffset = FVector(25.f, 25.f, -30.f);
+	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
 	
-	MagazineCapacity = 0.f;
-	MagazineLoadCount = 6;
-	DamageValue = 1.f;
-	ReloadTime = 2.f;
 	SpreadAngle = 20.f;
 	ShootCooldown = 1.2f;
-	Reloading = false;
 	PelletCount = 6.f;
 }
 
@@ -30,12 +25,8 @@ void AShotgun::Use()
 		if (CanShoot())
 		{
 			Shoot();
-			MagazineCountDecrement();
+			UseAmmo();
 		}
-	}
-	else
-	{
-		Reload();
 	}
 }
 
@@ -43,20 +34,18 @@ void AShotgun::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	FVector Target = GetTarget();
-	for (int i = 0; i < PelletCount; i++)
+	switch (AmmoContainer->ActiveAmmoType)
 	{
-		AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+		default:
+			for (int i = 0; i < PelletCount; i++)
+			{
+				AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+			}
+			break;
+		case EAmmoType::Type::B:
+			break;
 	}
+	GiveShotFeedBack();
 	SetLastShotTime();
 	OnUse();
-}
-
-bool AShotgun::CanShoot()
-{
-	return MagazineLoadCount > 0;
-}
-
-void AShotgun::MagazineCountDecrement()
-{
-	MagazineLoadCount = FMath::Max(0.f, MagazineLoadCount - 1);
 }

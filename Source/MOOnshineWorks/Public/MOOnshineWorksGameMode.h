@@ -2,7 +2,7 @@
 #pragma once
 #include "BlueprintLoader.h"
 #include "GameFramework/GameMode.h"
-#include "Socket.h"
+#include "SaveManager.h"
 #include "MOOnshineWorksGameMode.generated.h"
 
 UCLASS(minimalapi)
@@ -11,6 +11,15 @@ class AMOOnshineWorksGameMode : public AGameMode
 	GENERATED_UCLASS_BODY()
 
 	//ASocket* Socket;
+
+	UPROPERTY(BlueprintReadOnly, Category=MOO)
+	ASaveManager* SaveManager;
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void RestoreCheckpoint();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void LoadCheckpoint();
 };
 
 
