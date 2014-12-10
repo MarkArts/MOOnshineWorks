@@ -122,7 +122,22 @@ class AMOOnshineWorksCharacter : public ACharacter
     FVector baseCameraOffset;
     FVector baseZoomOffset;
     FVector baseSprintOffset;
-    
+
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> IdleCameraShake;
+	bool bIdleCameraShake;
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> WalkCameraShake;
+	bool bWalkCameraShake;
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> SprintCameraShake;
+	bool bSprintCameraShake;
+
+	void PerformCameraShake();
+	void StartShake(TSubclassOf<UCameraShake> Shaker);
+	void StopShake(TSubclassOf<UCameraShake> Shaker);
+	APlayerController* GetPlayerController();
+	
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<USphereComponent> CollectionSphere;
@@ -140,6 +155,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 
     //Boolean which contains moving state (false / true)
     bool IsMovingForward;
+	bool IsMovingSideway;
 
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -172,10 +188,6 @@ protected:
 	/** Called for useItem input */
 	void StartUse();
 	void EndUse();
-
-    /** Called for aim input */
-    /** This function needs to be reviewed, doesn't work somehow */
-    //void PerformCameraShake();
     
     /** Called for start aim input */
     void StartAim();
