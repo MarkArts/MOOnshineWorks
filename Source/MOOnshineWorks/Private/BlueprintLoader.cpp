@@ -4,6 +4,7 @@
 #include "Projectile.h"
 #include "AI_PegEnemyDark.h" 
 #include "AI_BookEnemyLight.h"
+#include "AI_BarrelEnemy.h"
 #include "BlueprintLoader.h"
 
 BlueprintLoader::BlueprintLoader()

@@ -20,7 +20,6 @@ void ASaveManager::Load()
 	else
 	{
 		SaveData = FSave();
-		SaveData.PlayerName = TEXT("Mac swagfest 2");
 	}
 
 	ResetData();
@@ -39,19 +38,54 @@ void ASaveManager::RemoveSave()
 
 void ASaveManager::Save()
 {
-	SaveDataCandidate.PlayerName = TEXT("Mac swagfest 2");
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Saved game");
 	UMOOSaveGame* SaveGameInstance = Cast<UMOOSaveGame>(UGameplayStatics::CreateSaveGameObject(UMOOSaveGame::StaticClass()));
 	SaveGameInstance->Data = SaveDataCandidate;
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveSlotName, UserIndex);
+	/* TODO: Make sure load doesn't need to be called */
+	Load();
 }
 
-FSave ASaveManager::GetData()
+FSave* ASaveManager::GetData()
 {
-	return SaveDataCandidate;
+	return &SaveDataCandidate;
 }
 
 void ASaveManager::SetData(FSave Data)
 {
 	SaveDataCandidate = Data;
+}
+
+void ASaveManager::AddActorSave(FActorSave ActorSave)
+{
+	GetData()->Actors.Add(ActorSave);
+}
+
+void ASaveManager::DeleteActorSave(FName Id)
+{
+	TArray<FActorSave> Actors = GetData()->Actors;
+
+	for (int32 b = 0; b < Actors.Num(); b++)
+	{
+		if (Actors[b].Id == Id)
+		{
+			Actors.RemoveAt(b);
+			continue;
+		}
+	}
+}
+
+FActorSave* ASaveManager::GetActorSave(FName Id)
+{
+	TArray<FActorSave> Actors = GetData()->Actors;
+
+	for (int32 b = 0; b < Actors.Num(); b++)
+	{
+		if (Actors[b].Id == Id)
+		{
+			return &Actors[b];
+		}
+	}
+
+	return nullptr;
 }

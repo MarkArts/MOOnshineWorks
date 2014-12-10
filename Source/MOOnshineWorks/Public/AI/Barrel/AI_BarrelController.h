@@ -13,6 +13,12 @@ class MOONSHINEWORKS_API AAI_BarrelController : public AAI_BasicController
 {
 	GENERATED_UCLASS_BODY()
 
-	
-	
+    UFUNCTION(BlueprintCallable, Category = Behavior)
+    void AttackPlayer();
+    
+    UFUNCTION(BlueprintCallable, Category = Behavior)
+    void SpeedUp();
+    
+    UFUNCTION(BlueprintCallable, Category = Behavior)
+    void BarrelPatrol();
 };

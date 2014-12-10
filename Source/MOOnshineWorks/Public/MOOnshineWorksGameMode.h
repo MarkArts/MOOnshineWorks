@@ -11,7 +11,15 @@ class AMOOnshineWorksGameMode : public AGameMode
 	GENERATED_UCLASS_BODY()
 
 	//ASocket* Socket;
+
+	UPROPERTY(BlueprintReadOnly, Category=MOO)
 	ASaveManager* SaveManager;
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void RestoreCheckpoint();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void LoadCheckpoint();
 };
 
 

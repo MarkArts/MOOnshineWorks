@@ -15,6 +15,26 @@ void ADoorKey::SetKeyName(EDoorKey::Type InsertKey) {
 	KeyName = InsertKey;
 }
 
+FString ADoorKey::OnPickedUp() {
+	switch (KeyName) {
+	case 0:
+		return "Deze sleutel heeft geen door.";
+		break;
+	case 1:
+		return "Rode sleutel opgepakt.";
+		break;
+	case 2:
+		return "Groene sleutel opgepakt.";
+		break;
+	case 3:
+		return "Blauwe sleutel opgepakt.";
+		break;
+	default:
+		return "Deze sleutel heeft geen door.";
+		break;
+	}
+}
+
 int8 ADoorKey::GetKeyName() {
 	return KeyName;
 }

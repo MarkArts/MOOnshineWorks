@@ -5,39 +5,49 @@
 #include "GameFramework/SaveGame.h"
 #include "MOOSaveGame.generated.h"
 
-USTRUCT()
-struct FEnemySave{
+USTRUCT(BlueprintType)
+struct FActorSave{
 	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FName Id;
-	UPROPERTY()
-	bool Death;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool StopSpawn;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FTransform Transform;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
+struct FCheckPointSave{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FTransform TransForm;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FName StreamingLevel;
+};
+
+USTRUCT(BlueprintType)
 struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY()
-	int8 Level; // desingers will be freaking i they see this man :D
-	UPROPERTY()
-	FVector Position;
-	UPROPERTY()
-	FRotator Rotation;
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FCheckPointSave Checkpoint;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FTransform Transform;
 };
 
-USTRUCT()
+USTRUCT(BlueprintType)
 struct FSave{
 	GENERATED_USTRUCT_BODY()
-
-	UPROPERTY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString PlayerName;
 
-	UPROPERTY()
-	TArray<FEnemySave> Enemies;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	TArray<FActorSave> Actors;
 
-	UPROPERTY()
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FPlayerSave Player;
 };
 

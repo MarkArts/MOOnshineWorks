@@ -78,7 +78,7 @@ void AProjectile::HitEvent_Implementation()
 	UWorld* const World = GetWorld();
 	if (World)
 	{
-		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), FRotator::ZeroRotator);
+		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 }
 
