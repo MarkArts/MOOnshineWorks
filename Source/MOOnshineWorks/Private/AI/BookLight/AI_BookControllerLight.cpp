@@ -94,3 +94,31 @@ void AAI_BookControllerLight::BookAttackPlayer()
 	BaseEnemy->Gun->Use();
 	
 }
+void AAI_BookControllerLight::BookGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_BookEnemyLight* AiSpecific = Cast<AAI_BookEnemyLight>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Book"))));
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+}

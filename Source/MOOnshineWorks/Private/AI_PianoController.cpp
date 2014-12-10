@@ -48,4 +48,32 @@ void AAI_PianoController::PianoPatrol()
 {
 	
 }
+void AAI_PianoController::PianoGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_PianoEnemy* AiSpecific = Cast<AAI_PianoEnemy>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Piano"))));
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+}
 

@@ -21,4 +21,7 @@ class MOONSHINEWORKS_API AAI_PianoController : public AAI_BasicController
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void PianoPatrol();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void PianoGoActive();
 };
