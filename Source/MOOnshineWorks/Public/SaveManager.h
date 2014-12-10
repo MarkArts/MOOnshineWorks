@@ -18,22 +18,31 @@ public:
 	UPROPERTY(VisibleAnywhere, Category = MOO)
 	FSave SaveData;
 
-	UPROPERTY(VisibleAnywhere, Category = MOO)
+	UPROPERTY(BlueprintReadWrite, Category = MOO)
 	FSave SaveDataCandidate; // Possible Save
 
-	UPROPERTY(VisibleAnywhere, Category = Basic)
+	UPROPERTY(BlueprintReadWrite, Category = MOO)
 	FString SaveSlotName;
-	UPROPERTY(VisibleAnywhere, Category = Basic)
+	UPROPERTY(BlueprintReadWrite, Category = MOO)
 	uint32 UserIndex;
 
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void Load();
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void ResetData();
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void RemoveSave();
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void Save();
+	// UFUNCTION(BlueprintCallable, Category = MOO)
 	FSave* GetData();
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void SetData(FSave Data);
 	
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void AddActorSave(FActorSave ActorSave);
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void DeleteActorSave(FName Id);
+	// UFUNCTION(BlueprintCallable, Category = MOO)
 	FActorSave* GetActorSave(FName Id);
 };
