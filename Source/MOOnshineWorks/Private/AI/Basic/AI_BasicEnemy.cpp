@@ -35,7 +35,6 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 	PersistentId = GeneratePersistentId( (AActor*) this );
 
 	FActorSave* SaveState = GetSaveManager(GetWorld())->GetActorSave(PersistentId);
-
 	if (SaveState)
 	{
 		if (SaveState->StopSpawn)

@@ -12,12 +12,13 @@ class AMOOnshineWorksGameMode : public AGameMode
 
 	//ASocket* Socket;
 
+	UPROPERTY(BlueprintReadOnly, Category=MOO)
 	ASaveManager* SaveManager;
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void RestoreCheckpoint();
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
-	UFUNCTION()
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadCheckpoint();
 };
 

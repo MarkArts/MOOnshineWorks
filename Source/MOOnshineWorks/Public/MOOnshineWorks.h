@@ -8,7 +8,7 @@
 
 #endif
 
-UFUNCTION()
+UFUNCTION(BlueprintCallable, BlueprintPure)
 FName GeneratePersistentId(AActor* Actor);
-UFUNCTION()
+UFUNCTION(BlueprintCallable, BlueprintPure)
 ASaveManager* GetSaveManager(UWorld* World);
