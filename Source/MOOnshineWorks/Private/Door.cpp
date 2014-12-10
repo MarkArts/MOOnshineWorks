@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
-#include "MOOnShineWorksCharacter.h"
+#include "MOOnshineWorksCharacter.h"
 #include "Door.h"
 
 ADoor::ADoor(const class FPostConstructInitializeProperties& PCIP)

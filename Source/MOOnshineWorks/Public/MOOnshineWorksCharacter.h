@@ -149,6 +149,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void DealDamage(float Damage);
 
 	TArray<ADoorKey*> KeyPack;
+
+	void AddKeyToKeyPack(ADoorKey* key);
     
 //private:
     // Character avatar

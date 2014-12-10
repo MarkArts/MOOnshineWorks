@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "Collectible.h"
 #include "DoorKey.generated.h"
 
 /**
@@ -22,7 +23,7 @@ namespace EDoorKey
 }
 
 UCLASS()
-class MOONSHINEWORKS_API ADoorKey : public AActor
+class MOONSHINEWORKS_API ADoorKey : public ACollectible
 {
 	GENERATED_UCLASS_BODY()
 
@@ -37,4 +38,6 @@ class MOONSHINEWORKS_API ADoorKey : public AActor
 
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 		TEnumAsByte<EDoorKey::Type> KeyName;
+
+		virtual void Collect(AActor* Target) override;
 };

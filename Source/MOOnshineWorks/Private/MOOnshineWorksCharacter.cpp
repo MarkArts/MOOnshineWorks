@@ -311,7 +311,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 		{
 			ACollectible* Collectable = Cast<ACollectible>(Item);
 			if (Collectable) {
-				Collectable->Collect(this);
+				Collectable->Collect(Item);
 			}
 		}
 
@@ -346,14 +346,14 @@ void AMOOnshineWorksCharacter::Interact()
 		}
 
 		/* TODO: Everything below should be rewritten to fit with the above code */
-		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
+		/*if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
 		{
 			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 			if (DoorKey) {
 				KeyPack.Add(DoorKey);
 				DoorKey->Destroy();
 			}
-		}
+		}*/
 		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
@@ -369,6 +369,13 @@ void AMOOnshineWorksCharacter::Interact()
 				EquipGun(Gun);
 			}
 		}
+	}
+}
+
+void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
+	KeyPack.Add(key);
+	for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
 	}
 }
 
