@@ -14,3 +14,8 @@ void AInteractable::OnInteract_Implementation(AActor* Target)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Interacted with a object that had no implementation");
 }
+
+void AInteractable::Interact(AActor* Target)
+{
+	OnInteract(Target);
+}

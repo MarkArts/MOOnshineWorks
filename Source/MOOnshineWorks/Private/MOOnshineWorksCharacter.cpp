@@ -311,7 +311,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 		{
 			ACollectible* Collectable = Cast<ACollectible>(Item);
 			if (Collectable) {
-				Collectable->OnCollect(this);
+				Collectable->Collect(this);
 			}
 		}
 
@@ -341,7 +341,7 @@ void AMOOnshineWorksCharacter::Interact()
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
 			if (Interactable) {
-				Interactable->OnInteract(this);
+				Interactable->Interact(this);
 			}
 		}
 

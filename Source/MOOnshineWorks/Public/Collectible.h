@@ -15,4 +15,6 @@ class MOONSHINEWORKS_API ACollectible : public AActor
 
 	UFUNCTION(BluePrintNativeEvent)
 	void OnCollect(AActor* Target);
+	UFUNCTION(BlueprintCallable, Category=MOO)
+	void Collect(AActor* Target);
 };

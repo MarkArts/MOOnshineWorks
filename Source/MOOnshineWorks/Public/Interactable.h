@@ -15,4 +15,6 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 
 	UFUNCTION(BluePrintNativeEvent)
 	void OnInteract(AActor* Target);
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void Interact(AActor* Target);
 };
