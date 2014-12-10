@@ -10,8 +10,8 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Pistol";
 	Id = 14.f;
 
-	CharacterEquipOffset = FVector(25.f, 25.f, -14.f);
-	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
+	CharacterEquipOffset = FVector(20.f, 40.f, -20.f);
+	CharacterEquipRotation = FRotator(0.f, 80.f, 0.f);
 
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.8f;
