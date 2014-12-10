@@ -3,16 +3,16 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "Interactable.generated.h"
+#include "Collectible.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AInteractable : public AActor
+class MOONSHINEWORKS_API ACollectible : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
 	UFUNCTION(BluePrintNativeEvent)
-	void OnInteract(AActor* Target);
+	void OnCollect(AActor* Target);
 };
