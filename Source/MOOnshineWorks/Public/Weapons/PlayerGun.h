@@ -14,6 +14,11 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 {
 	GENERATED_UCLASS_BODY()
 
+	FVector CharacterEquipOffset;
+	FRotator CharacterEquipRotation;
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> ShotFeedBack;
+	void GiveShotFeedBack();
 	AAmmoContainer* AmmoContainer;
 
 	virtual FVector GetTarget() override;	

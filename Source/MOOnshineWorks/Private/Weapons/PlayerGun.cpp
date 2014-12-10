@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "MOOnshineWorksCharacter.h"
 #include "PlayerGun.h"
 
 
@@ -68,4 +69,10 @@ void APlayerGun::SetActiveGun()
 {
 	AmmoContainer->ActiveAmmoType = AmmoTypes[0];
 	ActiveIndex = 0;
+}
+
+void APlayerGun::GiveShotFeedBack()
+{
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	Owner->StartShake(ShotFeedBack);
 }
