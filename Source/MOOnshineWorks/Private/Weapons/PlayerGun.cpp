@@ -16,6 +16,13 @@ FVector APlayerGun::GetTarget()
 	return GetPlayerTarget();
 }
 
+void APlayerGun::Shoot()
+{
+	GiveShotFeedBack();
+	SetLastShotTime();
+	OnUse();
+}
+
 bool APlayerGun::HasAmmo()
 {
 	return AmmoContainer->HasAmmo(FindActiveMultiplier(), FindActiveAmmoType());
