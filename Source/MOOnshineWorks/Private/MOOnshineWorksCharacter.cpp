@@ -311,7 +311,7 @@ void AMOOnshineWorksCharacter::CollectItems()
 		{
 			ACollectible* Collectable = Cast<ACollectible>(Item);
 			if (Collectable) {
-				Collectable->Collect(Item);
+				Collectable->Collect(this);
 			}
 		}
 
