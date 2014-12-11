@@ -47,7 +47,7 @@ bool AWeaponStrap::ContainsGun(APlayerGun* Gun)
 	bool Result = false;
 	for (int8 I = 0; I < Guns.Num(); I++)
 	{
-		if (Gun->GetClass() == Guns[I]->GetClass())
+		if (Gun->Id == Guns[I]->Id)
 		{
 			Result = true;
 			break;
