@@ -166,7 +166,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
+
+	void AddKeyToKeyPack(ADoorKey* key);
     
 //private:
     // Character avatar
