@@ -105,6 +105,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	float BaseStamina;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Stamina;
+    UPROPERTY(EditAnywhere, Category = MOOnshine)
+    float CharacterWalkSpeed;
 //public:
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetBaseStamina(float NewBastStamina);

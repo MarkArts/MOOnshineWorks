@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "Source/MOOnshineWorks/Public/MOOnshineWorksCharacter.h"
-            timestampString = "438528084.283908"
+            timestampString = "439990406.5191"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
             landmarkName = "class AMOOnshineWorksCharacter"
             landmarkType = "3">
          </BreakpointContent>

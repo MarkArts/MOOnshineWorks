@@ -34,6 +34,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Set sprint multiplier;
     SprintMultiplier = 1.75;
+    //Set walkspeed
+    CharacterWalkSpeed = 1000;
     //Aim toggle
     IsAiming = false;
 	//AI starts Dark
@@ -104,7 +106,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarLowHP = LowHPAvatarTexObj.Object;
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
-    
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -132,6 +133,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
+        CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
 	}
 	Super::ReceiveBeginPlay();
 }
