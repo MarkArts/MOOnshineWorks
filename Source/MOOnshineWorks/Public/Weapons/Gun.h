@@ -13,9 +13,6 @@ UCLASS()
 class MOONSHINEWORKS_API AGun : public AItem
 {
 	GENERATED_UCLASS_BODY()
-
-	FVector CharacterEquipOffset;
-	FRotator CharacterEquipRotation;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
@@ -47,5 +44,4 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 	virtual TSubclassOf<class AProjectile> GetProjectileClass();
-
 };

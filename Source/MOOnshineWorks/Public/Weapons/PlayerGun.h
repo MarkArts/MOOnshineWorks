@@ -14,6 +14,11 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 {
 	GENERATED_UCLASS_BODY()
 
+	FVector CharacterEquipOffset;
+	FRotator CharacterEquipRotation;
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> ShotFeedBack;
+	void GiveShotFeedBack();
 	AAmmoContainer* AmmoContainer;
 
 	virtual FVector GetTarget() override;	
@@ -37,4 +42,9 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	EAmmoType::Type FindActiveAmmoType();
 	int32 FindActiveMultiplier();
 	TSubclassOf<class AProjectile> FindActiveProjectileClass();
+
+	void OnInteract_Implementation(AActor* Target) override;
+
+	UFUNCTION(BlueprintCallable, Category = Ammo)
+	int32 GetRemainingShotCount();
 };

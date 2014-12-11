@@ -34,4 +34,6 @@ class MOONSHINEWORKS_API AAmmoContainer : public AActor
 	void UseAmmo(int32 Count, EAmmoType::Type Type);
 	bool HasAmmo(int32 Count, EAmmoType::Type Type);
 	void SetAmmo(EAmmoType::Type Type, int32 NewCount);
+	int32 GetActiveAmmo();
+	int32 GetAmmo(EAmmoType::Type Type);
 };

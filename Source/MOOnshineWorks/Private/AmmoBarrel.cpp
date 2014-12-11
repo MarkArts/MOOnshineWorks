@@ -13,8 +13,6 @@ AAmmoBarrel::AAmmoBarrel(const class FPostConstructInitializeProperties& PCIP)
 
 void AAmmoBarrel::OnPickedUp_Implementation(AMOOnshineWorksCharacter* Actor)
 {
-	//Call the parent implementation of OnPickedUp first.
-	Super::OnPickedUp_Implementation(Actor);
 	int32 NewCount = FMath::Max(AmmoAmount - Actor->AmmoContainer->AmmoCounters[AmmoType], 0);
-	Actor->AmmoContainer->AddAmmo(AmmoType, AmmoAmount);
+	Actor->AmmoContainer->AddAmmo(AmmoType, NewCount);
 }

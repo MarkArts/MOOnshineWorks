@@ -35,7 +35,6 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 	PersistentId = GeneratePersistentId( (AActor*) this );
 
 	FActorSave* SaveState = GetSaveManager(GetWorld())->GetActorSave(PersistentId);
-
 	if (SaveState)
 	{
 		if (SaveState->StopSpawn)
@@ -78,7 +77,11 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
-	float FinalDamage = Damage - Defense;
+	float FinalDamage = DamageInflicted - Defense;
+	if (DamageInflicted >= 1.f && FinalDamage < 1)
+	{
+		FinalDamage = 1.f;
+	}
 	if (FinalDamage > 0)
 	{
 		Health -= FinalDamage;

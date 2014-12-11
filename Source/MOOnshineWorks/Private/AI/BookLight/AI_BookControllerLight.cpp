@@ -33,8 +33,8 @@ void AAI_BookControllerLight::BookPatrol()
 	BaseEnemy->StartSprint();
 	FVector MyLoc = MyBot->GetActorLocation();
 	
-	float AddX = NULL; ////// WhereShouldAIPatrolTo
-	float AddY = NULL;
+	float AddX = 0; ////// WhereShouldAIPatrolTo
+	float AddY = 0;
 	float WhereShouldAIPatrolToFloat = BlackboardComp->GetValueAsFloat(WhereShouldAIPatrolTo);
 	float NewWhereShouldAIPatrolTo;
 
@@ -93,4 +93,32 @@ void AAI_BookControllerLight::BookAttackPlayer()
 	AAI_BookEnemyLight* BaseEnemy = Cast<AAI_BookEnemyLight>(GetPawn());
 	BaseEnemy->Gun->Use();
 	
+}
+void AAI_BookControllerLight::BookGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_BookEnemyLight* AiSpecific = Cast<AAI_BookEnemyLight>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Book"))));
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
 }
