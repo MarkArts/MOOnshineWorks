@@ -33,7 +33,5 @@ void APistol::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
-	GiveShotFeedBack();
-	SetLastShotTime();
-	OnUse();
+	Super::Shoot();
 }
