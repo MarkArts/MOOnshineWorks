@@ -367,12 +367,10 @@ void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
-	//Gun->SetActorRelativeLocation(FVector(25.f, 25.f, 50.f));
 	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
 	Gun->AttachRootComponentTo(FirstPersonCameraComponent);
-	FRotator GunRotation = Gun->CharacterEquipRotation;
-	GunRotation.Add(FirstPersonCameraComponent->GetComponentRotation().Pitch, FirstPersonCameraComponent->GetComponentRotation().Yaw, FirstPersonCameraComponent->GetComponentRotation().Roll);
-	Gun->SetActorRotation(GunRotation);
+	Gun->SetActorRotation(FirstPersonCameraComponent->GetComponentRotation());
+	Gun->SetActorRelativeRotation(Gun->CharacterEquipRotation);
 	Gun->AmmoContainer = AmmoContainer;
 	Gun->SetOwner(this);
 	Gun->SetActiveGun();
@@ -551,7 +549,7 @@ void AMOOnshineWorksCharacter::PerformCameraShake()
 
 void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker)
 {
-	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FRotator::ZeroRotator);
+	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FirstPersonCameraComponent->GetComponentRotation());
 }
 
 void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)

@@ -7,7 +7,9 @@
 AAmmoBarrel::AAmmoBarrel(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	PickupMesh->SetSimulatePhysics(false);
+	BaseCollisionComponent->SetCollisionProfileName("BlockAll");
+	PickupMesh->SetCollisionProfileName("BlockAll");
 }
 
 

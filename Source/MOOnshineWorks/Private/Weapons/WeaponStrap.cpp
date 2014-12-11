@@ -42,12 +42,12 @@ APlayerGun* AWeaponStrap::GetActiveGun()
 	return Guns[ActiveGunIndex];
 }
 
-bool AWeaponStrap::ContainsGun(APlayerGun* Gun)
+bool AWeaponStrap::ContainsGun(UClass* GunClass)
 {
 	bool Result = false;
 	for (int8 I = 0; I < Guns.Num(); I++)
 	{
-		if (Gun->Id == Guns[I]->Id)
+		if (GunClass == Guns[I]->GetClass())
 		{
 			Result = true;
 			break;
