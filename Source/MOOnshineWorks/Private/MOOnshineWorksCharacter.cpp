@@ -7,6 +7,7 @@
 #include "DoorKey.h"
 #include "Interactable.h"
 #include "Collectible.h"
+#include "Helpers.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -156,6 +157,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	InputComponent->BindAction("Interact", IE_Pressed, this, &AMOOnshineWorksCharacter::Interact);
 	InputComponent->BindAction("NextWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::NextWeapon);
 	InputComponent->BindAction("PreviousWeapon", IE_Pressed, this, &AMOOnshineWorksCharacter::PreviousWeapon);
+	InputComponent->BindAction("AnHero", IE_Pressed, this, &AMOOnshineWorksCharacter::AnHero);
     
 	InputComponent->BindAxis("MoveForward", this, &AMOOnshineWorksCharacter::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &AMOOnshineWorksCharacter::MoveRight);
@@ -223,7 +225,6 @@ void AMOOnshineWorksCharacter::EndAim()
 
 void AMOOnshineWorksCharacter::NextWeapon()
 {
-	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->RestoreCheckpoint();
 	WeaponStrap->NextGun();
 }
 
@@ -273,8 +274,6 @@ void AMOOnshineWorksCharacter::MoveRight(float Value)
 
 void AMOOnshineWorksCharacter::StartSprint()
 {
-	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->Save();
-
     if(Stamina > 0 && IsMovingForward == true)
     {
         //Adjust camera to sprint values
@@ -338,8 +337,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 void AMOOnshineWorksCharacter::Interact()
 {
-	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->SaveManager->RemoveSave();
-
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
 
@@ -350,8 +347,9 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable) {
+			if (Interactable && Interactable->Active) {
 				Interactable->Interact(this);
+				continue;
 			}
 		}
 	}
@@ -476,8 +474,14 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 	CurrentHealth -= Damage;
 	if (CurrentHealth < 0)
 	{
-		Destroy();
+		Die();
 	}
+}
+
+void AMOOnshineWorksCharacter::Die()
+{
+	((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+	// Destroy(); currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.
 }
 
 /* Character Stamina logic  */
@@ -561,4 +565,10 @@ void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)
 APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
 {
 	return GetWorld()->GetFirstLocalPlayerFromController()->PlayerController;	
+}
+
+void AMOOnshineWorksCharacter::AnHero()
+{	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("He was such an hero, to take it all away.We miss him so, That you should know, And we honor him this day.He was an hero, to take that shot, to leave us all behind."));
+	Die();
 }

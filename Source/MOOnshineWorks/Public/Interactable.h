@@ -13,7 +13,10 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BluePrintNativeEvent)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool Active;
+
+	UFUNCTION(BluePrintNativeEvent, Category = MOO)
 	void OnInteract(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	virtual void Interact(AActor* Target);
