@@ -45,7 +45,5 @@ void AShotgun::Shoot()
 		case EAmmoType::Type::B:
 			break;
 	}
-	GiveShotFeedBack();
-	SetLastShotTime();
-	OnUse();
+	Super::Shoot();
 }

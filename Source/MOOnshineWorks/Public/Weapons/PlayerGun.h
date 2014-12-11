@@ -22,6 +22,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	AAmmoContainer* AmmoContainer;
 
 	virtual FVector GetTarget() override;	
+	virtual void Shoot() override;
 	void UseAmmo();
 	bool HasAmmo();
 	virtual	TSubclassOf<class AProjectile> GetProjectileClass() override;
