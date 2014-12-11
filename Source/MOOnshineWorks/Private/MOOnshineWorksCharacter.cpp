@@ -34,6 +34,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     IsSprinting = false;
     //Set sprint multiplier;
     SprintMultiplier = 1.75;
+    //Set walkspeed
+    CharacterWalkSpeed = 1000;
     //Aim toggle
     IsAiming = false;
 	//AI starts Dark
@@ -104,7 +106,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarLowHP = LowHPAvatarTexObj.Object;
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
-    
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -132,6 +133,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
+        CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
 	}
 	Super::ReceiveBeginPlay();
 }
@@ -327,8 +329,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 		/* TODO: Everything below should be rewritten to fit with the above code */
 		APickup* Pickup = Cast<APickup>(Item);
-		ADoor* Door = Cast<ADoor>(Item);
-		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -354,31 +354,13 @@ void AMOOnshineWorksCharacter::Interact()
 				Interactable->Interact(this);
 			}
 		}
+	}
+}
 
-		/* TODO: Everything below should be rewritten to fit with the above code */
-		if (Item->GetClass()->IsChildOf(ADoorKey::StaticClass()))
-		{
-			ADoorKey* DoorKey = Cast<ADoorKey>(Item);
-			if (DoorKey) {
-				KeyPack.Add(DoorKey);
-				DoorKey->Destroy();
-			}
-		}
-		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
-		{	
-			ADoor* Door = Cast<ADoor>(Item);
-			if (Door) {
-				Door->DoorOpen_Implementation();
-			}
-		}
-		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
-		{
-			APlayerGun* Gun = Cast<APlayerGun>(Item);
-			if (Gun && !WeaponStrap->ContainsGun(Gun))
-			{
-				EquipGun(Gun);
-			}
-		}
+void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
+	KeyPack.Add(key);
+	for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
 	}
 }
 

@@ -16,6 +16,13 @@ FVector APlayerGun::GetTarget()
 	return GetPlayerTarget();
 }
 
+void APlayerGun::Shoot()
+{
+	GiveShotFeedBack();
+	SetLastShotTime();
+	OnUse();
+}
+
 bool APlayerGun::HasAmmo()
 {
 	return AmmoContainer->HasAmmo(FindActiveMultiplier(), FindActiveAmmoType());
@@ -75,4 +82,21 @@ void APlayerGun::GiveShotFeedBack()
 {
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	Owner->StartShake(ShotFeedBack);
+}
+
+void APlayerGun::OnInteract_Implementation(AActor* Target)
+{
+	AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
+	if (CharTarget && !CharTarget->WeaponStrap->ContainsGun(this))
+	{
+		CharTarget->EquipGun(this);
+	}
+}
+
+int32 APlayerGun::GetRemainingShotCount()
+{
+	int32 Result = AmmoContainer->GetAmmo(FindActiveAmmoType());
+//    Result = FPlatformMath::FloorToInt(Result / FindActiveMultiplier());
+	Result = FMath::Floor(Result / FindActiveMultiplier());
+	return Result;
 }

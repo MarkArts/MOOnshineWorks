@@ -105,6 +105,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	float BaseStamina;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Stamina;
+    UPROPERTY(EditAnywhere, Category = MOOnshine)
+    float CharacterWalkSpeed;
 //public:
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetBaseStamina(float NewBastStamina);
@@ -164,7 +166,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
+
+	void AddKeyToKeyPack(ADoorKey* key);
     
 //private:
     // Character avatar

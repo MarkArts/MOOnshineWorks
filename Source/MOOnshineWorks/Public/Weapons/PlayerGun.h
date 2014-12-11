@@ -22,6 +22,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	AAmmoContainer* AmmoContainer;
 
 	virtual FVector GetTarget() override;	
+	virtual void Shoot() override;
 	void UseAmmo();
 	bool HasAmmo();
 	virtual	TSubclassOf<class AProjectile> GetProjectileClass() override;
@@ -42,4 +43,9 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	EAmmoType::Type FindActiveAmmoType();
 	int32 FindActiveMultiplier();
 	TSubclassOf<class AProjectile> FindActiveProjectileClass();
+
+	void OnInteract_Implementation(AActor* Target) override;
+
+	UFUNCTION(BlueprintCallable, Category = Ammo)
+	int32 GetRemainingShotCount();
 };

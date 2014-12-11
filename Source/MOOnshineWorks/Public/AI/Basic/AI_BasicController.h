@@ -19,37 +19,37 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 
 public:
 	UPROPERTY(transient)
-		TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
+	TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
 
 	UPROPERTY(transient)
-		TSubobjectPtr<class UBehaviorTreeComponent> BehaviorComp;
+	TSubobjectPtr<class UBehaviorTreeComponent> BehaviorComp;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void SearchForEnemy();
+	void SearchForEnemy();
 
 	void SetEnemy(class APawn *InPawn);
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void SetOriginalPosition();
+	void SetOriginalPosition();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void ChangeAIDarkLight(bool DarkLight);
+	void ChangeAIDarkLight(bool DarkLight);
 
 	virtual void Possess(class APawn *InPawn);
 
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void FoundPlayer();
+	void FoundPlayer();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void LostPlayer();
+	void LostPlayer();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void ResetSight();
+	void ResetSight();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-		void ShouldAIPatrol();
+	void ShouldAIPatrol();
 
 	uint8 StateAI;					//Int
 	uint8 EnemyKeyID;				//Object
