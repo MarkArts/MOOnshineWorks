@@ -35,3 +35,13 @@ void AAmmoContainer::SetAmmo(EAmmoType::Type Type, int32 NewCount)
 {
 	AmmoCounters[Type] = NewCount;
 }
+
+int32 AAmmoContainer::GetActiveAmmo()
+{
+	return AmmoCounters[ActiveAmmoType];
+}
+
+int32 AAmmoContainer::GetAmmo(EAmmoType::Type Type)
+{
+	return AmmoCounters[Type];
+}

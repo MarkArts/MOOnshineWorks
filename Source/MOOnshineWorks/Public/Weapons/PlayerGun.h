@@ -42,4 +42,9 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	EAmmoType::Type FindActiveAmmoType();
 	int32 FindActiveMultiplier();
 	TSubclassOf<class AProjectile> FindActiveProjectileClass();
+
+	void OnInteract_Implementation(AActor* Target) override;
+
+	UFUNCTION(BlueprintCallable, Category = Ammo)
+	int32 GetRemainingShotCount();
 };

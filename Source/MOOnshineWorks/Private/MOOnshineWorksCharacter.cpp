@@ -373,14 +373,6 @@ void AMOOnshineWorksCharacter::Interact()
 				Door->DoorOpen_Implementation();
 			}
 		}
-		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
-		{
-			APlayerGun* Gun = Cast<APlayerGun>(Item);
-			if (Gun && !WeaponStrap->ContainsGun(Gun))
-			{
-				EquipGun(Gun);
-			}
-		}
 	}
 }
 

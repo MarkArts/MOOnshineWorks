@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "Interactable.h"
 #include "Item.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AItem : public AActor
+class MOONSHINEWORKS_API AItem : public AInteractable
 {
 	GENERATED_UCLASS_BODY()
 
@@ -24,5 +24,4 @@ class MOONSHINEWORKS_API AItem : public AActor
 
 	UFUNCTION(BlueprintCallable, Category = Item)
 	virtual void Use();
-
 };
