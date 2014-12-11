@@ -85,3 +85,10 @@ void APlayerGun::OnInteract_Implementation(AActor* Target)
 		CharTarget->EquipGun(this);
 	}
 }
+
+int32 APlayerGun::GetRemainingShotCount()
+{
+	int32 Result = AmmoContainer->GetAmmo(FindActiveAmmoType());
+	Result = FMath::Floor(Result / FindActiveMultiplier());
+	return Result;
+}

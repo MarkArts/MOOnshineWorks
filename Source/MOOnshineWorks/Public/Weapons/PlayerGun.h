@@ -44,4 +44,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	TSubclassOf<class AProjectile> FindActiveProjectileClass();
 
 	void OnInteract_Implementation(AActor* Target) override;
+
+	UFUNCTION(BlueprintCallable, Category = Ammo)
+	int32 GetRemainingShotCount();
 };
