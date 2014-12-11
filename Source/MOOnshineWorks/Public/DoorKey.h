@@ -39,5 +39,5 @@ class MOONSHINEWORKS_API ADoorKey : public ACollectible
 		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 		TEnumAsByte<EDoorKey::Type> KeyName;
 
-		virtual void Collect(AActor* Target) override;
+		virtual void OnCollect_Implementation(AActor* Target) override;
 };

@@ -2,6 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
+#include "Interactable.h"
 #include "Door.h"
 
 ADoor::ADoor(const class FPostConstructInitializeProperties& PCIP)
@@ -11,6 +12,11 @@ ADoor::ADoor(const class FPostConstructInitializeProperties& PCIP)
 }
 
 void ADoor::DoorOpen_Implementation() {
+	
+}
+
+void ADoor::OnInteract_Implementation(AActor* Target)
+{
 	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	if (Player != NULL) {
 		if (DoorClosed) {

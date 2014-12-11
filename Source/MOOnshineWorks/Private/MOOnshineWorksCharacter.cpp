@@ -317,8 +317,8 @@ void AMOOnshineWorksCharacter::CollectItems()
 
 		/* TODO: Everything below should be rewritten to fit with the above code */
 		APickup* Pickup = Cast<APickup>(Item);
-		ADoor* Door = Cast<ADoor>(Item);
-		ADoorKey* DoorKey = Cast<ADoorKey>(Item);
+		//ADoor* Door = Cast<ADoor>(Item);
+		//ADoorKey* DoorKey = Cast<ADoorKey>(Item);
 		if (Pickup)
 		{
 			Pickup->OnPickedUp(this);
@@ -353,14 +353,14 @@ void AMOOnshineWorksCharacter::Interact()
 				KeyPack.Add(DoorKey);
 				DoorKey->Destroy();
 			}
-		}*/
+		}
 		if (Item->GetClass()->IsChildOf(ADoor::StaticClass()))
 		{	
 			ADoor* Door = Cast<ADoor>(Item);
 			if (Door) {
 				Door->DoorOpen_Implementation();
 			}
-		}
+		}*/
 		if (Item->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 		{
 			APlayerGun* Gun = Cast<APlayerGun>(Item);
