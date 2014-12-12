@@ -10,8 +10,8 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	Name = "Shotgun";
 	Id = 15.f;
 
-	CharacterEquipOffset = FVector(25.f, 25.f, -30.f);
-	CharacterEquipRotation = FRotator(0.f, 75.f, 0.f);
+	CharacterEquipOffset = FVector(20.f, 17.5f, -40.f);
+	CharacterEquipRotation = FRotator(0.f, 80.f, 0.f);
 	
 	SpreadAngle = 20.f;
 	ShootCooldown = 1.2f;
@@ -45,7 +45,5 @@ void AShotgun::Shoot()
 		case EAmmoType::Type::B:
 			break;
 	}
-	GiveShotFeedBack();
-	SetLastShotTime();
-	OnUse();
+	Super::Shoot();
 }

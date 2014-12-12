@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "GameFramework/Actor.h"
+#include "Interactable.h"
 #include "Item.generated.h"
 
 /**
@@ -24,5 +24,4 @@ class MOONSHINEWORKS_API AItem : public AActor
 
 	UFUNCTION(BlueprintCallable, Category = Item)
 	virtual void Use();
-
 };

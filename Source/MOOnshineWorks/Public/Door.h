@@ -4,13 +4,14 @@
 
 #include "GameFramework/Actor.h"
 #include "DoorKey.h"
+#include "Interactable.h"
 #include "Door.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API ADoor : public AActor
+class MOONSHINEWORKS_API ADoor : public AInteractable
 {
 	GENERATED_UCLASS_BODY()
 
@@ -25,4 +26,6 @@ class MOONSHINEWORKS_API ADoor : public AActor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 	TEnumAsByte<EDoorKey::Type> KeyName;
+
+	virtual void OnInteract_Implementation(AActor* Target) override;
 };

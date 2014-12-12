@@ -116,17 +116,19 @@ void AAI_BasicController::ChangeAIDarkLight(bool DarkLight) //Deze functie verwi
 
 void AAI_BasicController::Tick(float DeltaSeconds)
 {
-
+	
 }
 
 void AAI_BasicController::FoundPlayer() //Bool in blackboard setten voor behaviour tree
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, true);
 }
+
 void AAI_BasicController::ResetSight()
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
 }
+
 void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviour tree en reset patrol key
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
@@ -152,6 +154,7 @@ void AAI_BasicController::SetAttackAnimation()
 	BasicAnimInstance->AIIdle = false;
 	//BasicAnimInstance->Jumping = false;
 }
+
 void AAI_BasicController::SetIdleAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
@@ -179,6 +182,7 @@ void AAI_BasicController::SetPatrollingAnimation()
 	BasicAnimInstance->AIIdle = false;
 	//BasicAnimInstance->Jumping = false;
 }
+
 void AAI_BasicController::SetJumpingAnimation()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
@@ -192,6 +196,7 @@ void AAI_BasicController::SetJumpingAnimation()
 	BasicAnimInstance->AIIdle = false;
 	//BasicAnimInstance->Jumping = true;
 }
+
 void AAI_BasicController::SetSpeedAnimation(float speed)
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
@@ -208,16 +213,19 @@ void AAI_BasicController::AISetPatrolState()
 	BlackboardComp->SetValueAsInt(StateAI, State);
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
 }
+
 void AAI_BasicController::AISetAttackState()
 {
 	int State = 1;
 	BlackboardComp->SetValueAsInt(StateAI, State);
 }
+
 void AAI_BasicController::AISetSearchState()
 {
 	int State = 2;
 	BlackboardComp->SetValueAsInt(StateAI, State);
 }
+
 void AAI_BasicController::ShouldAIPatrol()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
@@ -231,6 +239,7 @@ void AAI_BasicController::ShouldAIPatrol()
 		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, true);
 	}
 }
+
 void AAI_BasicController::ActivateEnemy()
 {
 	//Make eyes of the new enemy go red!

@@ -70,7 +70,7 @@ void ASaveManager::DeleteActorSave(FName Id)
 		if (Actors[b].Id == Id)
 		{
 			Actors.RemoveAt(b);
-			continue;
+			break;
 		}
 	}
 }
