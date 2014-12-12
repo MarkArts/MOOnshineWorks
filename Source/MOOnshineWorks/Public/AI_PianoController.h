@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AI/Basic/AI_BasicController.h"
+#include "AI_PianoEnemy.h"
 #include "AI_PianoController.generated.h"
 
 /**
@@ -24,4 +25,7 @@ class MOONSHINEWORKS_API AAI_PianoController : public AAI_BasicController
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void PianoGoActive();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PianoEnemy> EnemyClass;
 };

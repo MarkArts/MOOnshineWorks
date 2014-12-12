@@ -90,4 +90,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
+
+	/*
+	UFUNCTION(BlueprintCallable, Category = AIActivate)
+	void GoActive();
+	*/
 };

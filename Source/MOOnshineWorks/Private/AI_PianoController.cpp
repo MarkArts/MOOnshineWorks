@@ -12,7 +12,11 @@
 AAI_PianoController::AAI_PianoController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	static ConstructorHelpers::FClassFinder<AAI_PianoEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
+	if (PlayerPawnBPClass.Class != NULL)
+	{
+		EnemyClass = PlayerPawnBPClass.Class;
+	}
 }
 void AAI_PianoController::AttackPlayer()
 {
@@ -54,7 +58,8 @@ void AAI_PianoController::PianoGoActive()
 	AAI_PianoEnemy* AiSpecific = Cast<AAI_PianoEnemy>(GetPawn());
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
-	TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Piano"))));
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UWorld* const World = GetWorld();
 
 	//Nieuwe BlueprintEnemy Spawnen!
 	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
@@ -74,6 +79,10 @@ void AAI_PianoController::PianoGoActive()
 				AIController->RunBehaviorTree(BehaviorTree);
 			}
 		}
+	}
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 }
 
