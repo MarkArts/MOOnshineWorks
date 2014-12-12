@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "AI_BasicController.h"
 #include "Changeable.generated.h"
 
 /**
