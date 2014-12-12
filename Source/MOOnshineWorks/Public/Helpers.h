@@ -19,5 +19,8 @@ class MOONSHINEWORKS_API UHelpers : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category = Helpers)
 	static ASaveManager* GetSaveManager(UWorld* World);
 	UFUNCTION(BlueprintCallable, Category = Helpers)
-	static void CreateCheckpoint(AMOOnshineWorksCharacter* Actor, FName Level);
+	static void CreateCheckpoint(AMOOnshineWorksCharacter* Actor);
+	UFUNCTION(BlueprintCallable, Category = Helpers)
+	static TArray<FName> GetActiveLevelsFrom(UWorld* World);
+
 };
