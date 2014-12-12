@@ -309,7 +309,6 @@ void AMOOnshineWorksCharacter::EndSprint()
 
 void AMOOnshineWorksCharacter::CollectItems()
 {
-
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
@@ -349,7 +348,7 @@ void AMOOnshineWorksCharacter::Interact()
 			AInteractable* Interactable = Cast<AInteractable>(Item);
 			if (Interactable && Interactable->Active) {
 				Interactable->Interact(this);
-				continue;
+				break;
 			}
 		}
 	}
