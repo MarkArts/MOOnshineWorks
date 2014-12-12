@@ -13,10 +13,13 @@
 AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_BarrelEnemy"));
-	if (PlayerPawnBPClass.Class != NULL)
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
-		EnemyClass = PlayerPawnBPClass.Class;
+		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_BarrelEnemy"));
+		if (PlayerPawnBPClass.Class != NULL)
+		{
+			EnemyClass = PlayerPawnBPClass.Class;
+		}
 	}
 }
 
@@ -116,6 +119,6 @@ void AAI_BarrelController::BarrelGoActive()
 	}
 
 	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)AiSpecific->GetController();
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	BasicController->FoundPlayer();
 }
