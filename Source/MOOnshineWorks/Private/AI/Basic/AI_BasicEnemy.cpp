@@ -22,6 +22,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	Speed = 0.f;
 	Damage = 0.f;
 	AIPatrol = true;
+	CanBeHit = true;
 }
 
 void AAI_BasicEnemy::PostInitializeComponents()
@@ -78,18 +79,25 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
-	float FinalDamage = DamageInflicted - Defense;
-	if (DamageInflicted >= 1.f && FinalDamage < 1)
-	{
-		FinalDamage = 1.f;
-	}
-	if (FinalDamage > 0)
-	{
-		Health -= FinalDamage;
-	}
-	if (Health <= 0)
-	{
-		Die();
+	if (CanBeHit == true)
+	{ 
+		//Enemy wordt aangevallen en moet de speler gaan aanvallen!
+		AAI_BasicController* controller = (AAI_BasicController*)GetController();
+		controller->AISetAttackState();
+
+		float FinalDamage = DamageInflicted - Defense;
+		if (DamageInflicted >= 1.f && FinalDamage < 1)
+		{
+			FinalDamage = 1.f;
+		}
+		if (FinalDamage > 0)
+		{
+			Health -= FinalDamage;
+		}
+		if (Health <= 0)
+		{
+			Die();
+		}
 	}
 }
 

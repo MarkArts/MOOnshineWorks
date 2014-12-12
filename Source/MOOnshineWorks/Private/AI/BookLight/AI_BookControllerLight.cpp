@@ -130,4 +130,8 @@ void AAI_BookControllerLight::BookGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)AiSpecific->GetController();
+	BasicController->FoundPlayer();
 }
