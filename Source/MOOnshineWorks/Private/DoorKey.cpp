@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "MOOnshineWorksCharacter.h"
 #include "DoorKey.h"
 
 
@@ -9,7 +10,6 @@ ADoorKey::ADoorKey(const class FPostConstructInitializeProperties& PCIP)
 {
 	
 }
-
 
 void ADoorKey::SetKeyName(EDoorKey::Type InsertKey) {
 	KeyName = InsertKey;
@@ -37,5 +37,14 @@ FString ADoorKey::OnPickedUp() {
 
 int8 ADoorKey::GetKeyName() {
 	return KeyName;
+}
+
+void ADoorKey::OnCollect_Implementation(AActor* Target)
+{
+	//OnCollect(Target);
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "KEY");
+	AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
+	CharTarget->AddKeyToKeyPack(this);
+	Destroy();
 }
 

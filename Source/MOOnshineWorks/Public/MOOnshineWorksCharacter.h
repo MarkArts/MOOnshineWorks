@@ -16,6 +16,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AnHero();
+
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
@@ -105,6 +108,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	float BaseStamina;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float Stamina;
+    UPROPERTY(EditAnywhere, Category = MOOnshine)
+    float CharacterWalkSpeed;
 //public:
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetBaseStamina(float NewBastStamina);
@@ -164,7 +169,13 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void Die();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
+
+	void AddKeyToKeyPack(ADoorKey* key);
     
 //private:
     // Character avatar

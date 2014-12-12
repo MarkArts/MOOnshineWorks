@@ -44,5 +44,4 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 	virtual TSubclassOf<class AProjectile> GetProjectileClass();
-
 };

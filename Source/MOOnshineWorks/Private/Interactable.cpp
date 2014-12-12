@@ -7,7 +7,7 @@
 AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	Active = true;
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)

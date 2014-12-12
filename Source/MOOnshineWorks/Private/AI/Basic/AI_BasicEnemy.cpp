@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
+#include "Helpers.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
 
@@ -32,9 +33,9 @@ void AAI_BasicEnemy::PostInitializeComponents()
 
 void AAI_BasicEnemy::ReceiveBeginPlay()
 {
-	PersistentId = GeneratePersistentId( (AActor*) this );
+	PersistentId = UHelpers::GeneratePersistentId( (AActor*) this );
 
-	FActorSave* SaveState = GetSaveManager(GetWorld())->GetActorSave(PersistentId);
+	FActorSave* SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
 	if (SaveState)
 	{
 		if (SaveState->StopSpawn)
@@ -103,7 +104,7 @@ void AAI_BasicEnemy::Die()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
-	GetSaveManager(GetWorld())->AddActorSave(
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(
 		{
 			GetPersistentId(),
 			true,

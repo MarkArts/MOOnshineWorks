@@ -7,8 +7,3 @@
 #include "SaveManager.h"
 
 #endif
-
-UFUNCTION(BlueprintCallable, BlueprintPure)
-FName GeneratePersistentId(AActor* Actor);
-UFUNCTION(BlueprintCallable, BlueprintPure)
-ASaveManager* GetSaveManager(UWorld* World);
