@@ -25,4 +25,7 @@ class MOONSHINEWORKS_API AAI_BookControllerLight : public AAI_BasicController
 
 	UFUNCTION(BlueprintCallable, Category = AIBookBehavior)
 	void BookGoActive();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemyLight> EnemyClass;
 };
