@@ -4,7 +4,6 @@
 
 #include "GameFramework/Actor.h"
 #include "MOOnshineWorksGameMode.h"
-#include "BlueprintLoader.h"
 #include "AI_PegEnemyDark.h"
 #include "AI_BasicEnemy.h"
 #include "SpawnEnemy.generated.h"
@@ -18,6 +17,11 @@ class MOONSHINEWORKS_API ASpawnEnemy : public AActor
 	GENERATED_UCLASS_BODY()
 
 public:
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AISpawnClass)
+	TSubclassOf<AAI_BasicEnemy> PegEnemy;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AISpawnClass)
+	TSubclassOf<AAI_BasicEnemy> BookEnemy;
 
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
 	void SpawnRandomEnemy();

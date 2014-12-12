@@ -134,7 +134,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(DefaultPistolClass, SpawnParams);
 		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);

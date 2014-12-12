@@ -23,6 +23,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
 	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Guns)
+	TSubclassOf<APlayerGun> DefaultPistolClass;
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Guns)

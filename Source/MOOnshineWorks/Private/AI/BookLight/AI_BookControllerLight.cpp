@@ -105,7 +105,6 @@ void AAI_BookControllerLight::BookGoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
-
 	//Nieuwe BlueprintEnemy Spawnen!
 	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
 	AiSpecific->Destroy();

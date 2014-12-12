@@ -3,7 +3,6 @@
 #pragma once
 
 #include "MOOnshineWorksGameMode.h"
-#include "BlueprintLoader.h"
 #include "PlayerGun.h"
 #include "Pistol.generated.h"
 

@@ -61,10 +61,10 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		FVector BoxSize = BoxInfo.GetSize();
 
 		if (TypeEnemy[Itr.GetIndex()] == "PegEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyDark"))));
+			EnemyClass = PegEnemy;
 		}
 		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));
+			EnemyClass = BookEnemy;
 		}
 		else {
 			EnemyClass = NULL;

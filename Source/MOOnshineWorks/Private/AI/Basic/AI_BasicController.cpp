@@ -10,7 +10,6 @@
 #include "AI_PegEnemyDark.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
-#include "BlueprintLoader.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)

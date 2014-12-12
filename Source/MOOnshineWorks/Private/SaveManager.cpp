@@ -63,14 +63,17 @@ void ASaveManager::AddActorSave(FActorSave ActorSave)
 
 void ASaveManager::DeleteActorSave(FName Id)
 {
-	TArray<FActorSave> Actors = GetData()->Actors;
-
-	for (int32 b = 0; b < Actors.Num(); b++)
+	if (GetData())
 	{
-		if (Actors[b].Id == Id)
+		TArray<FActorSave> Actors = GetData()->Actors;
+
+		for (int32 b = 0; b < Actors.Num(); b++)
 		{
-			Actors.RemoveAt(b);
-			break;
+			if (Actors[b].Id == Id)
+			{
+				Actors.RemoveAt(b);
+				break;
+			}
 		}
 	}
 }
