@@ -76,6 +76,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
 	//UMaterialInterface* Base_Material;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActivateEnemy)
+	TSubclassOf<AActor> DeathBlueprint;
+
 private:
 	FName PersistentId;
 

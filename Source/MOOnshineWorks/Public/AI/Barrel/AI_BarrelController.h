@@ -3,6 +3,7 @@
 #pragma once
 
 #include "AI/Basic/AI_BasicController.h"
+#include "AI_BarrelEnemy.h"
 #include "AI_BarrelController.generated.h"
 
 /**
@@ -21,4 +22,10 @@ class MOONSHINEWORKS_API AAI_BarrelController : public AAI_BasicController
     
     UFUNCTION(BlueprintCallable, Category = Behavior)
     void BarrelPatrol();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void BarrelGoActive();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BarrelEnemy> EnemyClass;
 };

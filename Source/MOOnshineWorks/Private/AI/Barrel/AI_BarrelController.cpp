@@ -13,7 +13,11 @@
 AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_BarrelEnemy"));
+	if (PlayerPawnBPClass.Class != NULL)
+	{
+		EnemyClass = PlayerPawnBPClass.Class;
+	}
 }
 
 
@@ -74,4 +78,40 @@ void AAI_BarrelController::BarrelPatrol()
     
     MyLoc.Set(x, y, MyLoc[2]);
     BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+}
+
+void AAI_BarrelController::BarrelGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	//TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Barrel"))));
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UWorld* const World = GetWorld();
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
 }
