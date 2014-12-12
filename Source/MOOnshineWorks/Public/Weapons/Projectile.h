@@ -31,9 +31,12 @@ class MOONSHINEWORKS_API AProjectile : public AActor
 	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
 	void HitEvent();
 	virtual void HitActor(AActor* OtherActor);
+	virtual void Destroyed() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	TSubclassOf<AActor> DeathBlueprint;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+	TSubclassOf<AActor> HitBlueprint;
 protected:
 	virtual void ReceiveBeginPlay() override;
 };

@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
+#include "Helpers.h"
 #include "BaseLevelScriptActor.h"
 #include "MOOnshineWorksCharacter.h"
 
@@ -32,9 +33,10 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 void AMOOnshineWorksGameMode::RestoreCheckpoint()
 {
 
-	ASaveManager* SaveManager = GetSaveManager(GetWorld());
+	ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
 	SaveManager->ResetData();
 
+	/* If multyiply levels are unloaded the action will fire after the first on is done unloading */
 	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
 	LatentActionInfo.CallbackTarget = this;
 	LatentActionInfo.ExecutionFunction = "LoadCheckpoint";
@@ -65,9 +67,11 @@ void AMOOnshineWorksGameMode::LoadCheckpoint()
 	if (CheckPoint.StreamingLevel != FName())
 	{
 		UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevel, true, false, FLatentActionInfo());
+		/* squilli error about transform not existing is false*/
 		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
 	}
 	else{
+		/* This should be replaced with code that works in every level */
 		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
 		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
 	}

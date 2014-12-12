@@ -20,7 +20,7 @@ void AAI_BookEnemyLight::ReceiveBeginPlay()
 {
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = this;
-	if (Gun)
+	if (GunClass)
 	{ 
 		Gun = GetWorld()->SpawnActor<AAIBookGun>(GunClass, SpawnParams);
 		Gun->SetActorLocation(Mesh->GetComponentLocation());

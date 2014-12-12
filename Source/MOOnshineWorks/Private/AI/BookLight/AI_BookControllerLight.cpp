@@ -92,7 +92,6 @@ void AAI_BookControllerLight::BookAttackPlayer()
 	//Op de speler gaan schieten
 	AAI_BookEnemyLight* BaseEnemy = Cast<AAI_BookEnemyLight>(GetPawn());
 	BaseEnemy->Gun->Use();
-	
 }
 void AAI_BookControllerLight::BookGoActive()
 {

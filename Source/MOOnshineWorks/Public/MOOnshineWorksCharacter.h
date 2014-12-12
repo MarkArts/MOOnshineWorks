@@ -16,6 +16,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AnHero();
+
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
@@ -165,6 +168,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void EquipGun(APlayerGun* Gun);
 	
 	void DealDamage(float Damage);
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void Die();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;

@@ -75,11 +75,27 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 
 void AProjectile::HitEvent_Implementation()
 {
-	UWorld* const World = GetWorld();
-	if (World)
+	if (HitBlueprint)
 	{
-		World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			World->SpawnActor<AActor>(HitBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+		}
 	}
+}
+
+void AProjectile::Destroyed()
+{
+	if (DeathBlueprint)
+	{
+		UWorld* const World = GetWorld();
+		if (World)
+		{
+			World->SpawnActor<AActor>(DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+		}
+	}
+	Super::Destroyed();
 }
 
 void AProjectile::HitActor(AActor* OtherActor)
