@@ -19,6 +19,10 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
+	//set base WalkSpeed
+	//CharacterMovement->MaxWalkSpeed = baseSpeed;
+
+
     //set base health
     BaseHealth = 100.f;
     //set base mana
@@ -309,7 +313,6 @@ void AMOOnshineWorksCharacter::EndSprint()
 
 void AMOOnshineWorksCharacter::CollectItems()
 {
-
 	// Get all overlapping Actors and store them in a CollectedActors array.
 	TArray<AActor*> CollectedActors;
 	CollectionSphere->GetOverlappingActors(CollectedActors);
@@ -349,7 +352,7 @@ void AMOOnshineWorksCharacter::Interact()
 			AInteractable* Interactable = Cast<AInteractable>(Item);
 			if (Interactable && Interactable->Active) {
 				Interactable->Interact(this);
-				continue;
+				break;
 			}
 		}
 	}

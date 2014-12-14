@@ -63,15 +63,17 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
 	FCheckPointSave CheckPoint = SaveManager->GetData()->Player.Checkpoint;
+	int8 Levels = CheckPoint.StreamingLevels.Num();
 
-	if (CheckPoint.StreamingLevel != FName())
+	if (Levels > 0)
 	{
-		UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevel, true, false, FLatentActionInfo());
-		/* squilli error about transform not existing is false*/
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
+		for (int8 I = 0; I > Levels; I++)
+		{
+			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
+		}
 	}
 	else{
-		/* This should be replaced with code that works in every level */
+		/* No checkpoint */
 		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
 		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
 	}

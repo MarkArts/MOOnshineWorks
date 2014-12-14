@@ -44,6 +44,10 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Damage;
 
+	/** Check if AI is active, else he cant be hit/killed */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	bool CanBeHit;
+
 	/** Should Patrol or not */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	bool AIPatrol;
@@ -75,6 +79,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
 	//UMaterialInterface* Base_Material;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActivateEnemy)
+	TSubclassOf<AActor> DeathBlueprint;
 
 private:
 	FName PersistentId;

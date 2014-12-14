@@ -38,9 +38,28 @@ ASaveManager* UHelpers::GetSaveManager(UWorld* World)
 	return ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(World))->SaveManager;
 }
 
-void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor, FName Level)
+void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 {
 	ASaveManager* SaveManager = GetSaveManager(Actor->GetWorld());
-	SaveManager->GetData()->Player.Checkpoint = { Actor->GetTransform(), Level };
+
+	SaveManager->GetData()->Player.Checkpoint = { Actor->GetTransform(), GetActiveLevelsFrom(Actor->GetWorld()) };
 	SaveManager->Save();
+}
+
+TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
+{
+	TArray<FName> ActiveLevels;
+
+	TArray<ULevelStreaming*> StreamingLevels = World->StreamingLevels;
+	int8 LevelNum = StreamingLevels.Num();
+
+	for (int8 I = 0; I < LevelNum; I++)
+	{
+		if (StreamingLevels[I]->bShouldBeLoaded > 0)
+		{
+			ActiveLevels.Add(StreamingLevels[I]->PackageNameToLoad);
+		}
+	}
+
+	return ActiveLevels;
 }

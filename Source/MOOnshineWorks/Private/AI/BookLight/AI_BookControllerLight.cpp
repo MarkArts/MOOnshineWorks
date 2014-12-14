@@ -11,7 +11,14 @@
 AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
+		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
+		if (PlayerPawnBPClass.Class != NULL)
+		{
+			EnemyClass = PlayerPawnBPClass.Class;
+		}
+	}
 }
 
 void AAI_BookControllerLight::GoBackToOriginalPosition()
@@ -99,10 +106,11 @@ void AAI_BookControllerLight::BookGoActive()
 	AAI_BookEnemyLight* AiSpecific = Cast<AAI_BookEnemyLight>(GetPawn());
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
-	TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Book"))));
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UWorld* const World = GetWorld();
 
 	//Nieuwe BlueprintEnemy Spawnen!
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
 	AiSpecific->Destroy();
 
 	if (NewPawn != NULL)
@@ -120,4 +128,13 @@ void AAI_BookControllerLight::BookGoActive()
 			}
 		}
 	}
+
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
 }
