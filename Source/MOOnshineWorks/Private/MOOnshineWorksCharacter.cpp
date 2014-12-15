@@ -549,11 +549,12 @@ void AMOOnshineWorksCharacter::SetLightRadius()
 void AMOOnshineWorksCharacter::DealDamage(float Damage)
 {
 	CurrentHealth -= Damage;
-	if (CurrentHealth < 0)
+	if (CurrentHealth <= 0)
 	{
 		Die();
 	}
-	else{
+	else
+	{
 		OnDealDamage(Damage);
 	}
 }
