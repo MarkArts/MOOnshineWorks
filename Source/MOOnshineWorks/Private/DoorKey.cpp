@@ -42,7 +42,7 @@ EDoorKey::Type ADoorKey::GetKeyName() {
 void ADoorKey::OnCollect_Implementation(AActor* Target)
 {
 	//OnCollect(Target);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "KEY");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "KEY");
 	AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
 	CharTarget->AddKeyToKeyHolder(this->GetKeyName());
 	Destroy();

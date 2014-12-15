@@ -9,7 +9,9 @@
  */
 class MOONSHINEWORKS_API KeyHolder
 {
+
 public:
+
 	KeyHolder();
 	~KeyHolder();
 
