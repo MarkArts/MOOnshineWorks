@@ -408,7 +408,8 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable && Interactable->Active) {
+			if (Interactable) 
+			{
 				Interactable->Interact(this);
 				break;
 			}

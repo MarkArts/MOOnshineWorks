@@ -44,6 +44,16 @@ public:
 };
 
 USTRUCT(BlueprintType)
+struct FInteractableSave{
+	GENERATED_USTRUCT_BODY()
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FName Id;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool IsUsed;
+};
+
+USTRUCT(BlueprintType)
 struct FSave{
 	GENERATED_USTRUCT_BODY()
 public:
@@ -52,6 +62,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<FActorSave> Actors;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	TArray<FInteractableSave> Interactables;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FCheckPointSave Checkpoint;
