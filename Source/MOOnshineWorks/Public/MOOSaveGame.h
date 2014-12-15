@@ -6,9 +6,6 @@
 #include "Gun.h"
 #include "MOOSaveGame.generated.h"
 
-
-
-
 USTRUCT(BlueprintType)
 struct FActorSave{
 	GENERATED_USTRUCT_BODY()
