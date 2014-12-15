@@ -5,6 +5,7 @@
 #include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "Interactable.h"
 #include "Collectible.h"
 #include "Helpers.h"
@@ -113,6 +114,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarLowHP = LowHPAvatarTexObj.Object;
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
+
+	kh = new KeyHolder();
 }
 
 FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
@@ -206,7 +209,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
-	//InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
@@ -413,12 +416,15 @@ void AMOOnshineWorksCharacter::Interact()
 	}
 }
 
-void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
-	KeyPack.Add(key);
-	for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
-	}
+void AMOOnshineWorksCharacter::AddKeyToKeyHolder(EDoorKey::Type KeyType) {
+	kh->AddKey(KeyType);
 }
+
+bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
+	return kh->HasKey(KeyType);
+}
+
+
 
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
