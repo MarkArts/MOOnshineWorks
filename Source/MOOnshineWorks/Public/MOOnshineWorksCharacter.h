@@ -17,6 +17,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AnHero();
+
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
@@ -169,6 +172,12 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	KeyHolder* kh;
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void Die();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
+	TArray<ADoorKey*> KeyPack;
+
 	void AddKeyToKeyHolder(EDoorKey::Type KeyType);
 
 	bool HasKeyHolder(EDoorKey::Type KeyType);
@@ -235,8 +244,6 @@ protected:
 	void PreviousWeapon();
 
 	void Interact();
-
-protected:
 
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;

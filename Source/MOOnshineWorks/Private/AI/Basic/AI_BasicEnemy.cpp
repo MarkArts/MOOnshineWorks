@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
+#include "Helpers.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
 
@@ -21,6 +22,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	Speed = 0.f;
 	Damage = 0.f;
 	AIPatrol = true;
+	CanBeHit = true;
 }
 
 void AAI_BasicEnemy::PostInitializeComponents()
@@ -32,9 +34,9 @@ void AAI_BasicEnemy::PostInitializeComponents()
 
 void AAI_BasicEnemy::ReceiveBeginPlay()
 {
-	PersistentId = GeneratePersistentId( (AActor*) this );
+	PersistentId = UHelpers::GeneratePersistentId( (AActor*) this );
 
-	FActorSave* SaveState = GetSaveManager(GetWorld())->GetActorSave(PersistentId);
+	FActorSave* SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
 	if (SaveState)
 	{
 		if (SaveState->StopSpawn)
@@ -77,18 +79,25 @@ void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
 
 void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 {
-	float FinalDamage = DamageInflicted - Defense;
-	if (DamageInflicted >= 1.f && FinalDamage < 1)
-	{
-		FinalDamage = 1.f;
-	}
-	if (FinalDamage > 0)
-	{
-		Health -= FinalDamage;
-	}
-	if (Health <= 0)
-	{
-		Die();
+	if (CanBeHit == true)
+	{ 
+		//Enemy wordt aangevallen en moet de speler gaan aanvallen!
+		AAI_BasicController* controller = (AAI_BasicController*)GetController();
+		controller->AISetAttackState();
+
+		float FinalDamage = DamageInflicted - Defense;
+		if (DamageInflicted >= 1.f && FinalDamage < 1)
+		{
+			FinalDamage = 1.f;
+		}
+		if (FinalDamage > 0)
+		{
+			Health -= FinalDamage;
+		}
+		if (Health <= 0)
+		{
+			Die();
+		}
 	}
 }
 
@@ -103,7 +112,7 @@ void AAI_BasicEnemy::Die()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
-	GetSaveManager(GetWorld())->AddActorSave(
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(
 		{
 			GetPersistentId(),
 			true,

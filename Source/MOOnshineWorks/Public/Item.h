@@ -9,7 +9,7 @@
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AItem : public AInteractable
+class MOONSHINEWORKS_API AItem : public AActor
 {
 	GENERATED_UCLASS_BODY()
 

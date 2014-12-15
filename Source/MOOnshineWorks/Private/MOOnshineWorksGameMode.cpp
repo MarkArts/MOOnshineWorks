@@ -3,6 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksGameMode.h"
 #include "Socket.h"
+#include "Helpers.h"
 #include "BaseLevelScriptActor.h"
 #include "MOOnshineWorksCharacter.h"
 
@@ -25,16 +26,24 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
 		SaveManager->Load();
-
 	}
 }
 
 void AMOOnshineWorksGameMode::RestoreCheckpoint()
 {
 
-	ASaveManager* SaveManager = GetSaveManager(GetWorld());
+	ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
 	SaveManager->ResetData();
 
+	/* Bad quik and dirty check to see if there was a checkpoint */
+	if (SaveManager->GetData()->Player.Checkpoint.StreamingLevels.Num() <= 0)
+	{
+		// Create checkpoint the first time the level is opened TODO: Do this beter
+		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+		return;
+	}
+
+	/* TODO: If multyiply levels are unloaded the action will fire after the first on is done unloading */
 	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
 	LatentActionInfo.CallbackTarget = this;
 	LatentActionInfo.ExecutionFunction = "LoadCheckpoint";
@@ -60,15 +69,23 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
+	/* False squily line */
 	FCheckPointSave CheckPoint = SaveManager->GetData()->Player.Checkpoint;
+	int8 Levels = CheckPoint.StreamingLevels.Num();
 
-	if (CheckPoint.StreamingLevel != FName())
+	if (Levels > 0)
 	{
-		UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevel, true, false, FLatentActionInfo());
+		for (int8 I = 0; I < Levels; I++)
+		{
+			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
+		}
+		/* False squily line */
 		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
 	}
 	else{
-		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
+		/* No checkpoint */
+
+		//UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
+		//UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
 	}
 }
