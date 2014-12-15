@@ -13,6 +13,7 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
+<<<<<<< HEAD
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString DisplayText;
 
@@ -22,13 +23,16 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool IsUsed;
 
+=======
+>>>>>>> origin/Design
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	bool ShouldUseOnce;
+	bool Active;
 
 	UFUNCTION(BluePrintNativeEvent, Category = MOO)
 	void OnInteract(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	virtual void Interact(AActor* Target);
+<<<<<<< HEAD
 
 	UFUNCTION(BluePrintNativeEvent, Category = MOO)
 	void OnInRange(AActor* Target);
@@ -37,4 +41,6 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 
 protected:
 	virtual void ReceiveBeginPlay() override;
+=======
+>>>>>>> origin/Design
 };
