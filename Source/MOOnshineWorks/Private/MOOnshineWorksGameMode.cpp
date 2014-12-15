@@ -26,6 +26,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
 		SaveManager->Load();
+
 	}
 }
 
@@ -74,17 +75,14 @@ void AMOOnshineWorksGameMode::LoadCheckpoint()
 
 	if (Levels > 0)
 	{
-		for (int8 I = 0; I < Levels; I++)
+		for (int8 I = 0; I > Levels; I++)
 		{
 			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
 		}
-		/* False squily line */
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
 	}
 	else{
 		/* No checkpoint */
-
-		//UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
-		//UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
+		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
 	}
 }
