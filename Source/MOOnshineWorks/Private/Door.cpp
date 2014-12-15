@@ -21,7 +21,7 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 	if (Player != NULL) {
 		if (DoorClosed) {
 			
-			if (!KeyName == 0) {
+			if (KeyName != 0) {
 				if (Player->HasKeyHolder(KeyName)) {
 					DoorOpen();
 					KeyName = EDoorKey::Type::None;
