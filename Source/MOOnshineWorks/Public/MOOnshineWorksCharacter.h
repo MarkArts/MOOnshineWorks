@@ -151,6 +151,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	TSubobjectPtr<UPointLightComponent> Light;
 
     // Sprint logic
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsSprinting;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     float SprintMultiplier;
@@ -159,8 +160,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     bool IsAiming;
 
     //Boolean which contains moving state (false / true)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsMovingForward;
-	bool IsMovingSideway;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
+    bool IsMovingSideway;
 
 	virtual void Tick(float DeltaSeconds) override;
 
