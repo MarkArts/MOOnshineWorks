@@ -7,6 +7,7 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -151,6 +152,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	TSubobjectPtr<UPointLightComponent> Light;
 
     // Sprint logic
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsSprinting;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     float SprintMultiplier;
@@ -159,8 +161,10 @@ class AMOOnshineWorksCharacter : public ACharacter
     bool IsAiming;
 
     //Boolean which contains moving state (false / true)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsMovingForward;
-	bool IsMovingSideway;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
+    bool IsMovingSideway;
 
 	virtual void Tick(float DeltaSeconds) override;
 
@@ -169,13 +173,17 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
+	KeyHolder* kh;
+
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Die();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
 
-	void AddKeyToKeyPack(ADoorKey* key);
+	void AddKeyToKeyHolder(EDoorKey::Type KeyType);
+
+	bool HasKeyHolder(EDoorKey::Type KeyType);
     
     // Character avatar
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
