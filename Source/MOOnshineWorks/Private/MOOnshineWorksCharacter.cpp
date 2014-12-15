@@ -8,6 +8,8 @@
 #include "Interactable.h"
 #include "Collectible.h"
 #include "Helpers.h"
+#include "Gun.h"
+#include "Shotgun.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -113,6 +115,57 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
 }
 
+FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
+{
+
+	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+
+	TArray<AGun*> Guns;
+	int8 WeaponsNum = WeaponStrap->Guns.Num();
+	for (int8 I = 0; I < WeaponsNum; I++)
+	{
+		if (Guns[I]->Name == FString(TEXT("Pistol")))
+		{
+			Weapons.Add(EGunType::Crossbow);
+		}
+		else if (Guns[I]->Name == FString(TEXT("Shotgun")))
+		{
+			Weapons.Add(EGunType::Shotgun);
+		}	
+	}
+
+	return{
+		GetTransform(),
+		Weapons,
+		AmmoContainer->AmmoCounters
+	};
+}
+
+void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
+{
+	/* This check should nto be here because validation of the save shoudl happen sooner or tthere needs to be a defautl save */
+	if (PlayerSave.AmmoCounters.Num() > 0){
+		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	}
+
+	int8 WeaponsNum = PlayerSave.Weapons.Num();
+	for (int8 I = 0; I < WeaponsNum; I++)
+	{
+		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
+		{
+			if (!WeaponStrap->ContainsGun(APistol::StaticClass())){
+				EquipGun((APlayerGun*)APistol::StaticClass());
+			}
+		}
+		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
+		{
+			if (!WeaponStrap->ContainsGun(AShotgun::StaticClass())){
+				EquipGun((APlayerGun*)APistol::StaticClass());
+			}
+		}
+	}
+}
+
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const world = GetWorld();
@@ -139,6 +192,8 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
+
+		LoadPlayerSave(UHelpers::GetSaveManager(world)->GetData()->Player);
 	}
 	Super::ReceiveBeginPlay();
 }

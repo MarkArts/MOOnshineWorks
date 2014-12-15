@@ -23,4 +23,10 @@ class MOONSHINEWORKS_API AAI_PegControllerDark : public AAI_BasicController
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void PegPatrol();
+
+	UFUNCTION(BlueprintCallable, Category = AIBookBehavior)
+	void PegGoActive();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PegEnemyDark> EnemyClass;
 };
