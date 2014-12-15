@@ -46,4 +46,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 
 	UFUNCTION(BlueprintCallable, Category = Ammo)
 	int32 GetRemainingShotCount();
+
+	UFUNCTION(BlueprintNativeEvent, Category = Ammo)
+	void SetVisibility(bool Visible);
 };

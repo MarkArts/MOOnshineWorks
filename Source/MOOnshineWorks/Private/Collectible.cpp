@@ -7,7 +7,7 @@
 ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-
+	ShouldSave = false;
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -18,5 +18,29 @@ void ACollectible::OnCollect_Implementation(AActor* Target)
 void ACollectible::Collect(AActor* Target)
 {
 	OnCollect(Target);
+
+	if (ShouldSave){
+		UHelpers::GetSaveManager(GetWorld())->AddActorSave(
+		{
+			UHelpers::GeneratePersistentId(this),
+			false,
+			GetTransform()
+		});
+	}
+
 	Destroy();
+}
+
+void ACollectible::ReceiveBeginPlay()
+{
+	if (ShouldSave){
+		FActorSave* Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(UHelpers::GeneratePersistentId(this));
+		if (Save)
+		{
+			if (Save->StopSpawn)
+			{
+				Destroy();
+			}
+		}
+	}
 }

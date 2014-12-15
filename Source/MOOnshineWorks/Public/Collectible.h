@@ -13,8 +13,14 @@ class MOONSHINEWORKS_API ACollectible : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool ShouldSave;
+
 	UFUNCTION(BluePrintNativeEvent)
 	void OnCollect(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category=MOO)
 	virtual void Collect(AActor* Target);
+
+protected:
+	virtual void ReceiveBeginPlay() override;
 };

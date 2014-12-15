@@ -5,5 +5,6 @@
 
 #include "Engine.h"
 #include "SaveManager.h"
+#include "Helpers.h"
 
 #endif
