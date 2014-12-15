@@ -37,7 +37,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform Transform;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	//TArray<AGun*> Weapons;
+	TArray<AGun*> Weapons;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<int32> AmmoCounters;
 };

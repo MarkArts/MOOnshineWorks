@@ -115,9 +115,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
-	UWorld* const World = GetWorld();
+	UWorld* const world = GetWorld();
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
-	if (World)
+	if (world)
 	{
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
@@ -134,13 +134,12 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
-		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
-		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
+		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
 	}
-
 	Super::ReceiveBeginPlay();
 }
 
