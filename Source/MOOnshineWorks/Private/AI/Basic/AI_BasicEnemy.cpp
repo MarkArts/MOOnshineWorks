@@ -21,6 +21,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	Defense = 0.f;
 	Speed = 0.f;
 	Damage = 0.f;
+	EnemyDistance = 0.f;
 	AIPatrol = true;
 	CanBeHit = true;
 }
