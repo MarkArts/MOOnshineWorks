@@ -7,11 +7,15 @@
 AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+<<<<<<< HEAD
 	IsUsed = false;
 	ShouldUseOnce = false;
 
 	DisplayText = FString(TEXT(""));
 	UsedText = FString(TEXT(""));
+=======
+	Active = true;
+>>>>>>> origin/Design
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)
@@ -21,6 +25,7 @@ void AInteractable::OnInteract_Implementation(AActor* Target)
 
 void AInteractable::Interact(AActor* Target)
 {
+<<<<<<< HEAD
 	if (ShouldUseOnce)
 	{
 		if (!IsUsed){
@@ -60,4 +65,7 @@ void AInteractable::ReceiveBeginPlay()
 			}
 		}
 	}
+=======
+	OnInteract(Target);
+>>>>>>> origin/Design
 }

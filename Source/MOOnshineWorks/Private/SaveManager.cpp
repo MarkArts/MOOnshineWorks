@@ -64,9 +64,8 @@ void ASaveManager::AddActorSave(FActorSave ActorSave)
 void ASaveManager::DeleteActorSave(FName Id)
 {
 	TArray<FActorSave> Actors = GetData()->Actors;
-	int32 ActorNum = Actors.Num();
 
-	for (int32 b = 0; b < ActorNum; b++)
+	for (int32 b = 0; b < Actors.Num(); b++)
 	{
 		if (Actors[b].Id == Id)
 		{
@@ -79,49 +78,12 @@ void ASaveManager::DeleteActorSave(FName Id)
 FActorSave* ASaveManager::GetActorSave(FName Id)
 {
 	TArray<FActorSave> Actors = GetData()->Actors;
-	int32 ActorNum = Actors.Num();
 
-	for (int32 b = 0; b < ActorNum; b++)
+	for (int32 b = 0; b < Actors.Num(); b++)
 	{
 		if (Actors[b].Id == Id)
 		{
 			return &Actors[b];
-		}
-	}
-
-	return nullptr;
-}
-
-void ASaveManager::AddInteractableSave(FInteractableSave InteractableSave)
-{
-	GetData()->Interactables.Add(InteractableSave);
-}
-
-void ASaveManager::DeleteInteractableSave(FName Id)
-{
-	TArray<FInteractableSave> Interactables = GetData()->Interactables;
-	int32 InteractableNum = Interactables.Num();
-
-	for (int32 b = 0; b < InteractableNum; b++)
-	{
-		if (Interactables[b].Id == Id)
-		{
-			Interactables.RemoveAt(b);
-			break;
-		}
-	}
-}
-
-FInteractableSave* ASaveManager::GetInteractableSave(FName Id)
-{
-	TArray<FInteractableSave> Interactables = GetData()->Interactables;
-	int32 InteractableNum = Interactables.Num();
-
-	for (int32 b = 0; b < InteractableNum; b++)
-	{
-		if (Interactables[b].Id == Id)
-		{
-			return &Interactables[b];
 		}
 	}
 
