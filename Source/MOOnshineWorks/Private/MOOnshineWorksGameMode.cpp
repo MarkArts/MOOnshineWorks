@@ -62,7 +62,7 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
-	FCheckPointSave CheckPoint = SaveManager->GetData()->Player.Checkpoint;
+	FCheckPointSave CheckPoint = SaveManager->GetData()->Checkpoint;
 	int8 Levels = CheckPoint.StreamingLevels.Num();
 
 	if (Levels > 0)
