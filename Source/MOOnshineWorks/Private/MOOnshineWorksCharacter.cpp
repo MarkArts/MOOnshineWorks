@@ -2,7 +2,6 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
-#include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
 #include "KeyHolder.h"
@@ -385,13 +384,6 @@ void AMOOnshineWorksCharacter::CollectItems()
 			if (Collectable) {
 				Collectable->Collect(this);
 			}
-		}
-
-		/* TODO: Everything below should be rewritten to fit with the above code */
-		APickup* Pickup = Cast<APickup>(Item);
-		if (Pickup)
-		{
-			Pickup->OnPickedUp(this);
 		}
 	}
 }
