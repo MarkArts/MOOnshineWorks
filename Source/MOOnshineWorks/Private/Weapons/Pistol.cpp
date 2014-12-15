@@ -24,7 +24,9 @@ void APistol::Use()
 		if (CanShoot())
 		{
 			Shoot();
+
 			UseAmmo();
+
 		}
 	}
 }
