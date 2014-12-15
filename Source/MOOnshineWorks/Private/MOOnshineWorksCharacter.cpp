@@ -553,6 +553,13 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 	{
 		Die();
 	}
+	else{
+		OnDealDamage(Damage);
+	}
+}
+
+void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
+	
 }
 
 void AMOOnshineWorksCharacter::Die()
