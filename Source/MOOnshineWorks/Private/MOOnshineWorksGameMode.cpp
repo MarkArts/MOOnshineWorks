@@ -26,6 +26,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
 		SaveManager->Load();
+
 	}
 }
 
@@ -36,7 +37,7 @@ void AMOOnshineWorksGameMode::RestoreCheckpoint()
 	SaveManager->ResetData();
 
 	/* Bad quik and dirty check to see if there was a checkpoint */
-	if (SaveManager->GetData()->Player.Checkpoint.StreamingLevels.Num() <= 0)
+	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
 	{
 		// Create checkpoint the first time the level is opened TODO: Do this beter
 		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
@@ -69,23 +70,19 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
-	/* False squily line */
-	FCheckPointSave CheckPoint = SaveManager->GetData()->Player.Checkpoint;
+	FCheckPointSave CheckPoint = SaveManager->GetData()->Checkpoint;
 	int8 Levels = CheckPoint.StreamingLevels.Num();
 
 	if (Levels > 0)
 	{
-		for (int8 I = 0; I < Levels; I++)
+		for (int8 I = 0; I > Levels; I++)
 		{
 			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
 		}
-		/* False squily line */
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
 	}
 	else{
 		/* No checkpoint */
-
-		//UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
-		//UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
+		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
 	}
 }

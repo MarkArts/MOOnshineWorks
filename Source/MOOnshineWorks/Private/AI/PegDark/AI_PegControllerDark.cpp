@@ -12,7 +12,14 @@
 AAI_PegControllerDark::AAI_PegControllerDark(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
+		static ConstructorHelpers::FClassFinder<AAI_PegEnemyDark> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegEnemyDark")); 
+		if (PlayerPawnBPClass.Class != NULL)
+		{
+			EnemyClass = PlayerPawnBPClass.Class;
+		}
+	}
 }
 
 void AAI_PegControllerDark::AttackPlayer()
@@ -70,4 +77,42 @@ void AAI_PegControllerDark::PegPatrol()
 
 	MyLoc.Set(x, y, MyLoc[2]);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+}
+void AAI_PegControllerDark::PegGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_PegEnemyDark* AiSpecific = Cast<AAI_PegEnemyDark>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UWorld* const World = GetWorld();
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
 }

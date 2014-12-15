@@ -182,7 +182,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	bool HasKeyHolder(EDoorKey::Type KeyType);
     
-//private:
     // Character avatar
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* StandardAvatar;
@@ -190,6 +189,11 @@ class AMOOnshineWorksCharacter : public ACharacter
     UTexture2D* AvatarLowHP;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarVeryLowHP;
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	FPlayerSave CreatePlayerSave();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void LoadPlayerSave(FPlayerSave PlayerSave);
 
 protected:
 
