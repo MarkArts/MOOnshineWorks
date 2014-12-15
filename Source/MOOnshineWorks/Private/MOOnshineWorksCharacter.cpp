@@ -63,10 +63,13 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     baseZoomOffset = FVector(17.5f, 90.0f, 25.0f);
     baseSprintOffset = FVector(10.0f, 90.0f, 25.0f);
     
-	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
+
+	InteractionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("InteractionSphere"));
+	InteractionSphere->AttachTo(RootComponent);
+	InteractionSphere->SetSphereRadius(150.f);
 
 	// setup light
 	LightDimSpeed = 0.05f;
@@ -395,15 +398,31 @@ void AMOOnshineWorksCharacter::CollectItems()
 		}
 	}
 }
+void AMOOnshineWorksCharacter::CheckForInteractables()
+{
+	TArray<AActor*> Items;
+	InteractionSphere->GetOverlappingActors(Items);
+
+	for (AActor* Item : Items)
+	{
+		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(Item);
+			if (Interactable) {
+				Interactable->InRange(this);
+				break;
+			}
+		}
+	}
+}
+
 
 void AMOOnshineWorksCharacter::Interact()
 {
-	TArray<AActor*> CollectedActors;
-	CollectionSphere->GetOverlappingActors(CollectedActors);
+	TArray<AActor*> Items;
+	InteractionSphere->GetOverlappingActors(Items);
 
-	// For each Actor collected
-
-	for (AActor* Item : CollectedActors)
+	for (AActor* Item : Items)
 	{
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
@@ -481,6 +500,7 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 
     CalcStamina();
 	CollectItems();
+	CheckForInteractables();
 	PerformCameraShake();
 
     if(GetStamina() < 1)

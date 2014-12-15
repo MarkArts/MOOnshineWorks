@@ -9,6 +9,9 @@ AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCI
 {
 	IsUsed = false;
 	ShouldUseOnce = false;
+
+	DisplayText = FString(TEXT(""));
+	UsedText = FString(TEXT(""));
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)
@@ -22,15 +25,27 @@ void AInteractable::Interact(AActor* Target)
 	{
 		if (!IsUsed){
 			IsUsed = true;
-
-			UHelpers::GetSaveManager(GetWorld())->GetData();
-
+			UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
+				UHelpers::GeneratePersistentId(this),
+				true
+			});
+			// display UsedText;
 			OnInteract(Target);
 		}
 	}
 	else{
+		// display UsedText;
 		OnInteract(Target);
 	}
+}
+void AInteractable::OnInRange_Implementation(AActor* Target)
+{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Interacted with a object that had no implementation");
+}
+
+void AInteractable::InRange(AActor* Target)
+{
+	OnInRange(Target);
 }
 
 void AInteractable::ReceiveBeginPlay()
