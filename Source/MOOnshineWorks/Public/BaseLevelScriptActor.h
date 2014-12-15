@@ -13,7 +13,6 @@ class MOONSHINEWORKS_API ABaseLevelScriptActor : public ALevelScriptActor
 {
 	GENERATED_UCLASS_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Moonshine)
-	FString LevelName;
-	
+	protected:
+	virtual void ReceiveBeginPlay() override;
 };

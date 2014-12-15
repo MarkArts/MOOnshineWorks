@@ -75,10 +75,12 @@ void AMOOnshineWorksGameMode::LoadCheckpoint()
 
 	if (Levels > 0)
 	{
-		for (int8 I = 0; I > Levels; I++)
+		for (int8 I = 0; I < Levels; I++)
 		{
 			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
 		}
+		/* False squily line */
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(CheckPoint.TransForm);
 	}
 	else{
 		/* No checkpoint */

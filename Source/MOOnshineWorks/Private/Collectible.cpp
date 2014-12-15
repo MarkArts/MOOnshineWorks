@@ -46,4 +46,5 @@ void ACollectible::ReceiveBeginPlay()
 			}
 		}
 	}
+	Super::ReceiveBeginPlay();
 }

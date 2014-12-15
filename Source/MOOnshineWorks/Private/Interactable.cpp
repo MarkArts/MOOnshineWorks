@@ -60,4 +60,5 @@ void AInteractable::ReceiveBeginPlay()
 			}
 		}
 	}
+	Super::ReceiveBeginPlay();
 }

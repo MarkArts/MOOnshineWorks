@@ -19,7 +19,7 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString UsedText;
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool IsUsed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
