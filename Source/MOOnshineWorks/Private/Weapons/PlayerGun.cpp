@@ -91,3 +91,8 @@ int32 APlayerGun::GetRemainingShotCount()
 	Result = FMath::Floor(Result / FindActiveMultiplier());
 	return Result;
 }
+
+void APlayerGun::SetVisibility_Implementation(bool Visible)
+{
+	//GunMesh->SetVisibility(Visible);
+}
