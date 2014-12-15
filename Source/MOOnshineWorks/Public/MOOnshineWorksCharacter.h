@@ -7,6 +7,7 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -172,15 +173,18 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
+	KeyHolder* kh;
+
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Die();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
 
-	void AddKeyToKeyPack(ADoorKey* key);
+	void AddKeyToKeyHolder(EDoorKey::Type KeyType);
+
+	bool HasKeyHolder(EDoorKey::Type KeyType);
     
-//private:
     // Character avatar
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* StandardAvatar;
@@ -188,6 +192,11 @@ class AMOOnshineWorksCharacter : public ACharacter
     UTexture2D* AvatarLowHP;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarVeryLowHP;
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	FPlayerSave CreatePlayerSave();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void LoadPlayerSave(FPlayerSave PlayerSave);
 
 protected:
 
