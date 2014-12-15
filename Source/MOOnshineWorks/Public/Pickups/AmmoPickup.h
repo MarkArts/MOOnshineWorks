@@ -4,14 +4,14 @@
 
 #include "AmmoContainer.h"
 #include "MOOnshineWorksCharacter.h"
-#include "Pickups/Pickup.h"
+#include "Collectible.h"
 #include "AmmoPickup.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAmmoPickup : public APickup
+class MOONSHINEWORKS_API AAmmoPickup : public ACollectible
 {
 	GENERATED_UCLASS_BODY()
 
@@ -21,5 +21,5 @@ class MOONSHINEWORKS_API AAmmoPickup : public APickup
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	int32 AmmoAmount;
 	
-	void OnPickedUp_Implementation(AMOOnshineWorksCharacter *Actor) override;
+	virtual void Collect(AActor* Target) override;
 };
