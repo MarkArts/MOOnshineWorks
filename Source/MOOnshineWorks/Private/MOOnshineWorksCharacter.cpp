@@ -143,7 +143,10 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
-	AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	/* This check should nto be here because validation of the save shoudl happen sooner or tthere needs to be a defautl save */
+	if (PlayerSave.AmmoCounters.Num() > 0){
+		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	}
 
 	int8 WeaponsNum = PlayerSave.Weapons.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
@@ -151,13 +154,13 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
 		{
 			if (!WeaponStrap->ContainsGun(APistol::StaticClass())){
-				WeaponStrap->AddGun((APlayerGun*)APistol::StaticClass());
+				EquipGun((APlayerGun*)APistol::StaticClass());
 			}
 		}
 		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
 		{
 			if (!WeaponStrap->ContainsGun(AShotgun::StaticClass())){
-				WeaponStrap->AddGun((APlayerGun*)APistol::StaticClass());
+				EquipGun((APlayerGun*)APistol::StaticClass());
 			}
 		}
 	}
@@ -165,9 +168,9 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
-	UWorld* const world = GetWorld();
+	UWorld* const World = GetWorld();
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
-	if (world)
+	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
@@ -184,12 +187,15 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = world->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
-		AmmoContainer = world->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
-		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
+		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
+
+		LoadPlayerSave(UHelpers::GetSaveManager(World)->GetData()->Player);
 	}
+
 	Super::ReceiveBeginPlay();
 }
 

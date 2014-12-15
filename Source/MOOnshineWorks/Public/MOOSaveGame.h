@@ -39,6 +39,7 @@ public:
 	FTransform Transform;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	//TArray<AGun*> Weapons;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<TEnumAsByte<EGunType::Type>> Weapons;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)

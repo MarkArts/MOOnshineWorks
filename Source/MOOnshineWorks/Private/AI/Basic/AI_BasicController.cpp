@@ -36,6 +36,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		GotEnemyAsTarget = BlackboardComp->GetKeyID("GotEnemyInSight/Hear");
 		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
 		ShouldTheAIPatrol = BlackboardComp->GetKeyID("ShouldTheAIPatrol");
+		AIUsedForTrap = BlackboardComp->GetKeyID("AIUsedForTrap");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
