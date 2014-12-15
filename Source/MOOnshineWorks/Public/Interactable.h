@@ -13,17 +13,11 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	bool IsUsed;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	bool ShouldUseOnce;
+	bool Active;
 
 	UFUNCTION(BluePrintNativeEvent, Category = MOO)
 	void OnInteract(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	virtual void Interact(AActor* Target);
-
-protected:
-	virtual void ReceiveBeginPlay() override;
 };
