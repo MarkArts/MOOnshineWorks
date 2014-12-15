@@ -7,6 +7,7 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -166,10 +167,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	void DealDamage(float Damage);
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
-	TArray<ADoorKey*> KeyPack;
+	KeyHolder* kh;
 
-	void AddKeyToKeyPack(ADoorKey* key);
+	void AddKeyToKeyHolder(EDoorKey::Type KeyType);
+
+	bool HasKeyHolder(EDoorKey::Type KeyType);
     
 //private:
     // Character avatar

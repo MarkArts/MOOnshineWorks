@@ -20,7 +20,17 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	if (Player != NULL) {
 		if (DoorClosed) {
-			switch (KeyName)
+			
+			if (!KeyName == 0) {
+				if (Player->HasKeyHolder(KeyName)) {
+					DoorOpen();
+					KeyName = EDoorKey::Type::None;
+					DoorClosed = false;
+					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Key opens the door"));
+				}
+			}
+			
+			/*switch (KeyName)
 			{
 			default:
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("No Key -> Opens Magic Door"));
@@ -66,7 +76,7 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 				}
 				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("You dont have a Key #3"));
 				break;
-			}
+			}*/
 		}
 		else {
 			DoorOpen();

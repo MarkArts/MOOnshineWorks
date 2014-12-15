@@ -5,6 +5,7 @@
 #include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "Interactable.h"
 #include "Collectible.h"
 #include "MOOnshineWorksGameMode.h"
@@ -357,12 +358,15 @@ void AMOOnshineWorksCharacter::Interact()
 	}
 }
 
-void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
-	KeyPack.Add(key);
-	for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
-	}
+void AMOOnshineWorksCharacter::AddKeyToKeyHolder(EDoorKey::Type KeyType) {
+	kh->AddKey(KeyType);
 }
+
+bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
+	return kh->HasKey(KeyType);
+}
+
+
 
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
