@@ -92,6 +92,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
 
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void SetEnemyDistance();
+
 	/*
 	UFUNCTION(BlueprintCallable, Category = AIActivate)
 	void GoActive();

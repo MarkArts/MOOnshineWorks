@@ -35,16 +35,16 @@ FString ADoorKey::OnPickedUp() {
 	}
 }
 
-int8 ADoorKey::GetKeyName() {
+EDoorKey::Type ADoorKey::GetKeyName() {
 	return KeyName;
 }
 
 void ADoorKey::OnCollect_Implementation(AActor* Target)
 {
 	//OnCollect(Target);
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "KEY");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "KEY");
 	AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
-	CharTarget->AddKeyToKeyPack(this);
+	CharTarget->AddKeyToKeyHolder(this->GetKeyName());
 	Destroy();
 }
 

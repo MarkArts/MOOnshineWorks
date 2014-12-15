@@ -7,6 +7,7 @@
 #include "Gun.h"
 #include "Pistol.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -146,11 +147,15 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<USphereComponent> CollectionSphere;
-    
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubobjectPtr<USphereComponent> InteractionSphere;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<UPointLightComponent> Light;
 
     // Sprint logic
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsSprinting;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     float SprintMultiplier;
@@ -159,15 +164,24 @@ class AMOOnshineWorksCharacter : public ACharacter
     bool IsAiming;
 
     //Boolean which contains moving state (false / true)
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
     bool IsMovingForward;
-	bool IsMovingSideway;
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
+    bool IsMovingSideway;
 
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void EquipGun(APlayerGun* Gun);
 	
+
+	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
+	void OnDealDamage(float Damage);
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void DealDamage(float Damage);
+
+	KeyHolder* kh;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Die();
@@ -175,9 +189,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
 
-	void AddKeyToKeyPack(ADoorKey* key);
+	void AddKeyToKeyHolder(EDoorKey::Type KeyType);
+
+	bool HasKeyHolder(EDoorKey::Type KeyType);
     
-//private:
     // Character avatar
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* StandardAvatar;
@@ -185,6 +200,11 @@ class AMOOnshineWorksCharacter : public ACharacter
     UTexture2D* AvatarLowHP;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarVeryLowHP;
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	FPlayerSave CreatePlayerSave();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void LoadPlayerSave(FPlayerSave PlayerSave);
 
 protected:
 
@@ -195,6 +215,9 @@ protected:
 	//Called when we press a key, to collect any item inside the SphereComponent
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void CollectItems();
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void CheckForInteractables();
     
 	/** Called for useItem input */
 	void StartUse();

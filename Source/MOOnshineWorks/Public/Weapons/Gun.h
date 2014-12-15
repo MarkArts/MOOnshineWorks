@@ -6,6 +6,16 @@
 #include "Item.h"
 #include "Gun.generated.h"
 
+UENUM(BlueprintType, Category = Guns)
+namespace EGunType
+{
+	enum Type
+	{
+		Crossbow,
+		Shotgun
+	};
+}
+
 /**
  * 
  */
@@ -21,8 +31,8 @@ class MOONSHINEWORKS_API AGun : public AItem
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Gun)
-	TSubobjectPtr<UStaticMeshComponent> GunMesh;
+	//UPROPERTY(VisibleAnywhere, Category = Gun)
+	//TSubobjectPtr<class USkeletalMeshComponent> GunMesh;
 
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	TSubclassOf<class AProjectile> ProjectileClass;

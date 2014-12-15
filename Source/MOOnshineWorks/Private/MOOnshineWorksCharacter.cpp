@@ -2,12 +2,14 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
-#include "Pickup.h"
 #include "Door.h"
 #include "DoorKey.h"
+#include "KeyHolder.h"
 #include "Interactable.h"
 #include "Collectible.h"
 #include "Helpers.h"
+#include "Gun.h"
+#include "Shotgun.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -60,10 +62,13 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     baseZoomOffset = FVector(17.5f, 90.0f, 25.0f);
     baseSprintOffset = FVector(10.0f, 90.0f, 25.0f);
     
-	// Create our battery collection volume.
 	CollectionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("CollectionSphere"));
 	CollectionSphere->AttachTo(RootComponent);
 	CollectionSphere->SetSphereRadius(200.f);
+
+	InteractionSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("InteractionSphere"));
+	InteractionSphere->AttachTo(RootComponent);
+	InteractionSphere->SetSphereRadius(150.f);
 
 	// setup light
 	LightDimSpeed = 0.05f;
@@ -111,6 +116,59 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarLowHP = LowHPAvatarTexObj.Object;
     static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
+
+	kh = new KeyHolder();
+}
+
+FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
+{
+
+	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+
+	TArray<AGun*> Guns;
+	int8 WeaponsNum = WeaponStrap->Guns.Num();
+	for (int8 I = 0; I < WeaponsNum; I++)
+	{
+		if (Guns[I]->Name == FString(TEXT("Pistol")))
+		{
+			Weapons.Add(EGunType::Crossbow);
+		}
+		else if (Guns[I]->Name == FString(TEXT("Shotgun")))
+		{
+			Weapons.Add(EGunType::Shotgun);
+		}	
+	}
+
+	return{
+		GetTransform(),
+		Weapons,
+		AmmoContainer->AmmoCounters
+	};
+}
+
+void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
+{
+	/* This check should nto be here because validation of the save shoudl happen sooner or tthere needs to be a defautl save */
+	if (PlayerSave.AmmoCounters.Num() > 0){
+		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	}
+
+	int8 WeaponsNum = PlayerSave.Weapons.Num();
+	for (int8 I = 0; I < WeaponsNum; I++)
+	{
+		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
+		{
+			if (!WeaponStrap->ContainsGun(APistol::StaticClass())){
+				EquipGun((APlayerGun*)APistol::StaticClass());
+			}
+		}
+		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
+		{
+			if (!WeaponStrap->ContainsGun(AShotgun::StaticClass())){
+				EquipGun((APlayerGun*)APistol::StaticClass());
+			}
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -139,6 +197,8 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 		WeaponStrap = world->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
+
+		LoadPlayerSave(UHelpers::GetSaveManager(world)->GetData()->Player);
 	}
 	Super::ReceiveBeginPlay();
 }
@@ -151,7 +211,7 @@ void AMOOnshineWorksCharacter::SetupPlayerInputComponent(class UInputComponent* 
 	check(InputComponent);
 	InputComponent->BindAction("Jump", IE_Pressed, this, &AMOOnshineWorksCharacter::Jump);
 	InputComponent->BindAction("Jump", IE_Released, this, &AMOOnshineWorksCharacter::StopJumping);
-	//InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
+	InputComponent->BindAction("CollectPickups", IE_Released, this, &AMOOnshineWorksCharacter::CollectItems);
     InputComponent->BindAction("Sprint", IE_Pressed, this, &AMOOnshineWorksCharacter::StartSprint);
     InputComponent->BindAction("Sprint", IE_Released, this, &AMOOnshineWorksCharacter::EndSprint);
 	InputComponent->BindAction("Use", IE_Pressed, this, &AMOOnshineWorksCharacter::StartUse);
@@ -328,29 +388,39 @@ void AMOOnshineWorksCharacter::CollectItems()
 				Collectable->Collect(this);
 			}
 		}
-
-		/* TODO: Everything below should be rewritten to fit with the above code */
-		APickup* Pickup = Cast<APickup>(Item);
-		if (Pickup)
-		{
-			Pickup->OnPickedUp(this);
-		}
 	}
 }
-
-void AMOOnshineWorksCharacter::Interact()
+void AMOOnshineWorksCharacter::CheckForInteractables()
 {
-	TArray<AActor*> CollectedActors;
-	CollectionSphere->GetOverlappingActors(CollectedActors);
+	TArray<AActor*> Items;
+	InteractionSphere->GetOverlappingActors(Items);
 
-	// For each Actor collected
-
-	for (AActor* Item : CollectedActors)
+	for (AActor* Item : Items)
 	{
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable && Interactable->Active) {
+			if (Interactable) {
+				Interactable->InRange(this);
+				break;
+			}
+		}
+	}
+}
+
+
+void AMOOnshineWorksCharacter::Interact()
+{
+	TArray<AActor*> Items;
+	InteractionSphere->GetOverlappingActors(Items);
+
+	for (AActor* Item : Items)
+	{
+		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
+		{
+			AInteractable* Interactable = Cast<AInteractable>(Item);
+			if (Interactable) 
+			{
 				Interactable->Interact(this);
 				break;
 			}
@@ -358,12 +428,15 @@ void AMOOnshineWorksCharacter::Interact()
 	}
 }
 
-void AMOOnshineWorksCharacter::AddKeyToKeyPack(ADoorKey* key) {
-	KeyPack.Add(key);
-	for (auto Itr(KeyPack.CreateIterator()); Itr; Itr++) {
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(KeyPack[Itr.GetIndex()]->GetKeyName()));
-	}
+void AMOOnshineWorksCharacter::AddKeyToKeyHolder(EDoorKey::Type KeyType) {
+	kh->AddKey(KeyType);
 }
+
+bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
+	return kh->HasKey(KeyType);
+}
+
+
 
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
@@ -419,6 +492,7 @@ void AMOOnshineWorksCharacter::Tick(float DeltaSeconds)
 
     CalcStamina();
 	CollectItems();
+	CheckForInteractables();
 	PerformCameraShake();
 
     if(GetStamina() < 1)
@@ -479,6 +553,13 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 	{
 		Die();
 	}
+	else{
+		OnDealDamage(Damage);
+	}
+}
+
+void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
+	
 }
 
 void AMOOnshineWorksCharacter::Die()
