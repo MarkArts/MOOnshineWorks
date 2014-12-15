@@ -12,10 +12,13 @@
 AAI_PianoController::AAI_PianoController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	static ConstructorHelpers::FClassFinder<AAI_PianoEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
-	if (PlayerPawnBPClass.Class != NULL)
-	{
-		EnemyClass = PlayerPawnBPClass.Class;
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{ 
+		static ConstructorHelpers::FClassFinder<AAI_PianoEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
+		if (PlayerPawnBPClass.Class != NULL)
+		{
+			EnemyClass = PlayerPawnBPClass.Class;
+		}
 	}
 }
 void AAI_PianoController::AttackPlayer()
@@ -84,5 +87,9 @@ void AAI_PianoController::PianoGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
 }
 

@@ -11,10 +11,13 @@
 AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
-	if (PlayerPawnBPClass.Class != NULL)
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
-		EnemyClass = PlayerPawnBPClass.Class;
+		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
+		if (PlayerPawnBPClass.Class != NULL)
+		{
+			EnemyClass = PlayerPawnBPClass.Class;
+		}
 	}
 }
 
@@ -129,4 +132,8 @@ void AAI_BookControllerLight::BookGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
 }

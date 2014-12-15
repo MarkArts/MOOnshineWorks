@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/SaveGame.h"
+#include "Gun.h"
 #include "MOOSaveGame.generated.h"
 
 USTRUCT(BlueprintType)
@@ -24,7 +25,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform TransForm;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	FName StreamingLevel;
+	TArray<FName> StreamingLevels;
 };
 
 USTRUCT(BlueprintType)
@@ -35,6 +36,10 @@ public:
 	FCheckPointSave Checkpoint;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform Transform;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	//TArray<AGun*> Weapons;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	TArray<int32> AmmoCounters;
 };
 
 USTRUCT(BlueprintType)
