@@ -6,6 +6,16 @@
 #include "Item.h"
 #include "Gun.generated.h"
 
+UENUM(BlueprintType, Category = Guns)
+namespace EGunType
+{
+	enum Type
+	{
+		Crossbow,
+		Shotgun
+	};
+}
+
 /**
  * 
  */

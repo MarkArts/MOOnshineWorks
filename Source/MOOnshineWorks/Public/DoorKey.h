@@ -28,7 +28,7 @@ class MOONSHINEWORKS_API ADoorKey : public ACollectible
 	GENERATED_UCLASS_BODY()
 
 		UFUNCTION(BlueprintCallable, Category = "Moonshine")
-		int8 GetKeyName();
+		EDoorKey::Type GetKeyName();
 
 		UFUNCTION(BlueprintCallable, Category = "Moonshine")
 		FString OnPickedUp();

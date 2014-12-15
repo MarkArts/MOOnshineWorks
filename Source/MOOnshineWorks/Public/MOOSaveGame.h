@@ -33,11 +33,12 @@ struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	FCheckPointSave Checkpoint;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FTransform Transform;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	//TArray<AGun*> Weapons;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	TArray<TEnumAsByte<EGunType::Type>> Weapons;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<int32> AmmoCounters;
 };
@@ -51,6 +52,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<FActorSave> Actors;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FCheckPointSave Checkpoint;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FPlayerSave Player;
