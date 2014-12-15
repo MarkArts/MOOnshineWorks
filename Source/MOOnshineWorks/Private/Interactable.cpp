@@ -7,7 +7,8 @@
 AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	Active = true;
+	IsUsed = false;
+	ShouldUseOnce = false;
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)
@@ -17,5 +18,31 @@ void AInteractable::OnInteract_Implementation(AActor* Target)
 
 void AInteractable::Interact(AActor* Target)
 {
-	OnInteract(Target);
+	if (ShouldUseOnce)
+	{
+		if (!IsUsed){
+			IsUsed = true;
+
+			UHelpers::GetSaveManager(GetWorld())->GetData();
+
+			OnInteract(Target);
+		}
+	}
+	else{
+		OnInteract(Target);
+	}
+}
+
+void AInteractable::ReceiveBeginPlay()
+{
+	if (ShouldUseOnce){
+		FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
+		if (Save)
+		{
+			if (Save->IsUsed)
+			{
+				IsUsed = true;
+			}
+		}
+	}
 }
