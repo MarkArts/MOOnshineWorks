@@ -183,6 +183,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	KeyHolder* kh;
 
+	UPROPERTY(VisibleAnyWhere, Category = MOOnshine)
+	bool IsDeath;
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Die();
 	UFUNCTION(BlueprintImplementableEvent, Category = MOOnshine)

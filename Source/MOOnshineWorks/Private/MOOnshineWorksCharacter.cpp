@@ -21,6 +21,9 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
+
+	IsDeath = false;
+
 	//set base WalkSpeed
 	//CharacterMovement->MaxWalkSpeed = baseSpeed;
 
@@ -556,6 +559,7 @@ void AMOOnshineWorksCharacter::DealDamage(float Damage)
 	{
 		OnDealDamage(Damage);
 	}
+
 }
 
 void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
@@ -564,9 +568,15 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
-	OnDie();
-	//((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
-	//Destroy(); // currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.
+
+	if (!IsDeath)
+	{
+		OnDie();
+		IsDeath = true;
+
+		//((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+		//Destroy(); // currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.
+	}
 }
 
 /* Character Stamina logic  */
