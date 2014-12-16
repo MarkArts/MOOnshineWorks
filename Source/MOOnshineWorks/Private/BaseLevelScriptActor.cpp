@@ -10,7 +10,6 @@ ABaseLevelScriptActor::ABaseLevelScriptActor(const class FPostConstructInitializ
 	
 }
 
-
 void ABaseLevelScriptActor::ReceiveBeginPlay()
 {
 	Super::ReceiveBeginPlay();
