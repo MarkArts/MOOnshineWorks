@@ -142,7 +142,8 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 	}
 
 	return{
-		GetTransform(),
+		GetTransform().GetLocation(),
+		GetTransform().Rotator(),
 		Weapons,
 		AmmoContainer->AmmoCounters
 	};

@@ -15,15 +15,19 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool StopSpawn;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	FTransform Transform;
+	FVector Postition;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FRotator Rotation;
 };
 
 USTRUCT(BlueprintType)
 struct FCheckPointSave{
 	GENERATED_USTRUCT_BODY()
-public:
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	FTransform TransForm;
+	FVector Position;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FRotator Rotation;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<FName> StreamingLevels;
 };
@@ -33,7 +37,9 @@ struct FPlayerSave{
 	GENERATED_USTRUCT_BODY()
 public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	FTransform Transform;
+	FVector Position;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FRotator Rotation;
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	//TArray<AGun*> Weapons;
 
