@@ -565,8 +565,9 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
-	((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
-	// Destroy(); currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.
+	OnDie();
+	//((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+	//Destroy(); // currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.
 }
 
 /* Character Stamina logic  */

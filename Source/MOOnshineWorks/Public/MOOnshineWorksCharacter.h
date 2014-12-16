@@ -185,6 +185,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Die();
+	UFUNCTION(BlueprintImplementableEvent, Category = MOOnshine)
+	void OnDie();
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TArray<ADoorKey*> KeyPack;
