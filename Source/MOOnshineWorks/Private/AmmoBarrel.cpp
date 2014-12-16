@@ -7,14 +7,14 @@
 AAmmoBarrel::AAmmoBarrel(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	PickupMesh->SetSimulatePhysics(false);
-	BaseCollisionComponent->SetCollisionProfileName("BlockAll");
-	PickupMesh->SetCollisionProfileName("BlockAll");
+	//Mesh->SetSimulatePhysics(false);
+	//Mesh->SetCollisionProfileName("BlockAll");
 }
 
 
-void AAmmoBarrel::OnPickedUp_Implementation(AMOOnshineWorksCharacter* Actor)
+void AAmmoBarrel::Collect(AActor* Target)
 {
+	AMOOnshineWorksCharacter* Actor = Cast<AMOOnshineWorksCharacter>(Target);
 	int32 NewCount = FMath::Max(AmmoAmount - Actor->AmmoContainer->AmmoCounters[AmmoType], 0);
 	Actor->AmmoContainer->AddAmmo(AmmoType, NewCount);
 }

@@ -46,6 +46,7 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 	UWorld* const World = GetWorld();
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = this;
+	SpawnParams.bNoCollisionFail = false;
 	if (World)
 	{
 		Result = World->SpawnActor<AProjectile>(GetProjectileClass(), Start, GetBulletAngle(Start, End), SpawnParams);

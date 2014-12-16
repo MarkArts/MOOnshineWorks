@@ -12,14 +12,10 @@ ABatteryPickup::ABatteryPickup(const class FPostConstructInitializeProperties& P
 }
 
 
-void ABatteryPickup::OnPickedUp_Implementation(AMOOnshineWorksCharacter* Actor)
+void ABatteryPickup::Collect(AActor* Target)
 {
-	//Call the parent implementation of OnPickedUp first.
-	Super::OnPickedUp_Implementation(Actor);
-
+	AMOOnshineWorksCharacter* Actor = Cast<AMOOnshineWorksCharacter>(Target);
 	Actor->SetLightPercentage(Actor->GetLightPercentage() + (LightPercentage / 100.f));
-
-	//Destroy the chest
 	Destroy();
 }
 

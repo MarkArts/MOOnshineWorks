@@ -8,6 +8,7 @@ ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	ShouldSave = false;
+	UsedText = FString(TEXT(""));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -18,6 +19,8 @@ void ACollectible::OnCollect_Implementation(AActor* Target)
 void ACollectible::Collect(AActor* Target)
 {
 	OnCollect(Target);
+
+	// display UsedText
 
 	if (ShouldSave){
 		UHelpers::GetSaveManager(GetWorld())->AddActorSave(
@@ -43,4 +46,5 @@ void ACollectible::ReceiveBeginPlay()
 			}
 		}
 	}
+	Super::ReceiveBeginPlay();
 }

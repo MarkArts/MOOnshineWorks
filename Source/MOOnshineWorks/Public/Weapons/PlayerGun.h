@@ -14,7 +14,9 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 {
 	GENERATED_UCLASS_BODY()
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Equip)
 	FVector CharacterEquipOffset;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Equip)
 	FRotator CharacterEquipRotation;
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ShotFeedBack;

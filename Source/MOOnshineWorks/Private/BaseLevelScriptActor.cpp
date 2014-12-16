@@ -7,7 +7,11 @@
 ABaseLevelScriptActor::ABaseLevelScriptActor(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	LevelName = "Base";
+	
 }
 
-
+void ABaseLevelScriptActor::ReceiveBeginPlay()
+{
+	Super::ReceiveBeginPlay();
+	((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+}

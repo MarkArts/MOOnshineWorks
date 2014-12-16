@@ -147,7 +147,10 @@ class AMOOnshineWorksCharacter : public ACharacter
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<USphereComponent> CollectionSphere;
-    
+	
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubobjectPtr<USphereComponent> InteractionSphere;
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubobjectPtr<UPointLightComponent> Light;
 
@@ -171,6 +174,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void EquipGun(APlayerGun* Gun);
 	
+
+	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
+	void OnDealDamage(float Damage);
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void DealDamage(float Damage);
 
 	KeyHolder* kh;
@@ -207,6 +215,9 @@ protected:
 	//Called when we press a key, to collect any item inside the SphereComponent
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void CollectItems();
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void CheckForInteractables();
     
 	/** Called for useItem input */
 	void StartUse();
