@@ -8,8 +8,7 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	: Super(PCIP)
 {
 	AmmoCounters.Add(15);
-	AmmoCounters.Add(0);
-	AmmoCounters.Add(0);
+	AmmoCounters.Add(3);
 	ActiveAmmoType = EAmmoType::Type::A;
 }
 
