@@ -51,4 +51,7 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 
 	UFUNCTION(BlueprintNativeEvent, Category = Ammo)
 	void SetVisibility(bool Visible);
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = HUD)
+	UTexture2D* HUDTexture;
 };
