@@ -24,7 +24,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	//set base WalkSpeed
 	//CharacterMovement->MaxWalkSpeed = baseSpeed;
 
-
     //set base health
     BaseHealth = 100.f;
     //set base mana
