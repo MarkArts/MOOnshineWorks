@@ -85,7 +85,7 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	/** EnemyDistance voor in behaviour tree */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float EnemyDistance;
+	float EnemyDistanceShouldAttack;
 
 private:
 	FName PersistentId;
