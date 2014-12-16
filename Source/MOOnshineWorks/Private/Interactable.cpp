@@ -40,7 +40,16 @@ void AInteractable::Interact(AActor* Target)
 }
 void AInteractable::OnInRange_Implementation(AActor* Target)
 {
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Interacted with a object that had no implementation");
+	if (ShouldUseOnce)
+	{
+		if (!IsUsed)
+		{
+		//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+		}
+	}
+	else{
+	//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+	}
 }
 
 void AInteractable::InRange(AActor* Target)
