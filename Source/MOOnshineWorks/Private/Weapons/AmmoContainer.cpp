@@ -14,7 +14,8 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 
 void AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
 {
-	AmmoCounters[AmmoType] += AmmoAmount;
+	SetAmmo(AmmoType, AmmoCounters[AmmoType] + AmmoAmount);
+	
 }
 
 void AAmmoContainer::UseAmmo(int32 Count, EAmmoType::Type Type)
