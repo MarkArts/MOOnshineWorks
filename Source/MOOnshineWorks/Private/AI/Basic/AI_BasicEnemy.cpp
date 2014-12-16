@@ -117,7 +117,8 @@ void AAI_BasicEnemy::Die()
 		{
 			GetPersistentId(),
 			true,
-			FTransform()
+			GetTransform().GetLocation(),
+			GetTransform().Rotator()
 		}
 	);
 

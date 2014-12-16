@@ -42,7 +42,11 @@ void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 {
 	ASaveManager* SaveManager = GetSaveManager(Actor->GetWorld());
 
-	SaveManager->GetData()->Checkpoint = { Actor->GetTransform(), GetActiveLevelsFrom(Actor->GetWorld()) };
+	SaveManager->GetData()->Checkpoint = { 
+		Actor->GetTransform().GetLocation(),
+		Actor->GetTransform().Rotator(),
+		GetActiveLevelsFrom(Actor->GetWorld()) 
+	};
 	SaveManager->Save();
 }
 

@@ -27,7 +27,8 @@ void ACollectible::Collect(AActor* Target)
 		{
 			UHelpers::GeneratePersistentId(this),
 			false,
-			GetTransform()
+			GetTransform().GetLocation(),
+			GetTransform().Rotator()
 		});
 	}
 
