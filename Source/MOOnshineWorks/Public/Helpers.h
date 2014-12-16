@@ -22,5 +22,6 @@ class MOONSHINEWORKS_API UHelpers : public UBlueprintFunctionLibrary
 	static void CreateCheckpoint(AMOOnshineWorksCharacter* Actor);
 	UFUNCTION(BlueprintCallable, Category = Helpers)
 	static TArray<FName> GetActiveLevelsFrom(UWorld* World);
-
+	//UFUNCTION(BlueprintCallable, Category = Helpers)
+	static void DisplayText(UWorld* World, FString Text, FVector2D Position, FColor Color);
 };
