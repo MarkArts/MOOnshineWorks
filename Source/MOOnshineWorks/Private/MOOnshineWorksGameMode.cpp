@@ -12,19 +12,20 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 {
 	if (GetWorld()){
 
+		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
+		SaveManager->Load();
+
 		//BlueprintLoader::Get().AddBP(FName("AI_PegEnemyDark"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyDark"));
 		//BlueprintLoader::Get().AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
 		//BlueprintLoader::Get().AddBP(FName("AI_BookEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BookAILight/AI_BookEnemyLight"));
 		//BlueprintLoader::Get().AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
-		BlueprintLoader::Get().AddBP(FName("PistolClass"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
-		//BlueprintLoader::Get().AddBP(FName("ShotgunClass"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
+		BlueprintLoader::Get().AddBP(FName("Crossbow"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
+		BlueprintLoader::Get().AddBP(FName("Shotgun"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
 		//BlueprintLoader::Get().AddBP(FName("ProjectileDeath"), ANSI_TO_TCHAR("/Game/Blueprints/BP_ProjectileDeath"));
 
 		// set default pawn class to our Blueprinted character
 		ConstructorHelpers::FClassFinder<APawn> BP(TEXT("/Game/Blueprints/MyCharacter"));
 		DefaultPawnClass = BP.Class;
-		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
-		SaveManager->Load();
 
 	}
 }
@@ -36,12 +37,12 @@ void AMOOnshineWorksGameMode::RestoreCheckpoint()
 	SaveManager->ResetData();
 
 	/* Bad quik and dirty check to see if there was a checkpoint */
-	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
-	{
+//	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
+//	{
 		// Create checkpoint the first time the level is opened TODO: Do this beter
-		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-		return;
-	}
+//		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+//		return;
+//	}
 
 	/* TODO: If multyiply levels are unloaded the action will fire after the first on is done unloading */
 	FLatentActionInfo LatentActionInfo = FLatentActionInfo();

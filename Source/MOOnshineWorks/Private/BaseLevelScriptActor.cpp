@@ -16,7 +16,7 @@ void ABaseLevelScriptActor::ReceiveBeginPlay()
 
 	// the player hasn't probarly started yet at this point so we try to set all needed variables this way;
 	AMOOnshineWorksCharacter* Character = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	Character->BeginPlay();
+	//Character->BeginPlay();
 
 	ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
 	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)

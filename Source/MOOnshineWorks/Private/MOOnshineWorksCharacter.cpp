@@ -123,6 +123,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 void AMOOnshineWorksCharacter::Respawn()
 {
+
 	//Reset();
 
 	//FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
@@ -135,20 +136,13 @@ void AMOOnshineWorksCharacter::Respawn()
 FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 {
 
-	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+	TArray<FName> Weapons;
 
 	TArray<APlayerGun*> Guns = WeaponStrap->Guns;
 	int8 WeaponsNum = Guns.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
-		if (Guns[I]->Type == EGunType::Crossbow)
-		{
-			Weapons.Add(EGunType::Crossbow);
-		}
-		else if (Guns[I]->Type == EGunType::Shotgun)
-		{
-			Weapons.Add(EGunType::Shotgun);
-		}	
+		Weapons.Add(Guns[I]->Name);
 	}
 
 	return{
@@ -175,13 +169,10 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 	int8 WeaponsNum = PlayerSave.Weapons.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
-		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
+		TSubclassOf<APlayerGun> Gun = TSubclassOf<APlayerGun>(*BlueprintLoader::Get().GetBP(PlayerSave.Weapons[I]));
+		if (!WeaponStrap->ContainsGun(Gun))
 		{
-			EquipGun((APlayerGun*)APistol::StaticClass());
-		}
-		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
-		{
-			EquipGun((APlayerGun*)AShotgun::StaticClass());
+			EquipGun(GetWorld()->SpawnActor<APlayerGun>(Gun));
 		}
 	}
 }
@@ -207,7 +198,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
@@ -451,22 +442,17 @@ bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
 	return kh->HasKey(KeyType);
 }
 
-
-
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
-	if (!WeaponStrap->ContainsGun(Gun->StaticClass()))
-	{
-		Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
-		Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
-		Gun->AttachRootComponentTo(FirstPersonCameraComponent);
-		Gun->SetActorRotation(FirstPersonCameraComponent->GetComponentRotation());
-		Gun->SetActorRelativeRotation(Gun->CharacterEquipRotation);
-		Gun->AmmoContainer = AmmoContainer;
-		Gun->SetOwner(this);
-		Gun->SetActiveGun();
-		WeaponStrap->AddGun(Gun);
-	}
+	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
+	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
+	Gun->AttachRootComponentTo(FirstPersonCameraComponent);
+	Gun->SetActorRotation(FirstPersonCameraComponent->GetComponentRotation());
+	Gun->SetActorRelativeRotation(Gun->CharacterEquipRotation);
+	Gun->AmmoContainer = AmmoContainer;
+	Gun->SetOwner(this);
+	Gun->SetActiveGun();
+	WeaponStrap->AddGun(Gun);
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()

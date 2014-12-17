@@ -173,7 +173,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void EquipGun(APlayerGun* Gun);
-	
 
 	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
 	void OnDealDamage(float Damage);
