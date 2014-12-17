@@ -8,6 +8,9 @@
 AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+
+	Type = EGunType::None;
+
 	//GunMesh = PCIP.CreateDefaultSubobject<USkeletalMeshComponent>(this, TEXT("gunMesh"));
 	//RootComponent = GunMesh;
 	//GunMesh->CastShadow = false;

@@ -8,6 +8,7 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Name = "Crossbow";
+	Type = EGunType::Crossbow;
 	Id = 14.f;
 
 	CharacterEquipOffset = FVector(20.f, 40.f, -40.f);

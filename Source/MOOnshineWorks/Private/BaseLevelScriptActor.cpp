@@ -13,5 +13,19 @@ ABaseLevelScriptActor::ABaseLevelScriptActor(const class FPostConstructInitializ
 void ABaseLevelScriptActor::ReceiveBeginPlay()
 {
 	Super::ReceiveBeginPlay();
-	((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+
+	// the player hasn't probarly started yet at this point so we try to set all needed variables this way;
+	AMOOnshineWorksCharacter* Character = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+	Character->BeginPlay();
+
+	ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
+	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
+	{
+		// no chekpoint so first time playing
+		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(GetWorld()->GetAuthGameMode()->PlayerStarts[0]->GetTransform());
+		UHelpers::CreateCheckpoint(Character);
+	}
+	else{
+		((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
+	}
 }

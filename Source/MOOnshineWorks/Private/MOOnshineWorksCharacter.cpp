@@ -21,7 +21,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
-
 	IsDeath = false;
 
 	//set base WalkSpeed
@@ -122,20 +121,31 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	kh = new KeyHolder();
 }
 
+void AMOOnshineWorksCharacter::Respawn()
+{
+	//Reset();
+
+	//FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
+	//AMOOnshineWorksCharacter* NewPlayer = GetWorld()->SpawnActor<AMOOnshineWorksCharacter>(this->StaticClass(), SpawnParameters);
+	//NewPlayer->PossessedBy(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->RestoreCheckpoint();
+	//Destroy();
+}
+
 FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 {
 
 	TArray<TEnumAsByte<EGunType::Type>> Weapons;
 
-	TArray<AGun*> Guns;
-	int8 WeaponsNum = WeaponStrap->Guns.Num();
+	TArray<APlayerGun*> Guns = WeaponStrap->Guns;
+	int8 WeaponsNum = Guns.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
-		if (Guns[I]->Name == FString(TEXT("Pistol")))
+		if (Guns[I]->Type == EGunType::Crossbow)
 		{
 			Weapons.Add(EGunType::Crossbow);
 		}
-		else if (Guns[I]->Name == FString(TEXT("Shotgun")))
+		else if (Guns[I]->Type == EGunType::Shotgun)
 		{
 			Weapons.Add(EGunType::Shotgun);
 		}	
@@ -155,21 +165,23 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 	//if (PlayerSave.AmmoCounters.Num() > 0){
 //		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
 //	}
+	
+	SetActorTransform({
+		PlayerSave.Rotation,
+		PlayerSave.Position,
+		FVector(1.f,1.f,1.f)
+	});
 
 	int8 WeaponsNum = PlayerSave.Weapons.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
 		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
 		{
-			if (!WeaponStrap->ContainsGun(APistol::StaticClass())){
-				EquipGun((APlayerGun*)APistol::StaticClass());
-			}
+			EquipGun((APlayerGun*)APistol::StaticClass());
 		}
 		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
 		{
-			if (!WeaponStrap->ContainsGun(AShotgun::StaticClass())){
-				EquipGun((APlayerGun*)APistol::StaticClass());
-			}
+			EquipGun((APlayerGun*)AShotgun::StaticClass());
 		}
 	}
 }
@@ -443,15 +455,18 @@ bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
 
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
-	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
-	Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
-	Gun->AttachRootComponentTo(FirstPersonCameraComponent);
-	Gun->SetActorRotation(FirstPersonCameraComponent->GetComponentRotation());
-	Gun->SetActorRelativeRotation(Gun->CharacterEquipRotation);
-	Gun->AmmoContainer = AmmoContainer;
-	Gun->SetOwner(this);
-	Gun->SetActiveGun();
-	WeaponStrap->AddGun(Gun);
+	if (!WeaponStrap->ContainsGun(Gun->StaticClass()))
+	{
+		Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
+		Gun->SetActorRelativeLocation(Gun->CharacterEquipOffset);
+		Gun->AttachRootComponentTo(FirstPersonCameraComponent);
+		Gun->SetActorRotation(FirstPersonCameraComponent->GetComponentRotation());
+		Gun->SetActorRelativeRotation(Gun->CharacterEquipRotation);
+		Gun->AmmoContainer = AmmoContainer;
+		Gun->SetOwner(this);
+		Gun->SetActiveGun();
+		WeaponStrap->AddGun(Gun);
+	}
 }
 /*
 void AMOOnshineWorksCharacter::useActiveItem()
@@ -518,11 +533,7 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	if (Player)
-	{ 
-		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
-	}
+	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
@@ -569,11 +580,16 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("IS this even called"));
+
 
 	if (!IsDeath)
 	{
 		IsDeath = true;
 		OnDie();
+
+
+		// Respawn should be called in the OnDie event in blueprints
 
 		//((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
 		//Destroy(); // currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.

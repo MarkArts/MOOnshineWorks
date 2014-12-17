@@ -10,7 +10,6 @@
 #include "AI_PegEnemyDark.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
-#include "BlueprintLoader.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -138,7 +137,11 @@ void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviou
 
 	//Pak positie speler en set deze om daar nog heen te lopen!
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	const FVector MyLoc = Player->GetActorLocation();
+	FVector MyLoc = GetControlledPawn()->GetActorLocation();
+	if (Player)
+	{
+		MyLoc = Player->GetActorLocation();
+	}
 
 	BlackboardComp->SetValueAsVector(LastSeenPosition, MyLoc);
 }

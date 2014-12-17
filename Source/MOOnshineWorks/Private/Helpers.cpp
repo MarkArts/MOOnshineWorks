@@ -47,6 +47,7 @@ void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 		Actor->GetTransform().Rotator(),
 		GetActiveLevelsFrom(Actor->GetWorld()) 
 	};
+	SaveManager->GetData()->Player = ((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(Actor->GetWorld(), 0))->CreatePlayerSave();
 	SaveManager->Save();
 }
 

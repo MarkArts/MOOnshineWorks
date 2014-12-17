@@ -206,6 +206,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     UTexture2D* AvatarVeryLowHP;
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void Respawn();
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	FPlayerSave CreatePlayerSave();
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void LoadPlayerSave(FPlayerSave PlayerSave);
