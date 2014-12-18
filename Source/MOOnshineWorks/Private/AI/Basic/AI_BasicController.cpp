@@ -231,7 +231,6 @@ void AAI_BasicController::AISetSearchState()
 void AAI_BasicController::ShouldAIPatrol()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	//APawn* MyBot = GetPawn();
 	if (BasicEnemy->AIPatrol == false) //AI moet niet patrollen en State is niet al gezet naar 3
 	{
 		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, false);

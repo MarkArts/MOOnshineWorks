@@ -11,7 +11,7 @@ AAI_PianoEnemy::AAI_PianoEnemy(const class FPostConstructInitializeProperties& P
 
 	LightType = EnemyLightType::Light;
 
-	PianoPushBack = FVector(5.0f, 5.0f, 5.0f);
+	PianoPushPower = 0;
 }
 
 
