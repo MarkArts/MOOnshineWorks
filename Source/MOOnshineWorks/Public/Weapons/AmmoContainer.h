@@ -26,11 +26,12 @@ class MOONSHINEWORKS_API AAmmoContainer : public AActor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TArray<int32> AmmoCounters;
+	TArray<int32> MaximumAmmoCount;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TEnumAsByte<EAmmoType::Type> ActiveAmmoType;
 
-	void AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount);
+	int32 AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount);
 	void UseAmmo(int32 Count, EAmmoType::Type Type);
 	bool HasAmmo(int32 Count, EAmmoType::Type Type);
 	void SetAmmo(EAmmoType::Type Type, int32 NewCount);
