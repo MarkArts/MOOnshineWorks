@@ -22,5 +22,10 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Radius)
 	float DamageValue;
 
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> ExplosionShaker;
+
 	virtual void ReceiveBeginPlay() override;
+
+	void Hit(AActor* Target);
 };

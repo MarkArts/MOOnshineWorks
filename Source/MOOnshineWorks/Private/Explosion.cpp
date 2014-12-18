@@ -19,23 +19,25 @@ void AExplosion::ReceiveBeginPlay()
 	EffectSphere->GetOverlappingActors(Items);
 	for (AActor* Item : Items)
 	{
-		if (Item->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
+		if (Item->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()) || Item->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
 		{
-			AMOOnshineWorksCharacter* Target = Cast<AMOOnshineWorksCharacter>(Item);
-			if (Target)
-			{
-				Target->DealDamage(DamageValue);
-			}
-		}
-		else if (Item->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
-		{
-			AAI_BasicEnemy* Target = Cast<AAI_BasicEnemy>(Item);
-			if (Target)
-			{
-				Target->DealDamage(DamageValue);
-			}
+			Hit(Item);
 		}
 	}
 	Destroy();
 }
 
+void AExplosion::Hit(AActor* Target)
+{
+	AMOOnshineWorksCharacter* CharacterTarget = Cast<AMOOnshineWorksCharacter>(Target);
+	if (CharacterTarget)
+	{
+		CharacterTarget->DealDamage(DamageValue);
+		CharacterTarget->StartShake(ExplosionShaker);
+	}
+	AAI_BasicEnemy* EnemyTarget = Cast<AAI_BasicEnemy>(Target);
+	if (EnemyTarget)
+	{
+		EnemyTarget->DealDamage(DamageValue);
+	}
+}
