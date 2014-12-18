@@ -37,7 +37,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
 		ShouldTheAIPatrol = BlackboardComp->GetKeyID("ShouldTheAIPatrol");
 		AIUsedForTrap = BlackboardComp->GetKeyID("AIUsedForTrap");
-		//EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
+		EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -255,8 +255,11 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 {
 	//Zet de EnemyDistance in de behaviour tree!
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
+	if (BasicEnemy)
+	{
+		AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
+	}
 }
 
 /*

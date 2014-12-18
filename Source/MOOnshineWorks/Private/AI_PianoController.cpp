@@ -29,21 +29,19 @@ void AAI_PianoController::AttackPlayer()
 	if (AiChar)
 	{
 		AAI_PianoEnemy* AiSpecific = Cast<AAI_PianoEnemy>(GetPawn());
-		for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+		AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+		//AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
 		{
-			AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
-			if (playerCharacter)
-			{
-				FVector PlayerLocation = playerCharacter->GetActorLocation();
-				playerCharacter->DealDamage(AiChar->Damage);
+			FVector PlayerLocation = playerCharacter->GetActorLocation();
+			playerCharacter->DealDamage(AiChar->Damage);
 
-				FRotator EnemyRotation = AiSpecific->GetActorRotation();
-				if (EnemyRotation.UnrotateVector(PlayerLocation).X < EnemyRotation.UnrotateVector(PlayerLocation).X)
-				{
-					//nog niet af!!!
-					playerCharacter->LaunchCharacter(AiSpecific->PianoPushBack, true, false);
-				}
-			}
+			FRotator EnemyRotation = AiSpecific->GetActorRotation();
+			//if (EnemyRotation.UnrotateVector(PlayerLocation).X < EnemyRotation.UnrotateVector(PlayerLocation).X)
+			//{
+				//nog niet af!!!
+				playerCharacter->LaunchCharacter(AiSpecific->PianoPushBack, true, false);
+			//}
 		}
 	}
 }
@@ -63,9 +61,12 @@ void AAI_PianoController::PianoGoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
+	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 
 	//Nieuwe BlueprintEnemy Spawnen!
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
+
+	//Oude enemy destroyen
 	AiSpecific->Destroy();
 
 	if (NewPawn != NULL)
@@ -87,6 +88,9 @@ void AAI_PianoController::PianoGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//De EnemyDistanceShouldAttack setten
+	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
