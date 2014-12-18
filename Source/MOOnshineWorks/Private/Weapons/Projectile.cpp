@@ -32,6 +32,8 @@ void AProjectile::ReceiveBeginPlay()
 			AMOOnshineWorksCharacter* GunOwner = Cast<AMOOnshineWorksCharacter>(Gun->GetOwner());
 			if (GunOwner)
 			{
+				GunOwner->Mesh->IgnoreActorWhenMoving(this, true);
+				GunOwner->CapsuleComponent->IgnoreActorWhenMoving(this, true);
 				ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
 			}
 			else
@@ -39,6 +41,8 @@ void AProjectile::ReceiveBeginPlay()
 				AAI_BasicEnemy* GunOwner = Cast<AAI_BasicEnemy>(Gun->GetOwner());
 				if (GunOwner)
 				{
+					GunOwner->Mesh->IgnoreActorWhenMoving(this, true);
+					GunOwner->CapsuleComponent->IgnoreActorWhenMoving(this, true);
 					ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
 				}
 			}

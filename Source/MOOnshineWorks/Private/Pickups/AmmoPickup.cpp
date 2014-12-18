@@ -11,13 +11,27 @@ AAmmoPickup::AAmmoPickup(const class FPostConstructInitializeProperties& PCIP)
 }
 
 
-void AAmmoPickup::OnPickedUp_Implementation(AMOOnshineWorksCharacter* Actor)
+void AAmmoPickup::Collect(AActor* Target)
 {
-	//Call the parent implementation of OnPickedUp first.
-	Super::OnPickedUp_Implementation(Actor);
-
-	Actor->AmmoContainer->AddAmmo(AmmoType, AmmoAmount);
-
-	//Destroy the chest
-	Destroy();
+	AMOOnshineWorksCharacter* Actor = Cast<AMOOnshineWorksCharacter>(Target);
+	if (Actor->AmmoContainer->GetAmmo(AmmoType) < 20)
+	{
+		if (Actor->AmmoContainer->GetAmmo(AmmoType) + AmmoAmount > 20)
+		{
+			while (Actor->AmmoContainer->GetAmmo(AmmoType) < 20 && AmmoAmount > 0)
+			{
+				Actor->AmmoContainer->AddAmmo(AmmoType, 1);
+				AmmoAmount--;
+			}
+			if (AmmoAmount < 1)
+			{
+				Destroy();
+			}
+		}
+		else
+		{
+			Actor->AmmoContainer->AddAmmo(AmmoType, AmmoAmount);
+			Destroy();
+		}
+	}
 }

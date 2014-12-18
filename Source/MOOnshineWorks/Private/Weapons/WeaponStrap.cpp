@@ -19,7 +19,7 @@ void AWeaponStrap::AddGun(APlayerGun* NewGun)
 	}
 	else
 	{
-		Guns[ActiveGunIndex]->SetVisibility(false);
+		NewGun->SetVisibility(false);
 	}
 }
 

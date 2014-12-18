@@ -42,7 +42,11 @@ void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 {
 	ASaveManager* SaveManager = GetSaveManager(Actor->GetWorld());
 
-	SaveManager->GetData()->Checkpoint = { Actor->GetTransform(), GetActiveLevelsFrom(Actor->GetWorld()) };
+	SaveManager->GetData()->Checkpoint = { 
+		Actor->GetTransform().GetLocation(),
+		Actor->GetTransform().Rotator(),
+		GetActiveLevelsFrom(Actor->GetWorld()) 
+	};
 	SaveManager->Save();
 }
 
@@ -62,4 +66,9 @@ TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
 	}
 
 	return ActiveLevels;
+}
+
+void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FColor Color)
+{
+	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), FVector2D(1.0f,1.0f), Color);
 }

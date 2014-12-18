@@ -45,4 +45,12 @@ public:
 	void DeleteActorSave(FName Id);
 	// UFUNCTION(BlueprintCallable, Category = MOO)
 	FActorSave* GetActorSave(FName Id);
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void AddInteractableSave(FInteractableSave ActorSave);
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void DeleteInteractableSave(FName Id);
+	// UFUNCTION(BlueprintCallable, Category = MOO)
+	FInteractableSave* GetInteractableSave(FName Id);
+
 };

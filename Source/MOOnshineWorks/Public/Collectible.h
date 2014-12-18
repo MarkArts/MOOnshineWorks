@@ -14,6 +14,9 @@ class MOONSHINEWORKS_API ACollectible : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	FString UsedText;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool ShouldSave;
 
 	UFUNCTION(BluePrintNativeEvent)

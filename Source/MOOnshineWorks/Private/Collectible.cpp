@@ -8,6 +8,7 @@ ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	ShouldSave = false;
+	UsedText = FString(TEXT(""));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -19,12 +20,15 @@ void ACollectible::Collect(AActor* Target)
 {
 	OnCollect(Target);
 
+	// display UsedText
+
 	if (ShouldSave){
 		UHelpers::GetSaveManager(GetWorld())->AddActorSave(
 		{
 			UHelpers::GeneratePersistentId(this),
 			false,
-			GetTransform()
+			GetTransform().GetLocation(),
+			GetTransform().Rotator()
 		});
 	}
 
@@ -43,4 +47,5 @@ void ACollectible::ReceiveBeginPlay()
 			}
 		}
 	}
+	Super::ReceiveBeginPlay();
 }

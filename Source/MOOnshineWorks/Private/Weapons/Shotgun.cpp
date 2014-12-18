@@ -42,7 +42,7 @@ void AShotgun::Shoot()
 				AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
 			}
 			break;
-		case EAmmoType::Type::B:
+		case EAmmoType::Type::A:
 			break;
 	}
 	Super::Shoot();

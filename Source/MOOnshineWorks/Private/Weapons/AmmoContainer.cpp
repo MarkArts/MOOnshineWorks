@@ -8,14 +8,14 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	: Super(PCIP)
 {
 	AmmoCounters.Add(15);
-	AmmoCounters.Add(0);
-	AmmoCounters.Add(0);
+	AmmoCounters.Add(3);
 	ActiveAmmoType = EAmmoType::Type::A;
 }
 
 void AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
 {
-	AmmoCounters[AmmoType] += AmmoAmount;
+	SetAmmo(AmmoType, AmmoCounters[AmmoType] + AmmoAmount);
+	
 }
 
 void AAmmoContainer::UseAmmo(int32 Count, EAmmoType::Type Type)

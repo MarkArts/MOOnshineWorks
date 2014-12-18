@@ -21,6 +21,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	Defense = 0.f;
 	Speed = 0.f;
 	Damage = 0.f;
+	EnemyDistanceShouldAttack = 0.f;
 	AIPatrol = true;
 	CanBeHit = true;
 }
@@ -116,7 +117,8 @@ void AAI_BasicEnemy::Die()
 		{
 			GetPersistentId(),
 			true,
-			FTransform()
+			GetTransform().GetLocation(),
+			GetTransform().Rotator()
 		}
 	);
 

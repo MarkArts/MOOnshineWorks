@@ -62,6 +62,7 @@ public:
 	uint8 LastSeenPosition;			//Vector
 	uint8 ShouldTheAIPatrol;		//Bool
 	uint8 AIUsedForTrap;			//Bool
+	uint8 EnemyDistanceShouldAttack;//Float
 
 	//Animations setten!
 	UFUNCTION(BlueprintCallable, Category = Animation)
@@ -91,6 +92,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
+
+	UFUNCTION(BlueprintCallable, Category = AIState)
+	void SetEnemyDistanceShouldAttack();
 
 	/*
 	UFUNCTION(BlueprintCallable, Category = AIActivate)

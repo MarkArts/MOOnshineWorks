@@ -2,14 +2,14 @@
 
 #pragma once
 
-#include "Pickups/Pickup.h"
+#include "Collectible.h"
 #include "BatteryPickup.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API ABatteryPickup : public APickup
+class MOONSHINEWORKS_API ABatteryPickup : public ACollectible
 {
 	GENERATED_UCLASS_BODY()
 
@@ -18,6 +18,6 @@ class MOONSHINEWORKS_API ABatteryPickup : public APickup
 	float LightPercentage;
 
 	//Override the OnPickedUp function (use implementation because this is a BlueprintNativeEvent)
-	void OnPickedUp_Implementation(AMOOnshineWorksCharacter *Actor) override;
+	virtual void Collect(AActor* Target) override;
 	
 };

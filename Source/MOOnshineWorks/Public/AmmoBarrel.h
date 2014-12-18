@@ -13,6 +13,9 @@ class MOONSHINEWORKS_API AAmmoBarrel : public AAmmoPickup
 {
 	GENERATED_UCLASS_BODY()
 
-	void OnPickedUp_Implementation(AMOOnshineWorksCharacter *Actor) override;
+	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Pickup)
+	//TSubobjectPtr<UStaticMeshComponent> Mesh;
+
+	virtual void Collect(AActor* Target) override;
 	
 };
