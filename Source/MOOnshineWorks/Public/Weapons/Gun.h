@@ -11,6 +11,7 @@ namespace EGunType
 {
 	enum Type
 	{
+		None,
 		Crossbow,
 		Shotgun
 	};
@@ -30,6 +31,9 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun)
+	TEnumAsByte<EGunType::Type> Type;
 
 	//UPROPERTY(VisibleAnywhere, Category = Gun)
 	//TSubobjectPtr<class USkeletalMeshComponent> GunMesh;
