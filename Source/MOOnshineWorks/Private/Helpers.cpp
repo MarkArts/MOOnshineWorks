@@ -69,7 +69,15 @@ TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
 	return ActiveLevels;
 }
 
-void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FColor Color)
+void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FColor TextColor)
 {
-	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), FVector2D(1.0f,1.0f), Color);
+
+	/* If no position is set */
+	if (Position == FVector2D(-1.f, -1.f))
+	{
+		const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
+		Position = FVector2D(ViewportSize.X / 2, ViewportSize.Y / 2);
+	}
+
+	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), Position, TextColor);
 }
