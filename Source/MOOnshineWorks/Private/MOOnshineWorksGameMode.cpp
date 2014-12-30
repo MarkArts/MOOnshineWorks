@@ -79,8 +79,8 @@ void AMOOnshineWorksGameMode::LoadCheckpoint()
 		{
 			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
 			AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-			Player->Reset();
-			Player->BeginPlay();
+		//	Player->Reset();
+	//		Player->BeginPlay();
 			Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
 		}
 	}

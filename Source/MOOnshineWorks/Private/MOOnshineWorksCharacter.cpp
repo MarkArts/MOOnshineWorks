@@ -155,11 +155,14 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
-	/* This check should nto be here because validation of the save shoudl happen sooner or tthere needs to be a defautl save */
-	//if (PlayerSave.AmmoCounters.Num() > 0){
-//		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
-//	}
-	
+
+
+	/* Set base vairables should peferably not need to happen but it seems like we have no other choice with the current code base */
+	CurrentHealth = BaseHealth;
+	CurrentMana = BaseMana;
+	Stamina = BaseStamina;
+	LightPercentage = 1.0f;
+
 	SetActorTransform({
 		PlayerSave.Rotation,
 		PlayerSave.Position,
@@ -175,6 +178,13 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 			EquipGun(GetWorld()->SpawnActor<APlayerGun>(Gun));
 		}
 	}
+
+
+	if (PlayerSave.AmmoCounters.Num() > 0){
+		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	}
+
+	IsDeath = false;
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
@@ -573,7 +583,6 @@ void AMOOnshineWorksCharacter::Die()
 	{
 		IsDeath = true;
 		OnDie();
-
 
 		// Respawn should be called in the OnDie event in blueprints
 
