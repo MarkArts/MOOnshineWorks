@@ -10,7 +10,6 @@ UHelpers::UHelpers(const class FPostConstructInitializeProperties& PCIP)
 
 }
 
-
 FName UHelpers::GeneratePersistentId(AActor* Actor)
 {
 	UWorld* World = Actor->GetWorld();
@@ -71,13 +70,14 @@ TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
 
 void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FColor TextColor)
 {
-
 	/* If no position is set */
 	if (Position == FVector2D(-1.f, -1.f))
 	{
 		const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
 		Position = FVector2D(ViewportSize.X / 2, ViewportSize.Y / 2);
 	}
-
-	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), Position, TextColor);
+	if (GEngine->GetMediumFont())
+	{
+		UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), Position, TextColor);
+	}
 }

@@ -10,8 +10,8 @@ AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCI
 	IsUsed = false;
 	ShouldUseOnce = false;
 
-	DisplayText = FString(TEXT(""));
-	UsedText = FString(TEXT(""));
+//	DisplayText = FString(TEXT(""));
+//	UsedText = FString(TEXT(""));
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)
@@ -29,12 +29,18 @@ void AInteractable::Interact(AActor* Target)
 				UHelpers::GeneratePersistentId(this),
 				true
 			});
-			// display UsedText;
+			if (UsedText != TEXT(""))
+			{
+				UHelpers::DisplayText(GetWorld(), UsedText);
+			}
 			OnInteract(Target);
 		}
 	}
 	else{
-		// display UsedText;
+		if (UsedText != TEXT(""))
+		{
+			UHelpers::DisplayText(GetWorld(), UsedText);
+		}
 		OnInteract(Target);
 	}
 }
@@ -44,11 +50,17 @@ void AInteractable::OnInRange_Implementation(AActor* Target)
 	{
 		if (!IsUsed)
 		{
-			UHelpers::DisplayText(GetWorld(), DisplayText);
+			if (DisplayText != TEXT(""))
+			{
+				UHelpers::DisplayText(GetWorld(), DisplayText);
+			}
 		}
 	}
 	else{
-		UHelpers::DisplayText(GetWorld(), DisplayText);
+		if (DisplayText != TEXT(""))
+		{
+			UHelpers::DisplayText(GetWorld(), DisplayText);
+		}
 	}
 }
 
