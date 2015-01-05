@@ -72,6 +72,7 @@ void AAI_PianoController::PianoGoActive()
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
@@ -104,6 +105,8 @@ void AAI_PianoController::PianoGoActive()
 	NewPawn->AIPatrol = ShouldAIPatrol;
 	//De EnemyDistanceShouldAttack setten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De ChargeSpeed setten
+	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();

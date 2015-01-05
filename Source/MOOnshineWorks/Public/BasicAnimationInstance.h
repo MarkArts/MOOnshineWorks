@@ -28,4 +28,8 @@ class MOONSHINEWORKS_API UBasicAnimationInstance : public UAnimInstance
 	/* Check if AI is killed */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIAnimation)
 	bool AIDeath;
+
+	/* Check if AI is preparing charge */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIAnimation)
+	bool AICharging;
 };

@@ -79,5 +79,5 @@ void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FCol
 		Position = FVector2D(ViewportSize.X / 2, ViewportSize.Y / 2);
 	}
 
-	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), Position, TextColor);
+	//UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), Position, TextColor);
 }
