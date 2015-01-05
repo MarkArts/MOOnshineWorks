@@ -8,6 +8,7 @@ AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
 	Name = "Shotgun";
+	Type = EGunType::Shotgun;
 	Id = 15.f;
 
 	CharacterEquipOffset = FVector(20.f, 17.5f, -40.f);

@@ -29,21 +29,29 @@ void AAI_PianoController::AttackPlayer()
 	if (AiChar)
 	{
 		AAI_PianoEnemy* AiSpecific = Cast<AAI_PianoEnemy>(GetPawn());
-		for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
+		AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+		//AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
 		{
-			AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
-			if (playerCharacter)
-			{
-				FVector PlayerLocation = playerCharacter->GetActorLocation();
-				playerCharacter->DealDamage(AiChar->Damage);
+			FRotator EnemyRotation = AiSpecific->GetActorRotation();
 
-				FRotator EnemyRotation = AiSpecific->GetActorRotation();
-				if (EnemyRotation.UnrotateVector(PlayerLocation).X < EnemyRotation.UnrotateVector(PlayerLocation).X)
-				{
-					//nog niet af!!!
-					playerCharacter->LaunchCharacter(AiSpecific->PianoPushBack, true, false);
-				}
+			//Pak de x,y van de speler 
+			FVector PlayerLocation = playerCharacter->GetActorLocation();
+			//Pak de x,y van de Enemy
+			FVector AiSpecificLocation = AiSpecific->GetActorLocation();
+			//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
+			FVector difference = PlayerLocation-AiSpecificLocation;
+
+			if (AiSpecific->PianoPushPower >= 0)
+			{
+				playerCharacter->CharacterMovement->Velocity += (AiSpecific->PianoPushPower*difference);
+				playerCharacter->CharacterMovement->Velocity.Z = 500;
+			} else {
+				playerCharacter->CharacterMovement->Velocity += difference;
+				playerCharacter->CharacterMovement->Velocity.Z = 500;
 			}
+			//Doe Damage
+			playerCharacter->DealDamage(AiChar->Damage);
 		}
 	}
 }
@@ -63,9 +71,13 @@ void AAI_PianoController::PianoGoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
+	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
+
+	//Oude enemy destroyen
 	AiSpecific->Destroy();
 
 	if (NewPawn != NULL)
@@ -87,6 +99,11 @@ void AAI_PianoController::PianoGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
+	//De EnemyDistanceShouldAttack setten
+	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();

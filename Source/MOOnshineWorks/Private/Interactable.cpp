@@ -44,11 +44,11 @@ void AInteractable::OnInRange_Implementation(AActor* Target)
 	{
 		if (!IsUsed)
 		{
-		//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+			UHelpers::DisplayText(GetWorld(), DisplayText);
 		}
 	}
 	else{
-	//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+		UHelpers::DisplayText(GetWorld(), DisplayText);
 	}
 }
 

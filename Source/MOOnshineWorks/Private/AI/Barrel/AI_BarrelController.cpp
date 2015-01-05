@@ -83,15 +83,17 @@ void AAI_BarrelController::BarrelPatrol()
     BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
 }
 
+/*
 void AAI_BarrelController::BarrelGoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;
 	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
-	//TSubclassOf<AAI_BasicEnemy> EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_Barrel"))));
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
+	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
 	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
@@ -117,6 +119,60 @@ void AAI_BarrelController::BarrelGoActive()
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
+
+	//De EnemyDistanceShouldAttack setten
+	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
+	BasicController->AISetAttackState();
+}
+*/
+
+void AAI_BarrelController::BarrelGoActive()
+{
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UWorld* const World = GetWorld();
+	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
+
+	//Oude enemy destroyen
+	AiSpecific->Destroy();
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
+
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
+	//De EnemyDistanceShouldAttack setten
+	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();

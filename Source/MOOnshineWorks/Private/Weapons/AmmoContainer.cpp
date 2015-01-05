@@ -10,12 +10,24 @@ AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& P
 	AmmoCounters.Add(15);
 	AmmoCounters.Add(3);
 	ActiveAmmoType = EAmmoType::Type::A;
+	MaximumAmmoCount.Add(20);
+	MaximumAmmoCount.Add(20);
+	MaximumAmmoCount.Add(20);
 }
 
-void AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
+int32 AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
 {
-	SetAmmo(AmmoType, AmmoCounters[AmmoType] + AmmoAmount);
-	
+	int32 Result = 0;
+	if (MaximumAmmoCount[AmmoType] >= GetAmmo(AmmoType) + AmmoAmount)
+	{
+		SetAmmo(AmmoType, GetAmmo(AmmoType) + AmmoAmount);
+	}
+	else
+	{
+		Result = (GetAmmo(AmmoType) + AmmoAmount) - MaximumAmmoCount[AmmoType];
+		SetAmmo(AmmoType, MaximumAmmoCount[AmmoType]);
+	}
+	return Result;
 }
 
 void AAmmoContainer::UseAmmo(int32 Count, EAmmoType::Type Type)
