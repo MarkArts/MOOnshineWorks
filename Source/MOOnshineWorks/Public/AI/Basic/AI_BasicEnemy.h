@@ -21,7 +21,7 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION()
 	void PostInitializeComponents();
-
+	
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume);
 

@@ -33,15 +33,25 @@ void AAI_PianoController::AttackPlayer()
 		//AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
 		{
-			FVector PlayerLocation = playerCharacter->GetActorLocation();
-			playerCharacter->DealDamage(AiChar->Damage);
-
 			FRotator EnemyRotation = AiSpecific->GetActorRotation();
-			//if (EnemyRotation.UnrotateVector(PlayerLocation).X < EnemyRotation.UnrotateVector(PlayerLocation).X)
-			//{
-				//nog niet af!!!
-				playerCharacter->LaunchCharacter(AiSpecific->PianoPushBack, true, false);
-			//}
+
+			//Pak de x,y van de speler 
+			FVector PlayerLocation = playerCharacter->GetActorLocation();
+			//Pak de x,y van de Enemy
+			FVector AiSpecificLocation = AiSpecific->GetActorLocation();
+			//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
+			FVector difference = PlayerLocation-AiSpecificLocation;
+
+			if (AiSpecific->PianoPushPower >= 0)
+			{
+				playerCharacter->CharacterMovement->Velocity += (AiSpecific->PianoPushPower*difference);
+				playerCharacter->CharacterMovement->Velocity.Z = 500;
+			} else {
+				playerCharacter->CharacterMovement->Velocity += difference;
+				playerCharacter->CharacterMovement->Velocity.Z = 500;
+			}
+			//Doe Damage
+			playerCharacter->DealDamage(AiChar->Damage);
 		}
 	}
 }
@@ -62,6 +72,7 @@ void AAI_PianoController::PianoGoActive()
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
 	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
@@ -89,6 +100,8 @@ void AAI_PianoController::PianoGoActive()
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
 	//De EnemyDistanceShouldAttack setten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
