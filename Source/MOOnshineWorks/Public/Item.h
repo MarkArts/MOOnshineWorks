@@ -14,7 +14,7 @@ class MOONSHINEWORKS_API AItem : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
-	FString Name;
+	FName Name;
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
 	float Id;

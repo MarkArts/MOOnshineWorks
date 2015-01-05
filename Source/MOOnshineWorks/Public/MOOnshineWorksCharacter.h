@@ -173,7 +173,6 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void EquipGun(APlayerGun* Gun);
-	
 
 	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
 	void OnDealDamage(float Damage);
@@ -204,6 +203,9 @@ class AMOOnshineWorksCharacter : public ACharacter
     UTexture2D* AvatarLowHP;
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
     UTexture2D* AvatarVeryLowHP;
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void Respawn();
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	FPlayerSave CreatePlayerSave();

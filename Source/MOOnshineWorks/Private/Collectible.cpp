@@ -20,6 +20,8 @@ void ACollectible::Collect(AActor* Target)
 {
 	OnCollect(Target);
 
+	UHelpers::DisplayText(GetWorld(), UsedText);
+
 	// display UsedText
 
 	if (ShouldSave){

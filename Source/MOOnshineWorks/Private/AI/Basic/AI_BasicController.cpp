@@ -10,7 +10,6 @@
 #include "AI_PegEnemyDark.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
-#include "BlueprintLoader.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -138,7 +137,11 @@ void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviou
 
 	//Pak positie speler en set deze om daar nog heen te lopen!
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	const FVector MyLoc = Player->GetActorLocation();
+	FVector MyLoc = GetControlledPawn()->GetActorLocation();
+	if (Player)
+	{
+		MyLoc = Player->GetActorLocation();
+	}
 
 	BlackboardComp->SetValueAsVector(LastSeenPosition, MyLoc);
 }
@@ -260,68 +263,11 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
 	}
 }
-
 /*
 void AAI_BasicController::GoActive()
 {
-	UBehaviorTree * BehaviorTree = NULL;
-	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
-	FVector SpawnLocation = AiChar->GetActorLocation();
-	FRotator SpawnRotation = AiChar->GetActorRotation();
-	UWorld* const World = GetWorld();
-	TSubclassOf<AAI_BasicEnemy> EnemyClass;
 	
-	//Check wat voor soort enemy er active moet worden!
-	AAI_BarrelEnemy* AIBarrel = Cast<AAI_BarrelEnemy>(GetPawn());
-	AAI_BookEnemyLight* AIBook = Cast<AAI_BookEnemyLight>(GetPawn());
-	AAI_PegEnemyDark* AIPeg = Cast<AAI_PegEnemyDark>(GetPawn());
-	AAI_PianoEnemy* AIPiano = Cast<AAI_PianoEnemy>(GetPawn());
-	if (AIBarrel != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	} 
-	else if (AIBook != NULL)
-	{
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	else if (AIPeg != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyDark"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	else if (AIPiano != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
-
-
-
-	AiChar->Destroy();
-	if (NewPawn != NULL)
-	{
-		if (NewPawn->Controller == NULL)
-		{
-			NewPawn->SpawnDefaultController();
-		}
-		if (BehaviorTree != NULL)
-		{
-			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-			if (AIController != NULL)
-			{
-				AIController->RunBehaviorTree(BehaviorTree);
-			}
-		}
-	}
-
-	if (World)
-	{
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
-	}
 }
 */
-
 
 
