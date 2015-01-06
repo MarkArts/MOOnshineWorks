@@ -21,7 +21,6 @@ void APlayerGun::Shoot()
 	GiveShotFeedBack();
 	SetLastShotTime();
 	OnUse();
-	SetLastShotTime();
 }
 
 bool APlayerGun::HasAmmo()
