@@ -20,7 +20,8 @@ void APlayerGun::Shoot()
 {
 	GiveShotFeedBack();
 	SetLastShotTime();
-	Super::Shoot();
+	OnUse();
+	SetLastShotTime();
 }
 
 bool APlayerGun::HasAmmo()

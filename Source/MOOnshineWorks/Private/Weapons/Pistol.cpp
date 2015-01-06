@@ -52,7 +52,7 @@ void APistol::Shoot()
 			Projectile->DeathBlueprint = nullptr;
 		}
 	}
-	OnUse();
+	Super::Shoot();
 }
 
 bool APistol::CanCharge()
