@@ -21,7 +21,7 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION()
 	void PostInitializeComponents();
-
+	
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume);
 
@@ -31,6 +31,10 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	/** Health */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Health;
+
+	/** Charge Speed */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	float ChargeSpeed;
 
 	/** Defense */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)

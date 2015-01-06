@@ -11,6 +11,7 @@ namespace EGunType
 {
 	enum Type
 	{
+		None,
 		Crossbow,
 		Shotgun
 	};
@@ -30,6 +31,9 @@ class MOONSHINEWORKS_API AGun : public AItem
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Gun)
+	TEnumAsByte<EGunType::Type> Type;
 
 	//UPROPERTY(VisibleAnywhere, Category = Gun)
 	//TSubobjectPtr<class USkeletalMeshComponent> GunMesh;
@@ -54,4 +58,23 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 	virtual TSubclassOf<class AProjectile> GetProjectileClass();
+
+
+	//charge stuff
+	virtual bool CanCharge();
+	virtual void StartCharge();
+	virtual void EndCharge();
+	virtual void Tick(float DeltaSeconds) override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Charge)
+	bool IsCharging;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Charge)
+	float Charge;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
+	float ChargeRatePerSecond;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
+	float ChargeMultiplier;
 };

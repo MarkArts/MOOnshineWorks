@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "MainHUD.h"
 #include "Helpers.h"
 
 
@@ -47,6 +48,7 @@ void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 		Actor->GetTransform().Rotator(),
 		GetActiveLevelsFrom(Actor->GetWorld()) 
 	};
+	SaveManager->GetData()->Player = Actor->CreatePlayerSave();
 	SaveManager->Save();
 }
 
@@ -68,7 +70,34 @@ TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
 	return ActiveLevels;
 }
 
-void UHelpers::DisplayText(UWorld* World, FString Text, FVector2D Position, FColor Color)
+void UHelpers::DisplayText(UWorld* World, FString Text, int32 DisplayTime, FVector2D Position, FColor TextColor)
 {
-	UGameplayStatics::GetPlayerController(World, 0)->GetHUD()->DrawText(Text, Position, GEngine->GetMediumFont(), FVector2D(1.0f,1.0f), Color);
+
+	/* If no position is set */
+	if (Position == FVector2D(-1.f, -1.f))
+	{
+		//const FVector2D ViewportSize = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY());
+		//Position = FVector2D(ViewportSize.X / 2, ViewportSize.Y / 2);
+		Position = FVector2D(0.f, -200.f); //(ViewportSize.Y / 2) * 0.8 );
+	}
+
+	if (GEngine->GetMediumFont())
+	{
+
+		AMainHUD* MainHUD = (AMainHUD*)UGameplayStatics::GetPlayerController(World, 0)->GetHUD();
+		if (MainHUD)
+		{
+			FDisplayString DisplayString = {
+				Text,
+				Position,
+				TextColor,
+				GEngine->GetMediumFont(),
+				FVector2D(1.f, 1.f),
+				DisplayTime,
+				0
+			};
+
+			MainHUD->AddDisplayString(DisplayString);
+		}
+	}
 }
