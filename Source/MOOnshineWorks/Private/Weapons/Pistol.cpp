@@ -32,9 +32,7 @@ void APistol::Use()
 	}
 }
 
-void APistol::Shoot()
+bool APistol::CanCharge()
 {
-	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
-	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
-	Super::Shoot();
+	return true;
 }

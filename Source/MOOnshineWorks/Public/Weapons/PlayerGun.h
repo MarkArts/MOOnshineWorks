@@ -54,4 +54,5 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = HUD)
 	UTexture2D* HUDTexture;
+
 };

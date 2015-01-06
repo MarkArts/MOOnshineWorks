@@ -54,6 +54,10 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 	{
 		Result = World->SpawnActor<AProjectile>(GetProjectileClass(), Start, GetBulletAngle(Start, End), SpawnParams);
 	}
+	if (Result && CanCharge())
+	{
+		Result->DamageValue *= (Charge * ChargeDamageMultiplier);
+	}
 	return Result;
 }
 
@@ -155,4 +159,29 @@ bool AGun::LocationBehindBulletSpawn(FVector Location)
 		Result = false;
 	}
 	return Result;
+}
+
+bool AGun::CanCharge()
+{
+	return false;
+}
+
+void AGun::StartCharge()
+{
+	IsCharging = true;
+	Charge = 0.f;
+}
+
+void AGun::EndCharge()
+{
+	IsCharging = false;
+	Use();
+}
+
+void AGun::Tick(float DeltaSeconds)
+{
+	if (IsCharging && Charge < 1.f)
+	{
+		Charge = FMath::Max(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
+	}
 }

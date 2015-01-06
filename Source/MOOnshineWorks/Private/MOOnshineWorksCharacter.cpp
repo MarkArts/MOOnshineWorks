@@ -279,14 +279,24 @@ void AMOOnshineWorksCharacter::StartUse()
 	{
 		if (!IsSprinting)
 		{
-			WeaponStrap->GetActiveGun()->Use();
+			if (WeaponStrap->GetActiveGun()->CanCharge())
+			{
+				WeaponStrap->GetActiveGun()->StartCharge();
+			}
+			else
+			{
+				WeaponStrap->GetActiveGun()->Use();
+			}
 		}
 	}
 }
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-
+	if (WeaponStrap->GetActiveGun()->CanCharge())
+	{
+		WeaponStrap->GetActiveGun()->EndCharge();
+	}
 }
 
 void AMOOnshineWorksCharacter::StartAim()
