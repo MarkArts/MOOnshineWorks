@@ -23,5 +23,5 @@ class MOONSHINEWORKS_API UHelpers : public UBlueprintFunctionLibrary
 	UFUNCTION(BlueprintCallable, Category = Helpers)
 	static TArray<FName> GetActiveLevelsFrom(UWorld* World);
 //	UFUNCTION(BlueprintCallable, Category = Helpers)
-	static void DisplayText(UWorld* World, FString Text, FVector2D Position = FVector2D(-1.f, -1.f),  FColor TextColor = FColor(255, 255, 255));
+	static void DisplayText(UWorld* World, FString Text, int32 DisplayTime = 1, FVector2D Position = FVector2D(-1.f, -1.f), FColor TextColor = FColor(255, 255, 255, 255));
 };

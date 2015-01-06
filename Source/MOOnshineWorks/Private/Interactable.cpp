@@ -27,7 +27,8 @@ void AInteractable::Interact(AActor* Target)
 			IsUsed = true;
 			UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
 				UHelpers::GeneratePersistentId(this),
-				true
+				true,
+				StopSpawnWhenUsed
 			});
 			if (UsedText != TEXT(""))
 			{
@@ -71,8 +72,9 @@ void AInteractable::InRange(AActor* Target)
 
 void AInteractable::ReceiveBeginPlay()
 {
+	FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
+
 	if (ShouldUseOnce){
-		FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
 		if (Save)
 		{
 			if (Save->IsUsed)
@@ -82,4 +84,15 @@ void AInteractable::ReceiveBeginPlay()
 		}
 	}
 	Super::ReceiveBeginPlay();
+
+	if (StopSpawnWhenUsed)
+	{
+		if (Save)
+		{
+			if (Save->StopSpawn)
+			{
+				Destroy();
+			}
+		}
+	}
 }

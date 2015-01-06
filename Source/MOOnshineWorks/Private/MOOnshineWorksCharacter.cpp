@@ -190,7 +190,7 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const World = GetWorld();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -576,8 +576,6 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("IS this even called"));
-
 
 	if (!IsDeath)
 	{
