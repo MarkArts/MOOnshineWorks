@@ -16,6 +16,11 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.8f;
+
+	Charge = 0.f;
+	IsCharging = false;
+	ChargeRatePerSecond = 0.5f;
+	ChargeDamageMultiplier = 3.f;
 }
 
 void APistol::Use()
@@ -25,9 +30,7 @@ void APistol::Use()
 		if (CanShoot())
 		{
 			Shoot();
-
 			UseAmmo();
-
 		}
 	}
 }
