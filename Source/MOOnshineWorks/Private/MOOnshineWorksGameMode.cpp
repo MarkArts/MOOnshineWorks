@@ -21,12 +21,18 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		//BlueprintLoader::Get().AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
 		BlueprintLoader::Get().AddBP(FName("Crossbow"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
 		BlueprintLoader::Get().AddBP(FName("Shotgun"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
+		//BlueprintLoader::Get().AddBP(FName("Font"), ANSI_TO_TCHAR("/Game/Blueprints/HUDBlueprints/NewFont"));
 		//BlueprintLoader::Get().AddBP(FName("ProjectileDeath"), ANSI_TO_TCHAR("/Game/Blueprints/BP_ProjectileDeath"));
 
 		// set default pawn class to our Blueprinted character
 		ConstructorHelpers::FClassFinder<APawn> BP(TEXT("/Game/Blueprints/MyCharacter"));
 		DefaultPawnClass = BP.Class;
 
+		static ConstructorHelpers::FObjectFinder<UBlueprint> VictoryPCOb(TEXT("Blueprint'/Game/Blueprints/HUDBlueprints/MainHud.MainHud'"));
+		if (VictoryPCOb.Object != NULL)
+		{
+			HUDClass = (UClass*)VictoryPCOb.Object->GeneratedClass;
+		}
 	}
 }
 
