@@ -42,18 +42,21 @@ void AShotgun::Shoot()
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	FVector Target = GetTarget();
 	float OldSpread = SpreadAngle;
+	float LocalPellectCount = PelletCount;
+
 	if (CanCharge())
 	{
 		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 		if (ChargeEffectMultiplier > 1.f)
 		{
 			SpreadAngle /= ChargeEffectMultiplier;
+			LocalPellectCount = floor(PelletCount + PelletCount * Charge);
 		}
 	}
 	switch (AmmoContainer->ActiveAmmoType)
 	{
 		default:
-			for (int i = 0; i < PelletCount; i++)
+			for (int i = 0; i < LocalPellectCount; i++)
 			{
 				AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
 			}
