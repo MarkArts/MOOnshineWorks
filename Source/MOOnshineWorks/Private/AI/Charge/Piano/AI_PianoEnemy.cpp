@@ -9,8 +9,6 @@ AAI_PianoEnemy::AAI_PianoEnemy(const class FPostConstructInitializeProperties& P
 {
 	AIControllerClass = AAI_PianoController::StaticClass();
 
-	LightType = EnemyLightType::Light;
-
 	PianoPushPower = 0;
 }
 
