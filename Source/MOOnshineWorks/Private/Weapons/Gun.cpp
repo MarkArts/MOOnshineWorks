@@ -54,10 +54,6 @@ AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 	{
 		Result = World->SpawnActor<AProjectile>(GetProjectileClass(), Start, GetBulletAngle(Start, End), SpawnParams);
 	}
-	if (Result && CanCharge())
-	{
-		Result->DamageValue *= (Charge * ChargeDamageMultiplier);
-	}
 	return Result;
 }
 
@@ -182,6 +178,6 @@ void AGun::Tick(float DeltaSeconds)
 {
 	if (IsCharging && Charge < 1.f)
 	{
-		Charge = FMath::Max(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
+		Charge = FMath::Min(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
 	}
 }

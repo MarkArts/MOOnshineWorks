@@ -76,5 +76,5 @@ class MOONSHINEWORKS_API AGun : public AItem
 	float ChargeRatePerSecond;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
-	float ChargeDamageMultiplier;
+	float ChargeMultiplier;
 };

@@ -48,3 +48,8 @@ void AShotgun::Shoot()
 	}
 	Super::Shoot();
 }
+
+bool AShotgun::CanCharge()
+{
+	return true;
+}

@@ -112,6 +112,7 @@ void AProjectile::HitActor(AActor* OtherActor)
 		if (TargetEnemy)
 		{
 			TargetEnemy->DealDamage(DamageValue);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(DamageValue));
 		}
 	}
 	if (OtherActor->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
