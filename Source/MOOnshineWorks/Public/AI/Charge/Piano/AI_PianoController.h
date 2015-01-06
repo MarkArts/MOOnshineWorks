@@ -4,27 +4,22 @@
 
 #include "AI/Basic/AI_BasicController.h"
 #include "AI_PianoEnemy.h"
+#include "AI_ChargeController.h"
 #include "AI_PianoController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_PianoController : public AAI_BasicController
+class MOONSHINEWORKS_API AAI_PianoController : public AAI_ChargeController
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void AttackPlayer();
+	virtual void AttackPlayer() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void SpeedUp();
+	virtual void Patrol() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void PianoPatrol();
-
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void PianoGoActive();
+	virtual void GoActive() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_PianoEnemy> EnemyClass;

@@ -55,15 +55,11 @@ void AAI_PianoController::AttackPlayer()
 		}
 	}
 }
-void AAI_PianoController::SpeedUp()
-{
-
-}
-void AAI_PianoController::PianoPatrol()
+void AAI_PianoController::Patrol()
 {
 	
 }
-void AAI_PianoController::PianoGoActive()
+void AAI_PianoController::GoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;
 	AAI_PianoEnemy* AiSpecific = Cast<AAI_PianoEnemy>(GetPawn());

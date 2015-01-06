@@ -42,13 +42,7 @@ void AAI_BarrelController::AttackPlayer()
     }
 }
 
-void AAI_BarrelController::SpeedUp()
-{
-    AAI_BasicEnemy* WalkingEnemy = (AAI_BasicEnemy*)GetPawn();
-    WalkingEnemy->StartSprint();
-}
-
-void AAI_BarrelController::BarrelPatrol()
+void AAI_BarrelController::Patrol()
 {
     APawn* MyBot = GetPawn();
     if (MyBot == NULL)
@@ -83,56 +77,7 @@ void AAI_BarrelController::BarrelPatrol()
     BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
 }
 
-/*
-void AAI_BarrelController::BarrelGoActive()
-{
-	UBehaviorTree * BehaviorTree = NULL;
-	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
-	FVector SpawnLocation = AiSpecific->GetActorLocation();
-	FRotator SpawnRotation = AiSpecific->GetActorRotation();
-	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
-	UWorld* const World = GetWorld();
-	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
-	bool ShouldAIPatrol = AiChar->AIPatrol;
-
-	//Nieuwe BlueprintEnemy Spawnen!
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
-	AiSpecific->Destroy();
-
-	if (NewPawn != NULL)
-	{
-		if (NewPawn->Controller == NULL)
-		{
-			NewPawn->SpawnDefaultController();
-		}
-		if (BehaviorTree != NULL)
-		{
-			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-			if (AIController != NULL)
-			{
-				AIController->RunBehaviorTree(BehaviorTree);
-			}
-		}
-	}
-
-	if (World)
-	{
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
-	}
-
-	//De EnemyDistanceShouldAttack setten
-	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
-
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
-}
-*/
-
-void AAI_BarrelController::BarrelGoActive()
+void AAI_BarrelController::GoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;
 	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
