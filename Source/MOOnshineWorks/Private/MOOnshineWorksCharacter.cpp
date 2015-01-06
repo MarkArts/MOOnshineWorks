@@ -21,7 +21,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
-
 	IsDeath = false;
 
 	//set base WalkSpeed
@@ -122,23 +121,28 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	kh = new KeyHolder();
 }
 
+void AMOOnshineWorksCharacter::Respawn()
+{
+
+	//Reset();
+
+	//FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
+	//AMOOnshineWorksCharacter* NewPlayer = GetWorld()->SpawnActor<AMOOnshineWorksCharacter>(this->StaticClass(), SpawnParameters);
+	//NewPlayer->PossessedBy(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(GetWorld()))->RestoreCheckpoint();
+	//Destroy();
+}
+
 FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 {
 
-	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+	TArray<FName> Weapons;
 
-	TArray<AGun*> Guns;
-	int8 WeaponsNum = WeaponStrap->Guns.Num();
+	TArray<APlayerGun*> Guns = WeaponStrap->Guns;
+	int8 WeaponsNum = Guns.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
-		if (Guns[I]->Name == FString(TEXT("Pistol")))
-		{
-			Weapons.Add(EGunType::Crossbow);
-		}
-		else if (Guns[I]->Name == FString(TEXT("Shotgun")))
-		{
-			Weapons.Add(EGunType::Shotgun);
-		}	
+		Weapons.Add(Guns[I]->Name);
 	}
 
 	return{
@@ -151,33 +155,42 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
-	/* This check should nto be here because validation of the save shoudl happen sooner or tthere needs to be a defautl save */
-	//if (PlayerSave.AmmoCounters.Num() > 0){
-//		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
-//	}
+
+
+	/* Set base vairables should peferably not need to happen but it seems like we have no other choice with the current code base */
+	CurrentHealth = BaseHealth;
+	CurrentMana = BaseMana;
+	Stamina = BaseStamina;
+	LightPercentage = 1.0f;
+
+	SetActorTransform({
+		PlayerSave.Rotation,
+		PlayerSave.Position,
+		FVector(1.f,1.f,1.f)
+	});
 
 	int8 WeaponsNum = PlayerSave.Weapons.Num();
 	for (int8 I = 0; I < WeaponsNum; I++)
 	{
-		if (PlayerSave.Weapons[I] == EGunType::Crossbow)
+		TSubclassOf<APlayerGun> Gun = TSubclassOf<APlayerGun>(*BlueprintLoader::Get().GetBP(PlayerSave.Weapons[I]));
+		if (!WeaponStrap->ContainsGun(Gun))
 		{
-			if (!WeaponStrap->ContainsGun(APistol::StaticClass())){
-				EquipGun((APlayerGun*)APistol::StaticClass());
-			}
-		}
-		else if (PlayerSave.Weapons[I] == EGunType::Shotgun)
-		{
-			if (!WeaponStrap->ContainsGun(AShotgun::StaticClass())){
-				EquipGun((APlayerGun*)APistol::StaticClass());
-			}
+			EquipGun(GetWorld()->SpawnActor<APlayerGun>(Gun));
 		}
 	}
+
+
+	if (PlayerSave.AmmoCounters.Num() > 0){
+		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
+	}
+
+	IsDeath = false;
 }
 
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const World = GetWorld();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -195,7 +208,7 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("PistolClass")))), SpawnParams);
+		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
 		EquipGun(Pistol);
@@ -266,14 +279,24 @@ void AMOOnshineWorksCharacter::StartUse()
 	{
 		if (!IsSprinting)
 		{
-			WeaponStrap->GetActiveGun()->Use();
+			if (WeaponStrap->GetActiveGun()->CanCharge())
+			{
+				WeaponStrap->GetActiveGun()->StartCharge();
+			}
+			else
+			{
+				WeaponStrap->GetActiveGun()->Use();
+			}
 		}
 	}
 }
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-
+	if (WeaponStrap->GetActiveGun()->CanCharge())
+	{
+		WeaponStrap->GetActiveGun()->EndCharge();
+	}
 }
 
 void AMOOnshineWorksCharacter::StartAim()
@@ -439,8 +462,6 @@ bool AMOOnshineWorksCharacter::HasKeyHolder(EDoorKey::Type KeyType) {
 	return kh->HasKey(KeyType);
 }
 
-
-
 void AMOOnshineWorksCharacter::EquipGun(APlayerGun* Gun)
 {
 	Gun->SetActorLocation(FirstPersonCameraComponent->GetComponentLocation());
@@ -518,11 +539,7 @@ float AMOOnshineWorksCharacter::GetCurrentMana(){ return CurrentMana; }
 
 /* Character light logic */
 void AMOOnshineWorksCharacter::SetLightPercentage(float NewLightPercentage) { 
-	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	if (Player)
-	{ 
-		LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
-	}
+	LightPercentage = NewLightPercentage; if (LightPercentage > 1) LightPercentage = 1;
 };
 float AMOOnshineWorksCharacter::GetLightPercentage(){ return LightPercentage; };
 void AMOOnshineWorksCharacter::SetLightDimSpeed(float NewLightDimSpeed) { LightDimSpeed = NewLightDimSpeed; };
@@ -574,6 +591,8 @@ void AMOOnshineWorksCharacter::Die()
 	{
 		IsDeath = true;
 		OnDie();
+
+		// Respawn should be called in the OnDie event in blueprints
 
 		//((AMOOnshineWorksGameMode*)GetWorld()->GetAuthGameMode())->RestoreCheckpoint();
 		//Destroy(); // currnetly character doesn't need to be destoryed but it might be easier save wise to jut spawn the actor again.

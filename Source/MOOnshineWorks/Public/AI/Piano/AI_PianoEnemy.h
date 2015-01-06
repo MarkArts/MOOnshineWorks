@@ -15,5 +15,5 @@ class MOONSHINEWORKS_API AAI_PianoEnemy : public AAI_BasicEnemy
 
 	/** PushBack */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	FVector PianoPushBack;
+	float PianoPushPower;
 };

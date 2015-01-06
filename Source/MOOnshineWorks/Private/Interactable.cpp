@@ -10,8 +10,8 @@ AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCI
 	IsUsed = false;
 	ShouldUseOnce = false;
 
-	DisplayText = FString(TEXT(""));
-	UsedText = FString(TEXT(""));
+//	DisplayText = FString(TEXT(""));
+//	UsedText = FString(TEXT(""));
 }
 
 void AInteractable::OnInteract_Implementation(AActor* Target)
@@ -27,14 +27,21 @@ void AInteractable::Interact(AActor* Target)
 			IsUsed = true;
 			UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
 				UHelpers::GeneratePersistentId(this),
-				true
+				true,
+				StopSpawnWhenUsed
 			});
-			// display UsedText;
+			if (UsedText != TEXT(""))
+			{
+				UHelpers::DisplayText(GetWorld(), UsedText);
+			}
 			OnInteract(Target);
 		}
 	}
 	else{
-		// display UsedText;
+		if (UsedText != TEXT(""))
+		{
+			UHelpers::DisplayText(GetWorld(), UsedText);
+		}
 		OnInteract(Target);
 	}
 }
@@ -44,11 +51,17 @@ void AInteractable::OnInRange_Implementation(AActor* Target)
 	{
 		if (!IsUsed)
 		{
-		//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+			if (DisplayText != TEXT(""))
+			{
+				UHelpers::DisplayText(GetWorld(), DisplayText);
+			}
 		}
 	}
 	else{
-	//	UHelpers::DisplayText(GetWorld(), DisplayText, FVector2D(10.f, 10.f), FColor(255, 255, 255));
+		if (DisplayText != TEXT(""))
+		{
+			UHelpers::DisplayText(GetWorld(), DisplayText);
+		}
 	}
 }
 
@@ -59,8 +72,9 @@ void AInteractable::InRange(AActor* Target)
 
 void AInteractable::ReceiveBeginPlay()
 {
+	FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
+
 	if (ShouldUseOnce){
-		FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
 		if (Save)
 		{
 			if (Save->IsUsed)
@@ -70,4 +84,15 @@ void AInteractable::ReceiveBeginPlay()
 		}
 	}
 	Super::ReceiveBeginPlay();
+
+	if (StopSpawnWhenUsed)
+	{
+		if (Save)
+		{
+			if (Save->StopSpawn)
+			{
+				Destroy();
+			}
+		}
+	}
 }
