@@ -37,6 +37,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		ShouldTheAIPatrol = BlackboardComp->GetKeyID("ShouldTheAIPatrol");
 		AIUsedForTrap = BlackboardComp->GetKeyID("AIUsedForTrap");
 		EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
+		ChargePosition = BlackboardComp->GetKeyID("ChargePosition");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -187,6 +188,19 @@ void AAI_BasicController::SetPatrollingAnimation()
 	BasicAnimInstance->AIIdle = false;
 	//BasicAnimInstance->Jumping = false;
 }
+void AAI_BasicController::SetChargeAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = false;
+	BasicAnimInstance->AIPatrolling = false;
+	BasicAnimInstance->AIIdle = false;
+	BasicAnimInstance->AICharging = true;
+}
 
 void AAI_BasicController::SetJumpingAnimation()
 {
@@ -230,7 +244,6 @@ void AAI_BasicController::AISetSearchState()
 	int State = 2;
 	BlackboardComp->SetValueAsInt(StateAI, State);
 }
-
 void AAI_BasicController::ShouldAIPatrol()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
@@ -263,11 +276,21 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
 	}
 }
-/*
-void AAI_BasicController::GoActive()
+void AAI_BasicController::CalculateChargePosition()
 {
-	
-}
-*/
+	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
+	AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
+	if (BasicEnemy && playerCharacter)
+	{ 
+		//Snelheid van de AI omhoog tijdens charge!
+		BasicEnemy->CharacterMovement->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
+		//BasicEnemy->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
+
+		//Bereken charge locatie!
+		FVector CalculateDifferentLocation = BasicEnemy->GetActorLocation()-playerCharacter->GetActorLocation();
+		FVector chargelocation = playerCharacter->GetActorLocation()-CalculateDifferentLocation;
+		BlackboardComp->SetValueAsVector(ChargePosition, chargelocation);
+	}
+}
 
