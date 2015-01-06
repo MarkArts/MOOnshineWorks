@@ -102,9 +102,4 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void SetEnemyDistanceShouldAttack();
-
-	/*
-	UFUNCTION(BlueprintCallable, Category = AIActivate)
-	void GoActive();
-	*/
 };
