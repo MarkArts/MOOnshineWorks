@@ -6,7 +6,6 @@ public class MOOnshineWorks : ModuleRules
 {
 	public MOOnshineWorks(TargetInfo Target)
 	{
-
         MinFilesUsingPrecompiledHeaderOverride = 1;
         bFasterWithoutUnity = true;
 
