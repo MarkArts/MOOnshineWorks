@@ -83,6 +83,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float LightMinRadius;
 //public:
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	float LightStages;
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetLightPercentage(float NewLightPercentage);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
@@ -99,6 +101,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void SetLightMinRadius(float NewLightMinRadius);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetLightMinRadius();
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	int32 GetLightCurrentStage();
 
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();

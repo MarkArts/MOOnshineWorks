@@ -550,6 +550,11 @@ void AMOOnshineWorksCharacter::SetLightMinRadius(float NewLightMinRadius) { Ligh
 float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
 
 
+int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
+{
+	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
+}
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
@@ -562,7 +567,12 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 
 void AMOOnshineWorksCharacter::SetLightRadius()
 {
-	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius();
+//	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius(); old linear light depletion
+
+	float StagePercentageStep = 1 / (LightStages - 1);
+	int32 ActualRange = GetLightMaxRadius() - GetLightMinRadius();
+	float ATRadius = (ActualRange * StagePercentageStep * GetLightCurrentStage()) + GetLightMinRadius();
+
 	Light->SetAttenuationRadius(ATRadius);
 }
 
