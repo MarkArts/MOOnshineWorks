@@ -9,6 +9,7 @@
 #include "Collectible.h"
 #include "Helpers.h"
 #include "Gun.h"
+#include "BaseLevelScriptActor.h"
 #include "Shotgun.h"
 #include "MOOnshineWorksGameMode.h"
 
@@ -156,6 +157,11 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
 
+	if (!Cast<ABaseLevelScriptActor>(GetWorld()->GetLevelScriptActor()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Looks like your loading a level that doesn't support the save system."));
+		return;
+	}
 
 	/* Set base vairables should peferably not need to happen but it seems like we have no other choice with the current code base */
 	CurrentHealth = BaseHealth;
