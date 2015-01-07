@@ -21,7 +21,9 @@ class AMOOnshineWorksGameMode : public AGameMode
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadCheckpoint();
 
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadNextStreamLevel();
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	void AfterFinishingStreamLevels();
 
 	TArray<FName> StreamingLevelsToLoad;

@@ -97,10 +97,10 @@ void AMOOnshineWorksGameMode::LoadNextStreamLevel()
 	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
 	LatentActionInfo.CallbackTarget = this;
 	LatentActionInfo.ExecutionFunction = "LoadNextStreamLevel";
-	LatentActionInfo.UUID = 1;
+	LatentActionInfo.UUID = NextStreamingLevelToLoad+2;
 	LatentActionInfo.Linkage = 0;
 
-	if ( (NextStreamingLevelToLoad+1) <= StreamingLevelsToLoad.Num() )
+	if ( (NextStreamingLevelToLoad+1) < StreamingLevelsToLoad.Num() )
 	{
 		UGameplayStatics::LoadStreamLevel(GetWorld(), StreamingLevelsToLoad[NextStreamingLevelToLoad], true, true, LatentActionInfo);
 		NextStreamingLevelToLoad++;
