@@ -30,21 +30,22 @@ void ABaseLevelScriptActor::ReceiveBeginPlay()
 
 			ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
 
+			APlayerStart* PlayerStart = World->GetAuthGameMode()->PlayerStarts[0];
+
 			SaveManager->GetData()->Checkpoint = {
-				World->GetAuthGameMode()->PlayerStarts[0]->GetTransform().GetLocation(),
-				World->GetAuthGameMode()->PlayerStarts[0]->GetTransform().Rotator(),
+				PlayerStart->GetTransform().GetLocation(),
+				PlayerStart->GetTransform().Rotator(),
 				UHelpers::GetActiveLevelsFrom(GetWorld())
 			};
 
 			TArray<FName> Weapons;
-			Weapons.Add("Crossbow");
 			TArray<int32> AmmoCounters;
 			AmmoCounters.Add(15);
-			AmmoCounters.Add(3);
+			AmmoCounters.Add(10);
 
 			SaveManager->GetData()->Player = {
-				World->GetAuthGameMode()->PlayerStarts[0]->GetTransform().GetLocation(),
-				World->GetAuthGameMode()->PlayerStarts[0]->GetTransform().Rotator(),
+				PlayerStart->GetTransform().GetLocation(),
+				PlayerStart->GetTransform().Rotator(),
 				Weapons,
 				AmmoCounters
 			};
