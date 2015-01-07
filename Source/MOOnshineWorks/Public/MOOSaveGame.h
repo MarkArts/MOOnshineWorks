@@ -43,8 +43,12 @@ public:
 	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	//TArray<AGun*> Weapons;
 
+//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+//	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	TArray<TEnumAsByte<EGunType::Type>> Weapons;
+	TArray<FName> Weapons;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<int32> AmmoCounters;
 };
@@ -57,6 +61,8 @@ public:
 	FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool IsUsed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool StopSpawn;
 };
 
 USTRUCT(BlueprintType)

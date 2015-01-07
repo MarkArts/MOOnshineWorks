@@ -12,22 +12,27 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 {
 	if (GetWorld()){
 
-		DefaultPawnClass = TSubclassOf<APawn>(*(BlueprintLoader::Get().GetBP(FName("MyCharacter"))));
+		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
+		SaveManager->Load();
 
 		//BlueprintLoader::Get().AddBP(FName("AI_PegEnemyDark"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyDark"));
 		//BlueprintLoader::Get().AddBP(FName("BP_Projectile"), ANSI_TO_TCHAR("/Game/Blueprints/BP_Projectile"));
 		//BlueprintLoader::Get().AddBP(FName("AI_BookEnemyLight"), ANSI_TO_TCHAR("/Game/Blueprints/AIBlueprints/BookAILight/AI_BookEnemyLight"));
 		//BlueprintLoader::Get().AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
-		//BlueprintLoader::Get().AddBP(FName("PistolClass"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
-		//BlueprintLoader::Get().AddBP(FName("ShotgunClass"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
+		BlueprintLoader::Get().AddBP(FName("Crossbow"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
+		BlueprintLoader::Get().AddBP(FName("Shotgun"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
+		//BlueprintLoader::Get().AddBP(FName("Font"), ANSI_TO_TCHAR("/Game/Blueprints/HUDBlueprints/NewFont"));
 		//BlueprintLoader::Get().AddBP(FName("ProjectileDeath"), ANSI_TO_TCHAR("/Game/Blueprints/BP_ProjectileDeath"));
 
 		// set default pawn class to our Blueprinted character
 		ConstructorHelpers::FClassFinder<APawn> BP(TEXT("/Game/Blueprints/MyCharacter"));
 		DefaultPawnClass = BP.Class;
-		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
-		SaveManager->Load();
 
+		static ConstructorHelpers::FObjectFinder<UBlueprint> VictoryPCOb(TEXT("Blueprint'/Game/Blueprints/HUDBlueprints/MainHud.MainHud'"));
+		if (VictoryPCOb.Object != NULL)
+		{
+			HUDClass = (UClass*)VictoryPCOb.Object->GeneratedClass;
+		}
 	}
 }
 
@@ -38,12 +43,12 @@ void AMOOnshineWorksGameMode::RestoreCheckpoint()
 	SaveManager->ResetData();
 
 	/* Bad quik and dirty check to see if there was a checkpoint */
-	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
-	{
+//	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
+//	{
 		// Create checkpoint the first time the level is opened TODO: Do this beter
-		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-		return;
-	}
+//		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
+//		return;
+//	}
 
 	/* TODO: If multyiply levels are unloaded the action will fire after the first on is done unloading */
 	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
@@ -79,13 +84,13 @@ void AMOOnshineWorksGameMode::LoadCheckpoint()
 		for (int8 I = 0; I < Levels; I++)
 		{
 			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
+			AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+		//	Player->Reset();
+	//		Player->BeginPlay();
+			Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
 		}
-		/* False squily line */
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(FTransform(CheckPoint.Rotation, CheckPoint.Position));
 	}
 	else{
-		/* No checkpoint */
-		UGameplayStatics::LoadStreamLevel(GetWorld(), FName("Part2"), true, false, FLatentActionInfo());
-		UGameplayStatics::GetPlayerPawn(GetWorld(), 0)->SetActorTransform(PlayerStarts[0]->GetTransform());
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Checkpoint had no streaming levels."));
 	}
 }

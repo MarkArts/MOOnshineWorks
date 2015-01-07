@@ -25,6 +25,9 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool ShouldUseOnce;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool StopSpawnWhenUsed;
+
 	UFUNCTION(BluePrintNativeEvent, Category = MOO)
 	void OnInteract(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category = MOO)

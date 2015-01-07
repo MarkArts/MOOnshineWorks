@@ -10,7 +10,6 @@
 #include "AI_PegEnemyDark.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
-#include "BlueprintLoader.h"
 
 AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -37,7 +36,8 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		LastSeenPosition = BlackboardComp->GetKeyID("LastSeenPosition");
 		ShouldTheAIPatrol = BlackboardComp->GetKeyID("ShouldTheAIPatrol");
 		AIUsedForTrap = BlackboardComp->GetKeyID("AIUsedForTrap");
-		//EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
+		EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
+		ChargePosition = BlackboardComp->GetKeyID("ChargePosition");
 
 		BehaviorComp->StartTree(BaseChar->Behavior);
 	}
@@ -138,7 +138,11 @@ void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviou
 
 	//Pak positie speler en set deze om daar nog heen te lopen!
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	const FVector MyLoc = Player->GetActorLocation();
+	FVector MyLoc = GetControlledPawn()->GetActorLocation();
+	if (Player)
+	{
+		MyLoc = Player->GetActorLocation();
+	}
 
 	BlackboardComp->SetValueAsVector(LastSeenPosition, MyLoc);
 }
@@ -184,6 +188,19 @@ void AAI_BasicController::SetPatrollingAnimation()
 	BasicAnimInstance->AIIdle = false;
 	//BasicAnimInstance->Jumping = false;
 }
+void AAI_BasicController::SetChargeAnimation()
+{
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+	APawn* Inst = Controller->GetPawn();
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
+
+	BasicAnimInstance->AIAttacking = false;
+	BasicAnimInstance->AIPatrolling = false;
+	BasicAnimInstance->AIIdle = false;
+	BasicAnimInstance->AICharging = true;
+}
 
 void AAI_BasicController::SetJumpingAnimation()
 {
@@ -227,11 +244,9 @@ void AAI_BasicController::AISetSearchState()
 	int State = 2;
 	BlackboardComp->SetValueAsInt(StateAI, State);
 }
-
 void AAI_BasicController::ShouldAIPatrol()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	//APawn* MyBot = GetPawn();
 	if (BasicEnemy->AIPatrol == false) //AI moet niet patrollen en State is niet al gezet naar 3
 	{
 		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, false);
@@ -255,71 +270,27 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 {
 	//Zet de EnemyDistance in de behaviour tree!
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-	BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
+	if (BasicEnemy)
+	{
+		AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
+	}
 }
-
-/*
-void AAI_BasicController::GoActive()
+void AAI_BasicController::CalculateChargePosition()
 {
-	UBehaviorTree * BehaviorTree = NULL;
-	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
-	FVector SpawnLocation = AiChar->GetActorLocation();
-	FRotator SpawnRotation = AiChar->GetActorRotation();
-	UWorld* const World = GetWorld();
-	TSubclassOf<AAI_BasicEnemy> EnemyClass;
-	
-	//Check wat voor soort enemy er active moet worden!
-	AAI_BarrelEnemy* AIBarrel = Cast<AAI_BarrelEnemy>(GetPawn());
-	AAI_BookEnemyLight* AIBook = Cast<AAI_BookEnemyLight>(GetPawn());
-	AAI_PegEnemyDark* AIPeg = Cast<AAI_PegEnemyDark>(GetPawn());
-	AAI_PianoEnemy* AIPiano = Cast<AAI_PianoEnemy>(GetPawn());
-	if (AIBarrel != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	} 
-	else if (AIBook != NULL)
-	{
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	else if (AIPeg != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/PegAIDark/Blueprint/AI_PegEnemyDark"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	else if (AIPiano != NULL)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
-		EnemyClass = PlayerPawnBPClass.Class;
-	}
-	APawn* NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, SpawnLocation, SpawnRotation);
+	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
+	AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
+	if (BasicEnemy && playerCharacter)
+	{ 
+		//Snelheid van de AI omhoog tijdens charge!
+		BasicEnemy->CharacterMovement->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
+		//BasicEnemy->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
 
-
-	AiChar->Destroy();
-	if (NewPawn != NULL)
-	{
-		if (NewPawn->Controller == NULL)
-		{
-			NewPawn->SpawnDefaultController();
-		}
-		if (BehaviorTree != NULL)
-		{
-			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-			if (AIController != NULL)
-			{
-				AIController->RunBehaviorTree(BehaviorTree);
-			}
-		}
-	}
-
-	if (World)
-	{
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+		//Bereken charge locatie!
+		FVector CalculateDifferentLocation = BasicEnemy->GetActorLocation()-playerCharacter->GetActorLocation();
+		FVector chargelocation = playerCharacter->GetActorLocation()-CalculateDifferentLocation;
+		BlackboardComp->SetValueAsVector(ChargePosition, chargelocation);
 	}
 }
-*/
-
-
 

@@ -10,6 +10,7 @@ UBasicAnimationInstance::UBasicAnimationInstance(const class FPostConstructIniti
 	AIPatrolling = false;
 	AIAttacking = false;
 	AIDeath = false;
+	AICharging = false;
 }
 
 

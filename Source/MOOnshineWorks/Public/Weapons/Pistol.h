@@ -17,5 +17,5 @@ class MOONSHINEWORKS_API APistol : public APlayerGun
 
 	virtual void Use() override;
 	virtual void Shoot() override;
-	
+	virtual bool CanCharge() override;
 };

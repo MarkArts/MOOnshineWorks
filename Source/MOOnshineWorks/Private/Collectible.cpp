@@ -3,12 +3,11 @@
 #include "MOOnshineWorks.h"
 #include "Collectible.h"
 
-
 ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	ShouldSave = false;
-	UsedText = FString(TEXT(""));
+//	ShouldSave = false;
+//	UsedText = FString(TEXT(""));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -20,7 +19,10 @@ void ACollectible::Collect(AActor* Target)
 {
 	OnCollect(Target);
 
-	// display UsedText
+	if (UsedText != TEXT(""))
+	{
+		UHelpers::DisplayText(GetWorld(), UsedText);
+	}
 
 	if (ShouldSave){
 		UHelpers::GetSaveManager(GetWorld())->AddActorSave(
