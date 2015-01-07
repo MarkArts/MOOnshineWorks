@@ -39,8 +39,9 @@ void ABaseLevelScriptActor::ReceiveBeginPlay()
 			TArray<FName> Weapons;
 			Weapons.Add("Crossbow");
 			TArray<int32> AmmoCounters;
+			AmmoCounters.Add(10);
 			AmmoCounters.Add(15);
-			AmmoCounters.Add(3);
+			AmmoCounters.Add(5);
 
 			SaveManager->GetData()->Player = {
 				World->GetAuthGameMode()->PlayerStarts[0]->GetTransform().GetLocation(),
