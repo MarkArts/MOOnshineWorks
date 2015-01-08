@@ -104,6 +104,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	int32 GetLightCurrentStage();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	float GetLightStagePercentageFrom(int32 Stage);
 
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();

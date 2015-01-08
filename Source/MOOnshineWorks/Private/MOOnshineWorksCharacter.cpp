@@ -562,6 +562,22 @@ int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
 	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
 }
 
+float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
+{
+	if (Stage > LightStages || Stage > GetLightCurrentStage())
+	{
+		return 0.f;
+	}
+	else if (Stage < GetLightCurrentStage())
+	{
+		return 1.f;
+	}
+
+	float PercentagePerStage = 1 / (LightStages - 1);
+	float CurrentStagePercentage = fmod(GetLightPercentage(), PercentagePerStage);
+	return CurrentStagePercentage / PercentagePerStage;
+}
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
