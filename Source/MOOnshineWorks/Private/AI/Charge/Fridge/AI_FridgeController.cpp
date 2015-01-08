@@ -101,8 +101,8 @@ void AAI_FridgeController::GoActive()
 	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
 
 	//De PushPower setten
-	AAI_FridgeEnemy* FridgeEnemy = Cast<AAI_FridgeEnemy>(NewPawn);
-	FridgeEnemy->PianoPushPower = PushPower;
+	AAI_PianoEnemy* PianoEnemy = Cast<AAI_PianoEnemy>(NewPawn);
+	PianoEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
