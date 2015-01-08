@@ -564,7 +564,7 @@ int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
 
 float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
 {
-	if (Stage > LightStages || Stage > GetLightCurrentStage())
+	if (Stage > GetLightCurrentStage())
 	{
 		return 0.f;
 	}
