@@ -111,8 +111,8 @@ void AAI_BarrelController::GoActive()
 	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
 
 	//De PushPower setten
-	AAI_BarrelEnemy* PianoEnemy = Cast<AAI_BarrelEnemy>(NewPawn);
-	PianoEnemy->PianoPushPower = PushPower;
+	AAI_BarrelEnemy* BarrelEnemy = Cast<AAI_BarrelEnemy>(NewPawn);
+	BarrelEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
