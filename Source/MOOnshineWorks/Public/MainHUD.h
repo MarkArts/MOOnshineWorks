@@ -45,4 +45,5 @@ class MOONSHINEWORKS_API AMainHUD : public AHUD
 
 protected:
 	void DrawHUD() override;
+	virtual void Tick(float DeltaSeconds) override;
 };
