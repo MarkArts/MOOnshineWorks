@@ -13,12 +13,9 @@ class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void AttackPlayer();
+	virtual void AttackPlayer() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void Patrol();
+	virtual void Patrol() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void GoActive();
+	virtual void GoActive() override;
 };

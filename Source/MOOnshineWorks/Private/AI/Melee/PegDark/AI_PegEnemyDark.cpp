@@ -9,6 +9,4 @@ AAI_PegEnemyDark::AAI_PegEnemyDark(const class FPostConstructInitializePropertie
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_PegControllerDark::StaticClass();
-
-	//LightType = EnemyLightType::Light;
 }

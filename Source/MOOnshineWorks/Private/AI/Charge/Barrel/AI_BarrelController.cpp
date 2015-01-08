@@ -26,55 +26,42 @@ AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeP
 
 void AAI_BarrelController::AttackPlayer()
 {
-    AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
-    //AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
-    
-    if(AiChar)
-    {
-        for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
-        {
-            AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
-            if (playerCharacter)
-            {
-                playerCharacter->DealDamage(AiChar->Damage);
-            }
-        }
-    }
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Barrel!!"));
+
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
+
+	if (AiChar)
+	{
+		AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
+		AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
+		//AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
+		if (playerCharacter)
+		{
+			FRotator EnemyRotation = AiSpecific->GetActorRotation();
+
+			//Pak de x,y van de speler 
+			FVector PlayerLocation = playerCharacter->GetActorLocation();
+			//Pak de x,y van de Enemy
+			FVector AiSpecificLocation = AiSpecific->GetActorLocation();
+			//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
+			FVector difference = PlayerLocation - AiSpecificLocation;
+
+			if (AiSpecific->PianoPushPower >= 0)
+			{
+				playerCharacter->AddImpulseToCharacter(AiSpecific->PianoPushPower*difference);
+			}
+			else {
+			}
+			//Doe Damage
+			playerCharacter->DealDamage(AiChar->Damage);
+		}
+	}
 }
 
 void AAI_BarrelController::Patrol()
 {
-    APawn* MyBot = GetPawn();
-    if (MyBot == NULL)
-    {
-        return;
-    }
-    
-    AAI_BasicEnemy* BaseEnemy = (AAI_BasicEnemy*)GetPawn();
-    BaseEnemy->StartWalk();
-    
-    FVector MyLoc = MyBot->GetActorLocation();
-    //GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString::FromInt(MyLoc[0]));
-    
-    float random = (float)rand() / (float)RAND_MAX;
-    float randomy = (float)rand() / (float)RAND_MAX;
-    
-    int xValue = 1 + random * ((3) - (1));
-    int yValue = 1 + randomy * ((3) - (1));
-    
-    float x, y;
-    
-    if (xValue == 1)
-        x = ((MyLoc[0]) + 100) + random * (((MyLoc[0]) + 400) - ((MyLoc[0]) + 100));
-    else
-        x = ((MyLoc[0]) - 100) + random * (((MyLoc[0]) - 400) - ((MyLoc[0]) - 100));
-    if (yValue == 1)
-        y = ((MyLoc[1]) + 100) + random * (((MyLoc[1]) + 400) - ((MyLoc[1]) + 100));
-    else
-        y = ((MyLoc[1]) - 100) + random * (((MyLoc[1]) - 400) - ((MyLoc[1]) - 100));
-    
-    MyLoc.Set(x, y, MyLoc[2]);
-    BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+   
 }
 
 void AAI_BarrelController::GoActive()
@@ -86,6 +73,8 @@ void AAI_BarrelController::GoActive()
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
+	float PushPower = AiSpecific->PianoPushPower;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
@@ -118,6 +107,12 @@ void AAI_BarrelController::GoActive()
 	NewPawn->AIPatrol = ShouldAIPatrol;
 	//De EnemyDistanceShouldAttack setten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De ChargeSpeed setten
+	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+
+	//De PushPower setten
+	AAI_BarrelEnemy* PianoEnemy = Cast<AAI_BarrelEnemy>(NewPawn);
+	PianoEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();

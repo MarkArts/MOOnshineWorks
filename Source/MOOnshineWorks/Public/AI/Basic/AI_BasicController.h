@@ -102,4 +102,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void SetEnemyDistanceShouldAttack();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void AttackPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void Patrol();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void GoActive();
 };

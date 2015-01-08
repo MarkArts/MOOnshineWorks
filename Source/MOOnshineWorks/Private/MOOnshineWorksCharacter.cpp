@@ -675,7 +675,28 @@ APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
 }
 
 void AMOOnshineWorksCharacter::AnHero()
-{	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("He was such an hero, to take it all away.We miss him so, That you should know, And we honor him this day.He was an hero, to take that shot, to leave us all behind."));
-	Die();
+{
+	//CharacterMovement->Velocity.Z = 200.0f; //kan niet vanaf de grond...
+	FVector Impulse = FVector(0, 0, 1000);
+
+	CharacterMovement->Velocity = Impulse;
+}
+
+void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
+{
+	//Falling State
+	FVector locatie = GetActorLocation();
+	locatie.Z = 50;
+	SetActorLocation(locatie);
+
+	//physics van CapsuleComponent tijdelijk aanzetten!
+	CapsuleComponent->SetSimulatePhysics(true);
+
+	//Omhoog gooien
+	CharacterMovement->Velocity = Impulse;
+
+	//Geef impulse aan character!
+ 	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
+
+	CapsuleComponent->SetSimulatePhysics(false);
 }

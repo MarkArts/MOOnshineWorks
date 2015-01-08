@@ -293,4 +293,16 @@ void AAI_BasicController::CalculateChargePosition()
 		BlackboardComp->SetValueAsVector(ChargePosition, chargelocation);
 	}
 }
+void AAI_BasicController::AttackPlayer()
+{
+	//override, minder services nodig
+}
+void AAI_BasicController::Patrol()
+{
+	//override, minder services nodig
+}
+void AAI_BasicController::GoActive()
+{
+	//override, minder services nodig
+}
 

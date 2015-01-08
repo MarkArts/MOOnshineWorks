@@ -13,14 +13,12 @@ class MOONSHINEWORKS_API AAI_RangeController : public AAI_BasicController
 {
 	GENERATED_UCLASS_BODY()
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void Patrol();
+	virtual void AttackPlayer() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void AttackPlayer();
+	virtual void Patrol() override;
+
+	virtual void GoActive() override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void GoBackToOriginalPosition();
-
-	virtual void GoActive();
 };

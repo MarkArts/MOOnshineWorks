@@ -23,6 +23,8 @@ AAI_PianoController::AAI_PianoController(const class FPostConstructInitializePro
 }
 void AAI_PianoController::AttackPlayer()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Piano!"));
+
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
@@ -41,14 +43,13 @@ void AAI_PianoController::AttackPlayer()
 			FVector AiSpecificLocation = AiSpecific->GetActorLocation();
 			//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
 			FVector difference = PlayerLocation-AiSpecificLocation;
+			//difference.Z = 0;
+			
 
 			if (AiSpecific->PianoPushPower >= 0)
 			{
-				playerCharacter->CharacterMovement->Velocity += (AiSpecific->PianoPushPower*difference);
-				playerCharacter->CharacterMovement->Velocity.Z = 500;
+				playerCharacter->AddImpulseToCharacter(AiSpecific->PianoPushPower*difference);
 			} else {
-				playerCharacter->CharacterMovement->Velocity += difference;
-				playerCharacter->CharacterMovement->Velocity.Z = 500;
 			}
 			//Doe Damage
 			playerCharacter->DealDamage(AiChar->Damage);
@@ -69,6 +70,7 @@ void AAI_PianoController::GoActive()
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
+	float PushPower = AiSpecific->PianoPushPower;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Nieuwe BlueprintEnemy Spawnen!
@@ -103,6 +105,10 @@ void AAI_PianoController::GoActive()
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 	//De ChargeSpeed setten
 	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+
+	//De PushPower setten
+	AAI_PianoEnemy* PianoEnemy = Cast<AAI_PianoEnemy>(NewPawn);
+	PianoEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();

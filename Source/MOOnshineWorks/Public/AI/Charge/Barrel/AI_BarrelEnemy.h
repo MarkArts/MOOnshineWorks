@@ -13,4 +13,8 @@ UCLASS()
 class MOONSHINEWORKS_API AAI_BarrelEnemy : public AAI_BasicEnemy
 {
 	GENERATED_UCLASS_BODY()
+
+	/** PushBack */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	float PianoPushPower;
 };

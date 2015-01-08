@@ -212,6 +212,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void LoadPlayerSave(FPlayerSave PlayerSave);
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AddImpulseToCharacter(FVector Impulse);
+
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality
@@ -274,6 +277,5 @@ protected:
 	// End of APawn interface
 
 	virtual void ReceiveBeginPlay() override;
-
 };
 
