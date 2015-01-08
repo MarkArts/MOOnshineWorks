@@ -574,7 +574,12 @@ float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
 	}
 
 	float PercentagePerStage = 1 / (LightStages - 1);
-	float CurrentStagePercentage = fmod(GetLightPercentage(), PercentagePerStage);
+	float CurrentStagePercentage = GetLightPercentage();
+    
+    while( CurrentStagePercentage > PercentagePerStage)
+    {
+        CurrentStagePercentage = CurrentStagePercentage - PercentagePerStage;
+    }
 	return CurrentStagePercentage / PercentagePerStage;
 }
 
