@@ -10,6 +10,9 @@
 AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+
+	NextStreamingLevelToLoad = 0;
+
 	if (GetWorld()){
 
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
@@ -77,20 +80,42 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
 	FCheckPointSave CheckPoint = SaveManager->GetData()->Checkpoint;
-	int8 Levels = CheckPoint.StreamingLevels.Num();
 
-	if (Levels > 0)
+	if (CheckPoint.StreamingLevels.Num() > 0)
 	{
-		for (int8 I = 0; I < Levels; I++)
-		{
-			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
-			AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-		//	Player->Reset();
-	//		Player->BeginPlay();
-			Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
-		}
+		StreamingLevelsToLoad = CheckPoint.StreamingLevels;
+		LoadNextStreamLevel();
 	}
 	else{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Checkpoint had no streaming levels."));
 	}
+}
+
+void AMOOnshineWorksGameMode::LoadNextStreamLevel()
+{
+
+	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
+	LatentActionInfo.CallbackTarget = this;
+	LatentActionInfo.ExecutionFunction = "LoadNextStreamLevel";
+	LatentActionInfo.UUID = NextStreamingLevelToLoad+2;
+	LatentActionInfo.Linkage = 0;
+
+	if ( (NextStreamingLevelToLoad+1) < StreamingLevelsToLoad.Num() )
+	{
+		UGameplayStatics::LoadStreamLevel(GetWorld(), StreamingLevelsToLoad[NextStreamingLevelToLoad], true, true, LatentActionInfo);
+		NextStreamingLevelToLoad++;
+	}
+	else{
+		LatentActionInfo.ExecutionFunction = "AfterFinishingStreamLevels";
+		UGameplayStatics::LoadStreamLevel(GetWorld(), StreamingLevelsToLoad[NextStreamingLevelToLoad], true, true, LatentActionInfo);
+	}
+}
+
+void AMOOnshineWorksGameMode::AfterFinishingStreamLevels()
+{
+	StreamingLevelsToLoad.Empty();
+	NextStreamingLevelToLoad = 0;
+
+	AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
 }
