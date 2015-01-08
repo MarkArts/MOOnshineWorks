@@ -299,7 +299,7 @@ void AMOOnshineWorksCharacter::StartUse()
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-	if (WeaponStrap->GetActiveGun()->CanCharge())
+	if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
 	{
 		WeaponStrap->GetActiveGun()->EndCharge();
 	}
@@ -432,7 +432,8 @@ void AMOOnshineWorksCharacter::CheckForInteractables()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable) {
+			if (Interactable) 
+			{
 				Interactable->InRange(this);
 				break;
 			}

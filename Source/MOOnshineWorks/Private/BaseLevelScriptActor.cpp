@@ -40,9 +40,10 @@ void ABaseLevelScriptActor::ReceiveBeginPlay()
 
 			TArray<FName> Weapons;
 			TArray<int32> AmmoCounters;
+			AmmoCounters.Add(10);
 			AmmoCounters.Add(15);
 			AmmoCounters.Add(10);
-
+			AmmoCounters.Add(100);
 			SaveManager->GetData()->Player = {
 				PlayerStart->GetTransform().GetLocation(),
 				PlayerStart->GetTransform().Rotator(),
