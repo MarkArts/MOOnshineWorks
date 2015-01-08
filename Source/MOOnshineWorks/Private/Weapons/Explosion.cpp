@@ -9,21 +9,22 @@
 AExplosion::AExplosion(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	EffectSphere= PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("EffectSphere"));
-	EffectSphere->SetSphereRadius(EffectRadius);
+	EffectSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("EffectSphere"));
+	EffectSphere->SetCollisionProfileName("ExplosionCollisionProfile");
 	RootComponent = EffectSphere;
 }
 
-//void AExplosion::ReceiveBeginPlay()
-//{
-//	Super::ReceiveBeginPlay();
-//	Explode();
-//}
+void AExplosion::ReceiveBeginPlay()
+{
+	EffectSphere->SetSphereRadius(EffectRadius);
+	Super::ReceiveBeginPlay();
+	Explode();
+}
 
 void AExplosion::Explode()
 {
-	//TArray<AActor*> Items;
-	//GetOverlappingActors(Items);
+	TArray<AActor*> Items;
+	EffectSphere->GetOverlappingActors(Items);
 	for (AActor* Item : OverlappingActors)
 	{
 		if (Item->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()) || Item->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))

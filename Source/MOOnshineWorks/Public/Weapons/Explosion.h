@@ -25,12 +25,10 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ExplosionShaker;
 
-	//virtual void ReceiveBeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
-	TArray<AActor*> OverlappingActors;
-
 	UFUNCTION(BlueprintCallable, Category = Explosion)
 	void Explode();
 	void Hit(AActor* Target);
+
+protected:
+	virtual void ReceiveBeginPlay() override;
 };
