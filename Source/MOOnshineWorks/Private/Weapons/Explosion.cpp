@@ -25,7 +25,7 @@ void AExplosion::Explode()
 {
 	TArray<AActor*> Items;
 	EffectSphere->GetOverlappingActors(Items);
-	for (AActor* Item : OverlappingActors)
+	for (AActor* Item : Items)
 	{
 		if (Item->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()) || Item->GetClass()->IsChildOf(AAI_BasicEnemy::StaticClass()))
 		{
