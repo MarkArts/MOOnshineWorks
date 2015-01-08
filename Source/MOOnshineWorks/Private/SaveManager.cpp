@@ -6,7 +6,15 @@
 ASaveManager::ASaveManager(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	SaveSlotName = TEXT("TestSaveSlot");
+	if (GetWorld())
+	{
+		SaveSlotName = GetWorld()->GetMapName();
+	}
+	else
+	{
+		SaveSlotName = TEXT("TestSaveSlot");
+	}
+
 	UserIndex = 0;
 }
 

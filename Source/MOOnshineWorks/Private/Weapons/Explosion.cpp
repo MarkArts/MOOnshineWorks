@@ -9,11 +9,19 @@
 AExplosion::AExplosion(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	EffectSphere= PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("EffectSphere"));
-	EffectSphere->SetSphereRadius(EffectRadius);
+	EffectSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("EffectSphere"));
+	EffectSphere->SetCollisionProfileName("ExplosionCollisionProfile");
+	RootComponent = EffectSphere;
 }
 
 void AExplosion::ReceiveBeginPlay()
+{
+	EffectSphere->SetSphereRadius(EffectRadius);
+	Super::ReceiveBeginPlay();
+	Explode();
+}
+
+void AExplosion::Explode()
 {
 	TArray<AActor*> Items;
 	EffectSphere->GetOverlappingActors(Items);
@@ -24,7 +32,6 @@ void AExplosion::ReceiveBeginPlay()
 			Hit(Item);
 		}
 	}
-	Destroy();
 }
 
 void AExplosion::Hit(AActor* Target)

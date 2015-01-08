@@ -13,19 +13,22 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Explosion)
 	TSubobjectPtr<USphereComponent> EffectSphere;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Radius)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float EffectRadius;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Radius)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float DamageValue;
 
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ExplosionShaker;
 
-	virtual void ReceiveBeginPlay() override;
-
+	UFUNCTION(BlueprintCallable, Category = Explosion)
+	void Explode();
 	void Hit(AActor* Target);
+
+protected:
+	virtual void ReceiveBeginPlay() override;
 };

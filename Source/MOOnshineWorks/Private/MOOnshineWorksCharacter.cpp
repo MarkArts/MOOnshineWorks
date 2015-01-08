@@ -9,6 +9,7 @@
 #include "Collectible.h"
 #include "Helpers.h"
 #include "Gun.h"
+#include "BaseLevelScriptActor.h"
 #include "Shotgun.h"
 #include "MOOnshineWorksGameMode.h"
 
@@ -156,6 +157,11 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
 
+	if (!Cast<ABaseLevelScriptActor>(GetWorld()->GetLevelScriptActor()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Looks like your loading a level that doesn't support the save system."));
+		return;
+	}
 
 	/* Set base vairables should peferably not need to happen but it seems like we have no other choice with the current code base */
 	CurrentHealth = BaseHealth;
@@ -190,7 +196,7 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const World = GetWorld();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -279,14 +285,24 @@ void AMOOnshineWorksCharacter::StartUse()
 	{
 		if (!IsSprinting)
 		{
-			WeaponStrap->GetActiveGun()->Use();
+			if (WeaponStrap->GetActiveGun()->CanCharge())
+			{
+				WeaponStrap->GetActiveGun()->StartCharge();
+			}
+			else
+			{
+				WeaponStrap->GetActiveGun()->Use();
+			}
 		}
 	}
 }
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-
+	if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+	{
+		WeaponStrap->GetActiveGun()->EndCharge();
+	}
 }
 
 void AMOOnshineWorksCharacter::StartAim()
@@ -416,7 +432,8 @@ void AMOOnshineWorksCharacter::CheckForInteractables()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable) {
+			if (Interactable) 
+			{
 				Interactable->InRange(this);
 				break;
 			}
@@ -540,6 +557,11 @@ void AMOOnshineWorksCharacter::SetLightMinRadius(float NewLightMinRadius) { Ligh
 float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
 
 
+int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
+{
+	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
+}
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
@@ -552,7 +574,12 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 
 void AMOOnshineWorksCharacter::SetLightRadius()
 {
-	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius();
+//	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius(); old linear light depletion
+
+	float StagePercentageStep = 1 / (LightStages - 1);
+	int32 ActualRange = GetLightMaxRadius() - GetLightMinRadius();
+	float ATRadius = (ActualRange * StagePercentageStep * GetLightCurrentStage()) + GetLightMinRadius();
+
 	Light->SetAttenuationRadius(ATRadius);
 }
 
@@ -576,8 +603,6 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("IS this even called"));
-
 
 	if (!IsDeath)
 	{

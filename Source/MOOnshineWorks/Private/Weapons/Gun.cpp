@@ -156,3 +156,29 @@ bool AGun::LocationBehindBulletSpawn(FVector Location)
 	}
 	return Result;
 }
+
+bool AGun::CanCharge()
+{
+	return false;
+}
+
+void AGun::StartCharge()
+{
+	IsCharging = true;
+	Charge = 0.f;
+}
+
+void AGun::EndCharge()
+{
+	IsCharging = false;
+	Use();
+	Charge = 0.f;
+}
+
+void AGun::Tick(float DeltaSeconds)
+{
+	if (IsCharging && Charge < 1.f)
+	{
+		Charge = FMath::Min(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
+	}
+}

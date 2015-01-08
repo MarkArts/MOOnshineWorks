@@ -16,6 +16,11 @@ APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
 
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.8f;
+
+	Charge = 0.f;
+	IsCharging = false;
+	ChargeRatePerSecond = 0.5f;
+	ChargeMultiplier = 3.f;
 }
 
 void APistol::Use()
@@ -25,9 +30,7 @@ void APistol::Use()
 		if (CanShoot())
 		{
 			Shoot();
-
 			UseAmmo();
-
 		}
 	}
 }
@@ -36,5 +39,23 @@ void APistol::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
+	if (Projectile && CanCharge())
+	{
+		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
+		if (ChargeEffectMultiplier > 1.f)
+		{
+			Projectile->DamageValue *= ChargeEffectMultiplier;
+			Projectile->ProjectileMovement->Velocity = Projectile->GetVelocity() * ChargeEffectMultiplier;
+		}
+		if (Charge == 1.f)
+		{
+			Projectile->DeathBlueprint = nullptr;
+		}
+	}
 	Super::Shoot();
+}
+
+bool APistol::CanCharge()
+{
+	return true && HasAmmo() && CanShoot();
 }

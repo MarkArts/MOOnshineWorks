@@ -61,6 +61,8 @@ public:
 	FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool IsUsed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool StopSpawn;
 };
 
 USTRUCT(BlueprintType)

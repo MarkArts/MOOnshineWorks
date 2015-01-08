@@ -20,6 +20,14 @@ class AMOOnshineWorksGameMode : public AGameMode
 	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadCheckpoint();
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void LoadNextStreamLevel();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void AfterFinishingStreamLevels();
+
+	TArray<FName> StreamingLevelsToLoad;
+	int32 NextStreamingLevelToLoad;
 };
 
 
