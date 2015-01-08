@@ -15,6 +15,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->bOnlySensePlayers = true;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
 	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
+	Mesh->bGenerateOverlapEvents = true;
 	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
 
 	Health = 0.f;
