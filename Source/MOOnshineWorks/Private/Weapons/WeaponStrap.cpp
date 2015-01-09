@@ -39,7 +39,13 @@ void AWeaponStrap::PreviousGun()
 
 APlayerGun* AWeaponStrap::GetActiveGun()
 {
-	return Guns[ActiveGunIndex];
+	if (Guns.IsValidIndex(ActiveGunIndex))
+	{
+		return Guns[ActiveGunIndex];
+	}
+	else{
+		return nullptr;
+	}
 }
 
 bool AWeaponStrap::ContainsGun(UClass* GunClass)
