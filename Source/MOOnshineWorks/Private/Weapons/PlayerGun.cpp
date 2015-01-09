@@ -8,6 +8,7 @@
 APlayerGun::APlayerGun(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
+	LastChargeShakerScale = 0.f;
 }
 
 
@@ -95,4 +96,45 @@ int32 APlayerGun::GetRemainingShotCount()
 void APlayerGun::SetVisibility_Implementation(bool Visible)
 {
 	//GunMesh->SetVisibility(Visible);
+}
+
+void APlayerGun::StartCharge()
+{
+	Super::StartCharge();
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	Owner->StartShake(ChargeShaker, Charge);
+	LastChargeShakerScale = Charge;
+}
+
+void APlayerGun::EndCharge()
+{
+	Super::EndCharge();
+	LastChargeShakerScale = 0.f;
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	Owner->StopShake(ChargeShaker);
+}
+
+void APlayerGun::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+	if (IsCharging && ChargeShaker)
+	{
+		if (Charge == 1.f && LastChargeShakerScale != Charge)
+		{
+			AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+			Owner->StopShake(ChargeShaker);
+			Owner->StartShake(ChargeShaker, Charge);
+			LastChargeShakerScale = Charge;
+		}
+		else
+		{
+			if (Charge - LastChargeShakerScale > 0.2)
+			{
+				AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+				Owner->StopShake(ChargeShaker);
+				Owner->StartShake(ChargeShaker, Charge);
+				LastChargeShakerScale = Charge;
+			}
+		}
+	}
 }

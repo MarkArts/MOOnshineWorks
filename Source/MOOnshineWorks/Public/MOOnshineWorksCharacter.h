@@ -147,7 +147,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	bool bSprintCameraShake;
 
 	void PerformCameraShake();
-	void StartShake(TSubclassOf<UCameraShake> Shaker);
+	void StartShake(TSubclassOf<UCameraShake> Shaker, float Scale = 1.f);
 	void StopShake(TSubclassOf<UCameraShake> Shaker);
 	APlayerController* GetPlayerController();
 	

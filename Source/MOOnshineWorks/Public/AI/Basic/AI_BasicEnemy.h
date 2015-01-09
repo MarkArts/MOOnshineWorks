@@ -71,6 +71,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
+	
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AddImpulseToEnemy(FVector Impulse);
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void Die();
