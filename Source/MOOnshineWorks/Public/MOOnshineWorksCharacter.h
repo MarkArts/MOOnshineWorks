@@ -104,6 +104,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	int32 GetLightCurrentStage();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	float GetLightStagePercentageFrom(int32 Stage);
 
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();
@@ -145,7 +147,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	bool bSprintCameraShake;
 
 	void PerformCameraShake();
-	void StartShake(TSubclassOf<UCameraShake> Shaker);
+	void StartShake(TSubclassOf<UCameraShake> Shaker, float Scale = 1.f);
 	void StopShake(TSubclassOf<UCameraShake> Shaker);
 	APlayerController* GetPlayerController();
 	
@@ -217,6 +219,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void LoadPlayerSave(FPlayerSave PlayerSave);
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AddImpulseToCharacter(FVector Impulse);
+
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality
@@ -279,6 +284,5 @@ protected:
 	// End of APawn interface
 
 	virtual void ReceiveBeginPlay() override;
-
 };
 

@@ -15,6 +15,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& P
 	PawnSensor->bOnlySensePlayers = true;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
 	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
+	Mesh->bGenerateOverlapEvents = true;
 	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
 
 	Health = 0.f;
@@ -130,4 +131,23 @@ void AAI_BasicEnemy::Die()
 
 FName AAI_BasicEnemy::GetPersistentId(){
 	return PersistentId;
+}
+
+void AAI_BasicEnemy::AddImpulseToEnemy(FVector Impulse)
+{
+	//Falling State
+	FVector Location = GetActorLocation();
+	Location.Z += 10;
+	SetActorLocation(Location);
+
+	//physics van CapsuleComponent tijdelijk aanzetten!
+	CapsuleComponent->SetSimulatePhysics(true);
+
+	//Omhoog gooien
+	CharacterMovement->Velocity = Impulse;
+
+	//Geef impulse aan character!
+	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
+
+	CapsuleComponent->SetSimulatePhysics(false);
 }

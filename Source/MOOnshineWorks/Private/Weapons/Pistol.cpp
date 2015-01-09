@@ -57,5 +57,5 @@ void APistol::Shoot()
 
 bool APistol::CanCharge()
 {
-	return true;
+	return true && HasAmmo() && CanShoot();
 }

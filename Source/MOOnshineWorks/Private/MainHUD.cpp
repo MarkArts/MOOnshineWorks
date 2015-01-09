@@ -17,28 +17,12 @@ void AMainHUD::DrawHUD()
 
 	int DisplayStringsCount = DisplayStrings.Num();
 
-	FDateTime CurrentTime = FDateTime::Now();
-
 	for (int i = DisplayStringsCount - 1; i >= 0; i--)
 	{
 		FDisplayString* DisplayString = &DisplayStrings[i];
 
 		FVector2D Position = FVector2D(DisplayString->Position.X, DisplayString->Position.Y + i * 20);
-
 		DrawText(DisplayString->Text, Position, Font, DisplayString->Scale, DisplayString->Color);
-
-		if (DisplayString->DisplayTime == 0)
-		{
-			DisplayStrings.RemoveAt(i, 1);
-		}
-		else if (DisplayString->StartTime == 0)
-		{
-			DisplayString->StartTime = CurrentTime.ToUnixTimestamp();
-		}
-		else if (DisplayString->DisplayTime <= CurrentTime.ToUnixTimestamp() - DisplayString->StartTime)
-		{
-			DisplayStrings.RemoveAt(i, 1);
-		}
 	}
 }
 
@@ -56,4 +40,32 @@ void AMainHUD::AddDisplayString(FDisplayString DisplayStringToAdd)
 	}
 	
 	DisplayStrings.Add(DisplayStringToAdd);
+}
+
+void AMainHUD::Tick(float DeltaSeconds)
+{
+	Super::Tick(DeltaSeconds);
+
+	int DisplayStringsCount = DisplayStrings.Num();
+	FDateTime CurrentTime = FDateTime::Now();
+
+	for (int i = DisplayStringsCount - 1; i >= 0; i--)
+	{
+		FDisplayString* DisplayString = &DisplayStrings[i];
+
+		FVector2D Position = FVector2D(DisplayString->Position.X, DisplayString->Position.Y + i * 20);
+
+		if (DisplayString->DisplayTime == 0)
+		{
+			DisplayStrings.RemoveAt(i, 1);
+		}
+		else if (DisplayString->StartTime == 0)
+		{
+			DisplayString->StartTime = CurrentTime.ToUnixTimestamp();
+		}
+		else if (DisplayString->DisplayTime <= CurrentTime.ToUnixTimestamp() - DisplayString->StartTime)
+		{
+			DisplayStrings.RemoveAt(i, 1);
+		}
+	}
 }
