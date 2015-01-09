@@ -66,6 +66,11 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void EndCharge();
 	virtual void Tick(float DeltaSeconds) override;
 
+	UFUNCTION(BlueprintNativeEvent, Category = Charge)
+	void OnStartCharge();
+	UFUNCTION(BlueprintNativeEvent, Category = Charge)
+	void OnEndCharge();
+
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Charge)
 	bool IsCharging;
 

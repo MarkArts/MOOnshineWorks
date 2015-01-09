@@ -20,6 +20,9 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	FRotator CharacterEquipRotation;
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ShotFeedBack;
+	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
+	TSubclassOf<UCameraShake> ChargeShaker;
+
 	void GiveShotFeedBack();
 	AAmmoContainer* AmmoContainer;
 
@@ -55,4 +58,8 @@ class MOONSHINEWORKS_API APlayerGun : public AGun
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = HUD)
 	UTexture2D* HUDTexture;
 
+	float LastChargeShakerScale;
+	virtual void StartCharge() override;
+	virtual void EndCharge() override;
+	virtual void Tick(float DeltaSeconds);
 };

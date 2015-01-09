@@ -166,6 +166,7 @@ void AGun::StartCharge()
 {
 	IsCharging = true;
 	Charge = 0.f;
+	OnStartCharge();
 }
 
 void AGun::EndCharge()
@@ -173,6 +174,7 @@ void AGun::EndCharge()
 	IsCharging = false;
 	Use();
 	Charge = 0.f;
+	OnEndCharge();
 }
 
 void AGun::Tick(float DeltaSeconds)
@@ -181,4 +183,14 @@ void AGun::Tick(float DeltaSeconds)
 	{
 		Charge = FMath::Min(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
 	}
+}
+
+void AGun::OnStartCharge_Implementation()
+{
+
+}
+
+void AGun::OnEndCharge_Implementation()
+{
+
 }
