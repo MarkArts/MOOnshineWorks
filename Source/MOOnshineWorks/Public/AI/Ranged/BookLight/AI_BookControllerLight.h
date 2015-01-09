@@ -3,7 +3,6 @@
 #pragma once
 #include "AI_BasicController.h"
 #include "AI_BookEnemyLight.h"
-#include "AI_BasicEnemy.h"
 #include "AI_RangeController.h"
 #include "AI_BookControllerLight.generated.h"
 

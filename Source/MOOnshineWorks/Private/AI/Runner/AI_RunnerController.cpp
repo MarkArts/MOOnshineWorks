@@ -12,11 +12,11 @@ AAI_RunnerController::AAI_RunnerController(const class FPostConstructInitializeP
 }
 void AAI_RunnerController::RunAway()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Runner: Ren Weg!");
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Ren Weg!");
 }
 void AAI_RunnerController::GoActive()
 {
-
+	//override
 }
 
 

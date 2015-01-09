@@ -2,11 +2,11 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
-#include "GameFramework/Character.h"
 #include "AI_BookControllerLight.h"
 #include "AI_BasicController.h"
+#include "AI_BasicEnemy.h"
 #include "AI_BookEnemyLight.h"
-
+#include "BasicAnimationInstance.h"
 
 AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
@@ -50,6 +50,8 @@ void AAI_BookControllerLight::GoActive()
 
 	//Nieuwe BlueprintEnemy Spawnen!
 	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
+
+	//Oude enemy destroyen
 	AiSpecific->Destroy();
 
 	if (NewPawn != NULL)
@@ -67,19 +69,18 @@ void AAI_BookControllerLight::GoActive()
 			}
 		}
 	}
-
 	if (World)
 	{
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 
-	//De EnemyDistanceShouldAttack zetten
-	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
+	//De EnemyDistanceShouldAttack setten
+	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
+	//BasicController->FoundPlayer();
+	//BasicController->AISetAttackState();
 }
