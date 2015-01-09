@@ -16,5 +16,11 @@ class MOONSHINEWORKS_API AAI_RunnerController : public AAI_BasicController
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void RunAway();
 
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void TimeIsUp();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void ReduceTimer();
+
 	virtual void GoActive() override;
 };

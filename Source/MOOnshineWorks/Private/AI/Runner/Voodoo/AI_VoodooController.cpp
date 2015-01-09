@@ -21,9 +21,25 @@ AAI_VoodooController::AAI_VoodooController(const class FPostConstructInitializeP
 		}
 	}
 }
-void AAI_VoodooController::RunAway()
+//void AAI_VoodooController::RunAway()
+//{
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Voodoo: RunAway functie");
+//}
+void AAI_VoodooController::ReduceTimer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Voodoo: RunAway functie");
+	AAI_VoodooEnemy* AiChar = Cast<AAI_VoodooEnemy>(GetPawn());
+	float RemainingTime = AiChar->TimerActive - 1;
+
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Voodoo: ReduceTimer functie aangeroepen");
+
+	if (RemainingTime <= 0)
+	{
+		TimeIsUp();
+	}
+	else
+	{
+		AiChar->TimerActive = RemainingTime;
+	}
 }
 void AAI_VoodooController::GoActive()
 {
@@ -69,6 +85,4 @@ void AAI_VoodooController::GoActive()
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
 }

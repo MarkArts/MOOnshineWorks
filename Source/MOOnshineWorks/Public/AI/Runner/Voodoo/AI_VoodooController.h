@@ -14,7 +14,9 @@ class MOONSHINEWORKS_API AAI_VoodooController : public AAI_RunnerController
 {
 	GENERATED_UCLASS_BODY()
 
-	virtual void RunAway() override;
+	//virtual void RunAway() override;
+
+	virtual void ReduceTimer() override;
 
 	virtual void GoActive() override;
 

@@ -13,6 +13,7 @@ class MOONSHINEWORKS_API AAI_VoodooEnemy : public AAI_BasicEnemy
 {
 	GENERATED_UCLASS_BODY()
 
-	
-	
+	/** TimerActive */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	float TimerActive;
 };
