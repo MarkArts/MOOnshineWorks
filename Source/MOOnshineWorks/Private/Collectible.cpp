@@ -21,7 +21,7 @@ void ACollectible::Collect(AActor* Target)
 
 	if (UsedText != TEXT(""))
 	{
-		UHelpers::DisplayText(GetWorld(), UsedText);
+		UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 	}
 
 	if (ShouldSave){
