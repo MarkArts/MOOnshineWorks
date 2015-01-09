@@ -41,10 +41,24 @@ void AExplosion::Hit(AActor* Target)
 	{
 		CharacterTarget->DealDamage(DamageValue);
 		CharacterTarget->StartShake(ExplosionShaker);
+		if (PushbackSpeed > 0.f)
+		{
+			FVector ExplosionLoc = GetActorLocation();
+			FVector TargetLoc = CharacterTarget->GetActorLocation();
+			FVector Direction = TargetLoc - ExplosionLoc;
+			CharacterTarget->AddImpulseToCharacter(PushbackSpeed * Direction);
+		}
 	}
 	AAI_BasicEnemy* EnemyTarget = Cast<AAI_BasicEnemy>(Target);
 	if (EnemyTarget)
 	{
 		EnemyTarget->DealDamage(DamageValue);
+		if (PushbackSpeed > 0.f)
+		{
+			FVector ExplosionLoc = GetActorLocation();
+			FVector TargetLoc = EnemyTarget->GetActorLocation();
+			FVector Direction = TargetLoc - ExplosionLoc;
+			EnemyTarget->AddImpulseToEnemy(PushbackSpeed * Direction);
+		}
 	}
 }

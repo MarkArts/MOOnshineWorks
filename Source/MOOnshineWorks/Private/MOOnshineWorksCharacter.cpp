@@ -683,9 +683,9 @@ void AMOOnshineWorksCharacter::PerformCameraShake()
 	}
 }
 
-void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker)
+void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker, float Scale)
 {
-	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FirstPersonCameraComponent->GetComponentRotation());
+	GetPlayerController()->ClientPlayCameraShake(Shaker, Scale, ECameraAnimPlaySpace::CameraLocal, FirstPersonCameraComponent->GetComponentRotation());
 }
 
 void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)
@@ -710,9 +710,9 @@ void AMOOnshineWorksCharacter::AnHero()
 void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 {
 	//Falling State
-	FVector locatie = GetActorLocation();
-	locatie.Z = 50;
-	SetActorLocation(locatie);
+	FVector Location = GetActorLocation();
+	Location.Z = 50;
+	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
 	CapsuleComponent->SetSimulatePhysics(true);
