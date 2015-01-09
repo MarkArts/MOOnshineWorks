@@ -300,9 +300,12 @@ void AMOOnshineWorksCharacter::StartUse()
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-	if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+	if (WeaponStrap->GetActiveGun())
 	{
-		WeaponStrap->GetActiveGun()->EndCharge();
+		if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+		{
+			WeaponStrap->GetActiveGun()->EndCharge();
+		}
 	}
 }
 
