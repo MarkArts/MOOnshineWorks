@@ -214,10 +214,11 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
+
+	//	APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
-		EquipGun(Pistol);
+		//EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
 
 		LoadPlayerSave(UHelpers::GetSaveManager(World)->GetData()->Player);
@@ -574,7 +575,14 @@ float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
 	}
 
 	float PercentagePerStage = 1 / (LightStages - 1);
-	float CurrentStagePercentage = fmod(GetLightPercentage(), PercentagePerStage);
+
+	float CurrentStagePercentage = GetLightPercentage();
+
+	while (CurrentStagePercentage > PercentagePerStage)
+	{
+		CurrentStagePercentage = CurrentStagePercentage - PercentagePerStage;
+	}
+
 	return CurrentStagePercentage / PercentagePerStage;
 }
 
