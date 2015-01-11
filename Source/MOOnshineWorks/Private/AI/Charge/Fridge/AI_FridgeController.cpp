@@ -106,8 +106,8 @@ void AAI_FridgeController::GoActive()
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
+	//BasicController->FoundPlayer();
+	//BasicController->AISetAttackState();
 }
 
 
