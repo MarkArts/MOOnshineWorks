@@ -22,6 +22,9 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float DamageValue;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
+	float PushbackSpeed;
+
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ExplosionShaker;
 
