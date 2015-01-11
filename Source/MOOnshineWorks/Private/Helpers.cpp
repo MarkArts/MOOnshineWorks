@@ -14,21 +14,25 @@ UHelpers::UHelpers(const class FPostConstructInitializeProperties& PCIP)
 
 FName UHelpers::GeneratePersistentId(AActor* Actor)
 {
-	UWorld* World = Actor->GetWorld();
-	if (World)
+	if (Actor)
 	{
-		FVector Pos = Actor->GetActorLocation();
-		FString PosString = FString::SanitizeFloat(round(Pos.X)) + FString::SanitizeFloat(round(Pos.Y)) + FString::SanitizeFloat(round(Pos.Z));
+		UWorld* World = Actor->GetWorld();
+		if (World)
+		{
+			FVector Pos = Actor->GetActorLocation();
+			FString PosString = FString::SanitizeFloat(round(Pos.X)) + FString::SanitizeFloat(round(Pos.Y)) + FString::SanitizeFloat(round(Pos.Z));
 
-		FRotator Rot = Actor->GetActorRotation();
-		FString RotString = FString::SanitizeFloat(round(Rot.Yaw)) + FString::SanitizeFloat(round(Rot.Roll)) + FString::SanitizeFloat(round(Rot.Pitch));
+			FRotator Rot = Actor->GetActorRotation();
+			FString RotString = FString::SanitizeFloat(round(Rot.Yaw)) + FString::SanitizeFloat(round(Rot.Roll)) + FString::SanitizeFloat(round(Rot.Pitch));
 
-		FString Name = Actor->GetName();
-		FString LevelName = Actor->GetLevel()->GetName();
+			FString Name = Actor->GetName();
+			FString LevelName = Actor->GetLevel()->GetName();
 
-		FString ID = Name + LevelName + PosString + RotString;
+			FString ID = Name + LevelName + PosString + RotString;
 
-		return FName(*ID);
+			return FName(*ID);
+		}
+
 	}
 
 	return FName();
