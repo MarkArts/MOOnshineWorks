@@ -4,7 +4,7 @@
 #include "MenuPawn.h"
 
 
-AMenuPawn::AMenuPawn(const class FPostConstructInitializeProperties& PCIP)
+AMenuPawn::AMenuPawn(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	// Create a follow camera
@@ -49,9 +49,9 @@ void AMenuPawn::LookUpAtRate(float Rate)
 
 AActor* AMenuPawn::getPointedObject(){
 
-	UCameraComponent* Camera = FollowCamera.Get();
+	//UCameraComponent* Camera = FollowCamera;
 	FMinimalViewInfo ViewInfo = FMinimalViewInfo();
-	Camera->GetCameraView(0.f, ViewInfo);
+	FollowCamera->GetCameraView(0.f, ViewInfo);
 
 	FVector Location = ViewInfo.Location;
 	FVector Rotation = ViewInfo.Rotation.Vector();

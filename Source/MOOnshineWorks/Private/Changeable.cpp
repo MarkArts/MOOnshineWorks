@@ -4,7 +4,7 @@
 #include "Changeable.h"
 
 
-AChangeable::AChangeable(const class FPostConstructInitializeProperties& PCIP)
+AChangeable::AChangeable(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

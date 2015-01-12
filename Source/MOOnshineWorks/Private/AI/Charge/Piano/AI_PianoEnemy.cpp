@@ -4,7 +4,7 @@
 #include "AI_PianoEnemy.h"
 #include "AI_PianoController.h"
 
-AAI_PianoEnemy::AAI_PianoEnemy(const class FPostConstructInitializeProperties& PCIP)
+AAI_PianoEnemy::AAI_PianoEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_PianoController::StaticClass();

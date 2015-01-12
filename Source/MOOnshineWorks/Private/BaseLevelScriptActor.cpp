@@ -4,7 +4,7 @@
 #include "BaseLevelScriptActor.h"
 
 
-ABaseLevelScriptActor::ABaseLevelScriptActor(const class FPostConstructInitializeProperties& PCIP)
+ABaseLevelScriptActor::ABaseLevelScriptActor(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	

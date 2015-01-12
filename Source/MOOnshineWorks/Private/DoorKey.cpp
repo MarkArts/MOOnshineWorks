@@ -5,7 +5,7 @@
 #include "DoorKey.h"
 
 
-ADoorKey::ADoorKey(const class FPostConstructInitializeProperties& PCIP)
+ADoorKey::ADoorKey(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	

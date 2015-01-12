@@ -4,7 +4,7 @@
 #include "Item.h"
 
 
-AItem::AItem(const class FPostConstructInitializeProperties& PCIP)
+AItem::AItem(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

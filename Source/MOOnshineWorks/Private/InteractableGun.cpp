@@ -5,7 +5,7 @@
 #include "InteractableGun.h"
 
 
-AInteractableGun::AInteractableGun(const class FPostConstructInitializeProperties& PCIP)
+AInteractableGun::AInteractableGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	

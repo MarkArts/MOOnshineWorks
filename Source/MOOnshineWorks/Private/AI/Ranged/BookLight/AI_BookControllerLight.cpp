@@ -8,7 +8,7 @@
 #include "AI_BookEnemyLight.h"
 #include "BasicAnimationInstance.h"
 
-AAI_BookControllerLight::AAI_BookControllerLight(const class FPostConstructInitializeProperties& PCIP)
+AAI_BookControllerLight::AAI_BookControllerLight(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

@@ -3,7 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "SaveManager.h"
 
-ASaveManager::ASaveManager(const class FPostConstructInitializeProperties& PCIP)
+ASaveManager::ASaveManager(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (GetWorld())

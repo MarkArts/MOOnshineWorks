@@ -15,7 +15,7 @@ class MOONSHINEWORKS_API AMenuPawn : public APawn
 public:
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
-	TSubobjectPtr<class UCameraComponent> FollowCamera;
+	UCameraComponent* FollowCamera;
 	
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
