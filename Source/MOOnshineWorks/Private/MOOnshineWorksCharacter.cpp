@@ -10,6 +10,8 @@
 #include "Helpers.h"
 #include "Gun.h"
 #include "Shotgun.h"
+#include "DebuffManager.h"
+#include "SlowDownDebuff.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -119,6 +121,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
 
 	kh = new KeyHolder();
+	//debuffManager = new DebuffManager();
+	
 }
 
 void AMOOnshineWorksCharacter::Respawn()
@@ -435,6 +439,15 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
+
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.bNoCollisionFail = true;
+			SpawnParams.Owner = this;
+			slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
+			Debuffs.Add(slowDown);
+
+			Debuffs[0]->SetDebuff(this);
+
 			if (Interactable) 
 			{
 				Interactable->Interact(this);
