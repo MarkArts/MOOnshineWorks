@@ -69,6 +69,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
+    UFUNCTION(BlueprintNativeEvent, Category = AIStats)
+    void OnDealDamage();
+    
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
 	
