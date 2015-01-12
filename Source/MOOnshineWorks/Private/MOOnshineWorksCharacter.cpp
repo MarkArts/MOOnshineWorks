@@ -214,10 +214,11 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
+
+	//	APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
-		EquipGun(Pistol);
+		//EquipGun(Pistol);
         CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
 
 		LoadPlayerSave(UHelpers::GetSaveManager(World)->GetData()->Player);
@@ -299,9 +300,12 @@ void AMOOnshineWorksCharacter::StartUse()
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-	if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+	if (WeaponStrap->GetActiveGun())
 	{
-		WeaponStrap->GetActiveGun()->EndCharge();
+		if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+		{
+			WeaponStrap->GetActiveGun()->EndCharge();
+		}
 	}
 }
 
@@ -560,6 +564,28 @@ float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
 int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
 {
 	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
+}
+
+float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
+{
+	if (Stage > GetLightCurrentStage())
+	{
+		return 0.f;
+	}
+	else if (Stage < GetLightCurrentStage())
+	{
+		return 1.f;
+	}
+
+	float PercentagePerStage = 1 / (LightStages - 1);
+	float CurrentStagePercentage = GetLightPercentage();
+
+	while (CurrentStagePercentage > PercentagePerStage)
+	{
+		CurrentStagePercentage = CurrentStagePercentage - PercentagePerStage;
+	}
+
+	return CurrentStagePercentage / PercentagePerStage;
 }
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
