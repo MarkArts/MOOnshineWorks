@@ -43,7 +43,6 @@ void ABaseLevelScriptActor::ReceiveBeginPlay()
 			AmmoCounters.Add(10);
 			AmmoCounters.Add(15);
 			AmmoCounters.Add(10);
-			AmmoCounters.Add(100);
 			SaveManager->GetData()->Player = {
 				PlayerStart->GetTransform().GetLocation(),
 				PlayerStart->GetTransform().Rotator(),
