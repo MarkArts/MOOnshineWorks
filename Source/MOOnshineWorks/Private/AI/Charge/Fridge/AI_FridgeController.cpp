@@ -105,9 +105,10 @@ void AAI_FridgeController::GoActive()
 	FridgeEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	//BasicController->FoundPlayer();
-	//BasicController->AISetAttackState();
+	//AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+	//Controller->FoundPlayer();
+	//Controller->AISetAttackState();
 }
 
 
