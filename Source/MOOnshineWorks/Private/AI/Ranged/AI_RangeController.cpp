@@ -4,7 +4,7 @@
 #include "AI_RangeController.h"
 
 
-AAI_RangeController::AAI_RangeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

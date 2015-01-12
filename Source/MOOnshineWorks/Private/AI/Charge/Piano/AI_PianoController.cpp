@@ -9,7 +9,7 @@
 #include "AI_PianoEnemy.h"
 
 
-AAI_PianoController::AAI_PianoController(const class FPostConstructInitializeProperties& PCIP)
+AAI_PianoController::AAI_PianoController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

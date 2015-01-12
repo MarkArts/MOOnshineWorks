@@ -5,7 +5,7 @@
 #include "MenuController.h"
 
 
-AMenuController::AMenuController(const class FPostConstructInitializeProperties& PCIP)
+AMenuController::AMenuController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	

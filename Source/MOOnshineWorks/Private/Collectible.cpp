@@ -3,7 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "Collectible.h"
 
-ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
+ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 //	ShouldSave = false;

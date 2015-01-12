@@ -9,7 +9,7 @@
 #include "BasicAnimationInstance.h"
 #include "AI_BasicEnemy.h"
 
-AAI_MeleeController::AAI_MeleeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_MeleeController::AAI_MeleeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 }

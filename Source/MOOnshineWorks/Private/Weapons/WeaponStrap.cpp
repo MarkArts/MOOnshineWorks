@@ -4,7 +4,7 @@
 #include "WeaponStrap.h"
 
 
-AWeaponStrap::AWeaponStrap(const class FPostConstructInitializeProperties& PCIP)
+AWeaponStrap::AWeaponStrap(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

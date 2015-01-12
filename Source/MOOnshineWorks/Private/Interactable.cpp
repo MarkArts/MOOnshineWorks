@@ -4,7 +4,7 @@
 #include "Interactable.h"
 
 
-AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCIP)
+AInteractable::AInteractable(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	IsUsed = false;

@@ -5,7 +5,7 @@
 #include "AIProjectile.h"
 
 
-AAIProjectile::AAIProjectile(const class FPostConstructInitializeProperties& PCIP)
+AAIProjectile::AAIProjectile(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

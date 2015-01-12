@@ -7,7 +7,7 @@
 #include "AI_RunnerController.h"
 
 
-AAI_RunnerController::AAI_RunnerController(const class FPostConstructInitializeProperties& PCIP)
+AAI_RunnerController::AAI_RunnerController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

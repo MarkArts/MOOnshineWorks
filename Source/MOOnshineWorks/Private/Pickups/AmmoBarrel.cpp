@@ -4,7 +4,7 @@
 #include "AmmoBarrel.h"
 
 
-AAmmoBarrel::AAmmoBarrel(const class FPostConstructInitializeProperties& PCIP)
+AAmmoBarrel::AAmmoBarrel(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	//Mesh->SetSimulatePhysics(false);

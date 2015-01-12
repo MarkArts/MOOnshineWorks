@@ -7,7 +7,7 @@
 #include "BaseLevelScriptActor.h"
 #include "MOOnshineWorksCharacter.h"
 
-AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
+AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 
