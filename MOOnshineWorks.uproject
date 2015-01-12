@@ -1,6 +1,6 @@
 {
 	"FileVersion": 3,
-	"EngineAssociation": "4.5",
+	"EngineAssociation": "4.6",
 	"Category": "",
 	"Description": "",
 	"Modules": [
@@ -9,5 +9,10 @@
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
 		}
+	],
+	"TargetPlatforms": [
+		"MacNoEditor",
+		"WindowsNoEditor",
+		"LinuxNoEditor"
 	]
 }
