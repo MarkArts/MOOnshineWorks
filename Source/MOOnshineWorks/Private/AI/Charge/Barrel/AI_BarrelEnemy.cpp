@@ -11,8 +11,6 @@ AAI_BarrelEnemy::AAI_BarrelEnemy(const class FObjectInitializer& PCIP)
     AIControllerClass = AAI_BarrelController::StaticClass();
     
 	PianoPushPower = 0;
-
-	ChargeAudio = PCIP.CreateDefaultSubobject<UAudioComponent>(this, TEXT("In-World Audio Pickup Sound"));
 }
 
 

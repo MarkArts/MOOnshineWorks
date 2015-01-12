@@ -11,8 +11,6 @@ AAI_FridgeEnemy::AAI_FridgeEnemy(const class FObjectInitializer& PCIP)
 	AIControllerClass = AAI_FridgeController::StaticClass();
 
 	PianoPushPower = 0;
-
-	ChargeAudio = PCIP.CreateDefaultSubobject<UAudioComponent>(this, TEXT("In-World Audio Pickup Sound"));
 }
 
 
