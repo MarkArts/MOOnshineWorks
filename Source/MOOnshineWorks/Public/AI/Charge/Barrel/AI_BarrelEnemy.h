@@ -17,4 +17,7 @@ class MOONSHINEWORKS_API AAI_BarrelEnemy : public AAI_BasicEnemy
 	/** PushBack */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float PianoPushPower;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AIStats)
+	TSubobjectPtr<UAudioComponent> ChargeAudio;
 };

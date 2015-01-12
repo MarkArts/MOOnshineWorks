@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "AI/Melee/AI_MeleeController.h"
+#include "AI_MeleeController.h"
+#include "AI_BasicEnemy.h"
 #include "AI_GarbageEnemy.h"
 #include "AI_GarbageController.generated.h"
 

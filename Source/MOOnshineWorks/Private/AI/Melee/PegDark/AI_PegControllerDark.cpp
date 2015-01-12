@@ -75,5 +75,5 @@ void AAI_PegControllerDark::GoActive()
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
 	Controller->FoundPlayer();
-	//Controller->AISetAttackState();
+	Controller->AISetAttackState();
 }

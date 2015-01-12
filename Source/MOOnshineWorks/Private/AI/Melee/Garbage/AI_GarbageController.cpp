@@ -73,9 +73,9 @@ void AAI_GarbageController::GoActive()
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	//BasicController->FoundPlayer();
-	//BasicController->AISetAttackState();
+	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+	Controller->FoundPlayer();
+	Controller->AISetAttackState();
 }
 
 
