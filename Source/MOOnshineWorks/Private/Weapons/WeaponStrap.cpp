@@ -25,16 +25,22 @@ void AWeaponStrap::AddGun(APlayerGun* NewGun)
 
 void AWeaponStrap::NextGun()
 {
-	Guns[ActiveGunIndex]->SetVisibility(false);
-	ActiveGunIndex = (ActiveGunIndex + 1) % Guns.Num();
-	Guns[ActiveGunIndex]->SetVisibility(true);
+	if (Guns.IsValidIndex(ActiveGunIndex))
+	{
+		Guns[ActiveGunIndex]->SetVisibility(false);
+		ActiveGunIndex = (ActiveGunIndex + 1) % Guns.Num();
+		Guns[ActiveGunIndex]->SetVisibility(true);
+	}
 }
 
 void AWeaponStrap::PreviousGun()
 {
-	Guns[ActiveGunIndex]->SetVisibility(false);
-	ActiveGunIndex = ((ActiveGunIndex - 1) + Guns.Num()) % Guns.Num();
-	Guns[ActiveGunIndex]->SetVisibility(true);
+	if (Guns.IsValidIndex(ActiveGunIndex))
+	{
+		Guns[ActiveGunIndex]->SetVisibility(false);
+		ActiveGunIndex = ((ActiveGunIndex - 1) + Guns.Num()) % Guns.Num();
+		Guns[ActiveGunIndex]->SetVisibility(true);
+	}
 }
 
 APlayerGun* AWeaponStrap::GetActiveGun()
