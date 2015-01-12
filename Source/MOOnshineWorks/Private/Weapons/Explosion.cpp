@@ -6,7 +6,7 @@
 #include "Explosion.h"
 
 
-AExplosion::AExplosion(const class FPostConstructInitializeProperties& PCIP)
+AExplosion::AExplosion(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	EffectSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("EffectSphere"));

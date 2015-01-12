@@ -10,7 +10,7 @@
 #include "AI_BasicEnemy.h"
 
 
-AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeProperties& PCIP)
+AAI_BarrelController::AAI_BarrelController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

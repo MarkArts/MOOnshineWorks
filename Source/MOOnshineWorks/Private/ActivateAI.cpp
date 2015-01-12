@@ -4,7 +4,7 @@
 #include "ActivateAI.h"
 
 
-AActivateAI::AActivateAI(const class FPostConstructInitializeProperties& PCIP)
+AActivateAI::AActivateAI(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

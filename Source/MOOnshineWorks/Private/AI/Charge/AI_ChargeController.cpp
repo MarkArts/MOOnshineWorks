@@ -4,7 +4,7 @@
 #include "AI_ChargeController.h"
 
 
-AAI_ChargeController::AAI_ChargeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_ChargeController::AAI_ChargeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 }

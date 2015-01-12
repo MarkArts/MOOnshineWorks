@@ -5,7 +5,7 @@
 #include "AI_BookControllerLight.h"
 
 
-AAI_BookEnemyLight::AAI_BookEnemyLight(const class FPostConstructInitializeProperties& PCIP)
+AAI_BookEnemyLight::AAI_BookEnemyLight(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_BookControllerLight::StaticClass();
@@ -23,8 +23,8 @@ void AAI_BookEnemyLight::ReceiveBeginPlay()
 	if (GunClass)
 	{ 
 		Gun = GetWorld()->SpawnActor<AAIBookGun>(GunClass, SpawnParams);
-		Gun->SetActorLocation(Mesh->GetComponentLocation());
-		Gun->AttachRootComponentTo(Mesh);
+		Gun->SetActorLocation(GetMesh()->GetComponentLocation());
+		Gun->AttachRootComponentTo(GetMesh());
 	}
 	Super::ReceiveBeginPlay();
 }

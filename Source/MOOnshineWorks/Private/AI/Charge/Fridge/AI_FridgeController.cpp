@@ -5,7 +5,7 @@
 #include "AI_FridgeEnemy.h"
 
 
-AAI_FridgeController::AAI_FridgeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_FridgeController::AAI_FridgeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

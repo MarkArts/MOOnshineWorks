@@ -10,7 +10,7 @@
 #include "AI_BasicEnemy.h"
 
 
-AAI_BookController::AAI_BookController(const class FPostConstructInitializeProperties& PCIP)
+AAI_BookController::AAI_BookController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

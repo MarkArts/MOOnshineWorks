@@ -5,7 +5,7 @@
 #include "AI_BarrelController.h"
 
 
-AAI_BarrelEnemy::AAI_BarrelEnemy(const class FPostConstructInitializeProperties& PCIP)
+AAI_BarrelEnemy::AAI_BarrelEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
     AIControllerClass = AAI_BarrelController::StaticClass();

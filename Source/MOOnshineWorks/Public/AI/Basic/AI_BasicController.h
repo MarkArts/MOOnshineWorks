@@ -19,10 +19,10 @@ class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 
 public:
 	UPROPERTY(transient)
-	TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
+	UBlackboardComponent* BlackboardComp;
 
 	UPROPERTY(transient)
-	TSubobjectPtr<class UBehaviorTreeComponent> BehaviorComp;
+	UBehaviorTreeComponent* BehaviorComp;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SearchForEnemy();

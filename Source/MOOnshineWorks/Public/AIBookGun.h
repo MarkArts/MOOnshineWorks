@@ -14,7 +14,7 @@ class MOONSHINEWORKS_API AAIBookGun : public AGun
 	GENERATED_UCLASS_BODY()
 		
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = AIGun)
-	TSubobjectPtr<USphereComponent> GunSphere;
+	USphereComponent* GunSphere;
 
 	virtual void Use() override;
 	virtual void Shoot() override;

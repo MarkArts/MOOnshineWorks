@@ -5,7 +5,7 @@
 #include "AI_PegControllerDark.h"
 
 
-AAI_PegEnemyDark::AAI_PegEnemyDark(const class FPostConstructInitializeProperties& PCIP)
+AAI_PegEnemyDark::AAI_PegEnemyDark(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_PegControllerDark::StaticClass();

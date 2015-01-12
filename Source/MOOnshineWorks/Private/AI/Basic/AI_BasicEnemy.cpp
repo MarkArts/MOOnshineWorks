@@ -7,16 +7,16 @@
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
 
-AAI_BasicEnemy::AAI_BasicEnemy(const class FPostConstructInitializeProperties& PCIP)
+AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	PawnSensor = PCIP.CreateDefaultSubobject<UPawnSensingComponent>(this, TEXT("Pawn Sensor"));
 	PawnSensor->SensingInterval = .25f; // 4 times per second
 	PawnSensor->bOnlySensePlayers = true;
 	PawnSensor->SetPeripheralVisionAngle(85.f);
-	Mesh->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
-	Mesh->bGenerateOverlapEvents = true;
-	CapsuleComponent->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
+	GetMesh()->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
+	GetMesh()->bGenerateOverlapEvents = true;
+	GetCapsuleComponent()->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
 
 	Health = 0.f;
 	Defense = 0.f;
@@ -68,11 +68,11 @@ void AAI_BasicEnemy::OnSeePawn(APawn *OtherPawn)
 
 void AAI_BasicEnemy::StartSprint()
 {
-	CharacterMovement->MaxWalkSpeed = 500;
+	GetCharacterMovement()->MaxWalkSpeed = 500;
 }
 void AAI_BasicEnemy::StartWalk()
 {
-	CharacterMovement->MaxWalkSpeed = 100;
+	GetCharacterMovement()->MaxWalkSpeed = 100;
 }
 
 void AAI_BasicEnemy::ChangeLightDark(bool CurrentDarkLight)
@@ -141,13 +141,13 @@ void AAI_BasicEnemy::AddImpulseToEnemy(FVector Impulse)
 	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
-	CapsuleComponent->SetSimulatePhysics(true);
+	GetCapsuleComponent()->SetSimulatePhysics(true);
 
 	//Omhoog gooien
-	CharacterMovement->Velocity = Impulse;
+	GetCharacterMovement()->Velocity = Impulse;
 
 	//Geef impulse aan character!
 	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
 
-	CapsuleComponent->SetSimulatePhysics(false);
+	GetCapsuleComponent()->SetSimulatePhysics(false);
 }

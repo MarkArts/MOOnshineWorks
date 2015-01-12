@@ -5,7 +5,7 @@
 #include "Interactable.h"
 #include "Door.h"
 
-ADoor::ADoor(const class FPostConstructInitializeProperties& PCIP)
+ADoor::ADoor(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	DoorClosed = false;

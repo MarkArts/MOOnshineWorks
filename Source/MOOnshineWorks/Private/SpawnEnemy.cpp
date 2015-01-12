@@ -9,7 +9,7 @@
 #include "AI_BookControllerLight.h"
 #include "SpawnEnemy.h"
 
-ASpawnEnemy::ASpawnEnemy(const class FPostConstructInitializeProperties& PCIP)
+ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Time = 4.f;

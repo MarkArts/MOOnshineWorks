@@ -11,7 +11,7 @@
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
 
-AAI_BasicController::AAI_BasicController(const class FPostConstructInitializeProperties& PCIP)
+AAI_BasicController::AAI_BasicController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	BlackboardComp = PCIP.CreateDefaultSubobject<UBlackboardComponent>(this, TEXT("BlackBoardComp"));
@@ -138,7 +138,7 @@ void AAI_BasicController::LostPlayer() //Bool in blackboard setten voor behaviou
 
 	//Pak positie speler en set deze om daar nog heen te lopen!
 	ACharacter* Player = UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
-	FVector MyLoc = GetControlledPawn()->GetActorLocation();
+	FVector MyLoc = GetPawn()->GetActorLocation();
 	if (Player)
 	{
 		MyLoc = Player->GetActorLocation();
@@ -152,7 +152,7 @@ void AAI_BasicController::SetAttackAnimation()
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIAttacking = true;
@@ -166,7 +166,7 @@ void AAI_BasicController::SetIdleAnimation()
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIAttacking = false;
@@ -180,7 +180,7 @@ void AAI_BasicController::SetPatrollingAnimation()
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIAttacking = false;
@@ -193,7 +193,7 @@ void AAI_BasicController::SetChargeAnimation()
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIAttacking = false;
@@ -207,7 +207,7 @@ void AAI_BasicController::SetJumpingAnimation()
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	BasicAnimInstance->AIAttacking = false;
@@ -221,7 +221,7 @@ void AAI_BasicController::SetSpeedAnimation(float speed)
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
 	AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
 	APawn* Inst = Controller->GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 	UBasicAnimationInstance* BasicAnimInstance = (UBasicAnimationInstance*)MeshComponent->GetAnimInstance();
 
 	//BasicAnimInstance->Speed = speed;
@@ -261,7 +261,7 @@ void AAI_BasicController::ActivateEnemy()
 {
 	//Make eyes of the new enemy go red!
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->Mesh;
+	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 
 	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
 }
@@ -284,7 +284,7 @@ void AAI_BasicController::CalculateChargePosition()
 	if (BasicEnemy && playerCharacter)
 	{ 
 		//Snelheid van de AI omhoog tijdens charge!
-		BasicEnemy->CharacterMovement->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
+		BasicEnemy->GetCharacterMovement()->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
 		//BasicEnemy->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
 
 		//Bereken charge locatie!
