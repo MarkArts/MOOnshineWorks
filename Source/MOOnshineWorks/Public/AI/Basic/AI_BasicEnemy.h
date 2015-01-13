@@ -56,9 +56,6 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	bool AIPatrol;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AIStats)
-	int32 LightType;
-
 	UPROPERTY(EditAnywhere, Category = Behavior)
 	class UBehaviorTree* Behavior;
 
@@ -99,9 +96,4 @@ private:
 
 protected:
 	virtual void ReceiveBeginPlay() override;
-};
-
-enum EnemyLightType {
-	Dark,
-	Light
 };

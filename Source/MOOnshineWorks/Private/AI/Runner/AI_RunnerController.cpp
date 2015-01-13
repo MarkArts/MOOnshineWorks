@@ -14,6 +14,8 @@ AAI_RunnerController::AAI_RunnerController(const class FObjectInitializer& PCIP)
 }
 void AAI_RunnerController::RunAway()
 {
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunAway functie aangeroepen!!!");
+
 	AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	AAI_BasicController* AIController = Cast<AAI_BasicController>(GetPawn()->Controller);

@@ -95,32 +95,6 @@ void AAI_BasicController::SetEnemy(class APawn *InPawn)
 	BlackboardComp->SetValueAsVector(EnemyLocationID, InPawn->GetActorLocation());
 }
 
-void AAI_BasicController::ChangeAIDarkLight(bool DarkLight) //Deze functie verwijderd alle AI's van Dark naar Light of andersom
-{
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Stamina is " + DarkLight));
-
-	if (DarkLight == false) //als die false is dan moeten ze naar Light versie
-	{
-		//Alle Dark enemies ophalen en destroyen
-
-		for (TActorIterator<AActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
-		{
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetName()));
-			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("yolo" + ActorItr->GetActorLocation().ToString()));
-		}
-
-	}
-	if (DarkLight == true) //als die true is dan moeten ze naar Dark versie
-	{
-
-	}
-}
-
-void AAI_BasicController::Tick(float DeltaSeconds)
-{
-	
-}
-
 void AAI_BasicController::FoundPlayer() //Bool in blackboard setten voor behaviour tree
 {
 	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, true);

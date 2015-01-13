@@ -6,6 +6,7 @@
 #include "Helpers.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
+#include "AI_RunnerEnemy.h"
 
 AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
@@ -125,6 +126,13 @@ void AAI_BasicEnemy::Die()
 	);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Added Enemy to death enemies");
+
+	//Indien de AI naar een AI_RunnerEnemy gecast kan worden dan items droppen!
+	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(this);
+	if (AiChar != NULL) //Het is een AI_RunnerEnemy
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunnerEnemy gedood nu items droppen!!");
+	}
 
 	Destroy();
 }
