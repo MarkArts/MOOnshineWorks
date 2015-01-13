@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_ChargeController(const class FObjectInitializer& PCIP);
 
 	virtual void AttackPlayer() override;
 

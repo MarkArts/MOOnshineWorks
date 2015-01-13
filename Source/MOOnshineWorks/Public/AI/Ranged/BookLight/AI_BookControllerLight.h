@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BookControllerLight : public AAI_RangeController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_BookControllerLight(const class FObjectInitializer& PCIP);
 
 	virtual void Patrol() override;
 

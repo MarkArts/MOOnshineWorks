@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AProjectile : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AProjectile(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile)
 	UStaticMeshComponent* ProjectileMesh;

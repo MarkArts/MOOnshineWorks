@@ -32,7 +32,9 @@ struct FDisplayString
 UCLASS()
 class MOONSHINEWORKS_API AMainHUD : public AHUD
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AMainHUD(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	UFont* Font;

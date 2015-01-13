@@ -11,8 +11,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAIBookGun : public AGun
 {
-	GENERATED_UCLASS_BODY()
-		
+	GENERATED_BODY()
+public:
+	AAIBookGun(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = AIGun)
 	USphereComponent* GunSphere;
 

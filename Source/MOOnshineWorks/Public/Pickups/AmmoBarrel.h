@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAmmoBarrel : public AAmmoPickup
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAmmoBarrel(const class FObjectInitializer& PCIP);
 
 	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Pickup)
 	//TSubobjectPtr<UStaticMeshComponent> Mesh;

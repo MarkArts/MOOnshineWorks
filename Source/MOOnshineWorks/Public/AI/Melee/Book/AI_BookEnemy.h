@@ -13,5 +13,8 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BookEnemy : public AAI_BasicEnemy
 {
-	GENERATED_UCLASS_BODY()	
+	GENERATED_BODY()	
+public:
+	AAI_BookEnemy(const class FObjectInitializer& PCIP);
+
 };

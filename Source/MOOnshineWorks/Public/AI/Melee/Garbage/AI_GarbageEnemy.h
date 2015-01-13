@@ -11,5 +11,8 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_GarbageEnemy : public AAI_BasicEnemy
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_GarbageEnemy(const class FObjectInitializer& PCIP);
+
 };

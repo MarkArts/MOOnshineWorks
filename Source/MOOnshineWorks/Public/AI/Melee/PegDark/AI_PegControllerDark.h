@@ -13,7 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PegControllerDark : public AAI_MeleeController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_PegControllerDark(const class FObjectInitializer& PCIP);
 
 	virtual void AttackPlayer() override;
 

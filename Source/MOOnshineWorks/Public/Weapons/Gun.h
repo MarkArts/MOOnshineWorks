@@ -23,8 +23,10 @@ namespace EGunType
 UCLASS()
 class MOONSHINEWORKS_API AGun : public AItem
 {
-	GENERATED_UCLASS_BODY()
-	
+	GENERATED_BODY()
+public:
+	AGun(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
 	FDateTime LastShot;

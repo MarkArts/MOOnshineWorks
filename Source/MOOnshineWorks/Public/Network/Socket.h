@@ -13,9 +13,10 @@
 UCLASS()
 class MOONSHINEWORKS_API ASocket : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
+	ASocket(const class FObjectInitializer& PCIP);
 
 	FSocket* ListenerSocket;
 	FSocket* ConnectionSocket;

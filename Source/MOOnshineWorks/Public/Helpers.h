@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API UHelpers : public UBlueprintFunctionLibrary
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	UHelpers(const class FObjectInitializer& PCIP);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure, Category=Helpers)
 	static FName GeneratePersistentId(AActor* Actor);

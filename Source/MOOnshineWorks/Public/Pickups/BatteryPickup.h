@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API ABatteryPickup : public ACollectible
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	ABatteryPickup(const class FObjectInitializer& PCIP);
 
 	//The mana this chest contains
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Items)

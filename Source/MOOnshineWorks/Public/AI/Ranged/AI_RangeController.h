@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_RangeController : public AAI_BasicController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_RangeController(const class FObjectInitializer& PCIP);
 
 	virtual void AttackPlayer() override;
 

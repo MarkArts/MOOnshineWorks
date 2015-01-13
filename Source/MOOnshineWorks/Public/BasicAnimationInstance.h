@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API UBasicAnimationInstance : public UAnimInstance
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	UBasicAnimationInstance(const class FObjectInitializer& PCIP);
 
 	/** Check if Patrolling animation has to be used */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIAnimation)
