@@ -4,7 +4,7 @@
 #include "AmmoContainer.h"
 
 
-AAmmoContainer::AAmmoContainer(const class FPostConstructInitializeProperties& PCIP)
+AAmmoContainer::AAmmoContainer(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AmmoCounters.Add(10);

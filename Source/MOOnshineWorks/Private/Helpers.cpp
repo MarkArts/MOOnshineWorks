@@ -5,7 +5,7 @@
 #include "Helpers.h"
 
 
-UHelpers::UHelpers(const class FPostConstructInitializeProperties& PCIP)
+UHelpers::UHelpers(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

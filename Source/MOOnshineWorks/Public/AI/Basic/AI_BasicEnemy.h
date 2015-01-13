@@ -17,7 +17,7 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 
 	/** Pawn sensing Component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Awareness)
-	TSubobjectPtr<class UPawnSensingComponent> PawnSensor;
+	UPawnSensingComponent* PawnSensor;
 
 	UFUNCTION()
 	void PostInitializeComponents();
@@ -69,6 +69,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
+    UFUNCTION(BlueprintNativeEvent, Category = AIStats)
+    void OnDealDamage();
+    
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
 	

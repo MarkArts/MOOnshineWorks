@@ -4,7 +4,7 @@
 #include "MOOSaveGame.h"
 
 
-UMOOSaveGame::UMOOSaveGame(const class FPostConstructInitializeProperties& PCIP)
+UMOOSaveGame::UMOOSaveGame(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

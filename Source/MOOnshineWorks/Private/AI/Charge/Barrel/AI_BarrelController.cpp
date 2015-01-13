@@ -10,7 +10,7 @@
 #include "AI_BasicEnemy.h"
 
 
-AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeProperties& PCIP)
+AAI_BarrelController::AAI_BarrelController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
@@ -26,8 +26,6 @@ AAI_BarrelController::AAI_BarrelController(const class FPostConstructInitializeP
 
 void AAI_BarrelController::AttackPlayer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Barrel!!"));
-
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
@@ -63,7 +61,6 @@ void AAI_BarrelController::Patrol()
 {
    
 }
-
 void AAI_BarrelController::GoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;

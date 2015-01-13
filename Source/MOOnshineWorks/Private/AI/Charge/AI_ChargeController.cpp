@@ -4,7 +4,7 @@
 #include "AI_ChargeController.h"
 
 
-AAI_ChargeController::AAI_ChargeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_ChargeController::AAI_ChargeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 }
@@ -17,6 +17,10 @@ void AAI_ChargeController::Patrol()
 	//hoeft niet?
 }
 void AAI_ChargeController::GoActive()
+{
+	//override
+}
+void AAI_ChargeController::PlayChargeSound()
 {
 	//override
 }

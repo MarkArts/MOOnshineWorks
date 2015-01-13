@@ -4,7 +4,7 @@
 #include "Shotgun.h"
 
 
-AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
+AShotgun::AShotgun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Shotgun";
@@ -76,7 +76,7 @@ void AShotgun::StartCharge()
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	if (Owner)
 	{
-		Owner->CharacterMovement->MaxWalkSpeed *= ChargeMovementMultiplier;
+		Owner->GetCharacterMovement()->MaxWalkSpeed *= ChargeMovementMultiplier;
 	}
 }
 
@@ -86,6 +86,6 @@ void AShotgun::EndCharge()
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	if (Owner)
 	{
-		Owner->CharacterMovement->MaxWalkSpeed /= ChargeMovementMultiplier;
+		Owner->GetCharacterMovement()->MaxWalkSpeed /= ChargeMovementMultiplier;
 	}
 }

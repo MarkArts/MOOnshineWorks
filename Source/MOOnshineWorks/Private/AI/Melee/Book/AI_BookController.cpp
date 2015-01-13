@@ -10,7 +10,7 @@
 #include "AI_BasicEnemy.h"
 
 
-AAI_BookController::AAI_BookController(const class FPostConstructInitializeProperties& PCIP)
+AAI_BookController::AAI_BookController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
@@ -74,9 +74,9 @@ void AAI_BookController::GoActive()
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 
 	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	//BasicController->FoundPlayer();
-	//BasicController->AISetAttackState();
+	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+	Controller->FoundPlayer();
+	Controller->AISetAttackState();
 }
 
 

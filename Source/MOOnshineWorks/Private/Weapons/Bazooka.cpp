@@ -5,7 +5,7 @@
 #include "Bazooka.h"
 
 
-ABazooka::ABazooka(const class FPostConstructInitializeProperties& PCIP)
+ABazooka::ABazooka(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Bazooka";
@@ -69,7 +69,7 @@ void ABazooka::StartCharge()
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	if (Owner)
 	{
-		Owner->CharacterMovement->MaxWalkSpeed *= ChargeMovementMultiplier;
+		Owner->GetCharacterMovement()->MaxWalkSpeed *= ChargeMovementMultiplier;
 	}
 }
 
@@ -79,6 +79,6 @@ void ABazooka::EndCharge()
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
 	if (Owner)
 	{
-		Owner->CharacterMovement->MaxWalkSpeed /= ChargeMovementMultiplier;
+		Owner->GetCharacterMovement()->MaxWalkSpeed /= ChargeMovementMultiplier;
 	}
 }

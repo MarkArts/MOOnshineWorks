@@ -7,7 +7,7 @@
 #include "Socket.h"
 
 
-ASocket::ASocket(const class FPostConstructInitializeProperties& PCIP)
+ASocket::ASocket(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

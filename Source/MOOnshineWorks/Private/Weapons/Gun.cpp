@@ -5,7 +5,7 @@
 #include "Gun.h"
 
 
-AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
+AGun::AGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 

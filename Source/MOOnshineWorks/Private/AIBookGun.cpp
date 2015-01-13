@@ -4,7 +4,7 @@
 #include "AIBookGun.h"
 
 
-AAIBookGun::AAIBookGun(const class FPostConstructInitializeProperties& PCIP)
+AAIBookGun::AAIBookGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "AIBookGun";

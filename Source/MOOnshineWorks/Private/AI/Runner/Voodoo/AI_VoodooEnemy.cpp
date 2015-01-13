@@ -5,7 +5,7 @@
 #include "AI_VoodooController.h"
 
 
-AAI_VoodooEnemy::AAI_VoodooEnemy(const class FPostConstructInitializeProperties& PCIP)
+AAI_VoodooEnemy::AAI_VoodooEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_VoodooController::StaticClass();

@@ -5,7 +5,7 @@
 #include "PlayerGun.h"
 
 
-APlayerGun::APlayerGun(const class FPostConstructInitializeProperties& PCIP)
+APlayerGun::APlayerGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	LastChargeShakerScale = 0.f;

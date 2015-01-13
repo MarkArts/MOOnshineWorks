@@ -4,7 +4,7 @@
 #include "Pistol.h"
 
 
-APistol::APistol(const class FPostConstructInitializeProperties& PCIP)
+APistol::APistol(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Crossbow";

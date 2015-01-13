@@ -5,7 +5,7 @@
 #include "AI_FridgeEnemy.h"
 
 
-AAI_FridgeController::AAI_FridgeController(const class FPostConstructInitializeProperties& PCIP)
+AAI_FridgeController::AAI_FridgeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
@@ -19,7 +19,6 @@ AAI_FridgeController::AAI_FridgeController(const class FPostConstructInitializeP
 }
 void AAI_FridgeController::AttackPlayer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Fridge!"));
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
@@ -52,7 +51,7 @@ void AAI_FridgeController::AttackPlayer()
 }
 void AAI_FridgeController::Patrol()
 {
-
+	
 }
 void AAI_FridgeController::GoActive()
 {
@@ -105,9 +104,9 @@ void AAI_FridgeController::GoActive()
 	FridgeEnemy->PianoPushPower = PushPower;
 
 	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	//BasicController->FoundPlayer();
-	//BasicController->AISetAttackState();
+	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+	Controller->FoundPlayer();
+	Controller->AISetAttackState();
 }
 
 

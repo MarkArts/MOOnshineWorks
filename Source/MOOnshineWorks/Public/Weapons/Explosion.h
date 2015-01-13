@@ -14,7 +14,7 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Explosion)
-	TSubobjectPtr<USphereComponent> EffectSphere;
+	USphereComponent* EffectSphere;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float EffectRadius;

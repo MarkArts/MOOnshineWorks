@@ -22,7 +22,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
+	UPawnNoiseEmitterComponent* NoiseEmitter;
 	
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
@@ -30,7 +30,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
+	UCameraComponent* FirstPersonCameraComponent;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
@@ -153,13 +153,13 @@ class AMOOnshineWorksCharacter : public ACharacter
 	
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<USphereComponent> CollectionSphere;
+	USphereComponent* CollectionSphere;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<USphereComponent> InteractionSphere;
+	USphereComponent* InteractionSphere;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<UPointLightComponent> Light;
+	UPointLightComponent* Light;
 
     // Sprint logic
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)

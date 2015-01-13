@@ -9,7 +9,7 @@
 #include "BasicAnimationInstance.h"
 #include "AI_BasicEnemy.h"
 
-AAI_VoodooController::AAI_VoodooController(const class FPostConstructInitializeProperties& PCIP)
+AAI_VoodooController::AAI_VoodooController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)

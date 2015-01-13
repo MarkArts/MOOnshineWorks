@@ -9,7 +9,7 @@
 #include "AI_PianoEnemy.h"
 
 
-AAI_PianoController::AAI_PianoController(const class FPostConstructInitializeProperties& PCIP)
+AAI_PianoController::AAI_PianoController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
@@ -23,8 +23,6 @@ AAI_PianoController::AAI_PianoController(const class FPostConstructInitializePro
 }
 void AAI_PianoController::AttackPlayer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Piano!"));
-
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
