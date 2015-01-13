@@ -136,7 +136,12 @@ void AAI_BasicEnemy::Die()
 	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(this);
 	if (AiChar != NULL) //Het is een AI_RunnerEnemy
 	{
+		UWorld* const World = GetWorld();
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunnerEnemy gedood nu items droppen!!");
+		FVector SpawnLocation = AiChar->GetActorLocation();
+		FRotator SpawnRotation = AiChar->GetActorRotation();
+
+		ACollectible* NewObject = GetWorld()->SpawnActor<ACollectible>(AiChar->DropItem, SpawnLocation, SpawnRotation);
 	}
 
 	Destroy();
