@@ -34,12 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SetOriginalPosition();
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void ChangeAIDarkLight(bool DarkLight);
-
 	virtual void Possess(class APawn *InPawn);
-
-	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void FoundPlayer();

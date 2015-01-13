@@ -737,11 +737,11 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 {
 	//Falling State
 	FVector Location = GetActorLocation();
-	Location.Z += 10;
+	Location.Z = Location.Z+10;
 	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
-	GetCapsuleComponent()->SetSimulatePhysics(true);
+	//GetCapsuleComponent()->SetSimulatePhysics(true);
 
 	//Omhoog gooien
 	GetCharacterMovement()->Velocity = Impulse;
@@ -749,5 +749,5 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 	//Geef impulse aan character!
  	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
 
-	GetCapsuleComponent()->SetSimulatePhysics(false);
+	//GetCapsuleComponent()->SetSimulatePhysics(false);
 }

@@ -13,8 +13,6 @@ AAI_BookEnemyLight::AAI_BookEnemyLight(const class FObjectInitializer& PCIP)
 	Health = 3.f;
 	Defense = 0.f;
 	Speed = 1.2f;
-
-	LightType = EnemyLightType::Light;
 }
 void AAI_BookEnemyLight::ReceiveBeginPlay()
 {
