@@ -11,8 +11,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AMenuPawn : public APawn
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 public:
+	AMenuPawn(const class FObjectInitializer& PCIP);
+
 	/** Follow camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera)
 	UCameraComponent* FollowCamera;

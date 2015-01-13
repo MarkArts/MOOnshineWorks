@@ -25,19 +25,21 @@ namespace EDoorKey
 UCLASS()
 class MOONSHINEWORKS_API ADoorKey : public ACollectible
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	ADoorKey(const class FObjectInitializer& PCIP);
 
-		UFUNCTION(BlueprintCallable, Category = "Moonshine")
-		EDoorKey::Type GetKeyName();
+	UFUNCTION(BlueprintCallable, Category = "Moonshine")
+	EDoorKey::Type GetKeyName();
 
-		UFUNCTION(BlueprintCallable, Category = "Moonshine")
-		FString OnPickedUp();
+	UFUNCTION(BlueprintCallable, Category = "Moonshine")
+	FString OnPickedUp();
 
-		UFUNCTION(BlueprintCallable, Category = "Moonshine")
-		void SetKeyName(const EDoorKey::Type InsertKey);
+	UFUNCTION(BlueprintCallable, Category = "Moonshine")
+	void SetKeyName(const EDoorKey::Type InsertKey);
 
-		UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
-		TEnumAsByte<EDoorKey::Type> KeyName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
+	TEnumAsByte<EDoorKey::Type> KeyName;
 
-		virtual void OnCollect_Implementation(AActor* Target) override;
+	virtual void OnCollect_Implementation(AActor* Target) override;
 };

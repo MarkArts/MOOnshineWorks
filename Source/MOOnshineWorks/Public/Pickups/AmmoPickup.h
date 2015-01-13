@@ -13,7 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAmmoPickup : public ACollectible
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAmmoPickup(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TEnumAsByte<EAmmoType::Type> AmmoType;

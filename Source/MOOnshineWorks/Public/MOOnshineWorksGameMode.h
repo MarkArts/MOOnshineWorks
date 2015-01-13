@@ -8,8 +8,9 @@
 UCLASS(minimalapi)
 class AMOOnshineWorksGameMode : public AGameMode
 {
-	GENERATED_UCLASS_BODY()
-
+	GENERATED_BODY()
+public:
+	AMOOnshineWorksGameMode(const class FObjectInitializer& PCIP);
 	//ASocket* Socket;
 
 	UPROPERTY(BlueprintReadOnly, Category=MOO)

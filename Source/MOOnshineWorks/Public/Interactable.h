@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AInteractable : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AInteractable(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString DisplayText;

@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AChangeable : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AChangeable(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TSubclassOf<APawn> TargetClass;

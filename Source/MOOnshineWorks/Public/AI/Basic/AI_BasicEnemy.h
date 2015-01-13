@@ -13,7 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_BasicEnemy(const class FObjectInitializer& PCIP);
 
 	/** Pawn sensing Component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Awareness)
@@ -66,6 +68,9 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
+    UFUNCTION(BlueprintNativeEvent, Category = AIStats)
+    void OnDealDamage();
+    
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
 	

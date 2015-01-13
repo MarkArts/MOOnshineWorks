@@ -15,9 +15,11 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
+	AAI_BasicController(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(transient)
 	UBlackboardComponent* BlackboardComp;
 

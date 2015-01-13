@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AActivateAI : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AActivateAI(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = ActivateAI)
 	TSubclassOf<AActor> SpawnClass;

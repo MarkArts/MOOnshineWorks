@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API ABazooka : public APlayerGun
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	ABazooka(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
 	float ChargeMovementMultiplier;

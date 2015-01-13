@@ -13,7 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AShotgun : public APlayerGun
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AShotgun(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Shotgun)
 	float PelletCount;

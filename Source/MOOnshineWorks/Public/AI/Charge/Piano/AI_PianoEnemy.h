@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PianoEnemy : public AAI_BasicEnemy
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_PianoEnemy(const class FObjectInitializer& PCIP);
 
 	/** PushBack */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)

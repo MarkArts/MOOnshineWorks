@@ -97,12 +97,17 @@ void AAI_BasicEnemy::DealDamage(float DamageInflicted)
 		if (FinalDamage > 0)
 		{
 			Health -= FinalDamage;
+            OnDealDamage();
 		}
 		if (Health <= 0)
 		{
 			Die();
 		}
 	}
+}
+
+void AAI_BasicEnemy::OnDealDamage_Implementation(){
+    
 }
 
 void AAI_BasicEnemy::Die()

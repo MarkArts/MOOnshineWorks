@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
+#include "ExplosiveProjectile.h"
 #include "Bazooka.h"
 
 
@@ -29,11 +30,8 @@ void ABazooka::Use()
 	{
 		if (CanShoot())
 		{
-			if (Charge == 1.f)
-			{
-				Shoot();
-				UseAmmo();
-			}
+			Shoot();
+			UseAmmo();
 		}
 	}
 }
@@ -42,7 +40,21 @@ void ABazooka::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	FVector Target = GetTarget();
-	AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
+	AExplosiveProjectile* Projectile = Cast<AExplosiveProjectile>(SpawnProjectile(SpawnLocation, Target));
+	if (Projectile && CanCharge())
+	{
+		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
+		if (ChargeEffectMultiplier > 1.f)
+		{
+			Projectile->DamageValue *= ChargeEffectMultiplier;
+			Projectile->ExplosionRadius *= ChargeEffectMultiplier;
+			Projectile->DoesPushback = false;
+		}
+		if (Charge == 1.f)
+		{
+			Projectile->DoesPushback = true;
+		}
+	}
 	Super::Shoot();
 }
 

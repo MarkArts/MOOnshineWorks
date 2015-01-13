@@ -46,7 +46,10 @@ void AExplosion::Hit(AActor* Target)
 			FVector ExplosionLoc = GetActorLocation();
 			FVector TargetLoc = CharacterTarget->GetActorLocation();
 			FVector Direction = TargetLoc - ExplosionLoc;
-			CharacterTarget->AddImpulseToCharacter(PushbackSpeed * Direction);
+			if (DoesPushback)
+			{
+				CharacterTarget->AddImpulseToCharacter(PushbackSpeed * Direction);
+			}
 		}
 	}
 	AAI_BasicEnemy* EnemyTarget = Cast<AAI_BasicEnemy>(Target);
@@ -58,7 +61,10 @@ void AExplosion::Hit(AActor* Target)
 			FVector ExplosionLoc = GetActorLocation();
 			FVector TargetLoc = EnemyTarget->GetActorLocation();
 			FVector Direction = TargetLoc - ExplosionLoc;
-			EnemyTarget->AddImpulseToEnemy(PushbackSpeed * Direction);
+			if (DoesPushback)
+			{
+				EnemyTarget->AddImpulseToEnemy(PushbackSpeed * Direction);
+			}
 		}
 	}
 }

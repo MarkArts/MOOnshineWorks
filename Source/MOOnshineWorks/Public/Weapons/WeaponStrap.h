@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AWeaponStrap : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AWeaponStrap(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Guns)
 	TArray<APlayerGun*> Guns;

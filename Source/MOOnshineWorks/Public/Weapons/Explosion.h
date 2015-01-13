@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AExplosion : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AExplosion(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Explosion)
 	USphereComponent* EffectSphere;
@@ -21,6 +23,9 @@ class MOONSHINEWORKS_API AExplosion : public AActor
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float DamageValue;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
+	bool DoesPushback;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	float PushbackSpeed;

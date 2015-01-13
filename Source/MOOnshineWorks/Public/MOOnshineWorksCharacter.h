@@ -15,7 +15,9 @@
 UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AMOOnshineWorksCharacter(const class FObjectInitializer& PCIP);
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void AnHero();

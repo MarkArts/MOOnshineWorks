@@ -146,7 +146,7 @@ FVector AGun::GetPlayerTarget()
 
 bool AGun::LocationBehindBulletSpawn(FVector Location)
 {
-	FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
+	/*FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	APawn* Owner = Cast<APawn>(GetOwner());
 	FRotator OwnerRotation = Owner->GetActorRotation();
 	bool Result = true;
@@ -154,7 +154,8 @@ bool AGun::LocationBehindBulletSpawn(FVector Location)
 	{
 		Result = false;
 	}
-	return Result;
+	return Result;*/
+	return true;
 }
 
 bool AGun::CanCharge()

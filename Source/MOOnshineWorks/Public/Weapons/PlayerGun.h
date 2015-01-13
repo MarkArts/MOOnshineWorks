@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API APlayerGun : public AGun
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	APlayerGun(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Equip)
 	FVector CharacterEquipOffset;
