@@ -23,8 +23,6 @@ AAI_PianoController::AAI_PianoController(const class FObjectInitializer& PCIP)
 }
 void AAI_PianoController::AttackPlayer()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("AttackPlayer Piano!"));
-
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 

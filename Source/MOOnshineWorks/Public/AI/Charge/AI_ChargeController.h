@@ -18,4 +18,7 @@ class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 	virtual void Patrol() override;
 
 	virtual void GoActive() override;
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void PlayChargeSound();
 };

@@ -20,6 +20,10 @@ void AAI_ChargeController::GoActive()
 {
 	//override
 }
+void AAI_ChargeController::PlayChargeSound()
+{
+	//override
+}
 
 
 
