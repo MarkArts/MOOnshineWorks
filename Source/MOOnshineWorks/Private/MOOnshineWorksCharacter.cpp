@@ -737,7 +737,7 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 {
 	//Falling State
 	FVector Location = GetActorLocation();
-	Location.Z = 50;
+	Location.Z += 10;
 	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
