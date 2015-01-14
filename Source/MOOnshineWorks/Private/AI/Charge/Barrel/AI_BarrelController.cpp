@@ -74,11 +74,11 @@ void AAI_BarrelController::GoActive()
 	float PushPower = AiSpecific->PianoPushPower;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
-	//Nieuwe BlueprintEnemy Spawnen!
-	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
-
 	//Oude enemy destroyen
 	AiSpecific->Destroy();
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
 
 	if (NewPawn != NULL)
 	{

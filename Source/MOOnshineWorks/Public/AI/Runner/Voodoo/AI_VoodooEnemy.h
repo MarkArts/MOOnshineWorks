@@ -2,14 +2,15 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicEnemy.h"
+#include "AI_BasicEnemy.h"
+#include "AI_RunnerEnemy.h"
 #include "AI_VoodooEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_VoodooEnemy : public AAI_BasicEnemy
+class MOONSHINEWORKS_API AAI_VoodooEnemy : public AAI_RunnerEnemy
 {
 	GENERATED_BODY()
 public:
