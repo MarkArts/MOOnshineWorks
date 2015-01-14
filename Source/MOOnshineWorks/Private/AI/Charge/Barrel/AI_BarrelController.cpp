@@ -69,6 +69,7 @@ void AAI_BarrelController::GoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
+	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
 	float PushPower = AiSpecific->PianoPushPower;
@@ -106,6 +107,8 @@ void AAI_BarrelController::GoActive()
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 	//De ChargeSpeed setten
 	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+	//De Walkspeed zetten
+	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 
 	//De PushPower setten
 	AAI_BarrelEnemy* BarrelEnemy = Cast<AAI_BarrelEnemy>(NewPawn);

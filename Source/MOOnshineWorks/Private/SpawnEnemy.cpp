@@ -13,7 +13,7 @@ ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Time = 4.f;
-	Enemies.Add("2:PegEnemy;2:BookEnemy");
+	Enemies.Add("1:PegEnemyDark;1:BookEnemy");
 	Repeat = false;
 }
 
@@ -60,11 +60,16 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		FBox BoxInfo = GetComponentsBoundingBox();
 		FVector BoxSize = BoxInfo.GetSize();
 
-		if (TypeEnemy[Itr.GetIndex()] == "PegEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_PegEnemyDark"))));
+		if (TypeEnemy[Itr.GetIndex()] == "PegEnemyDark") 
+		{
+			//static ConstructorHelpers::FClassFinder<AAI_PegEnemyDark> PegEnemyDark(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegEnemyDark"));
+			//if (PegEnemyDark.Class != NULL)
+			//{
+			//	EnemyClass = PegEnemyDark.Class;
+			//}
 		}
 		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
-			EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));
+			//EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));
 		}
 		else {
 			EnemyClass = NULL;

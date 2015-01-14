@@ -69,6 +69,7 @@ void AAI_PianoController::GoActive()
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
 	float PushPower = AiSpecific->PianoPushPower;
+	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
 	//Oude enemy destroyen
@@ -103,6 +104,8 @@ void AAI_PianoController::GoActive()
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 	//De ChargeSpeed setten
 	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+	//De Walkspeed zetten
+	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 
 	//De PushPower setten
 	AAI_PianoEnemy* PianoEnemy = Cast<AAI_PianoEnemy>(NewPawn);
