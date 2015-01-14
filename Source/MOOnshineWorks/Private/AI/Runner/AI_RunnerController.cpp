@@ -4,6 +4,7 @@
 #include "MOOnshineWorksCharacter.h"
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
+#include "AI_RunnerEnemy.h"
 #include "AI_RunnerController.h"
 
 
@@ -36,7 +37,17 @@ void AAI_RunnerController::GoActive()
 }
 void AAI_RunnerController::ReduceTimer() //haal een seconde van TimerActive af en is die 0 roep dan TimeIsUp aan
 {
-	//override
+	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(GetPawn());
+	float RemainingTime = AiChar->TimerActive - 1;
+
+	if (RemainingTime <= 0)
+	{
+		TimeIsUp();
+	}
+	else
+	{
+		AiChar->TimerActive = RemainingTime;
+	}
 }
 void AAI_RunnerController::TimeIsUp()
 {

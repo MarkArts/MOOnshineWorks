@@ -37,10 +37,10 @@ void AAI_PegControllerDark::GoActive()
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
-
 
 	//Oude enemy destroyen
 	AiSpecific->Destroy();
@@ -70,8 +70,10 @@ void AAI_PegControllerDark::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	//De EnemyDistanceShouldAttack setten
+	//De EnemyDistanceShouldAttack zetten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De Walkspeed zetten
+	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();

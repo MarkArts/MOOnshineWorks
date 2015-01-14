@@ -17,6 +17,8 @@ AAI_RunnerEnemy::AAI_RunnerEnemy(const class FObjectInitializer& PCIP)
 			DropItem = PlayerPawnBPClass.Class;
 		}
 	}
+
+	TimerActive = 0;
 }
 
 

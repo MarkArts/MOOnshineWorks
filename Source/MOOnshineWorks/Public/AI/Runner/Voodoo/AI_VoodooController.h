@@ -16,10 +16,6 @@ class MOONSHINEWORKS_API AAI_VoodooController : public AAI_RunnerController
 public:
 	AAI_VoodooController(const class FObjectInitializer& PCIP);
 
-	//virtual void RunAway() override;
-
-	virtual void ReduceTimer() override;
-
 	virtual void GoActive() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)

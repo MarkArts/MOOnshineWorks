@@ -15,8 +15,4 @@ class MOONSHINEWORKS_API AAI_VoodooEnemy : public AAI_RunnerEnemy
 	GENERATED_BODY()
 public:
 	AAI_VoodooEnemy(const class FObjectInitializer& PCIP);
-
-	/** TimerActive */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float TimerActive;
 };

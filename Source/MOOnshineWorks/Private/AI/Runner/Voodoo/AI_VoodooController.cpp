@@ -21,26 +21,6 @@ AAI_VoodooController::AAI_VoodooController(const class FObjectInitializer& PCIP)
 		}
 	}
 }
-//void AAI_VoodooController::RunAway()
-//{
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Voodoo: RunAway functie");
-//}
-void AAI_VoodooController::ReduceTimer()
-{
-	AAI_VoodooEnemy* AiChar = Cast<AAI_VoodooEnemy>(GetPawn());
-	float RemainingTime = AiChar->TimerActive - 1;
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Voodoo: ReduceTimer functie aangeroepen");
-
-	if (RemainingTime <= 0)
-	{
-		TimeIsUp();
-	}
-	else
-	{
-		AiChar->TimerActive = RemainingTime;
-	}
-}
 void AAI_VoodooController::GoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;

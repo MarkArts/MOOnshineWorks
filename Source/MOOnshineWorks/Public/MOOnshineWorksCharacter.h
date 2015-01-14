@@ -8,6 +8,8 @@
 #include "Pistol.h"
 #include "DoorKey.h"
 #include "KeyHolder.h"
+#include "DebuffManager.h"
+#include "SlowDownDebuff.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
@@ -190,6 +192,10 @@ public:
 	void DealDamage(float Damage);
 
 	KeyHolder* kh;
+	ASlowDownDebuff* slowDown;
+	TArray<ADebuffManager*> Debuffs;
+
+	//DebuffManager* debuffManager;
 
 	UPROPERTY(VisibleAnyWhere, Category = MOOnshine)
 	bool IsDeath;
