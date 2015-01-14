@@ -39,6 +39,7 @@ void AAI_BookController::GoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UWorld* const World = GetWorld();
+	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
@@ -72,6 +73,8 @@ void AAI_BookController::GoActive()
 	NewPawn->AIPatrol = ShouldAIPatrol;
 	//De EnemyDistanceShouldAttack setten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De Walkspeed zetten
+	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();

@@ -37,6 +37,7 @@ void AAI_GarbageController::GoActive()
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
 	UWorld* const World = GetWorld();
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
@@ -71,6 +72,8 @@ void AAI_GarbageController::GoActive()
 	NewPawn->AIPatrol = ShouldAIPatrol;
 	//De EnemyDistanceShouldAttack setten
 	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De Walkspeed zetten
+	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
