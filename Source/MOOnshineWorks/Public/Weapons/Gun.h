@@ -29,7 +29,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
-	FDateTime LastShot;
+	float LastShot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;

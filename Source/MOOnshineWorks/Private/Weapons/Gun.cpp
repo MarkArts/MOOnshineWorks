@@ -15,7 +15,7 @@ AGun::AGun(const class FObjectInitializer& PCIP)
 	//RootComponent = GunMesh;
 	//GunMesh->CastShadow = false;
 	//GunMesh->SetCollisionProfileName("OverlapAll");
-	LastShot = FDateTime::Now() - FTimespan::FromHours(1);
+	LastShot = 0.f;
 	GunOffset = FVector(80.f, 0.f, 40.f);
 	PrimaryActorTick.bStartWithTickEnabled = true;
 	PrimaryActorTick.bCanEverTick = true;
@@ -64,12 +64,12 @@ TSubclassOf<class AProjectile> AGun::GetProjectileClass()
 
 bool AGun::CanShoot()
 {
-	return FDateTime::Now() - LastShot >= FTimespan::FromSeconds(ShootCooldown);
+	return LastShot >= 0.f;
 }
 
 void AGun::SetLastShotTime()
 {
-	LastShot = FDateTime::Now();
+	LastShot = 0.f - ShootCooldown;
 }
 
 FVector AGun::GetTarget()
@@ -180,6 +180,10 @@ void AGun::EndCharge()
 
 void AGun::Tick(float DeltaSeconds)
 {
+	if (LastShot < 0)
+	{
+		LastShot += DeltaSeconds;
+	}
 	if (IsCharging && Charge < 1.f)
 	{
 		Charge = FMath::Min(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
