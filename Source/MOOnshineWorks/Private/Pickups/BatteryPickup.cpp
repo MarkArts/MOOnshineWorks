@@ -5,7 +5,7 @@
 #include "BatteryPickup.h"
 
 
-ABatteryPickup::ABatteryPickup(const class FPostConstructInitializeProperties& PCIP)
+ABatteryPickup::ABatteryPickup(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	LightPercentage = 20.f;

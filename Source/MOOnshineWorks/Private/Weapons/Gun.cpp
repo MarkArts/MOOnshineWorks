@@ -5,7 +5,7 @@
 #include "Gun.h"
 
 
-AGun::AGun(const class FPostConstructInitializeProperties& PCIP)
+AGun::AGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 
@@ -146,7 +146,7 @@ FVector AGun::GetPlayerTarget()
 
 bool AGun::LocationBehindBulletSpawn(FVector Location)
 {
-	FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
+	/*FVector OwnerLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	APawn* Owner = Cast<APawn>(GetOwner());
 	FRotator OwnerRotation = Owner->GetActorRotation();
 	bool Result = true;
@@ -154,5 +154,44 @@ bool AGun::LocationBehindBulletSpawn(FVector Location)
 	{
 		Result = false;
 	}
-	return Result;
+	return Result;*/
+	return true;
+}
+
+bool AGun::CanCharge()
+{
+	return false;
+}
+
+void AGun::StartCharge()
+{
+	IsCharging = true;
+	Charge = 0.f;
+	OnStartCharge();
+}
+
+void AGun::EndCharge()
+{
+	IsCharging = false;
+	Use();
+	Charge = 0.f;
+	OnEndCharge();
+}
+
+void AGun::Tick(float DeltaSeconds)
+{
+	if (IsCharging && Charge < 1.f)
+	{
+		Charge = FMath::Min(Charge + (ChargeRatePerSecond * DeltaSeconds), 1.f);
+	}
+}
+
+void AGun::OnStartCharge_Implementation()
+{
+
+}
+
+void AGun::OnEndCharge_Implementation()
+{
+
 }

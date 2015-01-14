@@ -17,14 +17,16 @@
 UCLASS(config=Game)
 class AMOOnshineWorksCharacter : public ACharacter
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AMOOnshineWorksCharacter(const class FObjectInitializer& PCIP);
 
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void AnHero();
 
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class UPawnNoiseEmitterComponent> NoiseEmitter;
+	UPawnNoiseEmitterComponent* NoiseEmitter;
 	
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = Ammo)
 	AAmmoContainer* AmmoContainer;
@@ -32,7 +34,7 @@ class AMOOnshineWorksCharacter : public ACharacter
 	AWeaponStrap* WeaponStrap;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<class UCameraComponent> FirstPersonCameraComponent;
+	UCameraComponent* FirstPersonCameraComponent;
 
 	/** Base turn rate, in deg/sec. Other scaling may affect final turn rate. */
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = MOOnshine)
@@ -85,6 +87,8 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UPROPERTY(EditAnywhere, Category = MOOnshine)
 	float LightMinRadius;
 //public:
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	float LightStages;
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void SetLightPercentage(float NewLightPercentage);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
@@ -101,6 +105,11 @@ class AMOOnshineWorksCharacter : public ACharacter
 	void SetLightMinRadius(float NewLightMinRadius);
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	float GetLightMinRadius();
+
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	int32 GetLightCurrentStage();
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	float GetLightStagePercentageFrom(int32 Stage);
 
 	void UpdateLightRadius(float DeltaSeconds);
 	void SetLightRadius();
@@ -142,19 +151,19 @@ class AMOOnshineWorksCharacter : public ACharacter
 	bool bSprintCameraShake;
 
 	void PerformCameraShake();
-	void StartShake(TSubclassOf<UCameraShake> Shaker);
+	void StartShake(TSubclassOf<UCameraShake> Shaker, float Scale = 1.f);
 	void StopShake(TSubclassOf<UCameraShake> Shaker);
 	APlayerController* GetPlayerController();
 	
 	/** Collection volume surrounds the character to check if any pickup objects are in range to collect */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<USphereComponent> CollectionSphere;
+	USphereComponent* CollectionSphere;
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<USphereComponent> InteractionSphere;
+	USphereComponent* InteractionSphere;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubobjectPtr<UPointLightComponent> Light;
+	UPointLightComponent* Light;
 
     // Sprint logic
     UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = CharacterMovement)
@@ -218,6 +227,9 @@ class AMOOnshineWorksCharacter : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void LoadPlayerSave(FPlayerSave PlayerSave);
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AddImpulseToCharacter(FVector Impulse);
+
 protected:
 
 	//Called by CollectItems() to use the Blueprinted functionality
@@ -280,6 +292,5 @@ protected:
 	// End of APawn interface
 
 	virtual void ReceiveBeginPlay() override;
-
 };
 

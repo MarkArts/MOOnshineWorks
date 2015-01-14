@@ -7,9 +7,12 @@
 #include "BaseLevelScriptActor.h"
 #include "MOOnshineWorksCharacter.h"
 
-AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructInitializeProperties& PCIP)
+AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+
+	NextStreamingLevelToLoad = 0;
+
 	if (GetWorld()){
 
 		SaveManager = (ASaveManager*)GetWorld()->SpawnActor(ASaveManager::StaticClass());
@@ -21,12 +24,18 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FPostConstructIniti
 		//BlueprintLoader::Get().AddBP(FName("MyCharacter"), ANSI_TO_TCHAR("/Game/Blueprints/MyCharacter"));
 		BlueprintLoader::Get().AddBP(FName("Crossbow"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Pistol/BP_Pistol"));
 		BlueprintLoader::Get().AddBP(FName("Shotgun"), ANSI_TO_TCHAR("/Game/Blueprints/Guns/Shotgun/BP_Shotgun"));
+		//BlueprintLoader::Get().AddBP(FName("Font"), ANSI_TO_TCHAR("/Game/Blueprints/HUDBlueprints/NewFont"));
 		//BlueprintLoader::Get().AddBP(FName("ProjectileDeath"), ANSI_TO_TCHAR("/Game/Blueprints/BP_ProjectileDeath"));
 
 		// set default pawn class to our Blueprinted character
 		ConstructorHelpers::FClassFinder<APawn> BP(TEXT("/Game/Blueprints/MyCharacter"));
 		DefaultPawnClass = BP.Class;
 
+		static ConstructorHelpers::FObjectFinder<UBlueprint> VictoryPCOb(TEXT("Blueprint'/Game/Blueprints/HUDBlueprints/MainHud.MainHud'"));
+		if (VictoryPCOb.Object != NULL)
+		{
+			HUDClass = (UClass*)VictoryPCOb.Object->GeneratedClass;
+		}
 	}
 }
 
@@ -71,20 +80,42 @@ void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActio
 void AMOOnshineWorksGameMode::LoadCheckpoint()
 {
 	FCheckPointSave CheckPoint = SaveManager->GetData()->Checkpoint;
-	int8 Levels = CheckPoint.StreamingLevels.Num();
 
-	if (Levels > 0)
+	if (CheckPoint.StreamingLevels.Num() > 0)
 	{
-		for (int8 I = 0; I < Levels; I++)
-		{
-			UGameplayStatics::LoadStreamLevel(GetWorld(), CheckPoint.StreamingLevels[I], true, false, FLatentActionInfo());
-			AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
-		//	Player->Reset();
-	//		Player->BeginPlay();
-			Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
-		}
+		StreamingLevelsToLoad = CheckPoint.StreamingLevels;
+		LoadNextStreamLevel();
 	}
 	else{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Checkpoint had no streaming levels."));
 	}
+}
+
+void AMOOnshineWorksGameMode::LoadNextStreamLevel()
+{
+
+	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
+	LatentActionInfo.CallbackTarget = this;
+	LatentActionInfo.ExecutionFunction = "LoadNextStreamLevel";
+	LatentActionInfo.UUID = NextStreamingLevelToLoad+2;
+	LatentActionInfo.Linkage = 0;
+
+	if ( (NextStreamingLevelToLoad+1) < StreamingLevelsToLoad.Num() )
+	{
+		UGameplayStatics::LoadStreamLevel(GetWorld(), StreamingLevelsToLoad[NextStreamingLevelToLoad], true, true, LatentActionInfo);
+		NextStreamingLevelToLoad++;
+	}
+	else{
+		LatentActionInfo.ExecutionFunction = "AfterFinishingStreamLevels";
+		UGameplayStatics::LoadStreamLevel(GetWorld(), StreamingLevelsToLoad[NextStreamingLevelToLoad], true, true, LatentActionInfo);
+	}
+}
+
+void AMOOnshineWorksGameMode::AfterFinishingStreamLevels()
+{
+	StreamingLevelsToLoad.Empty();
+	NextStreamingLevelToLoad = 0;
+
+	AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+	Player->LoadPlayerSave(UHelpers::GetSaveManager(GetWorld())->GetData()->Player);
 }

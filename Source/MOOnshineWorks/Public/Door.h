@@ -13,7 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API ADoor : public AInteractable
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	ADoor(const class FObjectInitializer& PCIP);
 
 	UFUNCTION(BlueprintNativeEvent, Category = "Moonshine")
 	void DoorOpen();

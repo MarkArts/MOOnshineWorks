@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API ACollectible : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	ACollectible(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString UsedText;

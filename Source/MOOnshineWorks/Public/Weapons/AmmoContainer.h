@@ -22,7 +22,9 @@ namespace EAmmoType
 UCLASS()
 class MOONSHINEWORKS_API AAmmoContainer : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAmmoContainer(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Ammo)
 	TArray<int32> AmmoCounters;

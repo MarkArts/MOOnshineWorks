@@ -61,6 +61,8 @@ public:
 	FName Id;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool IsUsed;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool StopSpawn;
 };
 
 USTRUCT(BlueprintType)
@@ -89,9 +91,11 @@ public:
 UCLASS()
 class MOONSHINEWORKS_API UMOOSaveGame : public USaveGame
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
+	UMOOSaveGame(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(VisibleAnywhere, Category = MOO)
 	FSave Data;
 };

@@ -5,7 +5,7 @@
 #include "Projectile.h"
 
 
-AProjectile::AProjectile(const class FPostConstructInitializeProperties& PCIP)
+AProjectile::AProjectile(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
@@ -32,8 +32,8 @@ void AProjectile::ReceiveBeginPlay()
 			AMOOnshineWorksCharacter* GunOwner = Cast<AMOOnshineWorksCharacter>(Gun->GetOwner());
 			if (GunOwner)
 			{
-				GunOwner->Mesh->IgnoreActorWhenMoving(this, true);
-				GunOwner->CapsuleComponent->IgnoreActorWhenMoving(this, true);
+				GunOwner->GetMesh()->IgnoreActorWhenMoving(this, true);
+				GunOwner->GetCapsuleComponent()->IgnoreActorWhenMoving(this, true);
 				ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
 			}
 			else
@@ -41,8 +41,8 @@ void AProjectile::ReceiveBeginPlay()
 				AAI_BasicEnemy* GunOwner = Cast<AAI_BasicEnemy>(Gun->GetOwner());
 				if (GunOwner)
 				{
-					GunOwner->Mesh->IgnoreActorWhenMoving(this, true);
-					GunOwner->CapsuleComponent->IgnoreActorWhenMoving(this, true);
+					GunOwner->GetMesh()->IgnoreActorWhenMoving(this, true);
+					GunOwner->GetCapsuleComponent()->IgnoreActorWhenMoving(this, true);
 					ProjectileMesh->IgnoreActorWhenMoving(GunOwner, true);
 				}
 			}

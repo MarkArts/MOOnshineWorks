@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAIProjectile : public AProjectile
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAIProjectile(const class FObjectInitializer& PCIP);
 
 	virtual void HitActor(AActor* OtherActor) override;
 	

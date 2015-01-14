@@ -15,14 +15,16 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BasicController : public AAIController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
-	UPROPERTY(transient)
-	TSubobjectPtr<class UBlackboardComponent> BlackboardComp;
+	AAI_BasicController(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(transient)
-	TSubobjectPtr<class UBehaviorTreeComponent> BehaviorComp;
+	UBlackboardComponent* BlackboardComp;
+
+	UPROPERTY(transient)
+	UBehaviorTreeComponent* BehaviorComp;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SearchForEnemy();
@@ -32,12 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SetOriginalPosition();
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void ChangeAIDarkLight(bool DarkLight);
-
 	virtual void Possess(class APawn *InPawn);
-
-	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void FoundPlayer();
@@ -103,8 +100,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = AIState)
 	void SetEnemyDistanceShouldAttack();
 
-	/*
-	UFUNCTION(BlueprintCallable, Category = AIActivate)
-	void GoActive();
-	*/
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void AttackPlayer();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void Patrol();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	virtual void GoActive();
 };

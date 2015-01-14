@@ -23,8 +23,10 @@ namespace EGunType
 UCLASS()
 class MOONSHINEWORKS_API AGun : public AItem
 {
-	GENERATED_UCLASS_BODY()
-	
+	GENERATED_BODY()
+public:
+	AGun(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
 	FDateTime LastShot;
@@ -58,4 +60,28 @@ class MOONSHINEWORKS_API AGun : public AItem
 	virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 	virtual TSubclassOf<class AProjectile> GetProjectileClass();
+
+
+	//charge stuff
+	virtual bool CanCharge();
+	virtual void StartCharge();
+	virtual void EndCharge();
+	virtual void Tick(float DeltaSeconds) override;
+
+	UFUNCTION(BlueprintNativeEvent, Category = Charge)
+	void OnStartCharge();
+	UFUNCTION(BlueprintNativeEvent, Category = Charge)
+	void OnEndCharge();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Charge)
+	bool IsCharging;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Charge)
+	float Charge;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
+	float ChargeRatePerSecond;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
+	float ChargeMultiplier;
 };

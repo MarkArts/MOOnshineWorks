@@ -11,7 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AItem : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AItem(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Item)
 	FName Name;

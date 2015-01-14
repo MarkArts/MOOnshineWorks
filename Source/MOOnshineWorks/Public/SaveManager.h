@@ -12,9 +12,11 @@
 UCLASS()
 class MOONSHINEWORKS_API ASaveManager : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
+	ASaveManager(const class FObjectInitializer& PCIP);
+
 	UPROPERTY(VisibleAnywhere, Category = MOO)
 	FSave SaveData;
 

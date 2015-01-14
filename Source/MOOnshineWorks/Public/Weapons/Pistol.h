@@ -13,9 +13,11 @@
 UCLASS()
 class MOONSHINEWORKS_API APistol : public APlayerGun
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	APistol(const class FObjectInitializer& PCIP);
 
 	virtual void Use() override;
 	virtual void Shoot() override;
-	
+	virtual bool CanCharge() override;
 };

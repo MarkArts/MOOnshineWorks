@@ -12,14 +12,16 @@
 UCLASS()
 class MOONSHINEWORKS_API AProjectile : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AProjectile(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = Projectile)
-	TSubobjectPtr<UStaticMeshComponent> ProjectileMesh;
+	UStaticMeshComponent* ProjectileMesh;
 
 	/** Projectile movement component */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Projectile)
-	TSubobjectPtr<class UProjectileMovementComponent> ProjectileMovement;
+	UProjectileMovementComponent* ProjectileMovement;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	float DamageValue;

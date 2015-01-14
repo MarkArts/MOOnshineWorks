@@ -3,7 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "BasicAnimationInstance.h"
 
-UBasicAnimationInstance::UBasicAnimationInstance(const class FPostConstructInitializeProperties& PCIP)
+UBasicAnimationInstance::UBasicAnimationInstance(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIIdle = true;

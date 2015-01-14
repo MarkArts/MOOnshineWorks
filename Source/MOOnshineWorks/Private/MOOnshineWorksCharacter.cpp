@@ -9,6 +9,7 @@
 #include "Collectible.h"
 #include "Helpers.h"
 #include "Gun.h"
+#include "BaseLevelScriptActor.h"
 #include "Shotgun.h"
 #include "DebuffManager.h"
 #include "SlowDownDebuff.h"
@@ -17,7 +18,7 @@
 //////////////////////////////////////////////////////////////////////////
 // AMOOnshineWorksCharacter
 
-AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructInitializeProperties& PCIP)
+AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	/** Make Character able to produce sound */
@@ -90,7 +91,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 	Light->AttachTo(RootComponent);
 
 	// Set size for collision capsule
-	CapsuleComponent->InitCapsuleSize(42.f, 96.0f);
+	GetCapsuleComponent()->InitCapsuleSize(42.f, 96.0f);
 	
 	// set our turn rates for input
 	BaseTurnRate = 45.f;
@@ -98,13 +99,13 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FPostConstructIni
 
 	// Configure character movement
 	//CharacterMovement->bOrientRotationToMovement = true; // Character moves in the direction of input...	
-	CharacterMovement->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
-	CharacterMovement->JumpZVelocity = 600.f;
+	GetCharacterMovement()->RotationRate = FRotator(0.0f, 540.0f, 0.0f); // ...at this rotation rate
+	GetCharacterMovement()->JumpZVelocity = 600.f;
 	//CharacterMovement->AirControl = 0.2f;
 
 	// Create a follow camera
 	FirstPersonCameraComponent = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
-	FirstPersonCameraComponent->AttachParent = CapsuleComponent;
+	FirstPersonCameraComponent->AttachParent = GetCapsuleComponent();
 	FirstPersonCameraComponent->RelativeLocation = FVector(0, 0, 64.f); // Position the camera
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 
@@ -160,6 +161,11 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 {
 
+	if (!Cast<ABaseLevelScriptActor>(GetWorld()->GetLevelScriptActor()))
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("Looks like your loading a level that doesn't support the save system."));
+		return;
+	}
 
 	/* Set base vairables should peferably not need to happen but it seems like we have no other choice with the current code base */
 	CurrentHealth = BaseHealth;
@@ -194,7 +200,7 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 {
 	UWorld* const World = GetWorld();
-	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("making gun"));
+
 	if (World)
 	{
 		FActorSpawnParameters SpawnParams;
@@ -212,11 +218,12 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 				Mesh = Comp;
 			}
 		}
-		APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
+
+	//	APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
-		EquipGun(Pistol);
-        CharacterMovement->MaxWalkSpeed = CharacterWalkSpeed;
+		//EquipGun(Pistol);
+		GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
 
 		LoadPlayerSave(UHelpers::GetSaveManager(World)->GetData()->Player);
 	}
@@ -283,14 +290,27 @@ void AMOOnshineWorksCharacter::StartUse()
 	{
 		if (!IsSprinting)
 		{
-			WeaponStrap->GetActiveGun()->Use();
+			if (WeaponStrap->GetActiveGun()->CanCharge())
+			{
+				WeaponStrap->GetActiveGun()->StartCharge();
+			}
+			else
+			{
+				WeaponStrap->GetActiveGun()->Use();
+			}
 		}
 	}
 }
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-
+	if (WeaponStrap->GetActiveGun())
+	{
+		if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
+		{
+			WeaponStrap->GetActiveGun()->EndCharge();
+		}
+	}
 }
 
 void AMOOnshineWorksCharacter::StartAim()
@@ -363,7 +383,7 @@ void AMOOnshineWorksCharacter::StartSprint()
         //Adjust camera to sprint values
         //PerformCameraShake();
         //Adjust movement speed to sprint values & switch boolean to true
-        CharacterMovement->MaxWalkSpeed *= SprintMultiplier;
+		GetCharacterMovement()->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
     }
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
@@ -386,7 +406,7 @@ void AMOOnshineWorksCharacter::EndSprint()
     {
         //Adjust camera to standard values
         //Adjust movement speed to standard values & switch boolean to false
-        CharacterMovement->MaxWalkSpeed = (CharacterMovement->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
+		GetCharacterMovement()->MaxWalkSpeed = (GetCharacterMovement()->MaxWalkSpeed / (SprintMultiplier * 100)) * 100;
         IsSprinting = false;
     }
 }
@@ -420,7 +440,8 @@ void AMOOnshineWorksCharacter::CheckForInteractables()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable) {
+			if (Interactable) 
+			{
 				Interactable->InRange(this);
 				break;
 			}
@@ -553,6 +574,33 @@ void AMOOnshineWorksCharacter::SetLightMinRadius(float NewLightMinRadius) { Ligh
 float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
 
 
+int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
+{
+	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
+}
+
+float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
+{
+	if (Stage > GetLightCurrentStage())
+	{
+		return 0.f;
+	}
+	else if (Stage < GetLightCurrentStage())
+	{
+		return 1.f;
+	}
+
+	float PercentagePerStage = 1 / (LightStages - 1);
+	float CurrentStagePercentage = GetLightPercentage();
+
+	while (CurrentStagePercentage > PercentagePerStage)
+	{
+		CurrentStagePercentage = CurrentStagePercentage - PercentagePerStage;
+	}
+
+	return CurrentStagePercentage / PercentagePerStage;
+}
+
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 {
 	if (LightPercentage > 0){
@@ -565,7 +613,12 @@ void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
 
 void AMOOnshineWorksCharacter::SetLightRadius()
 {
-	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius();
+//	float ATRadius = ( GetLightMaxRadius() - GetLightMinRadius()) * GetLightPercentage() + GetLightMinRadius(); old linear light depletion
+
+	float StagePercentageStep = 1 / (LightStages - 1);
+	int32 ActualRange = GetLightMaxRadius() - GetLightMinRadius();
+	float ATRadius = (ActualRange * StagePercentageStep * GetLightCurrentStage()) + GetLightMinRadius();
+
 	Light->SetAttenuationRadius(ATRadius);
 }
 
@@ -589,8 +642,6 @@ void AMOOnshineWorksCharacter::OnDealDamage_Implementation(float Damage){
 
 void AMOOnshineWorksCharacter::Die()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("IS this even called"));
-
 
 	if (!IsDeath)
 	{
@@ -671,9 +722,9 @@ void AMOOnshineWorksCharacter::PerformCameraShake()
 	}
 }
 
-void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker)
+void AMOOnshineWorksCharacter::StartShake(TSubclassOf<UCameraShake> Shaker, float Scale)
 {
-	GetPlayerController()->ClientPlayCameraShake(Shaker, 1.f, ECameraAnimPlaySpace::CameraLocal, FirstPersonCameraComponent->GetComponentRotation());
+	GetPlayerController()->ClientPlayCameraShake(Shaker, Scale, ECameraAnimPlaySpace::CameraLocal, FirstPersonCameraComponent->GetComponentRotation());
 }
 
 void AMOOnshineWorksCharacter::StopShake(TSubclassOf<UCameraShake> Shaker)
@@ -688,7 +739,28 @@ APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
 }
 
 void AMOOnshineWorksCharacter::AnHero()
-{	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("He was such an hero, to take it all away.We miss him so, That you should know, And we honor him this day.He was an hero, to take that shot, to leave us all behind."));
-	Die();
+{
+	//CharacterMovement->Velocity.Z = 200.0f; //kan niet vanaf de grond...
+	FVector Impulse = FVector(0, 0, 1000);
+
+	GetCharacterMovement()->Velocity = Impulse;
+}
+
+void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
+{
+	//Falling State
+	FVector Location = GetActorLocation();
+	Location.Z = Location.Z+10;
+	SetActorLocation(Location);
+
+	//physics van CapsuleComponent tijdelijk aanzetten!
+	//GetCapsuleComponent()->SetSimulatePhysics(true);
+
+	//Omhoog gooien
+	GetCharacterMovement()->Velocity = Impulse;
+
+	//Geef impulse aan character!
+ 	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
+
+	//GetCapsuleComponent()->SetSimulatePhysics(false);
 }

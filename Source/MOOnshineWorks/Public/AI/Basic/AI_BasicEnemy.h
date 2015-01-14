@@ -13,11 +13,13 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AAI_BasicEnemy(const class FObjectInitializer& PCIP);
 
 	/** Pawn sensing Component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Awareness)
-	TSubobjectPtr<class UPawnSensingComponent> PawnSensor;
+	UPawnSensingComponent* PawnSensor;
 
 	UFUNCTION()
 	void PostInitializeComponents();
@@ -56,9 +58,6 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	bool AIPatrol;
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = AIStats)
-	int32 LightType;
-
 	UPROPERTY(EditAnywhere, Category = Behavior)
 	class UBehaviorTree* Behavior;
 
@@ -69,8 +68,14 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void ChangeLightDark(bool CurrentDarkLight);
 
+    UFUNCTION(BlueprintNativeEvent, Category = AIStats)
+    void OnDealDamage();
+    
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void DealDamage(float DamageInflicted);
+	
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void AddImpulseToEnemy(FVector Impulse);
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void Die();
@@ -96,9 +101,4 @@ private:
 
 protected:
 	virtual void ReceiveBeginPlay() override;
-};
-
-enum EnemyLightType {
-	Dark,
-	Light
 };

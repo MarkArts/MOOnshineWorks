@@ -11,8 +11,9 @@
 UCLASS()
 class MOONSHINEWORKS_API ABaseLevelScriptActor : public ALevelScriptActor
 {
-	GENERATED_UCLASS_BODY()
-
+	GENERATED_BODY()
+public:
+	ABaseLevelScriptActor(const class FObjectInitializer& PCIP);
 	protected:
 	virtual void ReceiveBeginPlay() override;
 };

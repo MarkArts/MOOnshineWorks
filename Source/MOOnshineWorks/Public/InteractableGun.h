@@ -12,7 +12,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AInteractableGun : public AInteractable
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AInteractableGun(const class FObjectInitializer& PCIP);
 
 	//UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = InteractableGun)
 	//TSubobjectPtr<UStaticMeshComponent> InteractableMesh;

@@ -4,7 +4,7 @@
 #include "Interactable.h"
 
 
-AInteractable::AInteractable(const class FPostConstructInitializeProperties& PCIP)
+AInteractable::AInteractable(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	IsUsed = false;
@@ -27,11 +27,12 @@ void AInteractable::Interact(AActor* Target)
 			IsUsed = true;
 			UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
 				UHelpers::GeneratePersistentId(this),
-				true
+				true,
+				StopSpawnWhenUsed
 			});
 			if (UsedText != TEXT(""))
 			{
-				UHelpers::DisplayText(GetWorld(), UsedText);
+				UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 			}
 			OnInteract(Target);
 		}
@@ -39,7 +40,7 @@ void AInteractable::Interact(AActor* Target)
 	else{
 		if (UsedText != TEXT(""))
 		{
-			UHelpers::DisplayText(GetWorld(), UsedText);
+			UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 		}
 		OnInteract(Target);
 	}
@@ -71,8 +72,9 @@ void AInteractable::InRange(AActor* Target)
 
 void AInteractable::ReceiveBeginPlay()
 {
+	FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
+
 	if (ShouldUseOnce){
-		FInteractableSave* Save = UHelpers::GetSaveManager(GetWorld())->GetInteractableSave(UHelpers::GeneratePersistentId(this));
 		if (Save)
 		{
 			if (Save->IsUsed)
@@ -82,4 +84,15 @@ void AInteractable::ReceiveBeginPlay()
 		}
 	}
 	Super::ReceiveBeginPlay();
+
+	if (StopSpawnWhenUsed)
+	{
+		if (Save)
+		{
+			if (Save->StopSpawn)
+			{
+				Destroy();
+			}
+		}
+	}
 }

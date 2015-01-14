@@ -15,9 +15,10 @@
 UCLASS()
 class MOONSHINEWORKS_API ASpawnEnemy : public AActor
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
 
 public:
+	ASpawnEnemy(const class FObjectInitializer& PCIP);
 
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
 	void SpawnRandomEnemy();

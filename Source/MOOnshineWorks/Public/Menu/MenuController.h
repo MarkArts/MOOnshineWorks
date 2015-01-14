@@ -11,5 +11,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AMenuController : public APlayerController
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+public:
+	AMenuController(const class FObjectInitializer& PCIP);
 };

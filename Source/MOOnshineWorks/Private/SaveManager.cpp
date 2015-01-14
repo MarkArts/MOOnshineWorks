@@ -3,10 +3,18 @@
 #include "MOOnshineWorks.h"
 #include "SaveManager.h"
 
-ASaveManager::ASaveManager(const class FPostConstructInitializeProperties& PCIP)
+ASaveManager::ASaveManager(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	SaveSlotName = TEXT("TestSaveSlot");
+	if (GetWorld())
+	{
+		SaveSlotName = GetWorld()->GetMapName();
+	}
+	else
+	{
+		SaveSlotName = TEXT("TestSaveSlot");
+	}
+
 	UserIndex = 0;
 }
 

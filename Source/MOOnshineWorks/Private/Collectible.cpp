@@ -3,7 +3,7 @@
 #include "MOOnshineWorks.h"
 #include "Collectible.h"
 
-ACollectible::ACollectible(const class FPostConstructInitializeProperties& PCIP)
+ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 //	ShouldSave = false;
@@ -21,7 +21,7 @@ void ACollectible::Collect(AActor* Target)
 
 	if (UsedText != TEXT(""))
 	{
-		UHelpers::DisplayText(GetWorld(), UsedText);
+		UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 	}
 
 	if (ShouldSave){

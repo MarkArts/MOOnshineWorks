@@ -8,8 +8,9 @@
 UCLASS(minimalapi)
 class AMOOnshineWorksGameMode : public AGameMode
 {
-	GENERATED_UCLASS_BODY()
-
+	GENERATED_BODY()
+public:
+	AMOOnshineWorksGameMode(const class FObjectInitializer& PCIP);
 	//ASocket* Socket;
 
 	UPROPERTY(BlueprintReadOnly, Category=MOO)
@@ -20,6 +21,14 @@ class AMOOnshineWorksGameMode : public AGameMode
 	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadCheckpoint();
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void LoadNextStreamLevel();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void AfterFinishingStreamLevels();
+
+	TArray<FName> StreamingLevelsToLoad;
+	int32 NextStreamingLevelToLoad;
 };
 
 
