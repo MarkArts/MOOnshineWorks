@@ -1,30 +1,30 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Creative Common Share Alike
 
 #include "MOOnshineWorks.h"
-#include "AI_VoodooController.h"
-#include "AI_VoodooEnemy.h"
+#include "AI_LampController.h"
+#include "AI_LampEnemy.h"
 #include "MOOnshineWorksCharacter.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
 #include "BasicAnimationInstance.h"
 #include "AI_BasicEnemy.h"
 
-AAI_VoodooController::AAI_VoodooController(const class FObjectInitializer& PCIP)
+AAI_LampController::AAI_LampController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
-		static ConstructorHelpers::FClassFinder<AAI_VoodooEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIVoodoo"));
+		static ConstructorHelpers::FClassFinder<AAI_LampEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AILamp"));
 		if (PlayerPawnBPClass.Class != NULL)
 		{
 			EnemyClass = PlayerPawnBPClass.Class;
 		}
 	}
 }
-void AAI_VoodooController::GoActive()
+void AAI_LampController::GoActive()
 {
 	UBehaviorTree * BehaviorTree = NULL;
-	AAI_VoodooEnemy* AiSpecific = Cast<AAI_VoodooEnemy>(GetPawn());
+	AAI_LampEnemy* AiSpecific = Cast<AAI_LampEnemy>(GetPawn());
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
@@ -68,3 +68,5 @@ void AAI_VoodooController::GoActive()
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
 }
+
+

@@ -18,4 +18,8 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
 	TSubclassOf<ACollectible> DropItem;
+
+	/** TimerActive */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	float TimerActive;
 };
