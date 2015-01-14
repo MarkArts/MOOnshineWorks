@@ -26,7 +26,7 @@ void AAI_RunnerController::RunAway()
 	FVector AiSpecificLocation = AiChar->GetActorLocation();
 	//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
 	FVector difference = AiSpecificLocation - PlayerLocation;
-	FVector VectorResult = AiSpecificLocation + (difference*3);
+	FVector VectorResult = AiSpecificLocation + (difference*1);
 
 	AIController->BlackboardComp->SetValueAsVector(SetPatrolRoute, VectorResult);
 }

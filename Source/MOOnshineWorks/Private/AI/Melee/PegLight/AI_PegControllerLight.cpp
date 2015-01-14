@@ -41,11 +41,11 @@ void AAI_PegControllerLight::GoActive()
 	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
-	//Nieuwe BlueprintEnemy Spawnen!
-	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
-
 	//Oude enemy destroyen
 	AiSpecific->Destroy();
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
 
 	if (NewPawn != NULL)
 	{
