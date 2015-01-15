@@ -16,16 +16,17 @@ class MOONSHINEWORKS_API ADebuffManager : public AActor
 	virtual void SetDebuff(AActor* Target);
 	virtual void QuitDebuff();
 
-	bool IsValid(FString nameDebuff);
+	bool IsValid(ADebuffManager* nameDebuff);
 
-	void SetTime(float Time, AActor* Target);
+	void SetTime(float Time);
 
 	//virtual void Start(ADebuffManager* Target);
 
 	bool Repeat;
 
 	FString name;
+	float time;
 
-	TArray<FString> DebuffsActive;
+	TArray<ADebuffManager*> DebuffsActive;
 	
 };

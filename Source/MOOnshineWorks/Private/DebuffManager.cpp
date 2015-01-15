@@ -24,18 +24,18 @@ void ADebuffManager::Start(ADebuffManager* Target) {
 }
 */
 
-bool ADebuffManager::IsValid(FString nameDebuff) {
+bool ADebuffManager::IsValid(ADebuffManager* nameDebuff) {
 	for (auto Itr(DebuffsActive.CreateIterator()); Itr; Itr++) {
-		if (DebuffsActive[Itr.GetIndex()] == nameDebuff) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied!"));
+		if (DebuffsActive[Itr.GetIndex()]->name == nameDebuff->name) {
+			nameDebuff->SetTime(nameDebuff->time);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied, timer herstart!"));
 			return false;
 		}
 	}
-	DebuffsActive.Add(name);
 	return true;
 }
 
-void ADebuffManager::SetTime(float Time, AActor* Target)
+void ADebuffManager::SetTime(float Time)
 {
 	GetWorld()->GetTimerManager().SetTimer(this, &ADebuffManager::QuitDebuff, Time, false);
 }

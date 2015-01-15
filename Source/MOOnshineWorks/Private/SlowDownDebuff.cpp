@@ -8,18 +8,25 @@ ASlowDownDebuff::ASlowDownDebuff(const class FPostConstructInitializeProperties&
 	: Super(PCIP)
 {
 	name = "Slowdown";
+	time = 5.f;
 }
 
 void ASlowDownDebuff::SetDebuff(AActor* Target){
-	if (IsValid(name)) {
+	if (IsValid(this)) {
+		DebuffsActive.Add(this);
 		AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
 		CharTarget->CharacterMovement->MaxWalkSpeed *= 6;
-		SetTime(2.f, Target);
+		SetTime(2.f);
 	}
 }
 
 void ASlowDownDebuff::QuitDebuff(){
 	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	Player->CharacterMovement->MaxWalkSpeed /= 6;
-	DebuffsActive.Remove(name);
+	DebuffsActive.Remove(this);
 }
+
+/*void ADebuffManager::SetTime(float Time)
+{
+	GetWorld()->GetTimerManager().SetTimer(this, &ADebuffManager::QuitDebuff, Time, false);
+}*/
