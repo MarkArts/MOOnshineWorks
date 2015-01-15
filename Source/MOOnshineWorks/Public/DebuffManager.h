@@ -24,8 +24,8 @@ class MOONSHINEWORKS_API ADebuffManager : public AActor
 
 	bool Repeat;
 
-	FString name;
-	float time;
+	FString DebuffType;
+	float DebuffTime;
 
 	TArray<ADebuffManager*> DebuffsActive;
 	

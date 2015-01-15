@@ -7,8 +7,8 @@
 ASlowDownDebuff::ASlowDownDebuff(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	name = "Slowdown";
-	time = 5.f;
+	DebuffType = "Slowdown";
+	DebuffTime = 5.f;
 }
 
 void ASlowDownDebuff::SetDebuff(AActor* Target){
@@ -16,7 +16,7 @@ void ASlowDownDebuff::SetDebuff(AActor* Target){
 		DebuffsActive.Add(this);
 		AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
 		CharTarget->CharacterMovement->MaxWalkSpeed *= 6;
-		SetTime(2.f);
+		SetTime(DebuffTime);
 	}
 }
 
