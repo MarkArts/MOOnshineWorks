@@ -9,6 +9,7 @@
 #include "DoorKey.h"
 #include "KeyHolder.h"
 #include "DebuffManager.h"
+#include "SuperJumpDebuff.h"
 #include "SlowDownDebuff.h"
 #include "GameFramework/Character.h"
 #include "AI_BasicController.h"
@@ -193,6 +194,7 @@ public:
 
 	KeyHolder* kh;
 	ASlowDownDebuff* slowDown;
+	ASuperJumpDebuff* JumpDebuff;
 	TArray<ADebuffManager*> Debuffs;
 
 	//DebuffManager* debuffManager;

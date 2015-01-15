@@ -15,6 +15,6 @@ class MOONSHINEWORKS_API ASlowDownDebuff : public ADebuffManager
 
 	virtual void SetDebuff(AActor* Target) override;
 	virtual void QuitDebuff() override;
-
+	//virtual void SetTime(float Time) override;
 	
 };
