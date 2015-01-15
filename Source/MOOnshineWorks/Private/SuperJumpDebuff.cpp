@@ -17,6 +17,7 @@ void ASuperJumpDebuff::SetDebuff(AActor* Target){
 		AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
 		CharTarget->CharacterMovement->JumpZVelocity *= 3;
 		SetTime(DebuffTime);
+		OnSetDebuff(Target);
 	}
 }
 
