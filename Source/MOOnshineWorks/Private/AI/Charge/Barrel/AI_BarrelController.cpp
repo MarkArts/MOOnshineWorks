@@ -13,14 +13,6 @@
 AAI_BarrelController::AAI_BarrelController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	if (HasAnyFlags(RF_ClassDefaultObject) == false)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_BarrelEnemy"));
-		if (PlayerPawnBPClass.Class != NULL)
-		{
-			EnemyClass = PlayerPawnBPClass.Class;
-		}
-	}
 }
 
 
@@ -31,7 +23,7 @@ void AAI_BarrelController::AttackPlayer()
 
 	if (AiChar)
 	{
-		AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
+		AAI_ChargeEnemy* AiSpecific = Cast<AAI_ChargeEnemy>(GetPawn());
 		AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 		//AMOOnshineWorksCharacter* playerCharacter = Cast<AMOOnshineWorksCharacter>(*It);
 		if (playerCharacter)
@@ -45,9 +37,9 @@ void AAI_BarrelController::AttackPlayer()
 			//Bereken het verschil van deze waardes -/+ de character om te berekenen welke kant hij op moet!
 			FVector difference = PlayerLocation - AiSpecificLocation;
 
-			if (AiSpecific->PianoPushPower >= 0)
+			if (AiSpecific->PushPower >= 0)
 			{
-				playerCharacter->AddImpulseToCharacter(AiSpecific->PianoPushPower*difference);
+				playerCharacter->AddImpulseToCharacter(AiSpecific->PushPower*difference);
 			}
 			else {
 			}
@@ -60,62 +52,4 @@ void AAI_BarrelController::AttackPlayer()
 void AAI_BarrelController::Patrol()
 {
    
-}
-void AAI_BarrelController::GoActive()
-{
-	UBehaviorTree * BehaviorTree = NULL;
-	AAI_BarrelEnemy* AiSpecific = Cast<AAI_BarrelEnemy>(GetPawn());
-	FVector SpawnLocation = AiSpecific->GetActorLocation();
-	FRotator SpawnRotation = AiSpecific->GetActorRotation();
-	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
-	UWorld* const World = GetWorld();
-	float MovementSpeed = AiSpecific->GetCharacterMovement()->MaxWalkSpeed;
-	float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
-	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
-	float PushPower = AiSpecific->PianoPushPower;
-	bool ShouldAIPatrol = AiChar->AIPatrol;
-
-	//Oude enemy destroyen
-	AiSpecific->Destroy();
-
-	//Nieuwe BlueprintEnemy Spawnen!
-	AAI_BasicEnemy* NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, SpawnLocation, SpawnRotation);
-
-	if (NewPawn != NULL)
-	{
-		if (NewPawn->Controller == NULL)
-		{
-			NewPawn->SpawnDefaultController();
-		}
-		if (BehaviorTree != NULL)
-		{
-			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-			if (AIController != NULL)
-			{
-				AIController->RunBehaviorTree(BehaviorTree);
-			}
-		}
-	}
-	if (World)
-	{
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
-	}
-
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
-	//De EnemyDistanceShouldAttack setten
-	NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
-	//De ChargeSpeed setten
-	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
-	//De Walkspeed zetten
-	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
-
-	//De PushPower setten
-	AAI_BarrelEnemy* BarrelEnemy = Cast<AAI_BarrelEnemy>(NewPawn);
-	BarrelEnemy->PianoPushPower = PushPower;
-
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	//BasicController->FoundPlayer();
-	//BasicController->AISetAttackState();
 }

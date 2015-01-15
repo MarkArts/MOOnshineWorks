@@ -2,20 +2,17 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicEnemy.h"
+#include "AI_BasicEnemy.h"
+#include "AI_ChargeEnemy.h"
 #include "AI_FridgeEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_FridgeEnemy : public AAI_BasicEnemy
+class MOONSHINEWORKS_API AAI_FridgeEnemy : public AAI_ChargeEnemy
 {
 	GENERATED_BODY()
 public:
 	AAI_FridgeEnemy(const class FObjectInitializer& PCIP);
-
-	/** PushBack */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float PianoPushPower;
 };

@@ -18,9 +18,4 @@ class MOONSHINEWORKS_API AAI_PegControllerLight : public AAI_MeleeController
 	virtual void AttackPlayer() override;
 
 	virtual void Patrol() override;
-
-	virtual void GoActive() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubclassOf<AAI_PegEnemyLight> EnemyClass;
 };

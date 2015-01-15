@@ -97,8 +97,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
 
-	UFUNCTION(BlueprintCallable, Category = AIState)
-	void SetEnemyDistanceShouldAttack();
+	//UFUNCTION(BlueprintCallable, Category = AIState)
+	//void SetEnemyDistanceShouldAttack();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void AttackPlayer();
@@ -108,4 +108,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void GoActive();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void SetMovementSpeed();
 };

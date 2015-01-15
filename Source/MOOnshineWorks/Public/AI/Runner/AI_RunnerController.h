@@ -2,7 +2,9 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicController.h"
+#include "AI_BasicController.h"
+#include "AI_VoodooEnemy.h"
+#include "AI_LampEnemy.h"
 #include "AI_RunnerController.generated.h"
 
 /**
@@ -25,4 +27,10 @@ public:
 	virtual void ReduceTimer();
 
 	virtual void GoActive() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_VoodooEnemy> VoodooEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_LampEnemy> LampEnemyClass;
 };

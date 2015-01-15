@@ -44,7 +44,7 @@ public:
 
 	/** Speed */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float Speed;
+	float WalkSpeed;
 
 	/** Speed */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
@@ -93,8 +93,8 @@ public:
 	TSubclassOf<AActor> DeathBlueprint;
 
 	/** EnemyDistance voor in behaviour tree */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float EnemyDistanceShouldAttack;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	//float EnemyDistanceShouldAttack;
 
 private:
 	FName PersistentId;

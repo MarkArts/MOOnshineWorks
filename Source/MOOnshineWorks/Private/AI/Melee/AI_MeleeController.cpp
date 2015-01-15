@@ -7,11 +7,35 @@
 #include "AI_PegEnemyDark.h"
 #include "AI_BasicController.h"
 #include "BasicAnimationInstance.h"
+#include "AI_PegEnemyLight.h"
 #include "AI_BasicEnemy.h"
 
 AAI_MeleeController::AAI_MeleeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
+		static ConstructorHelpers::FClassFinder<AAI_PegEnemyLight> PegLightBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegLightMelee"));
+		if (PegLightBPClass.Class != NULL)
+		{
+			PegLightEnemyClass = PegLightBPClass.Class;
+		}
+		static ConstructorHelpers::FClassFinder<AAI_PegEnemyDark> PegDarkBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegEnemyDark"));
+		if (PegDarkBPClass.Class != NULL)
+		{
+			PegDarkEnemyClass = PegDarkBPClass.Class;
+		}
+		static ConstructorHelpers::FClassFinder<AAI_GarbageEnemy> GarbageBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIGarbage"));
+		if (GarbageBPClass.Class != NULL)
+		{
+			GarbageEnemyClass = GarbageBPClass.Class;
+		}
+		static ConstructorHelpers::FClassFinder<AAI_BookEnemy> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBookMelee"));
+		if (BookBPClass.Class != NULL)
+		{
+			BookEnemyClass = BookBPClass.Class;
+		}
+	}
 }
 
 void AAI_MeleeController::AttackPlayer()
@@ -67,5 +91,73 @@ void AAI_MeleeController::Patrol()
 }
 void AAI_MeleeController::GoActive()
 {
-	//override
+	AAI_BasicEnemy* NewPawn = NULL;
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	UBehaviorTree * BehaviorTree = NULL;
+
+	FVector SpawnLocation = AiChar->GetActorLocation();
+	FRotator SpawnRotation = AiChar->GetActorRotation();
+	float MovementSpeed = AiChar->WalkSpeed;
+	UWorld* const World = GetWorld();
+	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
+
+	//Oude enemy destroyen
+	AiChar->Destroy();
+
+	//Check casting
+	AAI_PegEnemyLight* AiSpecificPegLight = Cast<AAI_PegEnemyLight>(AiChar);
+	AAI_PegEnemyDark* AiSpecificPegDark = Cast<AAI_PegEnemyDark>(AiChar);
+	AAI_GarbageEnemy* AiSpecificGarbage = Cast<AAI_GarbageEnemy>(AiChar);
+	AAI_BookEnemy* AiSpecificBook = Cast<AAI_BookEnemy>(AiChar);
+
+	//Nieuwe BlueprintEnemy Spawnen!
+	if (AiSpecificPegLight != NULL)
+	{
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegLightEnemyClass, SpawnLocation, SpawnRotation);
+	}
+	if (AiSpecificPegDark != NULL)
+	{
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegDarkEnemyClass, SpawnLocation, SpawnRotation);
+	}
+	if (AiSpecificGarbage != NULL)
+	{
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(GarbageEnemyClass, SpawnLocation, SpawnRotation);
+	}
+	if (AiSpecificBook != NULL)
+	{
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation);
+	}
+	
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
+
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
+	//De EnemyDistanceShouldAttack setten
+	//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De Walkspeed zetten
+	NewPawn->WalkSpeed = MovementSpeed;
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+	Controller->FoundPlayer();
+	Controller->AISetAttackState();
 }
