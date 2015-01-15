@@ -7,7 +7,7 @@
 ADebuffManager::ADebuffManager(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	name = "Debuff Manager";
+	DebuffType = "Debuff Manager";
 }
 
 void ADebuffManager::SetDebuff(AActor* Target){
@@ -24,18 +24,18 @@ void ADebuffManager::Start(ADebuffManager* Target) {
 }
 */
 
-bool ADebuffManager::IsValid(FString nameDebuff) {
+bool ADebuffManager::IsValid(ADebuffManager* nameDebuff) {
 	for (auto Itr(DebuffsActive.CreateIterator()); Itr; Itr++) {
-		if (DebuffsActive[Itr.GetIndex()] == nameDebuff) {
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied!"));
+		if (DebuffsActive[Itr.GetIndex()]->DebuffType == nameDebuff->DebuffType) {
+			nameDebuff->SetTime(nameDebuff->DebuffTime);
+			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied, timer herstart!"));
 			return false;
 		}
 	}
-	DebuffsActive.Add(name);
 	return true;
 }
 
-void ADebuffManager::SetTime(float Time, AActor* Target)
+void ADebuffManager::SetTime(float Time)
 {
 	GetWorld()->GetTimerManager().SetTimer(this, &ADebuffManager::QuitDebuff, Time, false);
 }
