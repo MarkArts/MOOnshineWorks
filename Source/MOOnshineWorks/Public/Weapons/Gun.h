@@ -13,7 +13,8 @@ namespace EGunType
 	{
 		None,
 		Crossbow,
-		Shotgun
+		Shotgun,
+		Bazooka
 	};
 }
 

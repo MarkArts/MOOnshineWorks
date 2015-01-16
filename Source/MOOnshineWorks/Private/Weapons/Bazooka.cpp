@@ -9,6 +9,7 @@ ABazooka::ABazooka(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Bazooka";
+	Type = EGunType::Bazooka;
 	Id = 16.f;
 
 	CharacterEquipOffset = FVector(20.f, 17.5f, -40.f);
