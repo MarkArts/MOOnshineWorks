@@ -2,7 +2,10 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicController.h"
+#include "AI_BasicController.h"
+#include "AI_PianoEnemy.h"
+#include "AI_FridgeEnemy.h"
+#include "AI_BarrelEnemy.h"
 #include "AI_ChargeController.generated.h"
 
 /**
@@ -23,4 +26,13 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void PlayChargeSound();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PianoEnemy> PianoEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_FridgeEnemy> FridgeEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BarrelEnemy> BarrelEnemyClass;
 };

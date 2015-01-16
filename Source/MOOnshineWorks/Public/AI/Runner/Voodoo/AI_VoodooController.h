@@ -15,9 +15,4 @@ class MOONSHINEWORKS_API AAI_VoodooController : public AAI_RunnerController
 	GENERATED_BODY()
 public:
 	AAI_VoodooController(const class FObjectInitializer& PCIP);
-
-	virtual void GoActive() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubclassOf<AAI_VoodooEnemy> EnemyClass;
 };

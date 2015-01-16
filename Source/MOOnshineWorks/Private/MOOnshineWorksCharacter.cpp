@@ -13,6 +13,7 @@
 #include "Shotgun.h"
 #include "DebuffManager.h"
 #include "SlowDownDebuff.h"
+#include "SuperJumpDebuff.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -465,9 +466,15 @@ void AMOOnshineWorksCharacter::Interact()
 			SpawnParams.bNoCollisionFail = true;
 			SpawnParams.Owner = this;
 			slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
+			JumpDebuff = GetWorld()->SpawnActor<ASuperJumpDebuff>(ASuperJumpDebuff::StaticClass(), SpawnParams);
+
+
+			Debuffs.Add(JumpDebuff);
 			Debuffs.Add(slowDown);
 
 			Debuffs[0]->SetDebuff(this);
+			Debuffs[1]->SetDebuff(this);
+
 
 			if (Interactable) 
 			{

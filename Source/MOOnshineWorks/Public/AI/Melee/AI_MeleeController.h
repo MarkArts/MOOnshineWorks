@@ -2,7 +2,12 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicController.h"
+#include "AI_BasicController.h"
+#include "AI_BasicEnemy.h"
+#include "AI_PegEnemyLight.h"
+#include "AI_PegEnemyDark.h"
+#include "AI_GarbageEnemy.h"
+#include "AI_BookEnemy.h"
 #include "AI_MeleeController.generated.h"
 
 /**
@@ -20,4 +25,16 @@ public:
 	virtual void Patrol() override;
 
 	virtual void GoActive() override;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PegEnemyLight> PegLightEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PegEnemyDark> PegDarkEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_GarbageEnemy> GarbageEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemy> BookEnemyClass;
 };

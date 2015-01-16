@@ -2,7 +2,8 @@
 
 #pragma once
 
-#include "AI/Basic/AI_BasicController.h"
+#include "AI_BasicController.h"
+#include "AI_BookEnemyLight.h"
 #include "AI_RangeController.generated.h"
 
 /**
@@ -23,4 +24,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void GoBackToOriginalPosition();
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemyLight> BookEnemyClass;
 };

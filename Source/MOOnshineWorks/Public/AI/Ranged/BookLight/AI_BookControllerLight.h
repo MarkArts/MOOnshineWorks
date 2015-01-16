@@ -21,9 +21,4 @@ public:
 	virtual void AttackPlayer() override;
 
 	virtual void GoBackToOriginalPosition() override;
-
-	virtual void GoActive() override;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	TSubclassOf<AAI_BookEnemyLight> EnemyClass;
 };

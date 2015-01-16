@@ -239,7 +239,7 @@ void AAI_BasicController::ActivateEnemy()
 
 	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
 }
-
+/*
 void AAI_BasicController::SetEnemyDistanceShouldAttack() 
 {
 	//Zet de EnemyDistance in de behaviour tree!
@@ -250,6 +250,7 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
 	}
 }
+*/
 void AAI_BasicController::CalculateChargePosition()
 {
 	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
@@ -278,5 +279,10 @@ void AAI_BasicController::Patrol()
 void AAI_BasicController::GoActive()
 {
 	//override, minder services nodig
+}
+void AAI_BasicController::SetMovementSpeed()
+{
+	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
+	BasicEnemy->GetCharacterMovement()->MaxWalkSpeed = BasicEnemy->WalkSpeed;
 }
 

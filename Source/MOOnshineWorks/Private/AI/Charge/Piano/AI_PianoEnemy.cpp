@@ -8,8 +8,6 @@ AAI_PianoEnemy::AAI_PianoEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_PianoController::StaticClass();
-
-	PianoPushPower = 0;
 }
 
 
