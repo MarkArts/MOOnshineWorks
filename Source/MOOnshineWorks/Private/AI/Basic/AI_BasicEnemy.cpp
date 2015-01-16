@@ -6,6 +6,7 @@
 #include "Helpers.h"
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
+#include "AI_RunnerEnemy.h"
 
 AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
@@ -20,9 +21,9 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 
 	Health = 0.f;
 	Defense = 0.f;
-	Speed = 0.f;
+	WalkSpeed = 0.f;
 	Damage = 0.f;
-	EnemyDistanceShouldAttack = 0.f;
+	//EnemyDistanceShouldAttack = 0.f;
 	ChargeSpeed = 0.f;
 	AIPatrol = true;
 	CanBeHit = true;
@@ -130,6 +131,18 @@ void AAI_BasicEnemy::Die()
 	);
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Added Enemy to death enemies");
+
+	//Indien de AI naar een AI_RunnerEnemy gecast kan worden dan items droppen!
+	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(this);
+	if (AiChar != NULL) //Het is een AI_RunnerEnemy
+	{
+		UWorld* const World = GetWorld();
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunnerEnemy gedood nu items droppen!!");
+		FVector SpawnLocation = AiChar->GetActorLocation();
+		FRotator SpawnRotation = AiChar->GetActorRotation();
+
+		ACollectible* NewObject = GetWorld()->SpawnActor<ACollectible>(AiChar->DropItem, SpawnLocation, SpawnRotation);
+	}
 
 	Destroy();
 }

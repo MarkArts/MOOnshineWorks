@@ -9,8 +9,6 @@ AAI_FridgeEnemy::AAI_FridgeEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_FridgeController::StaticClass();
-
-	PianoPushPower = 0;
 }
 
 

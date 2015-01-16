@@ -11,6 +11,9 @@
 #include "Gun.h"
 #include "BaseLevelScriptActor.h"
 #include "Shotgun.h"
+#include "DebuffManager.h"
+#include "SlowDownDebuff.h"
+#include "SuperJumpDebuff.h"
 #include "MOOnshineWorksGameMode.h"
 
 //////////////////////////////////////////////////////////////////////////
@@ -120,6 +123,8 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FObjectInitialize
     AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
 
 	kh = new KeyHolder();
+	//debuffManager = new DebuffManager();
+	
 }
 
 void AMOOnshineWorksCharacter::Respawn()
@@ -456,6 +461,21 @@ void AMOOnshineWorksCharacter::Interact()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
+
+			FActorSpawnParameters SpawnParams;
+			SpawnParams.bNoCollisionFail = true;
+			SpawnParams.Owner = this;
+			slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
+			JumpDebuff = GetWorld()->SpawnActor<ASuperJumpDebuff>(ASuperJumpDebuff::StaticClass(), SpawnParams);
+
+
+			Debuffs.Add(JumpDebuff);
+			Debuffs.Add(slowDown);
+
+			Debuffs[0]->SetDebuff(this);
+			Debuffs[1]->SetDebuff(this);
+
+
 			if (Interactable) 
 			{
 				Interactable->Interact(this);
@@ -737,11 +757,11 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 {
 	//Falling State
 	FVector Location = GetActorLocation();
-	Location.Z += 10;
+	Location.Z = Location.Z+10;
 	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
-	GetCapsuleComponent()->SetSimulatePhysics(true);
+	//GetCapsuleComponent()->SetSimulatePhysics(true);
 
 	//Omhoog gooien
 	GetCharacterMovement()->Velocity = Impulse;
@@ -749,5 +769,5 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 	//Geef impulse aan character!
  	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
 
-	GetCapsuleComponent()->SetSimulatePhysics(false);
+	//GetCapsuleComponent()->SetSimulatePhysics(false);
 }

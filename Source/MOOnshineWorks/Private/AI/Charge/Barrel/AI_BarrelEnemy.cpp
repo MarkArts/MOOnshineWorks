@@ -9,8 +9,6 @@ AAI_BarrelEnemy::AAI_BarrelEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
     AIControllerClass = AAI_BarrelController::StaticClass();
-    
-	PianoPushPower = 0;
 }
 
 

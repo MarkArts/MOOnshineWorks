@@ -18,7 +18,12 @@ namespace EDoorKey
 		None,
 		Red,
 		Green,
-		Blue
+		Blue,
+		Purple,
+		Orange,
+		Event,
+		EventTwo,
+		EventThree
 	};
 }
 

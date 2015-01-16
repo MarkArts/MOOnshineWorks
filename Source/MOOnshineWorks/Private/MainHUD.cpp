@@ -38,7 +38,8 @@ void AMainHUD::AddDisplayString(FDisplayString DisplayStringToAdd)
 			return;
 		}
 	}
-	
+	DisplayStringToAdd.StartTime = FDateTime::Now().ToUnixTimestamp();
+
 	DisplayStrings.Add(DisplayStringToAdd);
 }
 
@@ -58,10 +59,6 @@ void AMainHUD::Tick(float DeltaSeconds)
 		if (DisplayString->DisplayTime == 0)
 		{
 			DisplayStrings.RemoveAt(i, 1);
-		}
-		else if (DisplayString->StartTime == 0)
-		{
-			DisplayString->StartTime = CurrentTime.ToUnixTimestamp();
 		}
 		else if (DisplayString->DisplayTime <= CurrentTime.ToUnixTimestamp() - DisplayString->StartTime)
 		{

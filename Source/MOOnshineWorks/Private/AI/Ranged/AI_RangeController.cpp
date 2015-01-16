@@ -2,12 +2,20 @@
 
 #include "MOOnshineWorks.h"
 #include "AI_RangeController.h"
+#include "AI_BookEnemyLight.h"
 
 
 AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
+		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
+		if (BookBPClass.Class != NULL)
+		{
+			BookEnemyClass = BookBPClass.Class;
+		}
+	}
 }
 
 void AAI_RangeController::GoBackToOriginalPosition()
@@ -89,7 +97,59 @@ void AAI_RangeController::AttackPlayer()
 }
 void AAI_RangeController::GoActive()
 {
-	//override
+	AAI_BasicEnemy* NewPawn = NULL;
+	UBehaviorTree * BehaviorTree = NULL;
+	AAI_BookEnemyLight* AiSpecific = Cast<AAI_BookEnemyLight>(GetPawn());
+	FVector SpawnLocation = AiSpecific->GetActorLocation();
+	FRotator SpawnRotation = AiSpecific->GetActorRotation();
+	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
+	float MovementSpeed = AiChar->WalkSpeed;
+	UWorld* const World = GetWorld();
+	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
+	bool ShouldAIPatrol = AiChar->AIPatrol;
+
+	//Oude enemy destroyen
+	AiSpecific->Destroy();
+
+	//Check casting
+	AAI_BookEnemyLight* AiSpecificBook = Cast<AAI_BookEnemyLight>(AiChar);
+	if (AiSpecificBook != NULL)
+	{
+		//Nieuwe BlueprintEnemy Spawnen!
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation);
+	}
+
+	if (NewPawn != NULL)
+	{
+		if (NewPawn->Controller == NULL)
+		{
+			NewPawn->SpawnDefaultController();
+		}
+		if (BehaviorTree != NULL)
+		{
+			AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+			if (AIController != NULL)
+			{
+				AIController->RunBehaviorTree(BehaviorTree);
+			}
+		}
+	}
+	if (World)
+	{
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+	}
+
+	//De AIPatrol zetten
+	NewPawn->AIPatrol = ShouldAIPatrol;
+	//De EnemyDistanceShouldAttack setten
+	//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+	//De Walkspeed zetten
+	NewPawn->WalkSpeed = MovementSpeed;
+
+	//Laat AI speler direct aanvallen!
+	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+	BasicController->FoundPlayer();
+	BasicController->AISetAttackState();
 }
 
 

@@ -9,8 +9,6 @@ AAI_VoodooEnemy::AAI_VoodooEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	AIControllerClass = AAI_VoodooController::StaticClass();
-
-	TimerActive = 0;
 }
 
 

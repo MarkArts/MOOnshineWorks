@@ -34,12 +34,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SetOriginalPosition();
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	void ChangeAIDarkLight(bool DarkLight);
-
 	virtual void Possess(class APawn *InPawn);
-
-	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void FoundPlayer();
@@ -102,8 +97,8 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Materials)
 	void ActivateEnemy();
 
-	UFUNCTION(BlueprintCallable, Category = AIState)
-	void SetEnemyDistanceShouldAttack();
+	//UFUNCTION(BlueprintCallable, Category = AIState)
+	//void SetEnemyDistanceShouldAttack();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void AttackPlayer();
@@ -113,4 +108,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void GoActive();
+
+	UFUNCTION(BlueprintCallable, Category = Behavior)
+	void SetMovementSpeed();
 };
