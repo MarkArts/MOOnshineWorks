@@ -197,7 +197,8 @@ public:
 	ASuperJumpDebuff* JumpDebuff;
 	TArray<ADebuffManager*> Debuffs;
 
-	//DebuffManager* debuffManager;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
+	ADebuffManager* debuffManager;
 
 	UPROPERTY(VisibleAnyWhere, Category = MOOnshine)
 	bool IsDeath;

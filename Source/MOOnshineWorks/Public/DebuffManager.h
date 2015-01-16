@@ -13,8 +13,13 @@ class MOONSHINEWORKS_API ADebuffManager : public AActor
 {
 	GENERATED_UCLASS_BODY()
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	virtual void SetDebuff(AActor* Target);
+
 	virtual void QuitDebuff();
+
+	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
+	void OnSetDebuff(AActor* Target);
 
 	bool IsValid(ADebuffManager* nameDebuff);
 
@@ -24,9 +29,13 @@ class MOONSHINEWORKS_API ADebuffManager : public AActor
 
 	bool Repeat;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	FString DebuffType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	float DebuffTime;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	TArray<ADebuffManager*> DebuffsActive;
 	
 };

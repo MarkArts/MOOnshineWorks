@@ -17,6 +17,7 @@ void ASlowDownDebuff::SetDebuff(AActor* Target){
 		AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
 		CharTarget->CharacterMovement->MaxWalkSpeed *= 6;
 		SetTime(DebuffTime);
+		OnSetDebuff(Target);
 	}
 }
 

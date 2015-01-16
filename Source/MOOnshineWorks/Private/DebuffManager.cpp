@@ -18,6 +18,10 @@ void ADebuffManager::QuitDebuff(){
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("QuitDebuff();"));
 }
 
+void ADebuffManager::OnSetDebuff_Implementation(AActor* Target){
+
+}
+
 /*
 void ADebuffManager::Start(ADebuffManager* Target) {
 	SetDebuff(Target);
