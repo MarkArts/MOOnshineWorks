@@ -22,5 +22,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InteractableGun)
 	TSubclassOf<APlayerGun> Gun;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InteractableGun)
+	int32 AmmoGivenIfHasGun;
+
 	virtual void OnInteract_Implementation(AActor* Target) override;
 };
