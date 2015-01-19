@@ -25,6 +25,7 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FObjectInitialize
 	/** Make Character able to produce sound */
 	NoiseEmitter = PCIP.CreateDefaultSubobject<UPawnNoiseEmitterComponent>(this, TEXT("Noise Emitter"));
 
+	DidHit = false;
 	IsDeath = false;
 
 	//set base WalkSpeed

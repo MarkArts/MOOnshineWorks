@@ -25,6 +25,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void AnHero();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Hitmarker)
+	bool DidHit;
+
 	/** Make Character able to produce sound */
 	UPROPERTY(visibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	UPawnNoiseEmitterComponent* NoiseEmitter;
