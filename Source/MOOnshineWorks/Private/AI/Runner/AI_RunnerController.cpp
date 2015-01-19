@@ -53,6 +53,9 @@ void AAI_RunnerController::GoActive()
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 	float MovementSpeed = AiChar->WalkSpeed;
 
+	AAI_RunnerEnemy* AiSpecificRunner = Cast<AAI_RunnerEnemy>(AiChar);
+	TSubclassOf<ACollectible> DropItemIdle = AiSpecificRunner->DropItem;
+
 	//Oude enemy destroyen
 	AiChar->Destroy();
 
@@ -97,6 +100,11 @@ void AAI_RunnerController::GoActive()
 	{
 		//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
 		NewPawn->WalkSpeed = MovementSpeed;
+	}
+	if (DropItemIdle != NULL)
+	{
+		AAI_RunnerEnemy* AISpecificRunner = Cast<AAI_RunnerEnemy>(NewPawn);
+		AISpecificRunner->DropItem = DropItemIdle;
 	}
 	
 	//Laat AI speler direct aanvallen!
