@@ -53,6 +53,9 @@ void AAI_RunnerController::GoActive()
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 	float MovementSpeed = AiChar->WalkSpeed;
 
+	AAI_RunnerEnemy* AiSpecificRunner = Cast<AAI_RunnerEnemy>(AiChar);
+	TSubclassOf<ACollectible> DropItemIdle = AiSpecificRunner->DropItem;
+
 	//Oude enemy destroyen
 	AiChar->Destroy();
 
@@ -92,10 +95,18 @@ void AAI_RunnerController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	//De EnemyDistanceShouldAttack setten
-	//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
-	NewPawn->WalkSpeed = MovementSpeed;
 
+	if (MovementSpeed != 0)
+	{
+		//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+		NewPawn->WalkSpeed = MovementSpeed;
+	}
+	if (DropItemIdle != NULL)
+	{
+		AAI_RunnerEnemy* AISpecificRunner = Cast<AAI_RunnerEnemy>(NewPawn);
+		AISpecificRunner->DropItem = DropItemIdle;
+	}
+	
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	BasicController->FoundPlayer();
