@@ -13,7 +13,8 @@ namespace EGunType
 	{
 		None,
 		Crossbow,
-		Shotgun
+		Shotgun,
+		Bazooka
 	};
 }
 
@@ -29,7 +30,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float ShootCooldown;
-	FDateTime LastShot;
+	float LastShot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Gun)
 	float SpreadAngle;
@@ -66,6 +67,7 @@ public:
 	virtual bool CanCharge();
 	virtual void StartCharge();
 	virtual void EndCharge();
+	virtual void StopCharge();
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Charge)

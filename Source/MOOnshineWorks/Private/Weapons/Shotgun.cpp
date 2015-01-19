@@ -44,9 +44,9 @@ void AShotgun::Shoot()
 	float OldSpread = SpreadAngle;
 	if (CanCharge())
 	{
-		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
-		if (ChargeEffectMultiplier > 1.f)
+		if (Charge == 1.f)
 		{
+			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 			SpreadAngle /= ChargeEffectMultiplier;
 		}
 	}

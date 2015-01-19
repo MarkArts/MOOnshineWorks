@@ -8,18 +8,23 @@
 AInteractableGun::AInteractableGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	
+	AmmoGivenIfHasGun = 5;
 }
 
 void AInteractableGun::OnInteract_Implementation(AActor* Target)
 {
 	AMOOnshineWorksCharacter* CharTarget = Cast<AMOOnshineWorksCharacter>(Target);
-	if (CharTarget && !CharTarget->WeaponStrap->ContainsGun(Gun))
+	if (CharTarget)
 	{
 		APlayerGun* NewGun = GetWorld()->SpawnActor<APlayerGun>(Gun);
-		if (NewGun)
+		if (!CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
 		{
 			CharTarget->EquipGun(NewGun);
+		}
+		if (CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
+		{
+			CharTarget->AmmoContainer->AddAmmo(NewGun->AmmoTypes[NewGun->ActiveIndex], AmmoGivenIfHasGun);
+			NewGun->Destroy();
 		}
 	}
 	Destroy();

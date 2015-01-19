@@ -9,6 +9,7 @@ ABazooka::ABazooka(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "Bazooka";
+	Type = EGunType::Bazooka;
 	Id = 16.f;
 
 	CharacterEquipOffset = FVector(20.f, 17.5f, -40.f);
@@ -43,15 +44,12 @@ void ABazooka::Shoot()
 	AExplosiveProjectile* Projectile = Cast<AExplosiveProjectile>(SpawnProjectile(SpawnLocation, Target));
 	if (Projectile && CanCharge())
 	{
-		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
-		if (ChargeEffectMultiplier > 1.f)
+		if (Charge == 1.f)
 		{
+			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 			Projectile->DamageValue *= ChargeEffectMultiplier;
 			Projectile->ExplosionRadius *= ChargeEffectMultiplier;
 			Projectile->DoesPushback = false;
-		}
-		if (Charge == 1.f)
-		{
 			Projectile->DoesPushback = true;
 		}
 	}
