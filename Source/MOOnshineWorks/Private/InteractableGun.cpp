@@ -21,9 +21,10 @@ void AInteractableGun::OnInteract_Implementation(AActor* Target)
 		{
 			CharTarget->EquipGun(NewGun);
 		}
-		if (CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
+		else if (CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
 		{
 			CharTarget->AmmoContainer->AddAmmo(NewGun->AmmoTypes[NewGun->ActiveIndex], AmmoGivenIfHasGun);
+			UsedText = FString(TEXT("Already have this weapon, picked up the ammo instead"));
 			NewGun->Destroy();
 		}
 	}

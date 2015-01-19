@@ -198,7 +198,9 @@ public:
 	KeyHolder* kh;
 	ASlowDownDebuff* slowDown;
 	ASuperJumpDebuff* JumpDebuff;
-	TArray<ADebuffManager*> Debuffs;
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
+    TArray<ADebuffManager*> Debuffs;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	ADebuffManager* debuffManager;

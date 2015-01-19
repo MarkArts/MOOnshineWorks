@@ -151,7 +151,7 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 	{
 		Weapons.Add(Guns[I]->Name);
 	}
-
+	CurrentHealth = BaseHealth;
 	return{
 		GetTransform().GetLocation(),
 		GetTransform().Rotator(),
