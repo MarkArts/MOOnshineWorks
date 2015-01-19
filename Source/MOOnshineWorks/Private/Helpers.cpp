@@ -54,6 +54,7 @@ void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
 	};
 	SaveManager->GetData()->Player = Actor->CreatePlayerSave();
 	SaveManager->Save();
+	Actor->CurrentHealth = Actor->BaseHealth;
 }
 
 TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
