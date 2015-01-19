@@ -472,8 +472,8 @@ void AMOOnshineWorksCharacter::Interact()
 			Debuffs.Add(JumpDebuff);
 			Debuffs.Add(slowDown);
 
-			Debuffs[0]->SetDebuff(this);
-			Debuffs[1]->SetDebuff(this);
+			//Debuffs[0]->SetDebuff(this);
+			//Debuffs[1]->SetDebuff(this);
 
 
 			if (Interactable) 

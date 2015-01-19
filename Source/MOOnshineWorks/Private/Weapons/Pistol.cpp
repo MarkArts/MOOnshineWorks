@@ -41,14 +41,11 @@ void APistol::Shoot()
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	if (Projectile && CanCharge())
 	{
-		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
-		if (ChargeEffectMultiplier > 1.f)
-		{
-			Projectile->DamageValue *= ChargeEffectMultiplier;
-			Projectile->ProjectileMovement->Velocity = Projectile->GetVelocity() * ChargeEffectMultiplier;
-		}
 		if (Charge == 1.f)
 		{
+			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
+			Projectile->DamageValue *= ChargeEffectMultiplier;
+			Projectile->ProjectileMovement->Velocity = Projectile->GetVelocity() * ChargeEffectMultiplier;
 			Projectile->DeathBlueprint = nullptr;
 		}
 	}
