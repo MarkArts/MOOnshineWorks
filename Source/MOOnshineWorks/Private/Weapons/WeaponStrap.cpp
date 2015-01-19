@@ -28,6 +28,10 @@ void AWeaponStrap::NextGun()
 	if (Guns.IsValidIndex(ActiveGunIndex))
 	{
 		Guns[ActiveGunIndex]->SetVisibility(false);
+		if (Guns.Num() > 1)
+		{
+			Guns[ActiveGunIndex]->StopCharge();
+		}
 		ActiveGunIndex = (ActiveGunIndex + 1) % Guns.Num();
 		Guns[ActiveGunIndex]->SetVisibility(true);
 	}
@@ -38,6 +42,10 @@ void AWeaponStrap::PreviousGun()
 	if (Guns.IsValidIndex(ActiveGunIndex))
 	{
 		Guns[ActiveGunIndex]->SetVisibility(false);
+		if (Guns.Num() > 1)
+		{
+			Guns[ActiveGunIndex]->StopCharge();
+		}
 		ActiveGunIndex = ((ActiveGunIndex - 1) + Guns.Num()) % Guns.Num();
 		Guns[ActiveGunIndex]->SetVisibility(true);
 	}

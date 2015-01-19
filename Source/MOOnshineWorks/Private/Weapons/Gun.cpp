@@ -178,6 +178,12 @@ void AGun::EndCharge()
 	OnEndCharge();
 }
 
+void AGun::StopCharge()
+{
+	IsCharging = false;
+	Charge = 0.f;
+}
+
 void AGun::Tick(float DeltaSeconds)
 {
 	if (LastShot < 0)

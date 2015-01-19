@@ -44,15 +44,12 @@ void ABazooka::Shoot()
 	AExplosiveProjectile* Projectile = Cast<AExplosiveProjectile>(SpawnProjectile(SpawnLocation, Target));
 	if (Projectile && CanCharge())
 	{
-		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
-		if (ChargeEffectMultiplier > 1.f)
+		if (Charge == 1.f)
 		{
+			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 			Projectile->DamageValue *= ChargeEffectMultiplier;
 			Projectile->ExplosionRadius *= ChargeEffectMultiplier;
 			Projectile->DoesPushback = false;
-		}
-		if (Charge == 1.f)
-		{
 			Projectile->DoesPushback = true;
 		}
 	}

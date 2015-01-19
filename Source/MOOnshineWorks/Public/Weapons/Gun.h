@@ -67,6 +67,7 @@ public:
 	virtual bool CanCharge();
 	virtual void StartCharge();
 	virtual void EndCharge();
+	virtual void StopCharge();
 	virtual void Tick(float DeltaSeconds) override;
 
 	UFUNCTION(BlueprintNativeEvent, Category = Charge)
