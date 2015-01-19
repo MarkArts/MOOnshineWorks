@@ -151,10 +151,12 @@ void AAI_MeleeController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	//De EnemyDistanceShouldAttack setten
-	//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
-	//De Walkspeed zetten
-	NewPawn->WalkSpeed = MovementSpeed;
+	
+	if (MovementSpeed != 0)
+	{
+		//De Walkspeed zetten
+		NewPawn->WalkSpeed = MovementSpeed;
+	}
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();

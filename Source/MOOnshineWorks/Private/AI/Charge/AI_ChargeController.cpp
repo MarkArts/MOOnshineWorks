@@ -92,13 +92,22 @@ void AAI_ChargeController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	//De ChargeSpeed setten
-	NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
-	//De Walkspeed zetten
-	NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
-	//De PushPower setten
-	AAI_ChargeEnemy* ChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
-	ChargeEnemy->PushPower = PushPower;
+	if (ChargeSpeedIdleEnemy != 0)
+	{
+		//De ChargeSpeed setten
+		NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+	}
+	if (MovementSpeed != 0)
+	{ 
+		//De Walkspeed zetten
+		NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
+	}
+	if (PushPower != 0)
+	{
+		//De PushPower setten
+		AAI_ChargeEnemy* ChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
+		ChargeEnemy->PushPower = PushPower;
+	}
 
 	//Laat AI speler direct aanvallen!
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
