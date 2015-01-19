@@ -4,6 +4,7 @@
 #include "AI_BasicController.h"
 #include "AI_BasicEnemy.h"
 #include "AI_PegEnemyDark.h"
+#include "AI_PegEnemyLight.h"
 #include "AI_PegControllerDark.h"
 #include "AI_BookEnemyLight.h"
 #include "AI_BookControllerLight.h"
@@ -13,8 +14,55 @@ ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Time = 4.f;
-	Enemies.Add("1:PegEnemyDark;1:BookEnemy");
+	Enemies.Add("1:PegEnemyLight;1:RangeBookEnemy");
 	Repeat = false;
+	ShouldSpawnEnemies = false;
+
+	//Melee
+	static ConstructorHelpers::FClassFinder<AAI_PegEnemyLight> PegLightBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegLightMelee"));
+	if (PegLightBPClass.Class != NULL)
+	{
+		PegLightEnemyClass = PegLightBPClass.Class;
+	}
+	static ConstructorHelpers::FClassFinder<AAI_PegEnemyDark> PegDarkBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegEnemyDark"));
+	if (PegDarkBPClass.Class != NULL)
+	{
+		PegDarkEnemyClass = PegDarkBPClass.Class;
+	}
+	static ConstructorHelpers::FClassFinder<AAI_GarbageEnemy> GarbageBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIGarbage"));
+	if (GarbageBPClass.Class != NULL)
+	{
+		GarbageEnemyClass = GarbageBPClass.Class;
+	}
+	static ConstructorHelpers::FClassFinder<AAI_BookEnemy> MeleeBookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBookMelee"));
+	if (MeleeBookBPClass.Class != NULL)
+	{
+		MeleeBookEnemyClass = MeleeBookBPClass.Class;
+	}
+
+	//Range
+	static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
+	if (BookBPClass.Class != NULL)
+	{
+		RangeBookEnemyClass = BookBPClass.Class;
+	}
+
+	//Charge
+	static ConstructorHelpers::FClassFinder<AAI_PianoEnemy> PianoBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
+	if (PianoBPClass.Class != NULL)
+	{
+		PianoEnemyClass = PianoBPClass.Class;
+	}
+	static ConstructorHelpers::FClassFinder<AAI_BarrelEnemy> BarrelBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_BarrelEnemy"));
+	if (BarrelBPClass.Class != NULL)
+	{
+		BarrelEnemyClass = BarrelBPClass.Class;
+	}
+	static ConstructorHelpers::FClassFinder<AAI_FridgeEnemy> FridgeBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIFridge"));
+	if (FridgeBPClass.Class != NULL)
+	{
+		FridgeEnemyClass = FridgeBPClass.Class;
+	}
 }
 
 void ASpawnEnemy::SetTime(float Time)
@@ -29,6 +77,7 @@ void ASpawnEnemy::ReceiveBeginPlay()
 	Super::ReceiveBeginPlay();
 	SetTime(Time);
 	SpawnRandomEnemy();
+	
 	AMOOnshineWorksGameMode* GameMode = Cast<AMOOnshineWorksGameMode>(GetWorld()->GetAuthGameMode());
 }
 
@@ -60,19 +109,30 @@ void ASpawnEnemy::SpawnRandomEnemy()
 		FBox BoxInfo = GetComponentsBoundingBox();
 		FVector BoxSize = BoxInfo.GetSize();
 
-		if (TypeEnemy[Itr.GetIndex()] == "PegEnemyDark") 
+		if (TypeEnemy[Itr.GetIndex()] == "PegEnemyLight") 
 		{
-			//static ConstructorHelpers::FClassFinder<AAI_PegEnemyDark> PegEnemyDark(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegEnemyDark"));
-			//if (PegEnemyDark.Class != NULL)
-			//{
-			//	EnemyClass = PegEnemyDark.Class;
-			//}
+			EnemyClass = PegLightEnemyClass;
 		}
-		else if (TypeEnemy[Itr.GetIndex()] == "BookEnemy") {
-			//EnemyClass = TSubclassOf<AAI_BasicEnemy>(*(BlueprintLoader::Get().GetBP(FName("AI_BookEnemyLight"))));
+		else if (TypeEnemy[Itr.GetIndex()] == "PegDarkEnemy") {
+			EnemyClass = PegDarkEnemyClass;
 		}
-		else {
-			EnemyClass = NULL;
+		else if (TypeEnemy[Itr.GetIndex()] == "GarbageEnemy") {
+			EnemyClass = GarbageEnemyClass;
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "MeleeBookEnemy") {
+			EnemyClass = MeleeBookEnemyClass;
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "RangeBookEnemy") {
+			EnemyClass = RangeBookEnemyClass;
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "PianoChargeEnemy") {
+			EnemyClass = PianoEnemyClass;
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "BarrelChargeEnemy") {
+			EnemyClass = BarrelEnemyClass;
+		}
+		else if (TypeEnemy[Itr.GetIndex()] == "FridgeChargeEnemy") {
+			EnemyClass = FridgeEnemyClass;
 		}
 
 		if (GetWorld())
@@ -100,22 +160,25 @@ void ASpawnEnemy::SpawnRandomEnemy()
 				BoxOnWorld[0] += z;
 				BoxOnWorld[1] += y;
 
-				if (BoxInfo.IsInside(BoxOnWorld)) {
-					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("TEST"));
-					NewPawn = GetWorld()->SpawnActor<APawn>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
-					FVector BoxOnWorld = GetActorLocation();
-					if (NewPawn != NULL)
+				if (ShouldSpawnEnemies)
+				{
+					if (BoxInfo.IsInside(BoxOnWorld))
 					{
-						if (NewPawn->Controller == NULL)
+						NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(EnemyClass, BoxOnWorld, RotatorBoxOnWorld);
+						FVector BoxOnWorld = GetActorLocation();
+						if (NewPawn != NULL)
 						{
-							NewPawn->SpawnDefaultController();
-						}
-						if (BehaviorTree != NULL)
-						{
-							AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
-							if (AIController != NULL)
+							if (NewPawn->Controller == NULL)
 							{
-								AIController->RunBehaviorTree(BehaviorTree);
+								NewPawn->SpawnDefaultController();
+							}
+							if (BehaviorTree != NULL)
+							{
+								AAIController* AIController = Cast<AAIController>(NewPawn->Controller);
+								if (AIController != NULL)
+								{
+									AIController->RunBehaviorTree(BehaviorTree);
+								}
 							}
 						}
 					}

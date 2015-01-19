@@ -4,9 +4,14 @@
 
 #include "GameFramework/Actor.h"
 #include "MOOnshineWorksGameMode.h"
-#include "BlueprintLoader.h"
 #include "AI_PegEnemyDark.h"
 #include "AI_BasicEnemy.h"
+#include "AI_BasicController.h"
+#include "AI_PegEnemyLight.h"
+#include "AI_MeleeController.h"
+#include "AI_PianoEnemy.h"
+#include "AI_FridgeEnemy.h"
+#include "AI_BarrelEnemy.h"
 #include "SpawnEnemy.generated.h"
 
 /**
@@ -27,6 +32,36 @@ public:
 	TSubclassOf<AAI_BasicEnemy> EnemyClass;
 
 	class UBehaviorTree * BehaviorTree;
+
+	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	bool ShouldSpawnEnemies;
+
+	//Melee
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PegEnemyLight> PegLightEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PegEnemyDark> PegDarkEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_GarbageEnemy> GarbageEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemy> MeleeBookEnemyClass;
+
+	//Range
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemyLight> RangeBookEnemyClass;
+
+	//Charge
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_PianoEnemy> PianoEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_FridgeEnemy> FridgeEnemyClass;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BarrelEnemy> BarrelEnemyClass;
 
 protected:
 
