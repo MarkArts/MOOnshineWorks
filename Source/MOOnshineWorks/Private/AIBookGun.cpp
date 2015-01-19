@@ -8,7 +8,7 @@ AAIBookGun::AAIBookGun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 	Name = "AIBookGun";
-	Id = 14.f;
+	Id = 8.f;
 	
 	GunSphere = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("GunSphere"));
 	RootComponent = GunSphere;
@@ -16,6 +16,7 @@ AAIBookGun::AAIBookGun(const class FObjectInitializer& PCIP)
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.1f;
 }
+
 void AAIBookGun::Use()
 {
 	if (CanShoot())
@@ -24,6 +25,7 @@ void AAIBookGun::Use()
 		SetLastShotTime();
 	}
 }
+
 void AAIBookGun::Shoot()
 {
 	FVector SpawnLocation = GetOwner()->GetActorLocation();
