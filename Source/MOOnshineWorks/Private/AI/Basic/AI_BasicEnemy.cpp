@@ -18,6 +18,7 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	GetMesh()->SetCollisionProfileName(FName("EnemyCharacterMeshCollisionProfile"));
 	GetMesh()->bGenerateOverlapEvents = true;
 	GetCapsuleComponent()->SetCollisionProfileName(FName("EnemyPawnCollisionProfile"));
+	//GetCapsuleComponent()->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 	Health = 0.f;
 	Defense = 0.f;
