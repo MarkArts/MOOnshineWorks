@@ -21,7 +21,7 @@ void AInteractableGun::OnInteract_Implementation(AActor* Target)
 		{
 			CharTarget->EquipGun(NewGun);
 		}
-		if (CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
+		else if (CharTarget->WeaponStrap->ContainsGun(Gun) && NewGun)
 		{
 			CharTarget->AmmoContainer->AddAmmo(NewGun->AmmoTypes[NewGun->ActiveIndex], AmmoGivenIfHasGun);
 			NewGun->Destroy();

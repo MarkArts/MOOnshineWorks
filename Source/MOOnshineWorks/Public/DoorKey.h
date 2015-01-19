@@ -16,14 +16,20 @@ namespace EDoorKey
 	enum Type
 	{
 		None,
-		Red,
-		Green,
-		Blue,
-		Purple,
-		Orange,
-		Event,
-		EventTwo,
-		EventThree
+		LibraryF1D1,
+		LibraryF1D2,
+		LibraryF1D3,
+		LibraryF1D4,
+		LibraryF1D5,
+		LibraryF1D6,
+		LibraryF1D7,
+		LibraryF2D1,
+		LibraryF2D2,
+		LibraryF2D3,
+		LibraryF2D4,
+		LibraryF2D5,
+		LibraryF2D6,
+		LibraryF3E1
 	};
 }
 
