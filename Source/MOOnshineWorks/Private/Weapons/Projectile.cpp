@@ -61,6 +61,11 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 			if (OtherActor != GetOwner()->GetOwner())
 			{
 				HitActor(OtherActor);
+				AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(GetOwner()->GetOwner());
+				if (Player)
+				{
+					Player->DidHit = true;
+				}
 			}
 		}
 		else
