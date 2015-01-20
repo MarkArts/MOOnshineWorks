@@ -16,7 +16,6 @@ AAI_MeleeController::AAI_MeleeController(const class FPostConstructInitializePro
 
 void AAI_MeleeController::AttackPlayer()
 {
-	/*
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	//AAI_BasicEnemy* WalkingEnemyzz = (AAI_BasicEnemy*)GetPawn();
 
@@ -31,11 +30,9 @@ void AAI_MeleeController::AttackPlayer()
 			}
 		}
 	}
-	*/
 }
 void AAI_MeleeController::Patrol()
 {
-	/*
 	APawn* MyBot = GetPawn();
 	if (MyBot == NULL)
 	{
@@ -67,7 +64,6 @@ void AAI_MeleeController::Patrol()
 
 	MyLoc.Set(x, y, MyLoc[2]);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
-	*/
 }
 void AAI_MeleeController::GoActive()
 {

@@ -13,7 +13,6 @@
 AAI_BookController::AAI_BookController(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_BookEnemy> PlayerPawnBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBookMelee"));
@@ -22,24 +21,18 @@ AAI_BookController::AAI_BookController(const class FPostConstructInitializePrope
 			EnemyClass = PlayerPawnBPClass.Class;
 		}
 	}
-	*/
 }
 
 void AAI_BookController::AttackPlayer()
 {
-	/*
 	Super::AttackPlayer();
-	*/
 }
 void AAI_BookController::Patrol()
 {
-	/*
 	Super::Patrol();
-	*/
 }
 void AAI_BookController::GoActive()
 {
-	/*
 	UBehaviorTree * BehaviorTree = NULL;
 	AAI_BookEnemy* AiSpecific = Cast<AAI_BookEnemy>(GetPawn());
 	FVector SpawnLocation = AiSpecific->GetActorLocation();
@@ -84,7 +77,6 @@ void AAI_BookController::GoActive()
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	//BasicController->FoundPlayer();
 	//BasicController->AISetAttackState();
-	*/
 }
 
 
