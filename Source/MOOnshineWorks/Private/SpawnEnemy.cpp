@@ -18,7 +18,6 @@ ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	Repeat = false;
 	ShouldSpawnEnemies = false;
 
-	/*
 	//Melee
 	static ConstructorHelpers::FClassFinder<AAI_PegEnemyLight> PegLightBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegLightMelee"));
 	if (PegLightBPClass.Class != NULL)
@@ -64,7 +63,6 @@ ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	{
 		FridgeEnemyClass = FridgeBPClass.Class;
 	}
-	*/
 }
 
 void ASpawnEnemy::SetTime(float Time)

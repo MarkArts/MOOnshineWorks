@@ -239,6 +239,18 @@ void AAI_BasicController::ActivateEnemy()
 
 	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
 }
+/*
+void AAI_BasicController::SetEnemyDistanceShouldAttack() 
+{
+	//Zet de EnemyDistance in de behaviour tree!
+	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
+	if (BasicEnemy)
+	{
+		AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
+		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
+	}
+}
+*/
 void AAI_BasicController::CalculateChargePosition()
 {
 	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());

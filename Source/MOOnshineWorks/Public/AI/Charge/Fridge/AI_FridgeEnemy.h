@@ -12,7 +12,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_FridgeEnemy : public AAI_ChargeEnemy
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_FridgeEnemy(const class FObjectInitializer& PCIP);
+	GENERATED_BODY()
+public:
+	AAI_FridgeEnemy(const class FObjectInitializer& PCIP);
 };

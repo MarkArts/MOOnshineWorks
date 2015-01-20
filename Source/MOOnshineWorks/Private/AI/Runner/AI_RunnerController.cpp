@@ -11,7 +11,6 @@
 AAI_RunnerController::AAI_RunnerController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_VoodooEnemy> VoodooBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIVoodoo"));
@@ -25,7 +24,6 @@ AAI_RunnerController::AAI_RunnerController(const class FObjectInitializer& PCIP)
 			LampEnemyClass = LampBPClass.Class;
 		}
 	}
-	*/
 }
 void AAI_RunnerController::RunAway()
 {

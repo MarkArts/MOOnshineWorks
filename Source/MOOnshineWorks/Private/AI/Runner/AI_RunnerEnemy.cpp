@@ -9,7 +9,6 @@ AAI_RunnerEnemy::AAI_RunnerEnemy(const class FObjectInitializer& PCIP)
 {
 	AIControllerClass = AAI_RunnerController::StaticClass();
 
-	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<ACollectible> PlayerPawnBPClass(TEXT("/Game/Blueprints/Pickups/BP_AAmmoBarrel"));
@@ -18,7 +17,6 @@ AAI_RunnerEnemy::AAI_RunnerEnemy(const class FObjectInitializer& PCIP)
 			DropItem = PlayerPawnBPClass.Class;
 		}
 	}
-	*/
 
 	TimerActive = 0;
 }

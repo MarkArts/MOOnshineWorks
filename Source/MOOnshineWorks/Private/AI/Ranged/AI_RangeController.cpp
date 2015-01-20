@@ -8,16 +8,14 @@
 AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	//if (HasAnyFlags(RF_ClassDefaultObject) == false)
-	//{
-	/*
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
 		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
 		if (BookBPClass.Class != NULL)
 		{
 			BookEnemyClass = BookBPClass.Class;
 		}
-		*/
-	//}
+	}
 }
 
 void AAI_RangeController::GoBackToOriginalPosition()
