@@ -8,7 +8,7 @@
 AAI_BookEnemy::AAI_BookEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	AIControllerClass = AAI_BookEnemy::StaticClass();
+	AIControllerClass = AAI_BookController::StaticClass();
 }
 
 
