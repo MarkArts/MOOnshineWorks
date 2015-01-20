@@ -12,13 +12,16 @@ AAI_RangeController::AAI_RangeController(const class FPostConstructInitializePro
 
 void AAI_RangeController::GoBackToOriginalPosition()
 {
+	/*
 	LostPlayer();
 	FVector MyLoc = BlackboardComp->GetValueAsVector(OriginalPosition);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
+	*/
 }
 
 void AAI_RangeController::Patrol()
 {
+	/*
 	APawn* MyBot = GetPawn();
 	if (MyBot == NULL)
 	{
@@ -81,6 +84,7 @@ void AAI_RangeController::Patrol()
 	else{
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("WhereShouldAIPatrolToFloat was an incorrect value"));
 	}
+	*/
 }
 
 void AAI_RangeController::AttackPlayer()
