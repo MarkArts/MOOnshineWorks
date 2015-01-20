@@ -13,8 +13,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PegEnemyDark : public AAI_BasicEnemy
 {
-	GENERATED_BODY()
-public:
-	AAI_PegEnemyDark(const class FObjectInitializer& PCIP);
-
+	GENERATED_UCLASS_BODY()
+//public:
+//	AAI_PegEnemyDark(const class FObjectInitializer& PCIP);
 };

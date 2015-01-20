@@ -13,6 +13,7 @@
 AAI_MeleeController::AAI_MeleeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_PegEnemyLight> PegLightBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AI_PegLightMelee"));
@@ -36,6 +37,7 @@ AAI_MeleeController::AAI_MeleeController(const class FObjectInitializer& PCIP)
 			BookEnemyClass = BookBPClass.Class;
 		}
 	}
+	*/
 }
 
 void AAI_MeleeController::AttackPlayer()

@@ -11,10 +11,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_RunnerEnemy : public AAI_BasicEnemy
 {
-	GENERATED_BODY()	
+	GENERATED_UCLASS_BODY()
 
-public:
-	AAI_RunnerEnemy(const class FObjectInitializer& PCIP);
+//public:
+	//AAI_RunnerEnemy(const class FObjectInitializer& PCIP);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
 	TSubclassOf<ACollectible> DropItem;
