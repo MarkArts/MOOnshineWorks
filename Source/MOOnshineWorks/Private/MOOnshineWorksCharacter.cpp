@@ -299,7 +299,7 @@ void AMOOnshineWorksCharacter::StartUse()
 
 void AMOOnshineWorksCharacter::EndUse()
 {
-	if (WeaponStrap->GetActiveGun()->CanCharge())
+	if (WeaponStrap->GetActiveGun()->CanCharge() && WeaponStrap->GetActiveGun()->IsCharging)
 	{
 		WeaponStrap->GetActiveGun()->EndCharge();
 	}
@@ -432,7 +432,8 @@ void AMOOnshineWorksCharacter::CheckForInteractables()
 		if (Item->GetClass()->IsChildOf(AInteractable::StaticClass()))
 		{
 			AInteractable* Interactable = Cast<AInteractable>(Item);
-			if (Interactable) {
+			if (Interactable) 
+			{
 				Interactable->InRange(this);
 				break;
 			}
@@ -559,6 +560,27 @@ float AMOOnshineWorksCharacter::GetLightMinRadius(){ return LightMinRadius; };
 int32 AMOOnshineWorksCharacter::GetLightCurrentStage()
 {
 	return ceil(GetLightPercentage() / (1 / (LightStages - 1)));
+}
+
+float AMOOnshineWorksCharacter::GetLightStagePercentageFrom(int32 Stage)
+{
+	if (Stage > GetLightCurrentStage())
+	{
+		return 0.f;
+	}
+	else if (Stage < GetLightCurrentStage())
+	{
+		return 1.f;
+	}
+
+	float PercentagePerStage = 1 / (LightStages - 1);
+	float CurrentStagePercentage = GetLightPercentage();
+    
+    while( CurrentStagePercentage > PercentagePerStage)
+    {
+        CurrentStagePercentage = CurrentStagePercentage - PercentagePerStage;
+    }
+	return CurrentStagePercentage / PercentagePerStage;
 }
 
 void AMOOnshineWorksCharacter::UpdateLightRadius(float DeltaSeconds)
@@ -699,7 +721,28 @@ APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
 }
 
 void AMOOnshineWorksCharacter::AnHero()
-{	
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("He was such an hero, to take it all away.We miss him so, That you should know, And we honor him this day.He was an hero, to take that shot, to leave us all behind."));
-	Die();
+{
+	//CharacterMovement->Velocity.Z = 200.0f; //kan niet vanaf de grond...
+	FVector Impulse = FVector(0, 0, 1000);
+
+	CharacterMovement->Velocity = Impulse;
+}
+
+void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
+{
+	//Falling State
+	FVector locatie = GetActorLocation();
+	locatie.Z = 50;
+	SetActorLocation(locatie);
+
+	//physics van CapsuleComponent tijdelijk aanzetten!
+	CapsuleComponent->SetSimulatePhysics(true);
+
+	//Omhoog gooien
+	CharacterMovement->Velocity = Impulse;
+
+	//Geef impulse aan character!
+ 	//CapsuleComponent->AddImpulse(Impulse, NAME_None, true);
+
+	CapsuleComponent->SetSimulatePhysics(false);
 }

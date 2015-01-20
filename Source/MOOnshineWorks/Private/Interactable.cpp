@@ -32,7 +32,7 @@ void AInteractable::Interact(AActor* Target)
 			});
 			if (UsedText != TEXT(""))
 			{
-				UHelpers::DisplayText(GetWorld(), UsedText);
+				UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 			}
 			OnInteract(Target);
 		}
@@ -40,7 +40,7 @@ void AInteractable::Interact(AActor* Target)
 	else{
 		if (UsedText != TEXT(""))
 		{
-			UHelpers::DisplayText(GetWorld(), UsedText);
+			UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 		}
 		OnInteract(Target);
 	}

@@ -1,76 +1,57 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
-#include "Shotgun.h"
+#include "Bazooka.h"
 
 
-AShotgun::AShotgun(const class FPostConstructInitializeProperties& PCIP)
+ABazooka::ABazooka(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 {
-	Name = "Shotgun";
-	Type = EGunType::Shotgun;
-	Id = 15.f;
+	Name = "Bazooka";
+	Id = 16.f;
 
 	CharacterEquipOffset = FVector(20.f, 17.5f, -40.f);
 	CharacterEquipRotation = FRotator(0.f, 80.f, 0.f);
-	
-	SpreadAngle = 20.f;
-	ShootCooldown = 1.2f;
-	PelletCount = 6.f;
+
+	SpreadAngle = 5.f;
+	ShootCooldown = 2.f;
 
 	Charge = 0.f;
 	IsCharging = false;
 	ChargeRatePerSecond = (1.f / 3.f);
 	ChargeMultiplier = 3.f;
-	ChargeMovementMultiplier = 0.7f;
+	ChargeMovementMultiplier = 0.5f;
 }
 
-void AShotgun::Use()
+void ABazooka::Use()
 {
 	if (HasAmmo())
 	{
 		if (CanShoot())
 		{
-			Shoot();
-			UseAmmo();
+			if (Charge == 1.f)
+			{
+				Shoot();
+				UseAmmo();
+			}
 		}
 	}
 }
 
-void AShotgun::Shoot()
+void ABazooka::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	FVector Target = GetTarget();
-	float OldSpread = SpreadAngle;
-	if (CanCharge())
-	{
-		float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
-		if (ChargeEffectMultiplier > 1.f)
-		{
-			SpreadAngle /= ChargeEffectMultiplier;
-		}
-	}
-	switch (AmmoContainer->ActiveAmmoType)
-	{
-		default:
-			for (int i = 0; i < PelletCount; i++)
-			{
-				AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
-			}
-			break;
-		case EAmmoType::Type::A:
-			break;
-	}
-	SpreadAngle = OldSpread;
+	AProjectile* Projectile = SpawnProjectile(SpawnLocation, Target);
 	Super::Shoot();
 }
 
-bool AShotgun::CanCharge()
+bool ABazooka::CanCharge()
 {
 	return true && HasAmmo() && CanShoot();
 }
 
-void AShotgun::StartCharge()
+void ABazooka::StartCharge()
 {
 	Super::StartCharge();
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
@@ -80,7 +61,7 @@ void AShotgun::StartCharge()
 	}
 }
 
-void AShotgun::EndCharge()
+void ABazooka::EndCharge()
 {
 	Super::EndCharge();
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
