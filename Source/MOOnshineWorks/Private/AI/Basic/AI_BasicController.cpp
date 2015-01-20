@@ -39,7 +39,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 		EnemyDistanceShouldAttack = BlackboardComp->GetKeyID("EnemyDistanceShouldAttack");
 		ChargePosition = BlackboardComp->GetKeyID("ChargePosition");
 
-		BehaviorComp->StartTree(BaseChar->Behavior);
+		BehaviorComp->StartTree(*BaseChar->Behavior);
 	}
 
 	SetOriginalPosition();
