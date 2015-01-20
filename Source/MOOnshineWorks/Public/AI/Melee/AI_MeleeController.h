@@ -16,8 +16,8 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_MeleeController : public AAI_BasicController
 {
-	GENERATED_BODY()
-public:
+	GENERATED_UCLASS_BODY()
+/*public:
 	AAI_MeleeController(const class FObjectInitializer& PCIP);
 
 	virtual void AttackPlayer() override;
@@ -37,4 +37,5 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_BookEnemy> BookEnemyClass;
+	*/
 };

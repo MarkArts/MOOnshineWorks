@@ -14,10 +14,12 @@ UCLASS()
 class MOONSHINEWORKS_API AAI_BookController : public AAI_MeleeController
 {
 	GENERATED_BODY()
+		
 public:
 	AAI_BookController(const class FObjectInitializer& PCIP);
-
+	/*
 	virtual void AttackPlayer() override;
 
 	virtual void Patrol() override;
+	*/
 };

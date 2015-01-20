@@ -6,6 +6,7 @@
 AAI_ChargeController::AAI_ChargeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_PianoEnemy> PianoBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIPiano"));
@@ -24,7 +25,9 @@ AAI_ChargeController::AAI_ChargeController(const class FObjectInitializer& PCIP)
 			FridgeEnemyClass = FridgeBPClass.Class;
 		}
 	}
+	*/
 }
+/*
 void AAI_ChargeController::AttackPlayer()
 {
 	//override
@@ -118,6 +121,6 @@ void AAI_ChargeController::PlayChargeSound()
 {
 	//override
 }
-
+*/
 
 

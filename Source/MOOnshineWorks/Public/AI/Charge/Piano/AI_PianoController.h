@@ -16,8 +16,8 @@ class MOONSHINEWORKS_API AAI_PianoController : public AAI_ChargeController
 	GENERATED_BODY()
 public:
 	AAI_PianoController(const class FObjectInitializer& PCIP);
-
+	/*
 	virtual void AttackPlayer() override;
 
-	virtual void Patrol() override;
+	virtual void Patrol() override;*/
 };

@@ -14,10 +14,11 @@ UCLASS()
 class MOONSHINEWORKS_API AAI_FridgeController : public AAI_ChargeController
 {
 	GENERATED_BODY()
+		
 public:
 	AAI_FridgeController(const class FObjectInitializer& PCIP);
-
+	/*
 	virtual void AttackPlayer() override;
 
-	virtual void Patrol() override;
+	virtual void Patrol() override;*/
 };

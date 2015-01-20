@@ -12,7 +12,7 @@ AAI_BookControllerLight::AAI_BookControllerLight(const class FObjectInitializer&
 	: Super(PCIP)
 {
 }
-
+/*
 void AAI_BookControllerLight::GoBackToOriginalPosition()
 {
 	Super::GoBackToOriginalPosition();
@@ -29,3 +29,4 @@ void AAI_BookControllerLight::AttackPlayer()
 	AAI_BookEnemyLight* BaseEnemy = Cast<AAI_BookEnemyLight>(GetPawn());
 	BaseEnemy->Gun->Use();
 }
+*/

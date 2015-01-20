@@ -20,8 +20,8 @@
 UCLASS()
 class MOONSHINEWORKS_API ASpawnEnemy : public AActor
 {
-	GENERATED_BODY()
-
+	GENERATED_UCLASS_BODY()
+		/*
 public:
 	ASpawnEnemy(const class FObjectInitializer& PCIP);
 
@@ -79,4 +79,5 @@ protected:
 protected:
 
 	virtual void ReceiveBeginPlay() override;
+	*/
 };

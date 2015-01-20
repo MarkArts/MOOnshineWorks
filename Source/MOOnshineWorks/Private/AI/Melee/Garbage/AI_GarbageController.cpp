@@ -13,6 +13,7 @@ AAI_GarbageController::AAI_GarbageController(const class FObjectInitializer& PCI
 	: Super(PCIP)
 {
 }
+/*
 void AAI_GarbageController::AttackPlayer()
 {
 	Super::AttackPlayer();
@@ -21,5 +22,6 @@ void AAI_GarbageController::Patrol()
 {
 	Super::Patrol();
 }
+*/
 
 

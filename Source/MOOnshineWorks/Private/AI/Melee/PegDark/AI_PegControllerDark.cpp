@@ -13,6 +13,7 @@ AAI_PegControllerDark::AAI_PegControllerDark(const class FObjectInitializer& PCI
 	: Super(PCIP)
 {
 }
+/*
 void AAI_PegControllerDark::AttackPlayer()
 {
 	Super::AttackPlayer();
@@ -21,3 +22,4 @@ void AAI_PegControllerDark::Patrol()
 {
 	Super::Patrol();
 }
+*/

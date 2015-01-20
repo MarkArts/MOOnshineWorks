@@ -8,6 +8,7 @@
 AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
@@ -15,9 +16,9 @@ AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 		{
 			BookEnemyClass = BookBPClass.Class;
 		}
-	}
+	}*/
 }
-
+/*
 void AAI_RangeController::GoBackToOriginalPosition()
 {
 	LostPlayer();
@@ -153,6 +154,6 @@ void AAI_RangeController::GoActive()
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
 }
-
+*/
 
 

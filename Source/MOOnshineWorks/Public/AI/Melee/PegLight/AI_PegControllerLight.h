@@ -13,9 +13,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PegControllerLight : public AAI_MeleeController
 {
+	//GENERATED_BODY()
 	GENERATED_UCLASS_BODY()
 
-	virtual void AttackPlayer() override;
+	//virtual void AttackPlayer() override;
 
-	virtual void Patrol() override;
+	//virtual void Patrol() override;
 };

@@ -13,7 +13,7 @@ AAI_PegControllerLight::AAI_PegControllerLight(const class FObjectInitializer& P
 	: Super(PCIP)
 {
 }
-
+/*
 void AAI_PegControllerLight::AttackPlayer()
 {
 	Super::AttackPlayer();
@@ -22,5 +22,6 @@ void AAI_PegControllerLight::Patrol()
 {
 	Super::Patrol();
 }
+*/
 
 

@@ -14,6 +14,7 @@ AAI_BookController::AAI_BookController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 }
+/*
 void AAI_BookController::AttackPlayer()
 {
 	Super::AttackPlayer();
@@ -22,5 +23,6 @@ void AAI_BookController::Patrol()
 {
 	Super::Patrol();
 }
+*/
 
 

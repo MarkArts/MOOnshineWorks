@@ -17,7 +17,7 @@ class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 	GENERATED_BODY()
 public:
 	AAI_ChargeController(const class FObjectInitializer& PCIP);
-
+	/*
 	virtual void AttackPlayer() override;
 
 	virtual void Patrol() override;
@@ -35,4 +35,5 @@ public:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_BarrelEnemy> BarrelEnemyClass;
+	*/
 };

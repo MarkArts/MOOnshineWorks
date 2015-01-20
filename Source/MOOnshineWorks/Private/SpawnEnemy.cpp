@@ -13,6 +13,7 @@
 ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	/*
 	Time = 4.f;
 	Enemies.Add("1:PegEnemyLight;1:RangeBookEnemy");
 	Repeat = false;
@@ -63,8 +64,9 @@ ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)
 	{
 		FridgeEnemyClass = FridgeBPClass.Class;
 	}
+	*/
 }
-
+/*
 void ASpawnEnemy::SetTime(float Time)
 {
 	if (Repeat) {
@@ -188,5 +190,5 @@ void ASpawnEnemy::SpawnRandomEnemy()
 	}
 	EnemyClass = NULL;
 	APawn* NewPawn = NULL;
-}
+}*/
 
