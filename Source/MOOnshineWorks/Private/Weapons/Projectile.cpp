@@ -60,7 +60,7 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 		{
 			if (OtherActor != GetOwner()->GetOwner())
 			{
-				if (OtherActor->GetClass()->IsChildOf(APlayerGun::StaticClass()))
+				if (GetOwner()->GetClass()->IsChildOf(APlayerGun::StaticClass()))
 				{
 					APlayerGun* PlayerGun = Cast<APlayerGun>(GetOwner());
 					if (PlayerGun)
