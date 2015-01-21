@@ -20,7 +20,7 @@ void AAI_BookEnemyLight::ReceiveBeginPlay()
 	SpawnParams.Owner = this;
 	if (GunClass)
 	{ 
-		Gun = GetWorld()->SpawnActor<AAIBookGun>(GunClass, SpawnParams);
+		Gun = GetWorld()->SpawnActor<AGun>(GunClass, SpawnParams);
 		Gun->SetActorLocation(GetMesh()->GetComponentLocation());
 		Gun->AttachRootComponentTo(GetMesh());
 	}
