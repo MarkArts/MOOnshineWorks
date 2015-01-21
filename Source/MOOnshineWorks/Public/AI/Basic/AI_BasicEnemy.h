@@ -13,9 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_BasicEnemy(const class FObjectInitializer& PCIP);
+	GENERATED_BODY()
+public:
+	AAI_BasicEnemy(const class FObjectInitializer& PCIP);
 
 	/** Pawn sensing Component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Awareness)

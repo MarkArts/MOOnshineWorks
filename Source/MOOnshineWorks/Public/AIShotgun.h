@@ -21,7 +21,7 @@ public:
 	UPROPERTY(VisibleAnyWhere, BlueprintReadOnly, Category = AIGun)
 	int32 PelletCount;
 
-	virtual void Use() override;
-	virtual void Shoot() override;
-	virtual FVector GetTarget() override;
+	//virtual void Use() override;
+	//virtual void Shoot() override;
+	//virtual FVector GetTarget() override;
 };

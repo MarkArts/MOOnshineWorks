@@ -12,7 +12,7 @@
 #include "SuperJumpDebuff.h"
 #include "SlowDownDebuff.h"
 #include "GameFramework/Character.h"
-#include "AI_BasicController.h"
+//#include "AI_BasicController.h"
 #include "MOOnshineWorksCharacter.generated.h"
 
 UCLASS(config=Game)

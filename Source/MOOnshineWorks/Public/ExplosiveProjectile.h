@@ -22,6 +22,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Explosion)
 	bool DoesPushback;
 
-	virtual void HitActor(AActor* OtherActor) override;
+	//virtual void HitActor(AActor* OtherActor) override;
 	virtual void Destroyed() override;
 };

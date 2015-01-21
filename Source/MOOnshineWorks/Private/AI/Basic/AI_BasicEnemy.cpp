@@ -144,7 +144,6 @@ void AAI_BasicEnemy::Die()
 
 		ACollectible* NewObject = GetWorld()->SpawnActor<ACollectible>(AiChar->DropItem, SpawnLocation, SpawnRotation);
 	}
-
 	Destroy();
 }
 

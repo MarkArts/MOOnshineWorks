@@ -47,18 +47,18 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = Bullet)
 	FVector GunOffset;
 
-	virtual void Use() override; 
+	//virtual void Use() override; 
 	
 	UFUNCTION(BlueprintCallable, Category = Bullet)
 	FRotator GetBulletAngle(FVector Start, FVector Target);
 
-	virtual FVector GetTarget();
+	//FVector GetTarget();
 	FVector GetPlayerTarget();
-	FVector GetEnemyTarget();
+	//FVector GetEnemyTarget();
 	bool LocationBehindBulletSpawn(FVector Location);
 	virtual bool CanShoot();
 	void SetLastShotTime();
-	virtual void Shoot();
+	//virtual void Shoot();
 	AProjectile* SpawnProjectile(FVector Start, FVector End);
 	virtual TSubclassOf<class AProjectile> GetProjectileClass();
 

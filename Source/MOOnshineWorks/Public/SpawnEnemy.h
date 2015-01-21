@@ -4,14 +4,14 @@
 
 #include "GameFramework/Actor.h"
 #include "MOOnshineWorksGameMode.h"
-#include "AI_PegEnemyDark.h"
-#include "AI_BasicEnemy.h"
-#include "AI_BasicController.h"
-#include "AI_PegEnemyLight.h"
-#include "AI_MeleeController.h"
-#include "AI_PianoEnemy.h"
-#include "AI_FridgeEnemy.h"
-#include "AI_BarrelEnemy.h"
+//#include "AI_PegEnemyDark.h"
+//#include "AI_BasicEnemy.h"
+//#include "AI_BasicController.h"
+//#include "AI_PegEnemyLight.h"
+//#include "AI_MeleeController.h"
+//#include "AI_PianoEnemy.h"
+//#include "AI_FridgeEnemy.h"
+//#include "AI_BarrelEnemy.h"
 #include "SpawnEnemy.generated.h"
 
 /**

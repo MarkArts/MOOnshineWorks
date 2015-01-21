@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include "AI_BasicEnemy.h"
+//#include "AI_BasicEnemy.h"
 #include "GameFramework/Actor.h"
 #include "Projectile.generated.h"
 
@@ -27,12 +27,12 @@ public:
 	float DamageValue;
 
 	/** called when projectile hits something */
-	UFUNCTION()
-	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	//UFUNCTION()
+	//void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 	UFUNCTION(BlueprintNativeEvent, Category = Projectile)
 	void HitEvent();
-	virtual void HitActor(AActor* OtherActor);
+	//virtual void HitActor(AActor* OtherActor);
 	virtual void Destroyed() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
@@ -40,5 +40,5 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
 	TSubclassOf<AActor> HitBlueprint;
 protected:
-	virtual void ReceiveBeginPlay() override;
+	//virtual void ReceiveBeginPlay() override;
 };

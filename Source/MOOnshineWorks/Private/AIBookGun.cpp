@@ -16,7 +16,7 @@ AAIBookGun::AAIBookGun(const class FObjectInitializer& PCIP)
 	SpreadAngle = 0.f;
 	ShootCooldown = 0.1f;
 }
-
+/*
 void AAIBookGun::Use()
 {
 	if (CanShoot())
@@ -24,16 +24,18 @@ void AAIBookGun::Use()
 		Shoot();
 		SetLastShotTime();
 	}
-}
-
+}*/
+/*
 void AAIBookGun::Shoot()
 {
 	FVector SpawnLocation = GetOwner()->GetActorLocation();
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
 }
-
+*/
+/*
 FVector AAIBookGun::GetTarget()
 {
 	return GetEnemyTarget();
 }
+*/

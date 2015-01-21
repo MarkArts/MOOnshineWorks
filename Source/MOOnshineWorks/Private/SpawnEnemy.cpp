@@ -1,13 +1,13 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "MOOnshineWorks.h"
-#include "AI_BasicController.h"
-#include "AI_BasicEnemy.h"
-#include "AI_PegEnemyDark.h"
-#include "AI_PegEnemyLight.h"
-#include "AI_PegControllerDark.h"
-#include "AI_BookEnemyLight.h"
-#include "AI_BookControllerLight.h"
+//#include "AI_BasicController.h"
+//#include "AI_BasicEnemy.h"
+//#include "AI_PegEnemyDark.h"
+//#include "AI_PegEnemyLight.h"
+//#include "AI_PegControllerDark.h"
+//#include "AI_BookEnemyLight.h"
+//#include "AI_BookControllerLight.h"
 #include "SpawnEnemy.h"
 
 ASpawnEnemy::ASpawnEnemy(const class FObjectInitializer& PCIP)

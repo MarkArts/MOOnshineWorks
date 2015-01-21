@@ -22,7 +22,7 @@ APistol::APistol(const class FObjectInitializer& PCIP)
 	ChargeRatePerSecond = 0.5f;
 	ChargeMultiplier = 3.f;
 }
-
+/*
 void APistol::Use()
 {
 	if (HasAmmo())
@@ -34,7 +34,8 @@ void APistol::Use()
 		}
 	}
 }
-
+*/
+/*
 void APistol::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
@@ -50,7 +51,7 @@ void APistol::Shoot()
 		}
 	}
 	Super::Shoot();
-}
+}*/
 
 bool APistol::CanCharge()
 {

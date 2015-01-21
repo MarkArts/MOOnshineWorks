@@ -15,6 +15,6 @@ class MOONSHINEWORKS_API AAIProjectile : public AProjectile
 public:
 	AAIProjectile(const class FObjectInitializer& PCIP);
 
-	virtual void HitActor(AActor* OtherActor) override;
+	//virtual void HitActor(AActor* OtherActor) override;
 	
 };

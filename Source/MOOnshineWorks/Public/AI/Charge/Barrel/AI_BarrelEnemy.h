@@ -13,7 +13,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BarrelEnemy : public AAI_ChargeEnemy
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_BarrelEnemy(const class FObjectInitializer& PCIP);
+	GENERATED_BODY()
+public:
+	AAI_BarrelEnemy(const class FObjectInitializer& PCIP);
 };

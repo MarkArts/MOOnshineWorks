@@ -24,7 +24,7 @@ ABazooka::ABazooka(const class FObjectInitializer& PCIP)
 	ChargeMultiplier = 3.f;
 	ChargeMovementMultiplier = 0.5f;
 }
-
+/*
 void ABazooka::Use()
 {
 	if (HasAmmo())
@@ -36,7 +36,8 @@ void ABazooka::Use()
 		}
 	}
 }
-
+*/
+/*
 void ABazooka::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
@@ -55,7 +56,7 @@ void ABazooka::Shoot()
 	}
 	Super::Shoot();
 }
-
+*/
 bool ABazooka::CanCharge()
 {
 	return true && HasAmmo() && CanShoot();

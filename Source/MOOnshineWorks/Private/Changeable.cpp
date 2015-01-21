@@ -12,9 +12,10 @@ AChangeable::AChangeable(const class FObjectInitializer& PCIP)
 
 void AChangeable::Activate_Implementation()
 {
-	Change();
+	//Change();
 }
 
+/*
 void AChangeable::Change()
 {
 	FActorSpawnParameters SpawnParameters = FActorSpawnParameters();
@@ -39,3 +40,4 @@ void AChangeable::Change()
 
 	Destroy();
 }
+*/

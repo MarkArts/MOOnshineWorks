@@ -14,18 +14,18 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_ChargeController(const class FObjectInitializer& PCIP);
-	/*
+	GENERATED_BODY()
+public:
+	AAI_ChargeController(const class FObjectInitializer& PCIP);
+
 	virtual void AttackPlayer() override;
 
 	virtual void Patrol() override;
 
 	virtual void GoActive() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void PlayChargeSound();
+	//UFUNCTION(BlueprintCallable, Category = Behavior)
+	//virtual void PlayChargeSound();
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_PianoEnemy> PianoEnemyClass;
@@ -35,5 +35,4 @@ class MOONSHINEWORKS_API AAI_ChargeController : public AAI_BasicController
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_BarrelEnemy> BarrelEnemyClass;
-	*/
 };

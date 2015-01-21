@@ -18,8 +18,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Charge)
 	float ChargeMovementMultiplier;
 
-	virtual void Use() override;
-	virtual void Shoot() override;
+	//virtual void Use() override;
+	//virtual void Shoot() override;
 	virtual bool CanCharge() override;
 	virtual void StartCharge() override;
 	virtual void EndCharge() override;

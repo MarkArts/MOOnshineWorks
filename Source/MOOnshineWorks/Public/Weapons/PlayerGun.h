@@ -28,8 +28,8 @@ public:
 	void GiveShotFeedBack();
 	AAmmoContainer* AmmoContainer;
 
-	virtual FVector GetTarget() override;	
-	virtual void Shoot() override;
+	//virtual FVector GetTarget() override;	
+	//virtual void Shoot() override;
 	void UseAmmo();
 	bool HasAmmo();
 	virtual	TSubclassOf<class AProjectile> GetProjectileClass() override;

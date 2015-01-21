@@ -8,7 +8,6 @@
 AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	/*
 	if (HasAnyFlags(RF_ClassDefaultObject) == false)
 	{
 		static ConstructorHelpers::FClassFinder<AAI_BookEnemyLight> BookBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/AIBook"));
@@ -16,7 +15,7 @@ AAI_RangeController::AAI_RangeController(const class FObjectInitializer& PCIP)
 		{
 			BookEnemyClass = BookBPClass.Class;
 		}
-	}*/
+	}
 }
 /*
 void AAI_RangeController::GoBackToOriginalPosition()
@@ -25,7 +24,7 @@ void AAI_RangeController::GoBackToOriginalPosition()
 	FVector MyLoc = BlackboardComp->GetValueAsVector(OriginalPosition);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
 }
-
+*/
 void AAI_RangeController::Patrol()
 {
 	APawn* MyBot = GetPawn();
@@ -92,10 +91,7 @@ void AAI_RangeController::Patrol()
 	}
 }
 
-void AAI_RangeController::AttackPlayer()
-{
-	//override
-}
+
 void AAI_RangeController::GoActive()
 {
 	AAI_BasicEnemy* NewPawn = NULL;
@@ -154,6 +150,9 @@ void AAI_RangeController::GoActive()
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
 }
-*/
+void AAI_RangeController::AttackPlayer()
+{
+	//override
+}
 
 

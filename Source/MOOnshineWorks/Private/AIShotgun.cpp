@@ -16,7 +16,7 @@ AAIShotgun::AAIShotgun(const class FObjectInitializer& PCIP)
 	ShootCooldown = 2.0f;
 	PelletCount = 3;
 }
-
+/*
 void AAIShotgun::Use()
 {
 	if (CanShoot())
@@ -24,8 +24,8 @@ void AAIShotgun::Use()
 		Shoot();
 		SetLastShotTime();
 	}
-}
-
+}*/
+/*
 void AAIShotgun::Shoot()
 {
 	FVector SpawnLocation = GetOwner()->GetActorLocation();
@@ -35,8 +35,9 @@ void AAIShotgun::Shoot()
 	}
 	OnUse();
 }
-
+*/
+/*
 FVector AAIShotgun::GetTarget()
 {
 	return GetEnemyTarget();
-}
+}*/

@@ -15,7 +15,7 @@ AAI_BarrelController::AAI_BarrelController(const class FObjectInitializer& PCIP)
 {
 }
 
-/*
+
 void AAI_BarrelController::AttackPlayer()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
@@ -48,8 +48,7 @@ void AAI_BarrelController::AttackPlayer()
 		}
 	}
 }
-
 void AAI_BarrelController::Patrol()
 {
    
-   }*/
+}

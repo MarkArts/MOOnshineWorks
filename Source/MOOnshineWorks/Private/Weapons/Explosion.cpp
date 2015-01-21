@@ -2,7 +2,7 @@
 
 #include "MOOnshineWorks.h"
 #include "MOOnshineWorksCharacter.h"
-#include "AI_BasicEnemy.h"
+//#include "AI_BasicEnemy.h"
 #include "Explosion.h"
 
 
@@ -18,9 +18,9 @@ void AExplosion::ReceiveBeginPlay()
 {
 	EffectSphere->SetSphereRadius(EffectRadius);
 	Super::ReceiveBeginPlay();
-	Explode();
+	//Explode();
 }
-
+/*
 void AExplosion::Explode()
 {
 	TArray<AActor*> Items;
@@ -33,7 +33,8 @@ void AExplosion::Explode()
 		}
 	}
 }
-
+*/
+/*
 void AExplosion::Hit(AActor* Target)
 {
 	AMOOnshineWorksCharacter* CharacterTarget = Cast<AMOOnshineWorksCharacter>(Target);
@@ -68,3 +69,4 @@ void AExplosion::Hit(AActor* Target)
 		}
 	}
 }
+*/

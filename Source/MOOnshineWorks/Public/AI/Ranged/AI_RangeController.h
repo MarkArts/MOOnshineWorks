@@ -12,19 +12,19 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_RangeController : public AAI_BasicController
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_RangeController(const class FObjectInitializer& PCIP);
+	GENERATED_BODY()
+public:
+	AAI_RangeController(const class FObjectInitializer& PCIP);
 
-	//virtual void AttackPlayer() override;
+	virtual void AttackPlayer() override;
 
-	//virtual void Patrol() override;
+	virtual void Patrol() override;
 
-	//virtual void GoActive() override;
+	virtual void GoActive() override;
 
 	//UFUNCTION(BlueprintCallable, Category = Behavior)
 	//virtual void GoBackToOriginalPosition();
 
-	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
-	//TSubclassOf<AAI_BookEnemyLight> BookEnemyClass;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BookEnemyLight> BookEnemyClass;
 };

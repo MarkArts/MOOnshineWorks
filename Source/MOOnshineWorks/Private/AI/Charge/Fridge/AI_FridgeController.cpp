@@ -9,7 +9,7 @@ AAI_FridgeController::AAI_FridgeController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
 }
-/*
+
 void AAI_FridgeController::AttackPlayer()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
@@ -45,6 +45,6 @@ void AAI_FridgeController::AttackPlayer()
 void AAI_FridgeController::Patrol()
 {
 	
-}*/
+}
 
 

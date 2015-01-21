@@ -10,11 +10,11 @@ AExplosiveProjectile::AExplosiveProjectile(const class FObjectInitializer& PCIP)
 	ExplosionRadius = 300.f;
 	DoesPushback = false;
 }
-
+/*
 void AExplosiveProjectile::HitActor(AActor* OtherActor)
 {
 	Destroy();
-}
+}*/
 
 void AExplosiveProjectile::Destroyed()
 {

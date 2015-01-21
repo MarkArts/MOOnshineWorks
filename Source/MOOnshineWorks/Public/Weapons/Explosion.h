@@ -33,9 +33,9 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = CameraShake)
 	TSubclassOf<UCameraShake> ExplosionShaker;
 
-	UFUNCTION(BlueprintCallable, Category = Explosion)
-	void Explode();
-	void Hit(AActor* Target);
+	//UFUNCTION(BlueprintCallable, Category = Explosion)
+	//void Explode();
+	//void Hit(AActor* Target);
 
 protected:
 	virtual void ReceiveBeginPlay() override;

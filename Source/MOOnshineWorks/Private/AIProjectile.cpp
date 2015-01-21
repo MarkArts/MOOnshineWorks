@@ -10,7 +10,7 @@ AAIProjectile::AAIProjectile(const class FObjectInitializer& PCIP)
 {
 
 }
-
+/*
 void AAIProjectile::HitActor(AActor* OtherActor)
 {
 	if (OtherActor->GetClass()->IsChildOf(AMOOnshineWorksCharacter::StaticClass()))
@@ -25,3 +25,4 @@ void AAIProjectile::HitActor(AActor* OtherActor)
 	}
 	Destroy();
 }
+*/

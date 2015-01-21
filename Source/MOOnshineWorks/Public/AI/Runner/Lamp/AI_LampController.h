@@ -12,7 +12,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_LampController : public AAI_RunnerController
 {
-	GENERATED_UCLASS_BODY()
-//public:
-	//AAI_LampController(const class FObjectInitializer& PCIP);
+	GENERATED_BODY()
+public:
+	AAI_LampController(const class FObjectInitializer& PCIP);
 };

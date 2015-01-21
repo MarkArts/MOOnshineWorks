@@ -24,7 +24,7 @@ AShotgun::AShotgun(const class FObjectInitializer& PCIP)
 	ChargeMultiplier = 3.f;
 	ChargeMovementMultiplier = 0.7f;
 }
-
+/*
 void AShotgun::Use()
 {
 	if (HasAmmo())
@@ -35,8 +35,8 @@ void AShotgun::Use()
 			UseAmmo();
 		}
 	}
-}
-
+}*/
+/*
 void AShotgun::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
@@ -63,7 +63,7 @@ void AShotgun::Shoot()
 	}
 	SpreadAngle = OldSpread;
 	Super::Shoot();
-}
+}*/
 
 bool AShotgun::CanCharge()
 {

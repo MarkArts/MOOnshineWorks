@@ -13,12 +13,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_RunnerController : public AAI_BasicController
 {
-	GENERATED_UCLASS_BODY()
-		
-//public:
-	//AAI_RunnerController(const class FObjectInitializer& PCIP);
-	/*
-
+	GENERATED_BODY()
+public:
+	AAI_RunnerController(const class FObjectInitializer& PCIP);
+	
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void RunAway();
 
@@ -35,5 +33,4 @@ class MOONSHINEWORKS_API AAI_RunnerController : public AAI_BasicController
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_LampEnemy> LampEnemyClass;
-	*/
 };

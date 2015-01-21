@@ -30,18 +30,19 @@ FRotator AGun::GetBulletAngle(FVector Start, FVector Target)
 	OffsetAngle = OffsetAngle.Add(Direction.Rotation().Pitch, Direction.Rotation().Yaw, 0);
 	return OffsetAngle;
 }
-
+/*
 void AGun::Use()
 {
 	Shoot();
 }
-
+*/
+/*
 void AGun::Shoot()
 {
 	FVector SpawnLocation = RootComponent->GetSocketLocation("BulletSpawn");
 	AProjectile* Projectile = SpawnProjectile(SpawnLocation, GetTarget());
 	OnUse();
-}
+}*/
 
 AProjectile* AGun::SpawnProjectile(FVector Start, FVector End)
 {
@@ -71,7 +72,7 @@ void AGun::SetLastShotTime()
 {
 	LastShot = 0.f - ShootCooldown;
 }
-
+/*
 FVector AGun::GetTarget()
 {
 	APawn* Owner = Cast<APawn>(GetOwner());
@@ -85,14 +86,15 @@ FVector AGun::GetTarget()
 	}
 	return FVector::ZeroVector;
 }
-
+*/
+/*
 FVector AGun::GetEnemyTarget()
 {
 	AAI_BasicEnemy* Owner = Cast<AAI_BasicEnemy>(GetOwner());
 	AAI_BasicController* OwnerController = Cast<AAI_BasicController>(Owner->Controller);
 	return OwnerController->BlackboardComp->GetValueAsVector(OwnerController->EnemyLocationID);
 }
-
+*/
 FVector AGun::GetPlayerTarget()
 {
 	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());

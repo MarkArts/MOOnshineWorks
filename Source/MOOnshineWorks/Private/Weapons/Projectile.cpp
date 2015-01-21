@@ -10,7 +10,7 @@ AProjectile::AProjectile(const class FObjectInitializer& PCIP)
 {
 	ProjectileMesh = PCIP.CreateDefaultSubobject<UStaticMeshComponent>(this, TEXT("projectileMesh"));
 	ProjectileMesh->SetCollisionProfileName(FName("ProjectileCollisionProfile"));
-	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	//ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
 	
 	RootComponent = ProjectileMesh;
 
@@ -21,6 +21,7 @@ AProjectile::AProjectile(const class FObjectInitializer& PCIP)
 	InitialLifeSpan = 1.f;
 }
 
+/*
 void AProjectile::ReceiveBeginPlay()
 {
 	if (GetOwner())
@@ -50,7 +51,9 @@ void AProjectile::ReceiveBeginPlay()
 	}
 	Super::ReceiveBeginPlay();
 }
+*/
 
+/*
 void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
 	// Only add impulse and destroy projectile if we hit a physics
@@ -84,7 +87,7 @@ void AProjectile::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVec
 			Destroy();
 		}
 	}
-}
+}*/
 
 void AProjectile::HitEvent_Implementation()
 {
@@ -110,7 +113,7 @@ void AProjectile::Destroyed()
 	}
 	Super::Destroyed();
 }
-
+/*
 void AProjectile::HitActor(AActor* OtherActor)
 {
 	HitEvent();
@@ -134,3 +137,4 @@ void AProjectile::HitActor(AActor* OtherActor)
 	}
 	Destroy();
 }
+*/

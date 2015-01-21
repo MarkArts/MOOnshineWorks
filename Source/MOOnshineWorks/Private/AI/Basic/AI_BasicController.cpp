@@ -7,7 +7,7 @@
 #include "Materials/MaterialInstanceDynamic.h"
 #include "BasicAnimationInstance.h"
 #include "AI_BookEnemyLight.h"
-#include "AI_PegEnemyDark.h"
+//#include "AI_PegEnemyDark.h"
 #include "AI_BarrelEnemy.h"
 #include "AI_PianoEnemy.h"
 
@@ -239,18 +239,6 @@ void AAI_BasicController::ActivateEnemy()
 
 	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
 }
-/*
-void AAI_BasicController::SetEnemyDistanceShouldAttack() 
-{
-	//Zet de EnemyDistance in de behaviour tree!
-	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	if (BasicEnemy)
-	{
-		AAI_BasicController* Controller = (AAI_BasicController*)BasicEnemy->GetController();
-		BlackboardComp->SetValueAsFloat(EnemyDistanceShouldAttack, BasicEnemy->EnemyDistanceShouldAttack);
-	}
-}
-*/
 void AAI_BasicController::CalculateChargePosition()
 {
 	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
@@ -285,4 +273,3 @@ void AAI_BasicController::SetMovementSpeed()
 	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
 	BasicEnemy->GetCharacterMovement()->MaxWalkSpeed = BasicEnemy->WalkSpeed;
 }
-

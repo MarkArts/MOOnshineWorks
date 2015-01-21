@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "AI_BasicController.h"
+//#include "AI_BasicController.h"
 #include "Changeable.generated.h"
 
 /**
@@ -19,14 +19,14 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TSubclassOf<APawn> TargetClass;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	UBehaviorTree* BehaviorTree;
+	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	//UBehaviorTree* BehaviorTree;
 
 	UFUNCTION(BlueprintNativeEvent, Category = MOO)
 	void Activate();
 
-	UFUNCTION(BlueprintCallable, Category = MOO)
-	void Change();
+	//UFUNCTION(BlueprintCallable, Category = MOO)
+	//void Change();
 
 	
 };
