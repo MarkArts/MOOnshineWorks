@@ -13,10 +13,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BarrelController : public AAI_ChargeController
 {
-	GENERATED_BODY()
+	GENERATED_UCLASS_BODY()
 		
-public:
-	AAI_BarrelController(const class FObjectInitializer& PCIP);
+//public:
+	//AAI_BarrelController(const class FObjectInitializer& PCIP);
 	/*
     virtual void AttackPlayer() override;
     

@@ -13,9 +13,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PianoController : public AAI_ChargeController
 {
-	GENERATED_BODY()
-public:
-	AAI_PianoController(const class FObjectInitializer& PCIP);
+	GENERATED_UCLASS_BODY()
+//public:
+	//AAI_PianoController(const class FObjectInitializer& PCIP);
 	/*
 	virtual void AttackPlayer() override;
 

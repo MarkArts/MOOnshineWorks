@@ -12,7 +12,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_PianoEnemy : public AAI_ChargeEnemy
 {
-	GENERATED_BODY()
-public:
-	AAI_PianoEnemy(const class FObjectInitializer& PCIP);
+	GENERATED_UCLASS_BODY()
+//public:
+	//AAI_PianoEnemy(const class FObjectInitializer& PCIP);
 };

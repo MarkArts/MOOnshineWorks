@@ -13,10 +13,10 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_RunnerController : public AAI_BasicController
 {
-	GENERATED_BODY()
+	GENERATED_UCLASS_BODY()
 		
-public:
-	AAI_RunnerController(const class FObjectInitializer& PCIP);
+//public:
+	//AAI_RunnerController(const class FObjectInitializer& PCIP);
 	/*
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)

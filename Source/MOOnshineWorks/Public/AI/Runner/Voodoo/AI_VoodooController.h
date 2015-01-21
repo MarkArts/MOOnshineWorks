@@ -12,7 +12,7 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_VoodooController : public AAI_RunnerController
 {
-	GENERATED_BODY()
-public:
-	AAI_VoodooController(const class FObjectInitializer& PCIP);
+	GENERATED_UCLASS_BODY()
+//public:
+	//AAI_VoodooController(const class FObjectInitializer& PCIP);
 };

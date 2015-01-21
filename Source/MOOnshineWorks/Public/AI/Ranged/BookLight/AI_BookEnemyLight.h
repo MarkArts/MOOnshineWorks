@@ -14,9 +14,9 @@
 UCLASS()
 class MOONSHINEWORKS_API AAI_BookEnemyLight : public AAI_BasicEnemy
 {
-	GENERATED_BODY()
-public:
-	AAI_BookEnemyLight(const class FObjectInitializer& PCIP);
+	GENERATED_UCLASS_BODY()
+//public:
+	//AAI_BookEnemyLight(const class FObjectInitializer& PCIP);
 
 	virtual void ReceiveBeginPlay() override;
 
