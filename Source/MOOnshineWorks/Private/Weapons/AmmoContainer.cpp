@@ -7,13 +7,13 @@
 AAmmoContainer::AAmmoContainer(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	AmmoCounters.Add(10);
-	AmmoCounters.Add(15);
+	AmmoCounters.Add(6);
 	AmmoCounters.Add(5);
+	AmmoCounters.Add(2);
 	ActiveAmmoType = EAmmoType::Type::A;
-	MaximumAmmoCount.Add(10);
-	MaximumAmmoCount.Add(15);
+	MaximumAmmoCount.Add(6);
 	MaximumAmmoCount.Add(5);
+	MaximumAmmoCount.Add(2);
 }
 
 int32 AAmmoContainer::AddAmmo(EAmmoType::Type AmmoType, int32 AmmoAmount)
