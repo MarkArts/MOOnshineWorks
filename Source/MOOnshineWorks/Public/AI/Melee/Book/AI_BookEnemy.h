@@ -2,9 +2,7 @@
 
 #pragma once
 
-#include "GameFramework/Character.h"
 #include "AI_BasicEnemy.h"
-#include "AI_BasicController.h"
 #include "AI_BookEnemy.generated.h"
 
 /**
