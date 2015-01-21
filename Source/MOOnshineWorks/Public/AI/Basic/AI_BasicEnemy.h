@@ -80,6 +80,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void Die();
 
+	UFUNCTION(BlueprintNativeEvent, Category = MOO)
+	void OnDie();
+
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	FName GetPersistentId();
 

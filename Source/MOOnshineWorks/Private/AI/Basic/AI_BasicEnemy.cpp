@@ -32,9 +32,9 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 
 void AAI_BasicEnemy::PostInitializeComponents()
 {
-	Super::PostInitializeComponents();
 	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
 	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
+	Super::PostInitializeComponents();
 }
 
 void AAI_BasicEnemy::ReceiveBeginPlay()
@@ -144,8 +144,14 @@ void AAI_BasicEnemy::Die()
 
 		ACollectible* NewObject = GetWorld()->SpawnActor<ACollectible>(AiChar->DropItem, SpawnLocation, SpawnRotation);
 	}
-
 	Destroy();
+
+	OnDie();
+}
+
+void AAI_BasicEnemy::OnDie_Implementation()
+{
+
 }
 
 FName AAI_BasicEnemy::GetPersistentId(){
