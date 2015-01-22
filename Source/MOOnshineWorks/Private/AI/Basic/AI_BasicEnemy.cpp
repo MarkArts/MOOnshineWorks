@@ -47,11 +47,7 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 	FActorSave* SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
 	if (SaveState)
 	{
-		if (SaveState->StopSpawn)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Enemy was already death");
-			Destroy();
-		}
+		UHelpers::ApplyActorSave(*SaveState, this);
 	}
 }
 

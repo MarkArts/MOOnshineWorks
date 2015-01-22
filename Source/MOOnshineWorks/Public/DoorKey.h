@@ -49,13 +49,11 @@ public:
 	EDoorKey::Type GetKeyName();
 
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
-	FString OnPickedUp();
-
-	UFUNCTION(BlueprintCallable, Category = "Moonshine")
 	void SetKeyName(const EDoorKey::Type InsertKey);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 	TEnumAsByte<EDoorKey::Type> KeyName;
 
+	virtual void Collect(AActor* Target) override;
 	virtual void OnCollect_Implementation(AActor* Target) override;
 };

@@ -27,7 +27,7 @@ public:
 	bool ShouldSave;
 
 	UFUNCTION(BlueprintCallable, Category = MOO)
-	void Save(bool ShouldSPawn);
+	void Save(bool StopSpawn);
 
 	UFUNCTION(BluePrintNativeEvent)
 	void OnCollect(AActor* Target);
@@ -36,4 +36,5 @@ public:
 
 protected:
 	virtual void ReceiveBeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };
