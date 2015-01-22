@@ -33,7 +33,7 @@ void AAI_ChargeController::Patrol()
 {
 	//hoeft niet?
 }
-void AAI_ChargeController::GoActive()
+AAI_BasicEnemy* AAI_ChargeController::GoActive()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	AAI_BasicEnemy* NewPawn = NULL;
@@ -113,6 +113,14 @@ void AAI_ChargeController::GoActive()
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
+
+	if (NewPawn)
+	{
+		return NewPawn;
+	}
+
+	return nullptr;
+
 }
 void AAI_ChargeController::PlayChargeSound()
 {

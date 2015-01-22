@@ -276,8 +276,9 @@ void AAI_BasicController::Patrol()
 {
 	//override, minder services nodig
 }
-void AAI_BasicController::GoActive()
+AAI_BasicEnemy* AAI_BasicController::GoActive()
 {
+	return nullptr;
 	//override, minder services nodig
 }
 void AAI_BasicController::SetMovementSpeed()
