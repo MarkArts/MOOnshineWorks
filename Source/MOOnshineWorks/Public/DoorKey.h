@@ -29,7 +29,12 @@ namespace EDoorKey
 		LibraryF2D4,
 		LibraryF2D5,
 		LibraryF2D6,
-		LibraryF3E1
+		LibraryF3E1,
+
+		// Deprecated but left in because its still referenced
+		Red,
+		Blue,
+		Green
 	};
 }
 
