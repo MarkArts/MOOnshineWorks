@@ -34,6 +34,9 @@ void ACollectible::Collect(AActor* Target)
 		});
 	}
 
+
+	OnCollectDelegate.Broadcast(this);
+
 	Destroy();
 }
 
