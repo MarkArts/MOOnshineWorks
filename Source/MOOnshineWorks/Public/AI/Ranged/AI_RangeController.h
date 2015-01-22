@@ -20,7 +20,7 @@ public:
 
 	virtual void Patrol() override;
 
-	virtual void GoActive() override;
+	virtual AAI_BasicEnemy* GoActive() override;
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void GoBackToOriginalPosition();

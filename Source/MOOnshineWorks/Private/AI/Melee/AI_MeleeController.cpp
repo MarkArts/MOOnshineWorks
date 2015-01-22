@@ -89,7 +89,7 @@ void AAI_MeleeController::Patrol()
 	MyLoc.Set(x, y, MyLoc[2]);
 	BlackboardComp->SetValueAsVector(SetPatrolRoute, MyLoc);
 }
-void AAI_MeleeController::GoActive()
+AAI_BasicEnemy* AAI_MeleeController::GoActive()
 {
 	AAI_BasicEnemy* NewPawn = NULL;
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
@@ -162,4 +162,11 @@ void AAI_MeleeController::GoActive()
 	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
 	Controller->FoundPlayer();
 	Controller->AISetAttackState();
+
+	if (NewPawn)
+	{
+		return NewPawn;
+	}
+
+	return nullptr;
 }

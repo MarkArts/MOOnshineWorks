@@ -9,6 +9,8 @@
 #include "Materials/MaterialInterface.h"
 #include "AI_BasicController.generated.h"
 
+class AAI_BasicEnemy;
+
 /**
 *
 */
@@ -107,7 +109,7 @@ public:
 	virtual void Patrol();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void GoActive();
+	virtual AAI_BasicEnemy* GoActive();
 
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	void SetMovementSpeed();

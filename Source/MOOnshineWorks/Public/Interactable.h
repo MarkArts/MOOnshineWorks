@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "Interactable.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnInteract, AInteractable*, Interactable);
+
 /**
  * 
  */
@@ -14,6 +16,9 @@ class MOONSHINEWORKS_API AInteractable : public AActor
 	GENERATED_BODY()
 public:
 	AInteractable(const class FObjectInitializer& PCIP);
+
+	UPROPERTY(BlueprintAssignable, Category = MOO)
+	FBindableEvent_FOnInteract OnInteractDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString DisplayText;

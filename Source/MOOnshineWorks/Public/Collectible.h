@@ -5,6 +5,8 @@
 #include "GameFramework/Actor.h"
 #include "Collectible.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnCollect, ACollectible*, Aollectible);
+
 /**
  * 
  */
@@ -14,6 +16,9 @@ class MOONSHINEWORKS_API ACollectible : public AActor
 	GENERATED_BODY()
 public:
 	ACollectible(const class FObjectInitializer& PCIP);
+
+	UPROPERTY(BlueprintAssignable, Category = MOO)
+	FBindableEvent_FOnCollect OnCollectDelegate;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FString UsedText;

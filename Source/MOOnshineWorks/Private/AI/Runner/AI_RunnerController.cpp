@@ -41,7 +41,7 @@ void AAI_RunnerController::RunAway()
 
 	AIController->BlackboardComp->SetValueAsVector(SetPatrolRoute, VectorResult);
 }
-void AAI_RunnerController::GoActive()
+AAI_BasicEnemy* AAI_RunnerController::GoActive()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	AAI_BasicEnemy* NewPawn = NULL;
@@ -111,6 +111,13 @@ void AAI_RunnerController::GoActive()
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
+
+	if (NewPawn)
+	{
+		return NewPawn;
+	}
+	
+	return nullptr;
 }
 void AAI_RunnerController::ReduceTimer() //haal een seconde van TimerActive af en is die 0 roep dan TimeIsUp aan
 {
