@@ -254,12 +254,13 @@ void AAI_BasicController::SetEnemyDistanceShouldAttack()
 void AAI_BasicController::CalculateChargePosition()
 {
 	AAI_BasicEnemy* BasicEnemy = Cast<AAI_BasicEnemy>(GetPawn());
+	AAI_ChargeEnemy* ChargeEnemy = Cast<AAI_ChargeEnemy>(GetPawn());
 	AMOOnshineWorksCharacter* playerCharacter = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 
 	if (BasicEnemy && playerCharacter)
 	{ 
 		//Snelheid van de AI omhoog tijdens charge!
-		BasicEnemy->GetCharacterMovement()->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
+		BasicEnemy->GetCharacterMovement()->MaxWalkSpeed = ChargeEnemy->ChargeSpeed;
 		//BasicEnemy->MaxWalkSpeed = BasicEnemy->ChargeSpeed;
 
 		//Bereken charge locatie!

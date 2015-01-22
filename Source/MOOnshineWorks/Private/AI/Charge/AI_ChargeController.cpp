@@ -43,7 +43,7 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 	FVector SpawnLocation = AiChar->GetActorLocation();
 	FRotator SpawnRotation = AiChar->GetActorRotation();
 	UWorld* const World = GetWorld();
-	float ChargeSpeedIdleEnemy = AiChar->ChargeSpeed;
+	float ChargeSpeedIdleEnemy = AiSpecific->ChargeSpeed;
 	float PushPower = AiSpecific->PushPower;
 	float MovementSpeed = AiChar->GetCharacterMovement()->MaxWalkSpeed;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
@@ -95,7 +95,8 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 	if (ChargeSpeedIdleEnemy != 0)
 	{
 		//De ChargeSpeed setten
-		NewPawn->ChargeSpeed = ChargeSpeedIdleEnemy;
+		AAI_ChargeEnemy* AiSpecificChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
+		AiSpecificChargeEnemy->ChargeSpeed = ChargeSpeedIdleEnemy;
 	}
 	if (MovementSpeed != 0)
 	{ 

@@ -39,10 +39,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Health;
 
-	/** Charge Speed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float ChargeSpeed;
-
 	/** Defense */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Defense;
