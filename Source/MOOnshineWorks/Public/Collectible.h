@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool ShouldSave;
 
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void Save(bool ShouldSPawn);
+
 	UFUNCTION(BluePrintNativeEvent)
 	void OnCollect(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category=MOO)

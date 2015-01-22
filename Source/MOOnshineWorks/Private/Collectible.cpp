@@ -10,6 +10,17 @@ ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 //	UsedText = FString(TEXT(""));
 }
 
+void ACollectible::Save(bool ShouldSave)
+{
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(
+	{
+		UHelpers::GeneratePersistentId(this),
+		ShouldSave,
+		GetTransform().GetLocation(),
+		GetTransform().Rotator()
+	});
+}
+
 void ACollectible::OnCollect_Implementation(AActor* Target)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Collectable object has no implementation");
@@ -25,13 +36,7 @@ void ACollectible::Collect(AActor* Target)
 	}
 
 	if (ShouldSave){
-		UHelpers::GetSaveManager(GetWorld())->AddActorSave(
-		{
-			UHelpers::GeneratePersistentId(this),
-			false,
-			GetTransform().GetLocation(),
-			GetTransform().Rotator()
-		});
+		Save(false);
 	}
 
 
@@ -53,4 +58,4 @@ void ACollectible::ReceiveBeginPlay()
 		}
 	}
 	Super::ReceiveBeginPlay();
-}
+} 
