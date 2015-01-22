@@ -95,7 +95,7 @@ void AAI_RangeController::AttackPlayer()
 {
 	//override
 }
-void AAI_RangeController::GoActive()
+AAI_BasicEnemy* AAI_RangeController::GoActive()
 {
 	AAI_BasicEnemy* NewPawn = NULL;
 	UBehaviorTree * BehaviorTree = NULL;
@@ -152,6 +152,13 @@ void AAI_RangeController::GoActive()
 	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
 	BasicController->FoundPlayer();
 	BasicController->AISetAttackState();
+
+	if (NewPawn)
+	{
+		return NewPawn;
+	}
+	
+	return nullptr;
 }
 
 

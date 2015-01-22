@@ -26,7 +26,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Behavior)
 	virtual void ReduceTimer();
 
-	virtual void GoActive() override;
+	virtual AAI_BasicEnemy* GoActive() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_VoodooEnemy> VoodooEnemyClass;

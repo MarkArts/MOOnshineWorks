@@ -9,6 +9,7 @@ AAI_ChargeEnemy::AAI_ChargeEnemy(const class FObjectInitializer& PCIP)
 {
 	AIControllerClass = AAI_ChargeController::StaticClass();
 
+	ChargeSpeed = 0.f;
 	PushPower = 0;
 }
 

@@ -56,6 +56,12 @@ void AExplosion::Hit(AActor* Target)
 	if (EnemyTarget)
 	{
 		EnemyTarget->DealDamage(DamageValue);
+        APlayerGun* PlayerGun = Cast<APlayerGun>(GetOwner());
+        if (PlayerGun)
+        {
+            AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(PlayerGun->GetOwner());
+            Player->DidHit = true;
+        }
 		if (PushbackSpeed > 0.f)
 		{
 			FVector ExplosionLoc = GetActorLocation();

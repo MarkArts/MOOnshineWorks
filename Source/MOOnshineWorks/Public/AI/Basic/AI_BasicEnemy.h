@@ -7,6 +7,8 @@
 #include "Materials/Material.h"
 #include "AI_BasicEnemy.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AAI_BasicEnemy*, Enemy);
+
 /**
  * 
  */
@@ -17,12 +19,15 @@ class MOONSHINEWORKS_API AAI_BasicEnemy : public ACharacter
 public:
 	AAI_BasicEnemy(const class FObjectInitializer& PCIP);
 
+	UPROPERTY(BlueprintAssignable)
+	FOnDeath OnDeathDelegate;
+
 	/** Pawn sensing Component*/
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Awareness)
 	UPawnSensingComponent* PawnSensor;
 
-	UFUNCTION()
-	void PostInitializeComponents();
+//	UFUNCTION()
+//	void PostInitializeComponents();
 	
 	UFUNCTION(BlueprintCallable, Category = Items)
 	void OnHearNoise(APawn *OtherActor, const FVector &Location, float Volume);
@@ -33,10 +38,6 @@ public:
 	/** Health */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float Health;
-
-	/** Charge Speed */
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	float ChargeSpeed;
 
 	/** Defense */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
@@ -79,6 +80,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	void Die();
+
+	UFUNCTION(BlueprintNativeEvent, Category = MOO)
+	void OnDie();
 
 	UFUNCTION(BlueprintCallable, Category = AIStats)
 	FName GetPersistentId();
