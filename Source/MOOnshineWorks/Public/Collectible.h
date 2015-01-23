@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Collectible.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnCollect, ACollectible*, Aollectible);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnCollect, ACollectible*, ACollectible);
 
 /**
  * 
