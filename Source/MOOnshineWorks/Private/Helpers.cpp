@@ -130,11 +130,13 @@ FActorSave UHelpers::CreateActorSave(AActor* Actor, bool StopSpawn, bool Hidden,
 		Id = GeneratePersistentId(Actor);
 	}
 
-	return{
-		Id,
-		StopSpawn,
-		Actor->GetTransform().GetLocation(),
-		Actor->GetTransform().Rotator(),
-		Hidden
-	};
+	FActorSave ActorSave = FActorSave();
+
+	ActorSave.Id = Id;
+	ActorSave.StopSpawn = StopSpawn;
+	ActorSave.Postition = Actor->GetTransform().GetLocation();
+	ActorSave.Rotation = Actor->GetTransform().Rotator();
+	ActorSave.Hidden = Hidden;
+
+	return ActorSave;
 }

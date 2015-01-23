@@ -91,6 +91,9 @@ FActorSave* ASaveManager::GetActorSave(FName Id)
 
 	for (int32 b = 0; b < ActorNum; b++)
 	{
+
+		GEngine->AddOnScreenDebugMessage(34, 10, FColor::Cyan, Actors[b].Id.ToString());
+
 		if (Actors[b].Id == Id)
 		{
 			return &Actors[b];
