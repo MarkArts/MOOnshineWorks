@@ -13,7 +13,7 @@ public:
 	KeyHolder();
 	~KeyHolder();
 
-	TArray<EDoorKey::Type> KeyPack;
+	TArray<TEnumAsByte<EDoorKey::Type>> KeyPack;
 
 	bool HasKey(EDoorKey::Type key);
 

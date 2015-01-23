@@ -74,7 +74,7 @@ void AMOOnshineWorksGameMode::UnLoadNextStreamLevel()
 	if ((NextStreamingLevelToUnLoad + 1) < StreamingLevelsToUnLoad.Num())
 	{
 		UGameplayStatics::UnloadStreamLevel(GetWorld(), StreamingLevelsToUnLoad[NextStreamingLevelToUnLoad], LatentActionInfo);
-		NextStreamingLevelToLoad++;
+		NextStreamingLevelToUnLoad++;
 	}
 	else{
 		LatentActionInfo.ExecutionFunction = "AfterFinishingUnloadStreamLevels";

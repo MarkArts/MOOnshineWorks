@@ -6,7 +6,7 @@
 UBasicAnimationInstance::UBasicAnimationInstance(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	AIIdle = true;
+	AIIdle = false;
 	AIPatrolling = false;
 	AIAttacking = false;
 	AIDeath = false;

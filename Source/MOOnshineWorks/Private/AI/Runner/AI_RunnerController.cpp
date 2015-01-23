@@ -95,7 +95,6 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	NewPawn->Rename(*AiChar->GetName());
 
 	if (MovementSpeed != 0)
 	{

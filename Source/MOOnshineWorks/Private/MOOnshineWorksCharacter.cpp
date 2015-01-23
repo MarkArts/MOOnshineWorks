@@ -156,7 +156,8 @@ FPlayerSave AMOOnshineWorksCharacter::CreatePlayerSave()
 		GetTransform().GetLocation(),
 		GetTransform().Rotator(),
 		Weapons,
-		AmmoContainer->AmmoCounters
+		AmmoContainer->AmmoCounters,
+		kh->KeyPack
 	};
 }
 
@@ -195,6 +196,8 @@ void AMOOnshineWorksCharacter::LoadPlayerSave(FPlayerSave PlayerSave)
 	if (PlayerSave.AmmoCounters.Num() > 0){
 		AmmoContainer->AmmoCounters = PlayerSave.AmmoCounters;
 	}
+
+	kh->KeyPack = PlayerSave.KeyPack;
 
 	IsDeath = false;
 }
