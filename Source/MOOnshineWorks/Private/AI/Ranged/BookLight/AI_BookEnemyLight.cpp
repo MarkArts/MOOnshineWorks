@@ -21,7 +21,7 @@ void AAI_BookEnemyLight::ReceiveBeginPlay()
 	// Added GetMesh check becuase it randomly crashe dhere. No idea if this will fix anything and should be found out
 	if (GunClass && GetMesh())
 	{ 
-		Gun = GetWorld()->SpawnActor<AAIBookGun>(GunClass, SpawnParams);
+		Gun = GetWorld()->SpawnActor<AGun>(GunClass, SpawnParams);
 		Gun->SetActorLocation(GetMesh()->GetComponentLocation());
 		Gun->AttachRootComponentTo(GetMesh());
 	}

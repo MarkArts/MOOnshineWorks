@@ -5,7 +5,7 @@
 #include "GameFramework/Character.h"
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
-#include "AIBookGun.h"
+#include "Gun.h"
 #include "AI_BookEnemyLight.generated.h"
 
 /**
@@ -21,7 +21,7 @@ public:
 	virtual void ReceiveBeginPlay() override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIGun)
-	TSubclassOf<AAIBookGun> GunClass;
+	TSubclassOf<AGun> GunClass;
 
-	AAIBookGun* Gun;
+	AGun* Gun;
 };
