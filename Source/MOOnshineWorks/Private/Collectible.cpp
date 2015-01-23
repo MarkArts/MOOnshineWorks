@@ -59,4 +59,5 @@ void ACollectible::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			Save(false);
 		}
 	}
+	Super::EndPlay(EndPlayReason);
 }
