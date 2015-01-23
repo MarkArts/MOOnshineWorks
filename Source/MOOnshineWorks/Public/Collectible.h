@@ -34,6 +34,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category=MOO)
 	virtual void Collect(AActor* Target);
 
+private:
+	FName Id;
+
 protected:
 	virtual void ReceiveBeginPlay() override;
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
