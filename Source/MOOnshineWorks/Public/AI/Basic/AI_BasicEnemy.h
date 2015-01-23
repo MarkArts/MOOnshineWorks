@@ -66,9 +66,6 @@ public:
 
 	void StartWalk();
 
-	UFUNCTION(BlueprintCallable, Category = AIStats)
-	void ChangeLightDark(bool CurrentDarkLight);
-
     UFUNCTION(BlueprintNativeEvent, Category = AIStats)
     void OnDealDamage();
     
