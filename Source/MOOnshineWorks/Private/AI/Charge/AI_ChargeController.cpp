@@ -125,10 +125,6 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 	return nullptr;
 
 }
-void AAI_ChargeController::PlayChargeSound()
-{
-	//override
-}
 
 
 
