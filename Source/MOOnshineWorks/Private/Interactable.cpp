@@ -3,7 +3,6 @@
 #include "MOOnshineWorks.h"
 #include "Interactable.h"
 
-
 AInteractable::AInteractable(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
@@ -35,6 +34,7 @@ void AInteractable::Interact(AActor* Target)
 				UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 			}
 			OnInteract(Target);
+			OnInteractDelegate.Broadcast(this);
 		}
 	}
 	else{
@@ -43,6 +43,7 @@ void AInteractable::Interact(AActor* Target)
 			UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 		}
 		OnInteract(Target);
+		OnInteractDelegate.Broadcast(this);
 	}
 }
 void AInteractable::OnInRange_Implementation(AActor* Target)

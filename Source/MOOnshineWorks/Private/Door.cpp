@@ -20,7 +20,6 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 	AMOOnshineWorksCharacter* Player = (AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerCharacter(GetWorld(), 0);
 	if (Player != NULL) {
 		if (DoorClosed) {
-			
 			if (KeyName != 0) {
 				if (Player->HasKeyHolder(KeyName)) {
 					DoorOpen();

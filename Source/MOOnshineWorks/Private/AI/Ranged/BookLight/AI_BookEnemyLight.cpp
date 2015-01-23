@@ -18,7 +18,8 @@ void AAI_BookEnemyLight::ReceiveBeginPlay()
 {
 	FActorSpawnParameters SpawnParams;
 	SpawnParams.Owner = this;
-	if (GunClass)
+	// Added GetMesh check becuase it randomly crashe dhere. No idea if this will fix anything and should be found out
+	if (GunClass && GetMesh())
 	{ 
 		Gun = GetWorld()->SpawnActor<AGun>(GunClass, SpawnParams);
 		Gun->SetActorLocation(GetMesh()->GetComponentLocation());

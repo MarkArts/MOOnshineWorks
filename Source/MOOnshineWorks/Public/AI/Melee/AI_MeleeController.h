@@ -3,7 +3,7 @@
 #pragma once
 
 #include "AI_BasicController.h"
-#include "AI_BasicEnemy.h"
+//#include "AI_BasicEnemy.h"
 #include "AI_PegEnemyLight.h"
 #include "AI_PegEnemyDark.h"
 #include "AI_GarbageEnemy.h"
@@ -24,7 +24,7 @@ public:
 
 	virtual void Patrol() override;
 
-	virtual void GoActive() override;
+	virtual AAI_BasicEnemy* GoActive() override;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_PegEnemyLight> PegLightEnemyClass;

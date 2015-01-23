@@ -29,7 +29,12 @@ namespace EDoorKey
 		LibraryF2D4,
 		LibraryF2D5,
 		LibraryF2D6,
-		LibraryF3E1
+		LibraryF3E1,
+
+		// Deprecated but left in because its still referenced
+		Red,
+		Blue,
+		Green
 	};
 }
 
@@ -44,13 +49,11 @@ public:
 	EDoorKey::Type GetKeyName();
 
 	UFUNCTION(BlueprintCallable, Category = "Moonshine")
-	FString OnPickedUp();
-
-	UFUNCTION(BlueprintCallable, Category = "Moonshine")
 	void SetKeyName(const EDoorKey::Type InsertKey);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 	TEnumAsByte<EDoorKey::Type> KeyName;
 
+	virtual void Collect(AActor* Target) override;
 	virtual void OnCollect_Implementation(AActor* Target) override;
 };

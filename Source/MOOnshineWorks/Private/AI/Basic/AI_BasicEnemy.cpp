@@ -25,30 +25,29 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	WalkSpeed = 0.f;
 	Damage = 0.f;
 	//EnemyDistanceShouldAttack = 0.f;
-	ChargeSpeed = 0.f;
 	AIPatrol = true;
 	CanBeHit = true;
 }
 
-void AAI_BasicEnemy::PostInitializeComponents()
-{
-	Super::PostInitializeComponents();
-	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
-	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
-}
+/* Mark: I moved this to recieve begin play as a test to see if declerate cleanup of enemie wil crash less*/
+//void AAI_BasicEnemy::PostInitializeComponents()
+//{
+//	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
+//	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
+//	Super::PostInitializeComponents();
+//}
 
 void AAI_BasicEnemy::ReceiveBeginPlay()
 {
 	PersistentId = UHelpers::GeneratePersistentId( (AActor*) this );
 
+	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
+	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
+
 	FActorSave* SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
 	if (SaveState)
 	{
-		if (SaveState->StopSpawn)
-		{
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Enemy was already death");
-			Destroy();
-		}
+		UHelpers::ApplyActorSave(*SaveState, this);
 	}
 }
 
@@ -145,6 +144,12 @@ void AAI_BasicEnemy::Die()
 		ACollectible* NewObject = GetWorld()->SpawnActor<ACollectible>(AiChar->DropItem, SpawnLocation, SpawnRotation);
 	}
 
+	OnDie();
+}
+
+void AAI_BasicEnemy::OnDie_Implementation()
+{
+	OnDeathDelegate.Broadcast(this);
 	Destroy();
 }
 

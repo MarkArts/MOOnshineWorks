@@ -15,6 +15,10 @@ class MOONSHINEWORKS_API AAI_ChargeEnemy : public AAI_BasicEnemy
 public:	
 	AAI_ChargeEnemy(const class FObjectInitializer& PCIP);
 
+	/** Charge Speed */
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
+	float ChargeSpeed;
+
 	/** PushBack */
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
 	float PushPower;

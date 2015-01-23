@@ -748,10 +748,7 @@ APlayerController* AMOOnshineWorksCharacter::GetPlayerController()
 
 void AMOOnshineWorksCharacter::AnHero()
 {
-	//CharacterMovement->Velocity.Z = 200.0f; //kan niet vanaf de grond...
-	FVector Impulse = FVector(0, 0, 1000);
-
-	GetCharacterMovement()->Velocity = Impulse;
+	Die();
 }
 
 void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
