@@ -4,6 +4,7 @@
 
 #include "GameFramework/SaveGame.h"
 #include "Gun.h"
+#include "DoorKey.h"
 #include "MOOSaveGame.generated.h"
 
 USTRUCT(BlueprintType)
@@ -42,17 +43,12 @@ public:
 	FVector Position;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FRotator Rotation;
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	//TArray<AGun*> Weapons;
-
-//	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-//	TArray<TEnumAsByte<EGunType::Type>> Weapons;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<FName> Weapons;
-
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	TArray<int32> AmmoCounters;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	TArray<TEnumAsByte<EDoorKey::Type>> KeyPack;
 };
 
 USTRUCT(BlueprintType)
