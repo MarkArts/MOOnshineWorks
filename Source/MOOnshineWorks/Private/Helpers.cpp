@@ -105,3 +105,30 @@ void UHelpers::DisplayText(UWorld* World, FString Text, int32 DisplayTime, FVect
 		}
 	}
 }
+
+void UHelpers::ApplyActorSave(FActorSave ActorSave, AActor* Actor)
+{
+	if (ActorSave.StopSpawn)
+	{
+		Actor->Destroy();
+	}
+	else{
+		Actor->SetActorHiddenInGame(ActorSave.Hidden);
+		Actor->SetActorTransform(FTransform(
+			ActorSave.Rotation,
+			ActorSave.Postition,
+			FVector(1.f,1.f,1.f)
+		));
+	}
+}
+
+FActorSave UHelpers::CreateActorSave(AActor* Actor, bool StopSpawn, bool Hidden)
+{
+	return{
+		GeneratePersistentId(Actor),
+		StopSpawn,
+		Actor->GetTransform().GetLocation(),
+		Actor->GetTransform().Rotator(),
+		Hidden
+	};
+}

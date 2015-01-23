@@ -182,6 +182,7 @@ void AGun::StopCharge()
 {
 	IsCharging = false;
 	Charge = 0.f;
+	OnEndCharge();
 }
 
 void AGun::Tick(float DeltaSeconds)

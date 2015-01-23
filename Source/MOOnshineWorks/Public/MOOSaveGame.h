@@ -18,6 +18,8 @@ public:
 	FVector Postition;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FRotator Rotation;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	bool Hidden;
 };
 
 USTRUCT(BlueprintType)

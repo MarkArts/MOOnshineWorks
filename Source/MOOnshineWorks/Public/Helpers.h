@@ -26,4 +26,8 @@ public:
 	static TArray<FName> GetActiveLevelsFrom(UWorld* World);
 //	UFUNCTION(BlueprintCallable, Category = Helpers)
 	static void DisplayText(UWorld* World, FString Text, int32 DisplayTime = 1, FVector2D Position = FVector2D(-1.f, -1.f), FColor TextColor = FColor(255, 255, 255, 255));
+	UFUNCTION(BlueprintCallable, Category = Helpers)
+	static void ApplyActorSave(FActorSave ActorSave, AActor* Actor);
+	UFUNCTION(BlueprintCallable, Category = Helpers)
+	static FActorSave CreateActorSave(AActor* Actor, bool StopSpawn = false, bool Hidden = true);
 };

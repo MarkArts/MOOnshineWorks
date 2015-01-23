@@ -5,7 +5,7 @@
 #include "GameFramework/Actor.h"
 #include "Collectible.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnCollect, ACollectible*, Aollectible);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FBindableEvent_FOnCollect, ACollectible*, ACollectible);
 
 /**
  * 
@@ -26,6 +26,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool ShouldSave;
 
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void Save(bool StopSpawn);
+
 	UFUNCTION(BluePrintNativeEvent)
 	void OnCollect(AActor* Target);
 	UFUNCTION(BlueprintCallable, Category=MOO)
@@ -33,4 +36,5 @@ public:
 
 protected:
 	virtual void ReceiveBeginPlay() override;
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 };
