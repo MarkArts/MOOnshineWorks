@@ -151,7 +151,7 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	
+
 	if (MovementSpeed != 0)
 	{
 		//De Walkspeed zetten

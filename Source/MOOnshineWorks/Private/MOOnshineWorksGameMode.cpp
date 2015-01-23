@@ -12,6 +12,7 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FObjectInitializer&
 {
 
 	NextStreamingLevelToLoad = 0;
+	NextStreamingLevelToUnLoad = 0;
 
 	if (GetWorld()){
 
@@ -45,36 +46,48 @@ void AMOOnshineWorksGameMode::RestoreCheckpoint()
 	ASaveManager* SaveManager = UHelpers::GetSaveManager(GetWorld());
 	SaveManager->ResetData();
 
-	/* Bad quik and dirty check to see if there was a checkpoint */
-//	if (SaveManager->GetData()->Checkpoint.StreamingLevels.Num() <= 0)
-//	{
-		// Create checkpoint the first time the level is opened TODO: Do this beter
-//		UHelpers::CreateCheckpoint((AMOOnshineWorksCharacter*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0));
-//		return;
-//	}
-
-	/* TODO: If multyiply levels are unloaded the action will fire after the first on is done unloading */
-	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
-	LatentActionInfo.CallbackTarget = this;
-	LatentActionInfo.ExecutionFunction = "LoadCheckpoint";
-	LatentActionInfo.UUID = 1;
-	LatentActionInfo.Linkage = 0;
-
-	RemoveLevelStreaming(LatentActionInfo);
+	RemoveLevelStreaming();
 }
 
-void AMOOnshineWorksGameMode::RemoveLevelStreaming(FLatentActionInfo LatentActionInfo)
+void AMOOnshineWorksGameMode::RemoveLevelStreaming()
 {
-	TArray<ULevelStreaming*> Levels = GetWorld()->StreamingLevels;
-	int32 LevelNum = Levels.Num();
+	StreamingLevelsToUnLoad = UHelpers::GetActiveLevelsFrom(GetWorld());
 
-	for (int32 i = 0; i < LevelNum; i++)
+	if (StreamingLevelsToUnLoad.Num())
 	{
-		if (Levels[i]->bShouldBeLoaded > 0)
-		{
-			UGameplayStatics::UnloadStreamLevel(GetWorld(), Levels[i]->PackageNameToLoad, LatentActionInfo);
-		}
+		UnLoadNextStreamLevel();
 	}
+	else{
+		AfterFinishingUnloadStreamLevels();
+	}
+}
+
+void AMOOnshineWorksGameMode::UnLoadNextStreamLevel()
+{
+
+	FLatentActionInfo LatentActionInfo = FLatentActionInfo();
+	LatentActionInfo.CallbackTarget = this;
+	LatentActionInfo.ExecutionFunction = "UnLoadNextStreamLevel";
+	LatentActionInfo.UUID = NextStreamingLevelToUnLoad + 2;
+	LatentActionInfo.Linkage = 0;
+
+	if ((NextStreamingLevelToUnLoad + 1) < StreamingLevelsToUnLoad.Num())
+	{
+		UGameplayStatics::UnloadStreamLevel(GetWorld(), StreamingLevelsToUnLoad[NextStreamingLevelToUnLoad], LatentActionInfo);
+		NextStreamingLevelToUnLoad++;
+	}
+	else{
+		LatentActionInfo.ExecutionFunction = "AfterFinishingUnloadStreamLevels";
+		UGameplayStatics::UnloadStreamLevel(GetWorld(), StreamingLevelsToUnLoad[NextStreamingLevelToUnLoad], LatentActionInfo);
+	}
+}
+
+void AMOOnshineWorksGameMode::AfterFinishingUnloadStreamLevels()
+{
+	StreamingLevelsToUnLoad.Empty();
+	NextStreamingLevelToUnLoad = 0;
+
+	LoadCheckpoint();
 }
 
 void AMOOnshineWorksGameMode::LoadCheckpoint()

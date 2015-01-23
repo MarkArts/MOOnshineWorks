@@ -18,7 +18,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void RestoreCheckpoint();
 	UFUNCTION(BlueprintCallable, Category = MOO)
-	void RemoveLevelStreaming(FLatentActionInfo LatentActionInfo);
+	void RemoveLevelStreaming();
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void LoadCheckpoint();
 
@@ -29,7 +29,12 @@ public:
 
 	TArray<FName> StreamingLevelsToLoad;
 	int32 NextStreamingLevelToLoad;
+
+	TArray<FName> StreamingLevelsToUnLoad;
+	int32 NextStreamingLevelToUnLoad;
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void UnLoadNextStreamLevel();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void AfterFinishingUnloadStreamLevels();
 };
-
-
-

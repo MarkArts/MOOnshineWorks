@@ -24,9 +24,6 @@ public:
 
 	virtual AAI_BasicEnemy* GoActive() override;
 
-	UFUNCTION(BlueprintCallable, Category = Behavior)
-	virtual void PlayChargeSound();
-
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
 	TSubclassOf<AAI_PianoEnemy> PianoEnemyClass;
 

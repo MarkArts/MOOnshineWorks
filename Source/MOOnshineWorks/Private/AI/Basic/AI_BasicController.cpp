@@ -146,7 +146,7 @@ void AAI_BasicController::SetIdleAnimation()
 	BasicAnimInstance->AIAttacking = false;
 	BasicAnimInstance->AIPatrolling = false;
 	BasicAnimInstance->AIIdle = true;
-	//BasicAnimInstance->Jumping = false;
+	BasicAnimInstance->AICharging = false;
 }
 
 void AAI_BasicController::SetPatrollingAnimation()

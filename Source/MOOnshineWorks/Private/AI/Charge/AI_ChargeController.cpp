@@ -92,6 +92,8 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
+	NewPawn->Rename(*AiChar->GetName());
+
 	if (ChargeSpeedIdleEnemy != 0)
 	{
 		//De ChargeSpeed setten
@@ -122,10 +124,6 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 
 	return nullptr;
 
-}
-void AAI_ChargeController::PlayChargeSound()
-{
-	//override
 }
 
 

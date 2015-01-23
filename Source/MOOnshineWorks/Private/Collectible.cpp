@@ -12,7 +12,7 @@ ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 
 void ACollectible::Save(bool StopSpawn)
 {
-	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, bHidden));
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, bHidden, Id));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -41,13 +41,17 @@ void ACollectible::Collect(AActor* Target)
 
 void ACollectible::ReceiveBeginPlay()
 {
+
+	Id = UHelpers::GeneratePersistentId(this);
+
 	if (ShouldSave){
-		FActorSave* Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(UHelpers::GeneratePersistentId(this));
+		FActorSave* Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(Id);
 		if (Save)
 		{
 			UHelpers::ApplyActorSave(*Save, this);
 		}
 	}
+
 	Super::ReceiveBeginPlay();
 } 
 
@@ -59,4 +63,5 @@ void ACollectible::EndPlay(const EEndPlayReason::Type EndPlayReason)
 			Save(false);
 		}
 	}
+	Super::EndPlay(EndPlayReason);
 }
