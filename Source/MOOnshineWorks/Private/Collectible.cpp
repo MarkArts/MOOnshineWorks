@@ -12,7 +12,7 @@ ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 
 void ACollectible::Save(bool StopSpawn)
 {
-	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, bHidden));
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, bHidden));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
