@@ -122,10 +122,16 @@ void UHelpers::ApplyActorSave(FActorSave ActorSave, AActor* Actor)
 	}
 }
 
-FActorSave UHelpers::CreateActorSave(AActor* Actor, bool StopSpawn, bool Hidden)
+FActorSave UHelpers::CreateActorSave(AActor* Actor, bool StopSpawn, bool Hidden, FName Id)
 {
+
+	if (Id == TEXT(""))
+	{
+		Id = GeneratePersistentId(Actor);
+	}
+
 	return{
-		GeneratePersistentId(Actor),
+		Id,
 		StopSpawn,
 		Actor->GetTransform().GetLocation(),
 		Actor->GetTransform().Rotator(),
