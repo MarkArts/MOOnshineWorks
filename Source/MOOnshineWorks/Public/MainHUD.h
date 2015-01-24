@@ -17,8 +17,6 @@ struct FDisplayString
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FColor Color;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
-	UFont* Font;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	FVector2D Scale;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	int32 DisplayTime;

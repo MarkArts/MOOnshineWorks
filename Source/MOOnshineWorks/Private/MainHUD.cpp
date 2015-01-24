@@ -5,7 +5,7 @@
 
 
 AMainHUD::AMainHUD(const class FObjectInitializer& PCIP)
-	: Super(PCIP)
+: Super(PCIP)
 {
 
 }
@@ -52,15 +52,14 @@ void AMainHUD::Tick(float DeltaSeconds)
 
 	for (int i = DisplayStringsCount - 1; i >= 0; i--)
 	{
-		FDisplayString* DisplayString = &DisplayStrings[i];
 
-		FVector2D Position = FVector2D(DisplayString->Position.X, DisplayString->Position.Y + i * 20);
+		FVector2D Position = FVector2D(DisplayStrings[i].Position.X, DisplayStrings[i].Position.Y + i * 20);
 
-		if (DisplayString->DisplayTime == 0)
+		if (DisplayStrings[i].DisplayTime == 0)
 		{
 			DisplayStrings.RemoveAt(i, 1);
 		}
-		else if (DisplayString->DisplayTime <= CurrentTime.ToUnixTimestamp() - DisplayString->StartTime)
+		else if (DisplayStrings[i].DisplayTime <= CurrentTime.ToUnixTimestamp() - DisplayStrings[i].StartTime)
 		{
 			DisplayStrings.RemoveAt(i, 1);
 		}

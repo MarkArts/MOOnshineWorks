@@ -85,24 +85,19 @@ void UHelpers::DisplayText(UWorld* World, FString Text, int32 DisplayTime, FVect
 		Position = FVector2D(0.f, -200.f); //(ViewportSize.Y / 2) * 0.8 );
 	}
 
-	if (GEngine->GetMediumFont())
+	AMainHUD* MainHUD = (AMainHUD*)UGameplayStatics::GetPlayerController(World, 0)->GetHUD();
+	if (MainHUD)
 	{
+		FDisplayString DisplayString = {
+			Text,
+			Position,
+			TextColor,
+			FVector2D(1.f, 1.f),
+			DisplayTime,
+			0
+		};
 
-		AMainHUD* MainHUD = (AMainHUD*)UGameplayStatics::GetPlayerController(World, 0)->GetHUD();
-		if (MainHUD)
-		{
-			FDisplayString DisplayString = {
-				Text,
-				Position,
-				TextColor,
-				GEngine->GetMediumFont(),
-				FVector2D(1.f, 1.f),
-				DisplayTime,
-				0
-			};
-
-			MainHUD->AddDisplayString(DisplayString);
-		}
+		MainHUD->AddDisplayString(DisplayString);
 	}
 }
 
