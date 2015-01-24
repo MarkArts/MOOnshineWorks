@@ -44,10 +44,10 @@ void AAI_BasicEnemy::ReceiveBeginPlay()
 	PawnSensor->OnSeePawn.AddDynamic(this, &AAI_BasicEnemy::OnSeePawn);
 	PawnSensor->OnHearNoise.AddDynamic(this, &AAI_BasicEnemy::OnHearNoise);
 
-	FActorSave* SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
-	if (SaveState)
+	FActorSave SaveState = UHelpers::GetSaveManager(GetWorld())->GetActorSave(PersistentId);
+	if (!SaveState.Id.IsNone())
 	{
-		UHelpers::ApplyActorSave(*SaveState, this);
+		UHelpers::ApplyActorSave(SaveState, this);
 	}
 }
 

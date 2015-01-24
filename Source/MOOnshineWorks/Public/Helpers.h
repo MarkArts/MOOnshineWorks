@@ -29,5 +29,5 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Helpers)
 	static void ApplyActorSave(FActorSave ActorSave, AActor* Actor);
 	UFUNCTION(BlueprintCallable, Category = Helpers)
-	static FActorSave CreateActorSave(AActor* Actor, bool StopSpawn = false, bool Hidden = true, FName Id = TEXT(""));
+	static FActorSave CreateActorSave(AActor* Actor, bool StopSpawn = false, bool Hidden = false, FName Id = TEXT(""));
 };

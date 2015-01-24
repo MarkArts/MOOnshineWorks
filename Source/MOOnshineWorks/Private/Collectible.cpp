@@ -12,12 +12,7 @@ ACollectible::ACollectible(const class FObjectInitializer& PCIP)
 
 void ACollectible::Save(bool StopSpawn)
 {
-	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, bHidden, Id));
-	FActorSave* Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(Id);
-	if (StopSpawn == false && Save->StopSpawn == true)
-	{
-		GEngine->AddOnScreenDebugMessage(500, 2.f, FColor::White, TEXT("Wut"));
-	}
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, (bHidden > 0) , Id));
 }
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
@@ -46,13 +41,13 @@ void ACollectible::Collect(AActor* Target)
 
 void ACollectible::ReceiveBeginPlay()
 {
-
 	Id = UHelpers::GeneratePersistentId(this);
+
 	if (ShouldSave){
-		FActorSave* Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(Id);
-		if (Save)
+		FActorSave Save = UHelpers::GetSaveManager(GetWorld())->GetActorSave(Id);
+		if (!Save.Id.IsNone())
 		{
-			UHelpers::ApplyActorSave(*Save, this);
+			UHelpers::ApplyActorSave(Save, this);
 		}
 	}
 

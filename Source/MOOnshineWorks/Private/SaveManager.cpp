@@ -66,6 +66,7 @@ void ASaveManager::SetData(FSave Data)
 
 void ASaveManager::AddActorSave(FActorSave ActorSave)
 {
+	DeleteActorSave(ActorSave.Id);
 	GetData()->Actors.Add(ActorSave);
 }
 
@@ -84,27 +85,25 @@ void ASaveManager::DeleteActorSave(FName Id)
 	}
 }
 
-FActorSave* ASaveManager::GetActorSave(FName Id)
+FActorSave ASaveManager::GetActorSave(FName Id)
 {
 	TArray<FActorSave> Actors = GetData()->Actors;
 	int32 ActorNum = Actors.Num();
 
 	for (int32 b = 0; b < ActorNum; b++)
 	{
-
-		GEngine->AddOnScreenDebugMessage(34, 10, FColor::Cyan, Actors[b].Id.ToString());
-
-		if (Actors[b].Id == Id)
+		if (Actors[b].Id.IsEqual(Id))
 		{
-			return &Actors[b];
+			return Actors[b];
 		}
 	}
 
-	return nullptr;
+	return FActorSave();
 }
 
 void ASaveManager::AddInteractableSave(FInteractableSave InteractableSave)
 {
+	DeleteInteractableSave(InteractableSave.Id);
 	GetData()->Interactables.Add(InteractableSave);
 }
 

@@ -45,8 +45,8 @@ public:
 	void AddActorSave(FActorSave ActorSave);
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void DeleteActorSave(FName Id);
-	// UFUNCTION(BlueprintCallable, Category = MOO)
-	FActorSave* GetActorSave(FName Id);
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	FActorSave GetActorSave(FName Id);
 
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void AddInteractableSave(FInteractableSave ActorSave);
