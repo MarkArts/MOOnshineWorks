@@ -20,7 +20,7 @@ struct FDisplayString
 	FVector2D Scale;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	int32 DisplayTime;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	int32 StartTime;
 };
 

@@ -29,14 +29,11 @@ AMOOnshineWorksGameMode::AMOOnshineWorksGameMode(const class FObjectInitializer&
 		//BlueprintLoader::Get().AddBP(FName("ProjectileDeath"), ANSI_TO_TCHAR("/Game/Blueprints/BP_ProjectileDeath"));
 
 		// set default pawn class to our Blueprinted character
-		ConstructorHelpers::FClassFinder<APawn> BP(TEXT("/Game/Blueprints/MyCharacter"));
-		DefaultPawnClass = BP.Class;
+		ConstructorHelpers::FClassFinder<APawn> PawnBP(TEXT("/Game/Blueprints/MyCharacter"));
+		DefaultPawnClass = PawnBP.Class;
 
-		static ConstructorHelpers::FObjectFinder<UBlueprint> VictoryPCOb(TEXT("Blueprint'/Game/Blueprints/HUDBlueprints/MainHud.MainHud'"));
-		if (VictoryPCOb.Object != NULL)
-		{
-			HUDClass = (UClass*)VictoryPCOb.Object->GeneratedClass;
-		}
+		ConstructorHelpers::FClassFinder<AHUD> HUDBP(TEXT("/Game/Blueprints/HUDBlueprints/MainHud"));
+		HUDClass = HUDBP.Class;
 	}
 }
 

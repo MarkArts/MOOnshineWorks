@@ -14,7 +14,7 @@ AMainHUD::AMainHUD(const class FObjectInitializer& PCIP)
 void AMainHUD::DrawHUD()
 {
 	Super::DrawHUD();
-
+	
 	int DisplayStringsCount = DisplayStrings.Num();
 
 	for (int i = DisplayStringsCount - 1; i >= 0; i--)
@@ -23,7 +23,7 @@ void AMainHUD::DrawHUD()
 
 		FVector2D Position = FVector2D(DisplayString->Position.X, DisplayString->Position.Y + i * 20);
 		DrawText(DisplayString->Text, Position, Font, DisplayString->Scale, DisplayString->Color);
-	}
+	} 
 }
 
 void AMainHUD::AddDisplayString(FDisplayString DisplayStringToAdd)

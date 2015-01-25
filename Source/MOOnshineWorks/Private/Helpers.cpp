@@ -94,7 +94,7 @@ void UHelpers::DisplayText(UWorld* World, FString Text, int32 DisplayTime, FVect
 			TextColor,
 			FVector2D(1.f, 1.f),
 			DisplayTime,
-			0
+			1
 		};
 
 		MainHUD->AddDisplayString(DisplayString);
