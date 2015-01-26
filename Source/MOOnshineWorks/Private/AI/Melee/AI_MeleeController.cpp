@@ -101,6 +101,7 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 	UWorld* const World = GetWorld();
 	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
+	float Health = AiChar->Health;
 
 	//Oude enemy destroyen
 	AiChar->Destroy();
@@ -152,6 +153,11 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
 
+	if (Health != 0)
+	{
+		//Health zetten
+		NewPawn->Health = Health;
+	}
 	if (MovementSpeed != 0)
 	{
 		//De Walkspeed zetten

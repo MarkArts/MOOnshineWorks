@@ -36,6 +36,7 @@ bool ADebuffManager::IsValid(ADebuffManager* nameDebuff) {
 			return false;
 		}
 	}
+	UHelpers::DisplayText(GetWorld(), "You got: " + nameDebuff->DebuffType, 3.f);
 	return true;
 }
 
