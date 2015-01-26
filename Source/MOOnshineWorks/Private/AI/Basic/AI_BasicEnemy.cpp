@@ -116,16 +116,7 @@ void AAI_BasicEnemy::Die()
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
-	UHelpers::GetSaveManager(GetWorld())->AddActorSave(
-		{
-			GetPersistentId(),
-			true,
-			GetTransform().GetLocation(),
-			GetTransform().Rotator()
-		}
-	);
-
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Added Enemy to death enemies");
+	Save(true);
 
 	//Indien de AI naar een AI_RunnerEnemy gecast kan worden dan items droppen!
 	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(this);
@@ -150,6 +141,10 @@ void AAI_BasicEnemy::OnDie_Implementation()
 
 FName AAI_BasicEnemy::GetPersistentId(){
 	return PersistentId;
+}
+
+void AAI_BasicEnemy::Save(bool StopSpawn){
+	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, false, GetPersistentId()));
 }
 
 void AAI_BasicEnemy::AddImpulseToEnemy(FVector Impulse)

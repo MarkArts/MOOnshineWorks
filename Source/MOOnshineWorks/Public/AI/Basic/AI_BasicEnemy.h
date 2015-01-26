@@ -81,8 +81,11 @@ public:
 	UFUNCTION(BlueprintNativeEvent, Category = MOO)
 	void OnDie();
 
-	UFUNCTION(BlueprintCallable, Category = AIStats)
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	FName GetPersistentId();
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void Save(bool StopSpawn);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Materials)
 	UMaterial* TheMaterial;
