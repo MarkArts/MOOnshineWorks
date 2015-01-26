@@ -16,6 +16,6 @@ void ABatteryPickup::Collect(AActor* Target)
 {
 	AMOOnshineWorksCharacter* Actor = Cast<AMOOnshineWorksCharacter>(Target);
 	Actor->SetLightPercentage(Actor->GetLightPercentage() + (LightPercentage / 100.f));
-	Destroy();
+	Super::Collect(Target);
 }
 
