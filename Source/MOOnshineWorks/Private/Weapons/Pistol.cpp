@@ -46,7 +46,7 @@ void APistol::Shoot()
 			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 			Projectile->DamageValue *= ChargeEffectMultiplier;
 			Projectile->ProjectileMovement->Velocity = Projectile->GetVelocity() * ChargeEffectMultiplier;
-			Projectile->DeathBlueprint = nullptr;
+			//Projectile->DeathBlueprint = nullptr;
 		}
 	}
 	Super::Shoot();

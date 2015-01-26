@@ -48,6 +48,13 @@ void AInteractable::Interact(AActor* Target)
 }
 void AInteractable::OnInRange_Implementation(AActor* Target)
 {
+
+}
+
+void AInteractable::InRange(AActor* Target)
+{
+	OnInRange(Target);
+
 	if (ShouldUseOnce)
 	{
 		if (!IsUsed)
@@ -64,11 +71,6 @@ void AInteractable::OnInRange_Implementation(AActor* Target)
 			UHelpers::DisplayText(GetWorld(), DisplayText);
 		}
 	}
-}
-
-void AInteractable::InRange(AActor* Target)
-{
-	OnInRange(Target);
 }
 
 void AInteractable::ReceiveBeginPlay()

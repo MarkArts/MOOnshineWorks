@@ -25,5 +25,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = InteractableGun)
 	int32 AmmoGivenIfHasGun;
 
-	virtual void OnInteract_Implementation(AActor* Target) override;
+protected:
+	virtual void Interact(AActor* Target) override;
 };
