@@ -6,6 +6,7 @@
 #include "AI_BasicEnemy.h"
 #include "AI_BasicController.h"
 #include "Gun.h"
+#include "AIBookGun.h"
 #include "AI_BookEnemyLight.generated.h"
 
 /**
