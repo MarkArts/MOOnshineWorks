@@ -104,6 +104,7 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 	FRotator SpawnRotation = AiSpecific->GetActorRotation();
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	float MovementSpeed = AiChar->WalkSpeed;
+	float Health = AiSpecific->Health;
 	UWorld* const World = GetWorld();
 	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
@@ -142,6 +143,11 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
 
+	if (Health != 0)
+	{
+		//Health zetten
+		NewPawn->Health = Health;
+	}
 	if (MovementSpeed != 0)
 	{
 		//De Walkspeed zetten

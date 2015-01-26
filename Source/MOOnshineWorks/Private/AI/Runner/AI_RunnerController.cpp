@@ -52,6 +52,7 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 	float MovementSpeed = AiChar->WalkSpeed;
+	float Health = AiChar->Health;
 
 	AAI_RunnerEnemy* AiSpecificRunner = Cast<AAI_RunnerEnemy>(AiChar);
 	TSubclassOf<ACollectible> DropItemIdle = AiSpecificRunner->DropItem;
@@ -96,6 +97,11 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
 
+	if (Health != 0)
+	{
+		//Health zetten
+		NewPawn->Health = Health;
+	}
 	if (MovementSpeed != 0)
 	{
 		//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
