@@ -226,7 +226,9 @@ void AMOOnshineWorksCharacter::ReceiveBeginPlay()
 
 	//	APlayerGun* Pistol = World->SpawnActor<APlayerGun>(TSubclassOf<APlayerGun>(*(BlueprintLoader::Get().GetBP(FName("Crossbow")))), SpawnParams);
 		AmmoContainer = World->SpawnActor<AAmmoContainer>(AAmmoContainer::StaticClass(), SpawnParams);
+		AmmoContainer->AttachRootComponentTo(GetRootComponent());
 		WeaponStrap = World->SpawnActor<AWeaponStrap>(AWeaponStrap::StaticClass(), SpawnParams);
+		WeaponStrap->AttachRootComponentTo(GetRootComponent());
 		//EquipGun(Pistol);
 		GetCharacterMovement()->MaxWalkSpeed = CharacterWalkSpeed;
 
