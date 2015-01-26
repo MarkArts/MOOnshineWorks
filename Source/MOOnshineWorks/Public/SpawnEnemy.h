@@ -33,7 +33,7 @@ public:
 
 	class UBehaviorTree * BehaviorTree;
 
-	UPROPERTY(EditAnywhere, Category = MOOnshine)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	bool ShouldSpawnEnemies;
 
 	//Melee
