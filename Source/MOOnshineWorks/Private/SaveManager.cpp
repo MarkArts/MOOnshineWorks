@@ -6,14 +6,7 @@
 ASaveManager::ASaveManager(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	if (GetWorld())
-	{
-		SaveSlotName = GetWorld()->GetMapName();
-	}
-	else
-	{
-		SaveSlotName = TEXT("TestSaveSlot");
-	}
+	SaveSlotName = TEXT("MoonshineWorksSave");
 
 	UserIndex = 0;
 }
