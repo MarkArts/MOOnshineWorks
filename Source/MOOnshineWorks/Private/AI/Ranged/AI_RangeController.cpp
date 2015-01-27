@@ -109,6 +109,9 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
+	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
+	AiChar->AIBecameActive();
+
 	//Oude enemy destroyen
 	AiSpecific->Destroy();
 
@@ -163,7 +166,7 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 	{
 		return NewPawn;
 	}
-	
+	Super::GoActive();
 	return nullptr;
 }
 

@@ -36,7 +36,9 @@ bool ADebuffManager::IsValid(ADebuffManager* nameDebuff) {
 			return false;
 		}
 	}
-	UHelpers::DisplayText(GetWorld(), "You got: " + nameDebuff->DebuffType, 3.f);
+	FVector2D place;
+	place.Set(-80.f, -80.f);
+	UHelpers::DisplayText(GetWorld(), "You got: " + nameDebuff->DebuffType, 3.f, place);
 	return true;
 }
 

@@ -82,6 +82,12 @@ public:
 	void OnDie();
 
 	UFUNCTION(BlueprintCallable, Category = MOO)
+	void AIBecameActive();
+
+	UFUNCTION(BlueprintNativeEvent, Category = MOO)
+	void OnAIBecameActive();
+
+	UFUNCTION(BlueprintCallable, Category = MOO)
 	FName GetPersistentId();
 
 	UFUNCTION(BlueprintCallable, Category = MOO)

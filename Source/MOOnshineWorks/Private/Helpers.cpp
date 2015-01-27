@@ -67,7 +67,15 @@ TArray<FName> UHelpers::GetActiveLevelsFrom(UWorld* World)
 	{
 		if (StreamingLevels[I]->bShouldBeLoaded > 0)
 		{
-			ActiveLevels.Add(StreamingLevels[I]->PackageNameToLoad);
+
+			if (StreamingLevels[I]->PackageNameToLoad.IsNone())
+			{
+				// For playing in the editor (GetWorldAssetPackageFName doesn't work with PIE)
+				ActiveLevels.Add(StreamingLevels[I]->PackageNameToLoad);
+			}
+			else{
+				ActiveLevels.Add(StreamingLevels[I]->GetWorldAssetPackageFName());
+			}
 		}
 	}
 
