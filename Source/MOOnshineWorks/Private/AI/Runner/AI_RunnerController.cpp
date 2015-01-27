@@ -57,6 +57,9 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	AAI_RunnerEnemy* AiSpecificRunner = Cast<AAI_RunnerEnemy>(AiChar);
 	TSubclassOf<ACollectible> DropItemIdle = AiSpecificRunner->DropItem;
 
+	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
+	AiChar->AIBecameActive();
+
 	//Oude enemy destroyen
 	AiChar->Destroy();
 
@@ -122,7 +125,7 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	{
 		return NewPawn;
 	}
-	
+	Super::GoActive();
 	return nullptr;
 }
 void AAI_RunnerController::ReduceTimer() //haal een seconde van TimerActive af en is die 0 roep dan TimeIsUp aan

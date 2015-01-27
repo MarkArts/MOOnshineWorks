@@ -181,6 +181,11 @@ void ASpawnEnemy::SpawnRandomEnemy()
 								}
 							}
 						}
+
+						//AI Direct laten aanvallen wanneer die spawnt!
+						AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+						Controller->FoundPlayer();
+						Controller->AISetAttackState();
 					}
 				}
 			}
