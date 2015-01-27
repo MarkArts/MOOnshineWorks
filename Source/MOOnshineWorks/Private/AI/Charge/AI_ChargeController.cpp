@@ -39,6 +39,9 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 	AAI_BasicEnemy* NewPawn = NULL;
 	AAI_ChargeEnemy* AiSpecific = Cast<AAI_ChargeEnemy>(GetPawn());
 
+	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
+	AiChar->AIBecameActive();
+
 	UBehaviorTree * BehaviorTree = NULL;
 	FVector SpawnLocation = AiChar->GetActorLocation();
 	FRotator SpawnRotation = AiChar->GetActorRotation();
@@ -93,7 +96,6 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 
 	//De AIPatrol zetten
 	NewPawn->AIPatrol = ShouldAIPatrol;
-	NewPawn->Rename(*AiChar->GetName());
 
 	if (Health != 0)
 	{
@@ -128,6 +130,7 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 		return NewPawn;
 	}
 
+	Super::GoActive();
 	return nullptr;
 
 }

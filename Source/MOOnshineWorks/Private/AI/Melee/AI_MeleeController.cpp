@@ -95,6 +95,9 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	UBehaviorTree * BehaviorTree = NULL;
 
+	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
+	AiChar->AIBecameActive();
+
 	FVector SpawnLocation = AiChar->GetActorLocation();
 	FRotator SpawnRotation = AiChar->GetActorRotation();
 	float MovementSpeed = AiChar->WalkSpeed;

@@ -139,6 +139,16 @@ void AAI_BasicEnemy::OnDie_Implementation()
 	Destroy();
 }
 
+void AAI_BasicEnemy::AIBecameActive()
+{
+	OnAIBecameActive();
+}
+void AAI_BasicEnemy::OnAIBecameActive_Implementation()
+{
+	//Event opgooien voor sound afspelen in Blueprints
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "OnAIBecameActive aangeroepen voor in Blueprint!");
+}
+
 FName AAI_BasicEnemy::GetPersistentId(){
 	return PersistentId;
 }
