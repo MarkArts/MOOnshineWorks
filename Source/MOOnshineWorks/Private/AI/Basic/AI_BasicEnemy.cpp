@@ -147,7 +147,7 @@ void AAI_BasicEnemy::OnDie_Implementation()
 {
 	AAI_BasicEnemy* NewPawn = NULL;
 	FVector SpawnLocation = this->GetActorLocation();
-	SpawnLocation[2] = SpawnLocation[2] + 50;
+	//SpawnLocation[2] = SpawnLocation[2] + 50;
 	FRotator SpawnRotation = this->GetActorRotation();
 	
 	OnDeathDelegate.Broadcast(this);
