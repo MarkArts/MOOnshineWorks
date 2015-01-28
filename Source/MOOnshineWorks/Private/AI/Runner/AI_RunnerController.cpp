@@ -6,7 +6,7 @@
 #include "AI_BasicEnemy.h"
 #include "AI_RunnerEnemy.h"
 #include "AI_RunnerController.h"
-
+#include "Helpers.h"
 
 AAI_RunnerController::AAI_RunnerController(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
@@ -146,9 +146,8 @@ void AAI_RunnerController::TimeIsUp()
 {
 	AAI_BasicEnemy* AiChar = Cast<AAI_BasicEnemy>(GetPawn());
 	AiChar->Destroy();
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Too late, no loot for yu");
-
-	//Hier nog wat items droppen!!!
+	
+	UHelpers::DisplayText(GetWorld(), FString(TEXT("Too late, no loot for you"), 150.f));
 }
 
 
