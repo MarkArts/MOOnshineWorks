@@ -13,14 +13,14 @@
 AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	if (HasAnyFlags(RF_ClassDefaultObject) == false)
-	{
-		static ConstructorHelpers::FClassFinder<AAI_BasicEnemy> DestructibleBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/Destructible/PegEnemyLightDestructible"));
-		if (DestructibleBPClass.Class != NULL)
+	//if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	//{
+		static ConstructorHelpers::FClassFinder<AAI_BasicEnemy> DestructiblePegBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/Destructible/PegEnemyLightDestructible"));
+		if (DestructiblePegBPClass.Class != NULL)
 		{
-			DestructibleEnemyClass = DestructibleBPClass.Class;
+			DestructibleEnemyClass = DestructiblePegBPClass.Class;
 		}
-	}
+	//}
 
 	PawnSensor = PCIP.CreateDefaultSubobject<UPawnSensingComponent>(this, TEXT("Pawn Sensor"));
 	PawnSensor->SensingInterval = .25f; // 4 times per second
@@ -123,7 +123,7 @@ void AAI_BasicEnemy::Die()
 		//TargetEnemyController->SetDeathAnimation();
 	}
 	else{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "YOU DAMN FUCKUP UP MATE. Couldn't find controller");
 	}
 
 	Save(true);
@@ -133,7 +133,7 @@ void AAI_BasicEnemy::Die()
 	if (AiChar != NULL) //Het is een AI_RunnerEnemy
 	{
 		UWorld* const World = GetWorld();
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunnerEnemy gedood nu items droppen!!");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "RunnerEnemy gedood nu items droppen!!");
 		FVector SpawnLocation = AiChar->GetActorLocation();
 		FRotator SpawnRotation = AiChar->GetActorRotation();
 
@@ -147,6 +147,7 @@ void AAI_BasicEnemy::OnDie_Implementation()
 {
 	AAI_BasicEnemy* NewPawn = NULL;
 	FVector SpawnLocation = this->GetActorLocation();
+	SpawnLocation[2] = SpawnLocation[2] + 50;
 	FRotator SpawnRotation = this->GetActorRotation();
 	
 	OnDeathDelegate.Broadcast(this);

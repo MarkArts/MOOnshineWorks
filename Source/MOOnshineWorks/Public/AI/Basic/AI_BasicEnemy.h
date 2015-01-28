@@ -103,7 +103,7 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActivateEnemy)
 	TSubclassOf<AActor> DeathBlueprint;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
 	TSubclassOf<AAI_BasicEnemy> DestructibleEnemyClass;
 
 private:
