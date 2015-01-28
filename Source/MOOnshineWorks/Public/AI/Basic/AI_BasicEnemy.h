@@ -7,6 +7,7 @@
 #include "Materials/Material.h"
 #include "AI_BasicEnemy.generated.h"
 
+
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnDeath, AAI_BasicEnemy*, Enemy);
 
 /**
@@ -102,9 +103,8 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = ActivateEnemy)
 	TSubclassOf<AActor> DeathBlueprint;
 
-	/** EnemyDistance voor in behaviour tree */
-	//UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIStats)
-	//float EnemyDistanceShouldAttack;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = MOOnshine)
+	TSubclassOf<AAI_BasicEnemy> DestructibleEnemyClass;
 
 private:
 	FName PersistentId;

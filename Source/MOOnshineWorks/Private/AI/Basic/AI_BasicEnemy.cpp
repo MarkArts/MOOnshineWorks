@@ -7,10 +7,21 @@
 #include "MOOnshineWorksGameMode.h"
 #include "BasicAnimationInstance.h"
 #include "AI_RunnerEnemy.h"
+#include "MOOnshineWorksCharacter.h"
+#include "GameFramework/Character.h"
 
 AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
+	if (HasAnyFlags(RF_ClassDefaultObject) == false)
+	{
+		static ConstructorHelpers::FClassFinder<AAI_BasicEnemy> DestructibleBPClass(TEXT("/Game/Blueprints/AIBlueprints/AllBlueprints/Destructible/PegEnemyLightDestructible"));
+		if (DestructibleBPClass.Class != NULL)
+		{
+			DestructibleEnemyClass = DestructibleBPClass.Class;
+		}
+	}
+
 	PawnSensor = PCIP.CreateDefaultSubobject<UPawnSensingComponent>(this, TEXT("Pawn Sensor"));
 	PawnSensor->SensingInterval = .25f; // 4 times per second
 	PawnSensor->bOnlySensePlayers = true;
@@ -24,7 +35,6 @@ AAI_BasicEnemy::AAI_BasicEnemy(const class FObjectInitializer& PCIP)
 	Defense = 0.f;
 	WalkSpeed = 0.f;
 	Damage = 0.f;
-	//EnemyDistanceShouldAttack = 0.f;
 	AIPatrol = true;
 	CanBeHit = true;
 }
@@ -135,8 +145,22 @@ void AAI_BasicEnemy::Die()
 
 void AAI_BasicEnemy::OnDie_Implementation()
 {
+	AAI_BasicEnemy* NewPawn = NULL;
+	FVector SpawnLocation = this->GetActorLocation();
+	FRotator SpawnRotation = this->GetActorRotation();
+	
 	OnDeathDelegate.Broadcast(this);
 	Destroy();
+
+	//Spawn Destructible Mesh
+	if (DestructibleEnemyClass != NULL)
+	{ 
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(DestructibleEnemyClass, SpawnLocation, SpawnRotation);
+	}
+	else
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "DestructibleEnemyClass is leeeeeg OMFG!!");
+	}
 }
 
 void AAI_BasicEnemy::AIBecameActive()
@@ -146,7 +170,6 @@ void AAI_BasicEnemy::AIBecameActive()
 void AAI_BasicEnemy::OnAIBecameActive_Implementation()
 {
 	//Event opgooien voor sound afspelen in Blueprints
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "OnAIBecameActive aangeroepen voor in Blueprint!");
 }
 
 FName AAI_BasicEnemy::GetPersistentId(){
