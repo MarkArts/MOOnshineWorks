@@ -40,7 +40,11 @@ FName UHelpers::GeneratePersistentId(AActor* Actor)
 
 ASaveManager* UHelpers::GetSaveManager(UWorld* World)
 {
-	return ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(World))->SaveManager;
+	if (World)
+	{
+		return ((AMOOnshineWorksGameMode*)UGameplayStatics::GetGameMode(World))->SaveManager;
+	}
+	return nullptr;
 }
 
 void UHelpers::CreateCheckpoint(AMOOnshineWorksCharacter* Actor)
