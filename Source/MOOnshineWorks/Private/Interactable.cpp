@@ -9,6 +9,9 @@ AInteractable::AInteractable(const class FObjectInitializer& PCIP)
 	IsUsed = false;
 	ShouldUseOnce = false;
 
+	LastInteract = 0;
+	Cooldown = 0;
+
 //	DisplayText = FString(TEXT(""));
 //	UsedText = FString(TEXT(""));
 }
@@ -20,30 +23,36 @@ void AInteractable::OnInteract_Implementation(AActor* Target)
 
 void AInteractable::Interact(AActor* Target)
 {
-	if (ShouldUseOnce)
+	FDateTime CurrentTime = FDateTime::Now();
+	if (Cooldown <= 0 || Cooldown <= CurrentTime.ToUnixTimestamp() - LastInteract)
 	{
-		if (!IsUsed){
-			IsUsed = true;
-			UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
-				UHelpers::GeneratePersistentId(this),
-				true,
-				StopSpawnWhenUsed
-			});
+		if (ShouldUseOnce)
+		{
+			if (!IsUsed){
+				IsUsed = true;
+				UHelpers::GetSaveManager(GetWorld())->GetData()->Interactables.Add({
+					UHelpers::GeneratePersistentId(this),
+					true,
+					StopSpawnWhenUsed
+				});
+				if (UsedText != TEXT(""))
+				{
+					UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
+				}
+				OnInteract(Target);
+				OnInteractDelegate.Broadcast(this);
+				LastInteract = CurrentTime.ToUnixTimestamp();
+			}
+		}
+		else{
 			if (UsedText != TEXT(""))
 			{
 				UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 			}
 			OnInteract(Target);
 			OnInteractDelegate.Broadcast(this);
+			LastInteract = CurrentTime.ToUnixTimestamp();
 		}
-	}
-	else{
-		if (UsedText != TEXT(""))
-		{
-			UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
-		}
-		OnInteract(Target);
-		OnInteractDelegate.Broadcast(this);
 	}
 }
 void AInteractable::OnInRange_Implementation(AActor* Target)

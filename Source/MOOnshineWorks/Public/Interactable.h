@@ -30,6 +30,12 @@ public:
 	bool IsUsed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	int32 Cooldown;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
+	int32 LastInteract;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
 	bool ShouldUseOnce;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOO)
