@@ -25,16 +25,16 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 					DoorOpen();
 					KeyName = EDoorKey::Type::None;
 					DoorClosed = false;
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Key opens the door"));
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Key opens the door"));
 				}
 				else {
-					GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(TEXT("Door is Locked")));
+					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, FString(TEXT("Door is Locked")));
 				}
 			}
 			else {
 				DoorOpen();
 				DoorClosed = false;
-				GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Door just opens"));
+				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Door just opens"));
 			}
 		}
 		else {
