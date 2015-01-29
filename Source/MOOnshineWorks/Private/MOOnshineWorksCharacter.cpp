@@ -473,7 +473,7 @@ void AMOOnshineWorksCharacter::Interact()
 			SpawnParams.Owner = this;
 			ASlowDownDebuff* slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
 
-			debuffManager->StartDebuff(slowDown, this);
+			//debuffManager->StartDebuff(slowDown, this);
 
 			if (Interactable) 
 			{
