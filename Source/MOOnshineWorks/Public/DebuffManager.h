@@ -18,6 +18,9 @@ class MOONSHINEWORKS_API ADebuffManager : public AActor
 
 	virtual void QuitDebuff();
 
+	UFUNCTION(BlueprintCallable, Category = MOOnshine)
+	void StartDebuff(ADebuffManager* Target, AActor* Actor);
+
 	UFUNCTION(BlueprintNativeEvent, Category = MOOnshine)
 	void OnSetDebuff(AActor* Target);
 

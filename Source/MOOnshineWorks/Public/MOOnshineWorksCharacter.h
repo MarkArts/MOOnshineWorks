@@ -196,8 +196,6 @@ public:
 	void DealDamage(float Damage);
 
 	KeyHolder* kh;
-	ASlowDownDebuff* slowDown;
-	ASuperJumpDebuff* JumpDebuff;
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine)
     TArray<ADebuffManager*> Debuffs;

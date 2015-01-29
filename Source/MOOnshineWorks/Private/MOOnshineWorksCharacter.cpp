@@ -471,16 +471,9 @@ void AMOOnshineWorksCharacter::Interact()
 			FActorSpawnParameters SpawnParams;
 			SpawnParams.bNoCollisionFail = true;
 			SpawnParams.Owner = this;
-			slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
-			JumpDebuff = GetWorld()->SpawnActor<ASuperJumpDebuff>(ASuperJumpDebuff::StaticClass(), SpawnParams);
+			ASlowDownDebuff* slowDown = GetWorld()->SpawnActor<ASlowDownDebuff>(ASlowDownDebuff::StaticClass(), SpawnParams);
 
-
-			Debuffs.Add(JumpDebuff);
-			Debuffs.Add(slowDown);
-
-			//Debuffs[0]->SetDebuff(this);
-			//Debuffs[1]->SetDebuff(this);
-
+			debuffManager->StartDebuff(slowDown, this);
 
 			if (Interactable) 
 			{
