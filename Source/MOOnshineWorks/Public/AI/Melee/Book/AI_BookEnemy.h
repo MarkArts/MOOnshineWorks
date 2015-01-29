@@ -3,16 +3,16 @@
 #pragma once
 
 #include "AI_BasicEnemy.h"
+#include "AI_MeleeEnemy.h"
 #include "AI_BookEnemy.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_BookEnemy : public AAI_BasicEnemy
+class MOONSHINEWORKS_API AAI_BookEnemy : public AAI_MeleeEnemy
 {
 	GENERATED_BODY()	
 public:
 	AAI_BookEnemy(const class FObjectInitializer& PCIP);
-
 };

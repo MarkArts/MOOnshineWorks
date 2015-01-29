@@ -7,22 +7,16 @@
 #include "AI_BasicController.h"
 #include "Gun.h"
 #include "AIBookGun.h"
+#include "AI_RangeEnemy.h"
 #include "AI_BookEnemyLight.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class MOONSHINEWORKS_API AAI_BookEnemyLight : public AAI_BasicEnemy
+class MOONSHINEWORKS_API AAI_BookEnemyLight : public AAI_RangeEnemy
 {
 	GENERATED_BODY()
 public:
 	AAI_BookEnemyLight(const class FObjectInitializer& PCIP);
-
-	virtual void ReceiveBeginPlay() override;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = AIGun)
-	TSubclassOf<AGun> GunClass;
-
-	AGun* Gun;
 };
