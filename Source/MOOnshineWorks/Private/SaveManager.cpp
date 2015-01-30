@@ -31,7 +31,7 @@ void ASaveManager::ResetData()
 }
 void ASaveManager::RemoveSave()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Removed Save Game");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Removed Save Game");
 	UMOOSaveGame* SaveGameInstance = Cast<UMOOSaveGame>(UGameplayStatics::CreateSaveGameObject(UMOOSaveGame::StaticClass()));
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveSlotName, UserIndex);
 	Load();
@@ -39,7 +39,7 @@ void ASaveManager::RemoveSave()
 
 void ASaveManager::Save()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Saved game");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Saved game");
 	UMOOSaveGame* SaveGameInstance = Cast<UMOOSaveGame>(UGameplayStatics::CreateSaveGameObject(UMOOSaveGame::StaticClass()));
 	SaveGameInstance->Data = SaveDataCandidate;
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, SaveSlotName, UserIndex);
