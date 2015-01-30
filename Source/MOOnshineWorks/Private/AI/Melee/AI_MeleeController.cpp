@@ -106,31 +106,35 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 	float Health = AiChar->Health;
 
-	//Oude enemy destroyen
-	AiChar->Destroy();
-
 	//Check casting
 	AAI_PegEnemyLight* AiSpecificPegLight = Cast<AAI_PegEnemyLight>(AiChar);
 	AAI_PegEnemyDark* AiSpecificPegDark = Cast<AAI_PegEnemyDark>(AiChar);
 	AAI_GarbageEnemy* AiSpecificGarbage = Cast<AAI_GarbageEnemy>(AiChar);
 	AAI_BookEnemy* AiSpecificBook = Cast<AAI_BookEnemy>(AiChar);
 
+	FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
+	//SpawnParameter.bNoCollisionFail = true;
+	SpawnParameter.Name = AiChar->GetFName();
+
+	//Oude enemy destroyen
+	AiChar->Destroy();
+
 	//Nieuwe BlueprintEnemy Spawnen!
 	if (AiSpecificPegLight != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegLightEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegLightEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificPegDark != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegDarkEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PegDarkEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificGarbage != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(GarbageEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(GarbageEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificBook != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	
 	if (NewPawn != NULL)
@@ -153,29 +157,33 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
-
-	if (Health != 0)
+	if (NewPawn != NULL)
 	{
-		//Health zetten
-		NewPawn->Health = Health;
-	}
-	if (MovementSpeed != 0)
-	{
-		//De Walkspeed zetten
-		NewPawn->WalkSpeed = MovementSpeed;
-	}
+		//De AIPatrol zetten
+		NewPawn->AIPatrol = ShouldAIPatrol;
+	
+		if (Health != 0)
+		{
+			//Health zetten
+			NewPawn->Health = Health;
+		}
+		if (MovementSpeed != 0)
+		{
+			//De Walkspeed zetten
+			NewPawn->WalkSpeed = MovementSpeed;
+		}
 
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
-	Controller->FoundPlayer();
-	Controller->AISetAttackState();
+		//Laat AI speler direct aanvallen!
+		AAI_BasicController* Controller = (AAI_BasicController*)NewPawn->GetController();
+		Controller->FoundPlayer();
+		Controller->AISetAttackState();
 
-	if (NewPawn)
-	{
-		return NewPawn;
+		if (NewPawn)
+		{
+			return NewPawn;
+		}
+
+		
 	}
-
 	return nullptr;
 }

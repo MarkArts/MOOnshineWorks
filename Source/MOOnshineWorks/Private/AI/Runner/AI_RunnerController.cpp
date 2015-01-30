@@ -60,9 +60,6 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
 	AiChar->AIBecameActive();
 
-	//Oude enemy destroyen
-	AiChar->Destroy();
-
 	//Check casting
 	AAI_LampEnemy* AiSpecificLamp = Cast<AAI_LampEnemy>(AiChar);
 	AAI_VoodooEnemy* AiSpecificVoodoo = Cast<AAI_VoodooEnemy>(AiChar);
@@ -94,40 +91,52 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	}
 	if (World)
 	{
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
+		FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
+		//SpawnParameter.bNoCollisionFail = true;
+		SpawnParameter.Name = AiChar->GetFName();
+		
+		//Oude enemy destroyen
+		AiChar->Destroy();
+
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation(), SpawnParameter);
 	}
 
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
+	if (NewPawn != NULL)
+	{
+		//De AIPatrol zetten
+		NewPawn->AIPatrol = ShouldAIPatrol;
 
-	if (Health != 0)
-	{
-		//Health zetten
-		NewPawn->Health = Health;
-	}
-	if (MovementSpeed != 0)
-	{
-		//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
-		NewPawn->WalkSpeed = MovementSpeed;
-	}
-	if (DropItemIdle != NULL)
-	{
-		AAI_RunnerEnemy* AISpecificRunner = Cast<AAI_RunnerEnemy>(NewPawn);
-		AISpecificRunner->DropItem = DropItemIdle;
-	}
+		if (Health != 0)
+		{
+			//Health zetten
+			NewPawn->Health = Health;
+		}
+		if (MovementSpeed != 0)
+		{
+			//NewPawn->EnemyDistanceShouldAttack = FloatEnemyDistanceShouldAttack;
+			NewPawn->WalkSpeed = MovementSpeed;
+		}
+		if (DropItemIdle != NULL)
+		{
+			AAI_RunnerEnemy* AISpecificRunner = Cast<AAI_RunnerEnemy>(NewPawn);
+			AISpecificRunner->DropItem = DropItemIdle;
+		}
 	
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
+		//Laat AI speler direct aanvallen!
+		AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+		BasicController->FoundPlayer();
+		BasicController->AISetAttackState();
 
-	if (NewPawn)
-	{
-		return NewPawn;
+		if (NewPawn)
+		{
+			return NewPawn;
+		}
+		Super::GoActive();
+		
 	}
-	Super::GoActive();
 	return nullptr;
 }
+
 void AAI_RunnerController::ReduceTimer() //haal een seconde van TimerActive af en is die 0 roep dan TimeIsUp aan
 {
 	AAI_RunnerEnemy* AiChar = Cast<AAI_RunnerEnemy>(GetPawn());
