@@ -21,6 +21,7 @@ APistol::APistol(const class FObjectInitializer& PCIP)
 	IsCharging = false;
 	ChargeRatePerSecond = 0.5f;
 	ChargeMultiplier = 3.f;
+	ChanceToDestroyAmmoOnChargedShot = 0.25f;
 }
 
 void APistol::Use()
@@ -46,7 +47,11 @@ void APistol::Shoot()
 			float ChargeEffectMultiplier = (Charge * ChargeMultiplier);
 			Projectile->DamageValue *= ChargeEffectMultiplier;
 			Projectile->ProjectileMovement->Velocity = Projectile->GetVelocity() * ChargeEffectMultiplier;
-			//Projectile->DeathBlueprint = nullptr;
+			float Random = FMath::FRandRange(0.f, 1.f);
+			if (Random < ChanceToDestroyAmmoOnChargedShot)
+			{
+				Projectile->DeathBlueprint = nullptr;
+			}
 		}
 	}
 	Super::Shoot();

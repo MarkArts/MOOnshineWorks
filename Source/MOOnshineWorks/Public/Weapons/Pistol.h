@@ -17,6 +17,9 @@ class MOONSHINEWORKS_API APistol : public APlayerGun
 public:
 	APistol(const class FObjectInitializer& PCIP);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Projectile)
+	float ChanceToDestroyAmmoOnChargedShot;
+
 	virtual void Use() override;
 	virtual void Shoot() override;
 	virtual bool CanCharge() override;
