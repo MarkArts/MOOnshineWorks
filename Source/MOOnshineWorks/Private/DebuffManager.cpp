@@ -11,11 +11,11 @@ ADebuffManager::ADebuffManager(const class FPostConstructInitializeProperties& P
 }
 
 void ADebuffManager::SetDebuff(AActor* Target){
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("SetDebuff(From DebuffManager);"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("SetDebuff(From DebuffManager);"));
 }
 
 void ADebuffManager::QuitDebuff(){
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("QuitDebuff();"));
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("QuitDebuff();"));
 }
 
 void ADebuffManager::StartDebuff(ADebuffManager* Target, AActor* Actor) {
@@ -37,7 +37,7 @@ bool ADebuffManager::IsValid(ADebuffManager* nameDebuff) {
 	for (auto Itr(DebuffsActive.CreateIterator()); Itr; Itr++) {
 		if (DebuffsActive[Itr.GetIndex()]->DebuffType == nameDebuff->DebuffType) {
 			nameDebuff->SetTime(nameDebuff->DebuffTime);
-			GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied, timer herstart!"));
+			//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Debuff is al geapplied, timer herstart!"));
 			return false;
 		}
 	}
