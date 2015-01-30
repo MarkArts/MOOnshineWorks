@@ -108,19 +108,28 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 	UWorld* const World = GetWorld();
 	//float FloatEnemyDistanceShouldAttack = AiChar->EnemyDistanceShouldAttack;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
+	FName OldId = AiChar->GetPersistentId();
 
 	//Event op gaan gooien voor sounds in blueprints(actief worden)!!
 	AiChar->AIBecameActive();
 
-	//Oude enemy destroyen
-	AiSpecific->Destroy();
 
 	//Check casting
 	AAI_BookEnemyLight* AiSpecificBook = Cast<AAI_BookEnemyLight>(AiChar);
 	if (AiSpecificBook != NULL)
 	{
 		//Nieuwe BlueprintEnemy Spawnen!
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation);
+		if (World)
+		{
+			FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
+			//SpawnParameter.bNoCollisionFail = true;
+			SpawnParameter.Name = AiSpecific->GetFName();
+			
+			//Oude enemy destroyen
+			AiSpecific->Destroy();
+
+			NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BookEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
+		}
 	}
 
 	if (NewPawn != NULL)
@@ -143,30 +152,34 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
+	if (NewPawn != NULL)
+	{
+		//De AIPatrol zetten
+		NewPawn->AIPatrol = ShouldAIPatrol;
 
-	if (Health != 0)
-	{
-		//Health zetten
-		NewPawn->Health = Health;
-	}
-	if (MovementSpeed != 0)
-	{
-		//De Walkspeed zetten
-		NewPawn->WalkSpeed = MovementSpeed;
-	}
-	
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
+		if (Health != 0)
+		{
+			//Health zetten
+			NewPawn->Health = Health;
+		}
+		if (MovementSpeed != 0)
+		{
+			//De Walkspeed zetten
+			NewPawn->WalkSpeed = MovementSpeed;
+		}
 
-	if (NewPawn)
-	{
-		return NewPawn;
+		//Laat AI speler direct aanvallen!
+		AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+		BasicController->FoundPlayer();
+		BasicController->AISetAttackState();
+
+		if (NewPawn)
+		{
+			return NewPawn;
+		}
+		Super::GoActive();
+		
 	}
-	Super::GoActive();
 	return nullptr;
 }
 

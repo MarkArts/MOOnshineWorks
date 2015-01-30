@@ -52,26 +52,31 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 	float MovementSpeed = AiChar->GetCharacterMovement()->MaxWalkSpeed;
 	bool ShouldAIPatrol = AiChar->AIPatrol;
 
-	//Oude enemy destroyen
-	AiChar->Destroy();
 
 	//Check casting
 	AAI_PianoEnemy* AiSpecificPiano = Cast<AAI_PianoEnemy>(AiChar);
 	AAI_BarrelEnemy* AiSpecificBarrel = Cast<AAI_BarrelEnemy>(AiChar);
 	AAI_FridgeEnemy* AiSpecificFridge = Cast<AAI_FridgeEnemy>(AiChar);
 
+	FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
+	//SpawnParameter.bNoCollisionFail = true;
+	SpawnParameter.Name = AiSpecific->GetFName();
+
+	//Oude enemy destroyen
+	AiChar->Destroy();
+
 	//Nieuwe BlueprintEnemy Spawnen!
 	if (AiSpecificPiano != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PianoEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(PianoEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificBarrel != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BarrelEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(BarrelEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificFridge != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(FridgeEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(FridgeEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 
 	if (NewPawn != NULL)
@@ -94,45 +99,48 @@ AAI_BasicEnemy* AAI_ChargeController::GoActive()
 		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 	}
 
-	//De AIPatrol zetten
-	NewPawn->AIPatrol = ShouldAIPatrol;
-
-	if (Health != 0)
+	if (NewPawn != NULL)
 	{
-		//Health zetten
-		NewPawn->Health = Health;
-	}
-	if (ChargeSpeedIdleEnemy != 0)
-	{
-		//De ChargeSpeed setten
-		AAI_ChargeEnemy* AiSpecificChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
-		AiSpecificChargeEnemy->ChargeSpeed = ChargeSpeedIdleEnemy;
-	}
-	if (MovementSpeed != 0)
-	{ 
-		//De Walkspeed zetten
-		NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
-	}
-	if (PushPower != 0)
-	{
-		//De PushPower setten
-		AAI_ChargeEnemy* ChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
-		ChargeEnemy->PushPower = PushPower;
-	}
+		//De AIPatrol zetten
+		NewPawn->AIPatrol = ShouldAIPatrol;
 
-	//Laat AI speler direct aanvallen!
-	AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
-	BasicController->FoundPlayer();
-	BasicController->AISetAttackState();
+		if (Health != 0)
+		{
+			//Health zetten
+			NewPawn->Health = Health;
+		}
+		if (ChargeSpeedIdleEnemy != 0)
+		{
+			//De ChargeSpeed setten
+			AAI_ChargeEnemy* AiSpecificChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
+			AiSpecificChargeEnemy->ChargeSpeed = ChargeSpeedIdleEnemy;
+		}
+		if (MovementSpeed != 0)
+		{
+			//De Walkspeed zetten
+			NewPawn->GetCharacterMovement()->MaxWalkSpeed = MovementSpeed;
+		}
+		if (PushPower != 0)
+		{
+			//De PushPower setten
+			AAI_ChargeEnemy* ChargeEnemy = Cast<AAI_ChargeEnemy>(NewPawn);
+			ChargeEnemy->PushPower = PushPower;
+		}
 
-	if (NewPawn)
-	{
-		return NewPawn;
+		//Laat AI speler direct aanvallen!
+		AAI_BasicController* BasicController = (AAI_BasicController*)NewPawn->GetController();
+		BasicController->FoundPlayer();
+		BasicController->AISetAttackState();
+
+		if (NewPawn)
+		{
+			return NewPawn;
+		}
+
+		Super::GoActive();
+		
 	}
-
-	Super::GoActive();
 	return nullptr;
-
 }
 
 
