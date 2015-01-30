@@ -17,7 +17,7 @@ void ACollectible::Save(bool StopSpawn)
 
 void ACollectible::OnCollect_Implementation(AActor* Target)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Collectable object has no implementation");
+	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "Collectable object has no implementation");
 }
 
 void ACollectible::Collect(AActor* Target)
