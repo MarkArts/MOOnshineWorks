@@ -265,7 +265,7 @@ void AAI_BasicController::CalculateChargePosition()
 
 		//Bereken charge locatie!
 		FVector CalculateDifferentLocation = BasicEnemy->GetActorLocation()-playerCharacter->GetActorLocation();
-		FVector chargelocation = playerCharacter->GetActorLocation()-CalculateDifferentLocation;
+		FVector chargelocation = playerCharacter->GetActorLocation()-(0.5*CalculateDifferentLocation);
 		BlackboardComp->SetValueAsVector(ChargePosition, chargelocation);
 	}
 }
