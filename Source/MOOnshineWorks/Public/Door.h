@@ -29,5 +29,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
 	TEnumAsByte<EDoorKey::Type> KeyName;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
+	FString CanUseDisplayText;
+
 	virtual void OnInteract_Implementation(AActor* Target) override;
+	virtual void InRange(AActor* Target) override;
 };

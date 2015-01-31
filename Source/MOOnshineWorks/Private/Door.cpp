@@ -43,3 +43,20 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 		}
 	}
 }
+
+void ADoor::InRange(AActor* Target)
+{
+	OnInRange(Target);
+
+	AMOOnshineWorksCharacter* Player = Cast<AMOOnshineWorksCharacter>(Target);
+
+	if (Player && DoorClosed)
+	{
+		if (KeyName != 0 && !Player->HasKeyHolder(KeyName)) {
+			UHelpers::DisplayText(GetWorld(), DisplayText);
+		}
+		else{
+			UHelpers::DisplayText(GetWorld(), CanUseDisplayText);
+		}
+	}
+}
