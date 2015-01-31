@@ -64,18 +64,27 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	AAI_LampEnemy* AiSpecificLamp = Cast<AAI_LampEnemy>(AiChar);
 	AAI_VoodooEnemy* AiSpecificVoodoo = Cast<AAI_VoodooEnemy>(AiChar);
 
+	FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
+	//SpawnParameter.bNoCollisionFail = true;
+	SpawnParameter.Name = AiChar->GetFName();
+
+	//Oude enemy destroyen
+	AiChar->Destroy();
+
 	//Nieuwe BlueprintEnemy Spawnen!
 	if (AiSpecificLamp != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(LampEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(LampEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 	if (AiSpecificVoodoo != NULL)
 	{
-		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(VoodooEnemyClass, SpawnLocation, SpawnRotation);
+		NewPawn = GetWorld()->SpawnActor<AAI_BasicEnemy>(VoodooEnemyClass, SpawnLocation, SpawnRotation, SpawnParameter);
 	}
 
 	if (NewPawn != NULL)
 	{
+		NewPawn->SetPersistentId(AiChar->GetPersistentId());
+
 		if (NewPawn->Controller == NULL)
 		{
 			NewPawn->SpawnDefaultController();
@@ -91,14 +100,8 @@ AAI_BasicEnemy* AAI_RunnerController::GoActive()
 	}
 	if (World)
 	{
-		FActorSpawnParameters SpawnParameter = FActorSpawnParameters();
-		//SpawnParameter.bNoCollisionFail = true;
-		SpawnParameter.Name = AiChar->GetFName();
-		
-		//Oude enemy destroyen
-		AiChar->Destroy();
+		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation());
 
-		World->SpawnActor<AActor>(AiChar->DeathBlueprint, RootComponent->GetComponentLocation(), RootComponent->GetComponentRotation(), SpawnParameter);
 	}
 
 	if (NewPawn != NULL)

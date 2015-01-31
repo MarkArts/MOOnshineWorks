@@ -139,6 +139,8 @@ AAI_BasicEnemy* AAI_MeleeController::GoActive()
 	
 	if (NewPawn != NULL)
 	{
+		NewPawn->SetPersistentId(AiChar->GetPersistentId());
+
 		if (NewPawn->Controller == NULL)
 		{
 			NewPawn->SpawnDefaultController();

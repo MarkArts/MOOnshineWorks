@@ -28,7 +28,7 @@ FName UHelpers::GeneratePersistentId(AActor* Actor)
 			FString Name = Actor->GetName();
 			FString LevelName = Actor->GetLevel()->GetName();
 
-			FString ID = LevelName + Actor->GetName(); // PosString; // +RotString;
+			FString ID = LevelName + PosString; //Actor->GetName(); // PosString; // +RotString;
 
 			return FName(*ID);
 		}

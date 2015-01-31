@@ -177,6 +177,11 @@ FName AAI_BasicEnemy::GetPersistentId(){
 	return PersistentId;
 }
 
+void AAI_BasicEnemy::SetPersistentId(FName NewPersistentId){
+	PersistentId = NewPersistentId;
+}
+
+
 void AAI_BasicEnemy::Save(bool StopSpawn){
 	UHelpers::GetSaveManager(GetWorld())->AddActorSave(UHelpers::CreateActorSave(this, StopSpawn, false, GetPersistentId()));
 }

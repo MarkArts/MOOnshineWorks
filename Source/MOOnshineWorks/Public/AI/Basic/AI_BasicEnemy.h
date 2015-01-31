@@ -90,6 +90,8 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	FName GetPersistentId();
+	UFUNCTION(BlueprintCallable, Category = MOO)
+	void SetPersistentId(FName NewPersistentId);
 
 	UFUNCTION(BlueprintCallable, Category = MOO)
 	void Save(bool StopSpawn);

@@ -134,6 +134,8 @@ AAI_BasicEnemy* AAI_RangeController::GoActive()
 
 	if (NewPawn != NULL)
 	{
+		NewPawn->SetPersistentId(AiChar->GetPersistentId());
+
 		if (NewPawn->Controller == NULL)
 		{
 			NewPawn->SpawnDefaultController();
