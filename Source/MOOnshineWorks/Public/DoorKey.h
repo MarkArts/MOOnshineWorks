@@ -31,6 +31,8 @@ namespace EDoorKey
 		LibraryF2D6,
 		LibraryF3E1,
 		KitchenF3D1,
+		KitchenLobby,
+		LobbyBasement,
 		BasementF1D1,
 		BasementF1D2,
 		BasementF1D3,
