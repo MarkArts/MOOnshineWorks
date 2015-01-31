@@ -759,6 +759,8 @@ void AMOOnshineWorksCharacter::AddImpulseToCharacter(FVector Impulse)
 	//physics van CapsuleComponent tijdelijk aanzetten!
 	//GetCapsuleComponent()->SetSimulatePhysics(true);
 
+	Impulse.Z = Location.Z;
+
 	//Omhoog gooien
 	GetCharacterMovement()->Velocity = Impulse;
 

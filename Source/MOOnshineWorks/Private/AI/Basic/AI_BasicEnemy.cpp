@@ -185,11 +185,13 @@ void AAI_BasicEnemy::AddImpulseToEnemy(FVector Impulse)
 {
 	//Falling State
 	FVector Location = GetActorLocation();
-	Location.Z += 10;
+	Location.Z += 30;
 	SetActorLocation(Location);
 
 	//physics van CapsuleComponent tijdelijk aanzetten!
 	GetCapsuleComponent()->SetSimulatePhysics(true);
+
+	Impulse.Z = Location.Z;
 
 	//Omhoog gooien
 	GetCharacterMovement()->Velocity = Impulse;
