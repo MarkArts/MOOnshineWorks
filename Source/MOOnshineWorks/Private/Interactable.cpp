@@ -35,23 +35,26 @@ void AInteractable::Interact(AActor* Target)
 					true,
 					StopSpawnWhenUsed
 				});
+				OnInteract(Target);
+				OnInteractDelegate.Broadcast(this);
+				LastInteract = CurrentTime.ToUnixTimestamp();
 				if (UsedText != TEXT(""))
 				{
 					UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 				}
-				OnInteract(Target);
-				OnInteractDelegate.Broadcast(this);
-				LastInteract = CurrentTime.ToUnixTimestamp();
+
+
 			}
 		}
 		else{
+			OnInteract(Target);
+			OnInteractDelegate.Broadcast(this);
+			LastInteract = CurrentTime.ToUnixTimestamp();
 			if (UsedText != TEXT(""))
 			{
 				UHelpers::DisplayText(GetWorld(), UsedText, 3.f);
 			}
-			OnInteract(Target);
-			OnInteractDelegate.Broadcast(this);
-			LastInteract = CurrentTime.ToUnixTimestamp();
+
 		}
 	}
 }
