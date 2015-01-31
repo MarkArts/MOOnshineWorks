@@ -160,7 +160,7 @@ void AAI_BasicEnemy::OnDie_Implementation()
 	}
 	else
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "DestructibleEnemyClass is leeeeeg OMFG!!");
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, "DestructibleEnemyClass is leeeeeg OMFG!!");
 	}
 }
 

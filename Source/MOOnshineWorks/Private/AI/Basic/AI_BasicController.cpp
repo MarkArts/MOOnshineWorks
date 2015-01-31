@@ -202,32 +202,44 @@ void AAI_BasicController::SetSpeedAnimation(float speed)
 }
 void AAI_BasicController::AISetPatrolState()
 {
-	int State = 0;
-	BlackboardComp->SetValueAsInt(StateAI, State);
-	BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
+	if (this != NULL)
+	{ 
+		int State = 0;
+		BlackboardComp->SetValueAsInt(StateAI, State);
+		BlackboardComp->SetValueAsBool(GotEnemyAsTarget, false);
+	}
 }
 
 void AAI_BasicController::AISetAttackState()
 {
-	int State = 1;
-	BlackboardComp->SetValueAsInt(StateAI, State);
+	if (this != NULL)
+	{
+		int State = 1;
+		BlackboardComp->SetValueAsInt(StateAI, State);
+	}
 }
 
 void AAI_BasicController::AISetSearchState()
 {
-	int State = 2;
-	BlackboardComp->SetValueAsInt(StateAI, State);
+	if (this != NULL)
+	{
+		int State = 2;
+		BlackboardComp->SetValueAsInt(StateAI, State);
+	}
 }
 void AAI_BasicController::ShouldAIPatrol()
 {
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	if (BasicEnemy->AIPatrol == false) //AI moet niet patrollen en State is niet al gezet naar 3
+	if (BasicEnemy != NULL)
 	{
-		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, false);
-	}
-	if (BasicEnemy->AIPatrol == true)
-	{
-		BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, true);
+		if (BasicEnemy->AIPatrol == false) //AI moet niet patrollen en State is niet al gezet naar 3
+		{
+			BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, false);
+		}
+		if (BasicEnemy->AIPatrol == true)
+		{
+			BlackboardComp->SetValueAsBool(ShouldTheAIPatrol, true);
+		}
 	}
 }
 
@@ -235,9 +247,12 @@ void AAI_BasicController::ActivateEnemy()
 {
 	//Make eyes of the new enemy go red!
 	AAI_BasicEnemy* BasicEnemy = (AAI_BasicEnemy*)GetPawn();
-	USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
+	if (BasicEnemy)
+	{ 
+		USkeletalMeshComponent* MeshComponent = BasicEnemy->GetMesh();
 
-	MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
+		MeshComponent->SetMaterial(1, BasicEnemy->TheMaterial);
+	}
 }
 /*
 void AAI_BasicController::SetEnemyDistanceShouldAttack() 
