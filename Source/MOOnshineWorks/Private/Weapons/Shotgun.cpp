@@ -7,7 +7,7 @@
 AShotgun::AShotgun(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	Name = "Shotgun";
+	Name = "Locomotion";
 	Type = EGunType::Shotgun;
 	Id = 15.f;
 

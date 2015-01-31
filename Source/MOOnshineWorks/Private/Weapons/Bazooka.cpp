@@ -8,7 +8,7 @@
 ABazooka::ABazooka(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	Name = "Bazooka";
+	Name = "Teazooka";
 	Type = EGunType::Bazooka;
 	Id = 16.f;
 

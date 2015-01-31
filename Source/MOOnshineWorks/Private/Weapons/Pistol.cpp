@@ -7,7 +7,7 @@
 APistol::APistol(const class FObjectInitializer& PCIP)
 	: Super(PCIP)
 {
-	Name = "Crossbow";
+	Name = "Plungebow";
 	Type = EGunType::Crossbow;
 	Id = 14.f;
 
