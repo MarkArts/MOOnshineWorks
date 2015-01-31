@@ -46,6 +46,9 @@ namespace EDoorKey
 		BasementF2D3,
 		BasementF2D4,
 		BasementF2D5,
+		BasementF2D6,
+		BasementF2D7,
+		BasementF2D8,
 		BasementF3D1,
 		BasementF3D2,
 
