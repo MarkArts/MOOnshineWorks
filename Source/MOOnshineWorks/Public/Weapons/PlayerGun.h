@@ -63,5 +63,6 @@ public:
 	float LastChargeShakerScale;
 	virtual void StartCharge() override;
 	virtual void EndCharge() override;
+	virtual void StopCharge() override;
 	virtual void Tick(float DeltaSeconds);
 };

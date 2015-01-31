@@ -23,4 +23,5 @@ public:
 	virtual bool CanCharge() override;
 	virtual void StartCharge() override;
 	virtual void EndCharge() override;
+	virtual void StopCharge() override;
 };

@@ -80,3 +80,13 @@ void ABazooka::EndCharge()
 		Owner->GetCharacterMovement()->MaxWalkSpeed /= ChargeMovementMultiplier;
 	}
 }
+
+void ABazooka::StopCharge()
+{
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	if (Owner && IsCharging)
+	{
+		Owner->GetCharacterMovement()->MaxWalkSpeed /= ChargeMovementMultiplier;
+	}
+	Super::StopCharge();
+}

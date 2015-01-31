@@ -114,6 +114,14 @@ void APlayerGun::EndCharge()
 	Owner->StopShake(ChargeShaker);
 }
 
+void APlayerGun::StopCharge()
+{
+	Super::StopCharge();
+	LastChargeShakerScale = 0.f;
+	AMOOnshineWorksCharacter* Owner = Cast<AMOOnshineWorksCharacter>(GetOwner());
+	Owner->StopShake(ChargeShaker);
+}
+
 void APlayerGun::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
