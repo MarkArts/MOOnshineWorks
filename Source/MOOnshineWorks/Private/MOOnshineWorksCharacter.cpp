@@ -114,15 +114,6 @@ AMOOnshineWorksCharacter::AMOOnshineWorksCharacter(const class FObjectInitialize
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named MyCharacter (to avoid direct content references in C++)
     
-    //Set avatar img
-    // Set the standard texture
-    static ConstructorHelpers::FObjectFinder<UTexture2D> StandardAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Normal.Normal'"));
-    StandardAvatar = StandardAvatarTexObj.Object;
-    static ConstructorHelpers::FObjectFinder<UTexture2D> LowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Hurt.Hurt'"));
-    AvatarLowHP = LowHPAvatarTexObj.Object;
-    static ConstructorHelpers::FObjectFinder<UTexture2D> VeryLowHPAvatarTexObj(TEXT("Texture2D'/Game/Blueprints/HUDBlueprints/Almost-Dead.Almost-Dead'"));
-    AvatarVeryLowHP = VeryLowHPAvatarTexObj.Object;
-
 	kh = new KeyHolder();
 	//debuffManager = new DebuffManager();
 	

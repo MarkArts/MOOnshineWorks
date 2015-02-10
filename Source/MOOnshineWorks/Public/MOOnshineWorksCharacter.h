@@ -217,14 +217,6 @@ public:
 
 	bool HasKeyHolder(EDoorKey::Type KeyType);
     
-    // Character avatar
-	UPROPERTY(EditAnywhere, Category = MOOnshine)
-    UTexture2D* StandardAvatar;
-	UPROPERTY(EditAnywhere, Category = MOOnshine)
-    UTexture2D* AvatarLowHP;
-	UPROPERTY(EditAnywhere, Category = MOOnshine)
-    UTexture2D* AvatarVeryLowHP;
-
 	UFUNCTION(BlueprintCallable, Category = MOOnshine)
 	void Respawn();
 
