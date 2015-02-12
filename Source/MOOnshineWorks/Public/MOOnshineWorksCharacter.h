@@ -60,8 +60,6 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshine) //BlueprintReadOnly
 	bool DarkLight;
     
-	UFUNCTION(BlueprintCallable, Category = MOOnshine)
-    UTexture2D* GetAvatar();
 //private:
     /* Characters health */
 	UPROPERTY(EditAnywhere, Category = MOOnshine) //BlueprintReadOnly

@@ -660,20 +660,6 @@ void AMOOnshineWorksCharacter::SetStamina(float New_Stamina) {
 };
 float AMOOnshineWorksCharacter::GetStamina() { return Stamina; };
 
-UTexture2D* AMOOnshineWorksCharacter::GetAvatar()
-{
-    if(GetCurrentHealth() < (GetBaseHealth() / 4 )){
-        return AvatarVeryLowHP;
-    }
-    else if(GetCurrentHealth() < (GetBaseHealth() / 2 )){
-        return AvatarLowHP;
-    }
-    else{
-        return StandardAvatar;
-    }
-}
-
-
 void AMOOnshineWorksCharacter::PerformCameraShake()
 {
 	if (!IsMovingForward && !IsMovingSideway && !IsSprinting)
