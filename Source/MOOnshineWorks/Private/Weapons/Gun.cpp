@@ -106,7 +106,7 @@ FVector AGun::GetPlayerTarget()
 	FVector End = Location + Rotation * FVector(5000.f, 5000.f, 5000.f);
 	FVector Result = End;
 
-	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
+	FCollisionQueryParams RV_TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, GetOwner());
 	RV_TraceParams.bTraceAsyncScene = true;
 	RV_TraceParams.bReturnPhysicalMaterial = false;
 	//Re-initialize hit info
