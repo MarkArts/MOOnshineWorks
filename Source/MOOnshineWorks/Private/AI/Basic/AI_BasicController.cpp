@@ -24,7 +24,7 @@ void AAI_BasicController::Possess(class APawn *InPawn)
 	AAI_BasicEnemy* BaseChar = Cast<AAI_BasicEnemy>(InPawn);
 	if (BaseChar && BaseChar->Behavior)
 	{
-		BlackboardComp->InitializeBlackboard(BaseChar->Behavior->BlackboardAsset);
+		BlackboardComp->InitializeBlackboard(*BaseChar->Behavior->BlackboardAsset);
 		StateAI = BlackboardComp->GetKeyID("StateAI");
 		EnemyKeyID = BlackboardComp->GetKeyID("Enemy");
 		EnemyLocationID = BlackboardComp->GetKeyID("Destination");
