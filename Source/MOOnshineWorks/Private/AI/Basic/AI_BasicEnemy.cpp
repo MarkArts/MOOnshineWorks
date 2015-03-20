@@ -65,8 +65,12 @@ void AAI_BasicEnemy::OnHearNoise(APawn *OtherActor, const FVector &Location, flo
 {
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, TEXT("AI hoort me!"));
 
-	AAI_BasicController* cont = (AAI_BasicController*)GetController();
-	cont->FoundPlayer();
+	/*
+		This crashes the game sometimes because GetController returns a null pointer.
+
+		AAI_BasicController* cont = (AAI_BasicController*)GetController();
+		cont->FoundPlayer();
+	*/
 }
 
 void AAI_BasicEnemy::OnSeePawn(APawn *OtherPawn)
