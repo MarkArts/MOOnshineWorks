@@ -24,6 +24,9 @@ public:
 	bool DoorClosed;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
+	FString OpenText;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = MOOnshineWorks)
 	FRotator BeginningRot;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Moonshine")
