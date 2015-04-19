@@ -10,4 +10,6 @@ first clone the repo
     
 then open "MOOnshineWorks.uproject" and choose Yes when it asks you to rebuild. 
 
-If the build fails you should aunch the 4.7.x engine and open the project from it. Then select refresh visual studio code in the drop down menu under file (at the left top)
+If the build fails you should launch the 4.7.x engine and open the project from it. 
+
+When the editor opens you should first select refresh the visual studio code in the drop down menu under file (at the left top)
