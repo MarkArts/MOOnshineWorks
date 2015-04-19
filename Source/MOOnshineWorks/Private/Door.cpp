@@ -23,7 +23,7 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 			if (KeyName != 0) {
 				if (Player->HasKeyHolder(KeyName)) {
 					DoorOpen();
-					UsedText = "";
+					UsedText = OpenText;
 					KeyName = EDoorKey::Type::None;
 					DoorClosed = false;
 					//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Key opens the door"));
@@ -34,14 +34,14 @@ void ADoor::OnInteract_Implementation(AActor* Target)
 			}
 			else {
 				DoorOpen();
-				UsedText = "";
+				UsedText = OpenText;
 				DoorClosed = false;
 				//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("Door just opens"));
 			}
 		}
 		else {
 			DoorOpen();
-			UsedText = "";
+			UsedText = OpenText;
 			DoorClosed = true;
 		}
 	}

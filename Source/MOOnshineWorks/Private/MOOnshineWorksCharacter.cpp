@@ -383,6 +383,13 @@ void AMOOnshineWorksCharacter::StartSprint()
         //Adjust movement speed to sprint values & switch boolean to true
 		GetCharacterMovement()->MaxWalkSpeed *= SprintMultiplier;
         IsSprinting = true;
+		if (WeaponStrap->GetActiveGun())
+		{
+			if (WeaponStrap->GetActiveGun()->IsCharging)
+			{
+				WeaponStrap->GetActiveGun()->StopCharge();
+			}
+		}
     }
 	//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Red, ("MakeSound aangeroepen!"));
 	for (FConstPawnIterator It = GetWorld()->GetPawnIterator(); It; ++It)
